@@ -15,7 +15,7 @@
 - Commit diário no GitHub (mínimo 5 dos 7 dias).
 - Devlog: 3 linhas por dia no fim do `devlog.md` (o que fiz / o que travou / amanhã).
 - Todos os exercícios em JavaScript (Node), na pasta `etapa-0/`.
-- Todo exercício termina com chamadas de verificação (`console.log`) no próprio arquivo: **uma para cada item do checklist**, com o valor esperado em comentário (ex: `// esperado: 3`). Elas ficam no arquivo commitado. (Regra adicionada em 08/07 a pedido do Fillip.)
+- Todo exercício termina com verificação de **cada item do checklist**. Até o D3: `console.log` com esperado em comentário no próprio arquivo. Do D4 em diante: asserts no `testes.js` substituem os logs. (Regra adicionada em 08/07 a pedido do Fillip.)
 
 ---
 
