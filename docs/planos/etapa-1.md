@@ -1,4 +1,6 @@
-# Etapa 1 — Fundamentos JavaScript (09 a 22/07/2026)
+# Etapa 1 — Fundamentos JavaScript (08 a 21/07/2026, avaliação 22/07)
+
+> Datas reordenadas em 08/07: o D1 foi feito um dia antes do previsto, e o calendário inteiro andou 1 dia. Os dias de 4h agora são Sáb 11, Dom 12, Sáb 18 e Dom 19/07.
 
 **Objetivo:** dominar a base da linguagem que sustenta todo o resto do plano (Node, APIs, front-end). Sair da etapa lendo e escrevendo JS com segurança, sempre com testes.
 
@@ -15,80 +17,96 @@
 
 ---
 
-## Dia 1 — Qui 09/07 — Tipos e coerção
+## Dia 1 — Qua 08/07 — Tipos e coerção
 
 Estudar: `typeof`, number/string/boolean/null/undefined, `NaN`, conversões, `==` vs `===`, truthy/falsy.
 
 - **Ex 1.1** — `getType(value)`: retorna `"number"`, `"string"`, `"boolean"`, `"null"`, `"undefined"`, `"array"` ou `"object"`. Atenção: `typeof null` e arrays têm pegadinhas.
 - **Ex 1.2** — Arquivo `predictions.js` com 15 expressões (ex.: `"1" + 1`, `"1" - 1`, `null == undefined`, `[] + []`, `0 == false`...). Escreva a previsão em comentário ANTES de rodar. Depois rode e anote os erros de previsão no devlog.
+- **Ex 1.2b (extra, adicionado 08/07 — sobra de tempo do D1)** — `ex1-extra.js`: função `safeNumber(text)` que recebe uma string e retorna um NUMBER, ou NULL se a conversão não for possível. O retorno nunca é string. Casos que os testes devem cobrir (entrada JS de verdade → retorno esperado):
 
-## Dia 2 — Sex 10/07 — Funções a fundo
+  ```js
+  safeNumber('42')     // 42        (number)
+  safeNumber(' 42 ')   // 42        (espaços nas pontas são ok)
+  safeNumber('3.5')    // 3.5       (decimais valem)
+  safeNumber('12px')   // null      (não é totalmente numérico)
+  safeNumber('abc')    // null
+  safeNumber('')       // null      (cuidado: Number('') retorna 0 — decida como tratar)
+  safeNumber('   ')    // null      (mesmo problema)
+  ```
+
+  É conversão + NaN + falsy aplicados num padrão de projeto real.
+
+## Dia 2 — Qui 09/07 — Funções a fundo
 
 Estudar: function vs arrow, parâmetros default, rest (`...`), escopo, `let` vs `const` vs `var` (e por que `var` não se usa mais), hoisting, closure.
 
 - **Ex 1.3** — `createCounter()`: retorna uma função que a cada chamada retorna 1, 2, 3... Dois contadores criados separadamente não se misturam (teste isso).
 - **Ex 1.4** — `applyToEach(fn, list)`: retorna nova lista com `fn` aplicada a cada item, SEM usar `.map` (loop manual). Teste passando duas funções diferentes.
 
-## Dia 3 — Sáb 11/07 (4h) — Strings e regex
+## Dia 3 — Sex 10/07 — Strings e regex
 
 Estudar: métodos de string (`slice`, `split`, `trim`, `toLowerCase`, `includes`, `padStart`), template literals, regex básico (`test`, classes `\d \w`, quantificadores, `[A-Z]`).
 
 - **Ex 1.5** — `formatName(name)`: `"  joão da SILVA "` → `"João Da Silva"`.
 - **Ex 1.6** — Refazer o validador de senha (Ex 0.5) usando regex nas verificações. Agora como `validatePassword(password)` retornando `{ valid, errors }` — sim, o contrato que você entregou "errado" na Etapa 0 virou o certo. O hábito de conferir o contrato à risca continua valendo.
 
-## Dia 4 — Dom 12/07 (4h) — Arrays parte 1: mutação e referência
+## Dia 4 — Sáb 11/07 (4h) — Arrays parte 1: mutação e referência
 
 Estudar: `push/pop/shift/unshift`, `slice` vs `splice`, `indexOf`, `includes`, referência vs cópia (`[...arr]`).
 
 - **Ex 1.7** — `array-predictions.js`: 10 trechos que mutam ou copiam arrays. Prever a saída em comentário antes de rodar. Depois: `copyWithoutLast(list)` que retorna cópia sem o último item, SEM alterar a original (teste que a original não mudou).
 
-## Dia 5 — Seg 13/07 — Arrays parte 2: map, filter, find
+## Dia 5 — Dom 12/07 (4h) — Arrays parte 2: map, filter, find
 
 Estudar: `map`, `filter`, `find`, `some`, `every` — e diferença de `forEach` vs `map`.
 
 - **Ex 1.8** — Refazer o exercício dos produtos (ex05 da avaliação) SEM nenhum `for`: (a) com estoque, (b) valor total, (c) mais caro, (d) novo: lista de nomes em maiúsculas dos produtos abaixo de R$100.
 
-## Dia 6 — Ter 14/07 — reduce e sort
+## Dia 6 — Seg 13/07 — reduce e sort
 
 Estudar: `reduce` (acumulador), `sort` com função comparadora (cuidado: sort de números sem comparador quebra — teste isso).
 
 - **Ex 1.9** — `gradeStats(grades)`: retorna `{ average, highest, lowest, approved }` (aprovado ≥ 7) usando reduce/filter. Lista vazia retorna `null`. Ordene as notas da maior para a menor.
 
-## Dia 7 — Qua 15/07 — Objetos
+## Dia 7 — Ter 14/07 — Objetos
 
 Estudar: acesso com `.` e `[]`, `Object.keys/values/entries`, desestruturação, spread em objetos.
 
 - **Ex 1.10** — `countWords(phrase)`: refazer o ex04 da avaliação em JS. Retorna array de pares `[word, count]` ordenado da mais frequente para a menos.
 
-## Dia 8 — Qui 16/07 — JSON e arquivos (Node)
+## Dia 8 — Qua 15/07 — JSON e arquivos (Node)
 
 Estudar: `JSON.parse/stringify`, `fs.readFileSync/writeFileSync`, `module.exports`/`require` e a diferença CommonJS vs ESM (`import/export`) — você misturou os dois na avaliação; hora de fixar.
 
 - **Ex 1.11** — Criar `products.json` com os produtos do Ex 1.8 (chaves em inglês: `name`, `price`, `stock`). Programa que lê o arquivo, filtra os com estoque e salva em `in-stock.json`. Funções em um módulo separado, importadas no arquivo principal.
 
-## Dia 9 — Sex 17/07 — Erros e validação
+## Dia 9 — Qui 16/07 — Erros e validação
 
 Estudar: `throw`, `try/catch`, `assert.throws`, mensagens de erro úteis.
 
 - **Ex 1.12** — `parseAge(text)`: converte texto em número inteiro de idade. Lança erro com mensagem clara se: não for número, for negativo, for decimal. Testes cobrindo os 3 erros com `assert.throws` + casos válidos.
 
-## Dia 10 — Sáb 18/07 (4h) — Assíncrono parte 1
+## Dia 10 — Sex 17/07 — Assíncrono parte 1
 
 Estudar: por que JS é assíncrono, callbacks, `setTimeout`, Promise (`then/catch`), estados de uma promise.
 
 - **Ex 1.13** — `wait(ms)`: retorna uma Promise que resolve depois de `ms` milissegundos. Usar para imprimir "1"... "2"... "3" com 1s de intervalo, primeiro com `then`, depois encadeado.
 
-## Dia 11 — Dom 19/07 (4h) — Assíncrono parte 2: async/await e fetch
+## Dia 11 — Sáb 18/07 (4h) — Assíncrono parte 2: async/await e fetch
 
 Estudar: `async/await`, `try/catch` com await, `fetch` no Node.
 
 - **Ex 1.14** — `fetchAddress(cep)`: consulta `https://viacep.com.br/ws/{cep}/json/` e retorna `{ street, district, city, state }` (a API responde em português — traduzir as chaves é parte do exercício). CEP inexistente ou mal formado lança erro com mensagem clara. Testar com CEP válido e inválido.
 
-## Dia 12 — Seg 20/07 — Revisão espaçada + planejamento do projeto
+## Dia 12 — Dom 19/07 (4h) — Revisão espaçada
 
 - Refazer DE MEMÓRIA (sem olhar o código antigo): Ex 1.3, 1.9 e 1.10. Comparar com a versão original.
 - Quiz oral comigo no chat: closure, map vs forEach, referência vs cópia, `==` vs `===`, promise vs async/await.
-- À tarde — **Projeto integrador: planejamento**
+
+## Dia 13 — Seg 20/07 — Projeto: planejamento + implementação
+
+**Manhã — Projeto integrador: planejamento**
 
 **Gerenciador de tarefas v2** — CLI em Node, comandos via `process.argv`:
 
@@ -100,16 +118,15 @@ node tasks.js remove 3
 ```
 
 - Persistência em `tasks.json`. Lógica em módulo separado (`lib.js`) com funções puras; `tasks.js` só lê argv e chama.
-- Hoje: checklist completo de requisitos + esqueleto das funções + testes vazios.
+- Manhã: checklist completo de requisitos + esqueleto das funções + testes vazios.
 
-## Dia 13 — Ter 21/07 — Projeto: implementação e acabamento
+**Tarde — implementação**
 
 - Implementar as 4 operações com testes em `testes.js` (a lógica pura é testável sem mexer no arquivo real).
 - Commits pequenos, um por funcionalidade que passa nos testes.
-
 - Erros amigáveis: comando inexistente, id inválido, título vazio.
 
-## Dia 14 — Qua 22/07 — Acabamento e entrega
+## Dia 14 — Ter 21/07 — Acabamento e entrega
 
 - README da pasta `etapa-1/` explicando o projeto e como rodar.
 - Reler todos os enunciados da etapa palavra por palavra (na Etapa 0 escapou `valid/errors` no lugar de `valida/erros` — releitura final é pra pegar exatamente isso).
