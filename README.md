@@ -16,8 +16,11 @@ Os planejamentos de estudos e mais detalhes estão nos arquivos docs/cronograma.
 O projeto está sendo estruturado em pastas separadas. 
 ```
 do-0-ao-emprego/
-├── docs/      → planejamento e avaliações
-├── avaliacao/ → avaliação inicial de nível
-├── etapa-0/   → rigor + Git
-└── devlog.md  → diário de aprendizado
+├── README.md
+├── devlog/                  → etapa-0.md, etapa-1.md...
+├── docs/
+│   ├── planos/              → cronograma.md, cronograma-etapas.md, etapa-0.md, etapa-1.md...
+│   └── avaliacoes/          → avaliacao-nivel.md, correcao-avaliacao.md, avaliacao-etapa-0.md
+├── avaliacao/               → (como está)
+└── etapas/                  → etapa-0/, etapa-1/... (o código)
 ```
