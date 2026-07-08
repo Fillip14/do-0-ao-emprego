@@ -9,6 +9,10 @@
 
 const aprovado = (nota) => nota >= 7;
 
-console.log(aprovado(7)); // esperado true
-console.log(aprovado(6.9)); // esperado false
-console.log(aprovado(7.1)); // esperado true
+if (require.main === module) {
+  console.log(aprovado(7)); // esperado true
+  console.log(aprovado(6.9)); // esperado false
+  console.log(aprovado(7.1)); // esperado true
+}
+
+module.exports = { aprovado };

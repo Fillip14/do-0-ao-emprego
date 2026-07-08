@@ -10,7 +10,11 @@ const contarVogais = (texto) => {
   return counter;
 };
 
-console.log(contarVogais('banana')); // esperado: 3
-console.log(contarVogais('banana')); // esperado: 3
-console.log(contarVogais('BANANA')); // esperado: 3
-console.log(contarVogais('')); // esperado: 0
+if (require.main === module) {
+  console.log(contarVogais('banana')); // esperado: 3
+  console.log(contarVogais('banana')); // esperado: 3
+  console.log(contarVogais('BANANA')); // esperado: 3
+  console.log(contarVogais('')); // esperado: 0
+}
+
+module.exports = { contarVogais };

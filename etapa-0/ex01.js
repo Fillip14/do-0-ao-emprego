@@ -13,9 +13,13 @@ const classificarIdade = (idade) => {
   if (idade >= 18) return 'adulto';
 };
 
-console.log(classificarIdade(-1)); // esperado null
-console.log(classificarIdade(11)); // esperado criança
-console.log(classificarIdade(12)); // esperado adolescente
-console.log(classificarIdade(17)); // esperado adolescente
-console.log(classificarIdade(18)); // esperado adulto
-console.log(classificarIdade(19)); // esperado adulto
+if (require.main === module) {
+  console.log(classificarIdade(-1)); // esperado null
+  console.log(classificarIdade(11)); // esperado criança
+  console.log(classificarIdade(12)); // esperado adolescente
+  console.log(classificarIdade(17)); // esperado adolescente
+  console.log(classificarIdade(18)); // esperado adulto
+  console.log(classificarIdade(19)); // esperado adulto
+}
+
+module.exports = { classificarIdade };
