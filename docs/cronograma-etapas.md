@@ -1,6 +1,6 @@
 # Cronograma de Etapas — Do 0 ao Emprego
 
-Baseado na avaliação de 06/07/2026. Rotina assumida: uber 7h–12h + estudo 13h–20h (~30–35h úteis/semana). Se a decisão de 08/07 mudar, ajusto as durações.
+Baseado na avaliação de 06/07/2026. **Rotina definida em 07/07:** projeto seg–sex 8h–17h + 4h no sábado + 4h no domingo (~45h/semana; trabalho no laboratório 19h–22h). É mais tempo que o cenário original (~35h) — as durações das etapas ficam mantidas e a folga vira profundidade e margem de segurança, não pressa.
 
 ## Diagnóstico consolidado
 
@@ -21,17 +21,20 @@ Node + Express + TypeScript no back, React no front, PostgreSQL no banco. Motivo
 Regras transversais: commits diários no GitHub desde a Etapa 0 · uso de IA segue a Trilha de IA (abaixo) · ao final de cada etapa me avise, eu avalio e libero (ou não) a próxima.
 
 ### Etapa 0 — Rigor e Git (semana 1: 08–14/07)
+
 - Refazer Ex 1, 3, 4, 5 e 7 cumprindo o enunciado exatamente; corrigir os bugs apontados no Ex 6 e Ex 8.
 - Git de verdade: instalar, criar repositório desta pasta, entender `init`, `add`, `commit`, `push`, `status`, `log`. Subir tudo para o GitHub.
 - **Avaliação:** exercícios refeitos + repositório público com histórico de commits.
 
 ### Etapa 1 — JavaScript sólido + fundamentos web (semanas 2–5)
+
 - JS moderno: `let`/`const`, template strings, `map`/`filter`/`reduce`, objetos, módulos, async/await.
 - HTML/CSS funcional (sem perfeccionismo visual) + HTTP na prática.
 - **Projeto:** gerenciador de tarefas (Ex 8) como página web — interface no navegador, lógica em JS.
 - **Avaliação:** projeto + exercícios de array methods que eu passar.
 
 ### Etapa 2 — Back-end: Node, Express, TypeScript e banco (semanas 6–10)
+
 - Começa terminando o Ex 10 (a API que travou) — primeiro item da etapa.
 - API REST completa de tarefas: rotas, validação, status codes corretos, testada no Postman.
 - PostgreSQL básico: tabelas, SELECT/INSERT/UPDATE/DELETE, conexão pelo Node.
@@ -39,16 +42,19 @@ Regras transversais: commits diários no GitHub desde a Etapa 0 · uso de IA seg
 - **Avaliação:** API com banco funcionando + eu quebro sua API com requisições maliciosas e vejo como ela responde.
 
 ### Etapa 3 — Front-end: React (semanas 11–15)
+
 - Componentes, props, estado, hooks básicos, consumo da sua própria API.
 - **Projeto:** front React conectado à API de tarefas da Etapa 2 → primeiro projeto full stack completo, com deploy.
 - **Avaliação:** projeto no ar, código revisado por mim.
 
 ### Etapa 4 — Capstone: o "reclame aqui" concluído (semanas 16–20)
+
 - Refazer do zero, agora sabendo o que faz: cadastro/login (auth), CRUD de reclamações, banco, front React, deploy.
 - README caprichado, testes básicos. Este é o projeto central do portfólio — e a resposta para "o site que não foi concluído".
 - **Avaliação:** simulo um code review de empresa.
 
 ### Etapa 5 — Portfólio e busca (semanas 21–24)
+
 - GitHub organizado, LinkedIn, currículo, devlog do processo.
 - Algoritmos básicos de entrevista + entrevistas simuladas comigo.
 - Início das aplicações para vagas. Meta: **pronto para aplicar** — o emprego em si pode levar mais tempo, e tudo bem.
