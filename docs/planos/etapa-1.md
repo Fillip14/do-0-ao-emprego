@@ -8,10 +8,11 @@
 
 - IA só para explicar conceitos e revisar código DEPOIS de pronto. Proibido pedir código.
 - Checklist do enunciado ANTES de codar, em todo exercício.
-- Todo exercício tem asserts em `testes.js`, incluindo pelo menos 1 caso inválido/negativo.
+- Todo exercício tem asserts em `tests.js`, incluindo pelo menos 1 caso inválido/negativo.
 - Commit diário no GitHub (mínimo 10 dos 14 dias). Devlog: 3 linhas por dia.
 - Tudo em `etapa-1/`, uma subpasta por dia (`d01/`, `d02/`...).
-- **Nomes de arquivo:** cada exercício vai em `ex<numero>.js` seguindo a numeração do plano (Ex 1.1 → `ex1-1.js`, Ex 1.3 → `ex1-3.js`); os testes do dia ficam em `testes.js`. Exceção: quando o enunciado der um nome explícito (`predictions.js`, `array-predictions.js`, `products.json`, `tasks.js`, `lib.js`), esse nome é contrato e vale sobre a regra geral.
+- **Nomes de arquivo:** mesmo padrão da Etapa 0 — `Ex 1.3` vira `ex03.js`, `Ex 1.12` vira `ex12.js`. A pasta já diz a etapa; o arquivo só leva o número.
+- **Nomes de arquivo:** cada exercício vai em `ex<numero>.js` seguindo a numeração do plano (Ex 1.1 → `ex1-1.js`, Ex 1.3 → `ex1-3.js`); os testes do dia ficam em `tests.js`. Exceção: quando o enunciado der um nome explícito (`predictions.js`, `array-predictions.js`, `products.json`, `tasks.js`, `lib.js`), esse nome é contrato e vale sobre a regra geral.
 - **Código em inglês:** nomes de variáveis, funções, arquivos e chaves de objetos em inglês. Comentários, devlog e mensagens de commit podem ser em português.
 - **Regra nova — profundidade > velocidade:** máximo 1 dia à frente do plano. Na Etapa 0 acelerar funcionou porque era revisão; aqui o conteúdo é novo. Se sobrar tempo no dia, aprofunde (mais casos de teste, refazer de memória), não avance.
 
@@ -22,7 +23,7 @@
 Estudar: `typeof`, number/string/boolean/null/undefined, `NaN`, conversões, `==` vs `===`, truthy/falsy.
 
 - **Ex 1.1** — `getType(value)`: retorna `"number"`, `"string"`, `"boolean"`, `"null"`, `"undefined"`, `"array"` ou `"object"`. Atenção: `typeof null` e arrays têm pegadinhas.
-- **Ex 1.2** — Arquivo `predictions.js` com 15 expressões (ex.: `"1" + 1`, `"1" - 1`, `null == undefined`, `[] + []`, `0 == false`...). Escreva a previsão em comentário ANTES de rodar. Depois rode e anote os erros de previsão no devlog.
+- **Ex 1.2** — Arquivo `ex02.js` com 15 expressões (ex.: `"1" + 1`, `"1" - 1`, `null == undefined`, `[] + []`, `0 == false`...). Escreva a previsão em comentário ANTES de rodar. Depois rode e anote os erros de previsão no devlog.
 - **Ex 1.2b (extra, adicionado 08/07 — sobra de tempo do D1)** — `ex1-extra.js`: função `safeNumber(text)` que recebe uma string e retorna um NUMBER, ou NULL se a conversão não for possível. O retorno nunca é string. Casos que os testes devem cobrir (entrada JS de verdade → retorno esperado):
 
   ```js
@@ -55,7 +56,7 @@ Estudar: métodos de string (`slice`, `split`, `trim`, `toLowerCase`, `includes`
 
 Estudar: `push/pop/shift/unshift`, `slice` vs `splice`, `indexOf`, `includes`, referência vs cópia (`[...arr]`).
 
-- **Ex 1.7** — `array-predictions.js`: 10 trechos que mutam ou copiam arrays. Prever a saída em comentário antes de rodar. Depois: `copyWithoutLast(list)` que retorna cópia sem o último item, SEM alterar a original (teste que a original não mudou).
+- **Ex 1.7** — `ex07.js`: 10 trechos que mutam ou copiam arrays. Prever a saída em comentário antes de rodar. Depois: `copyWithoutLast(list)` que retorna cópia sem o último item, SEM alterar a original (teste que a original não mudou).
 
 ## Dia 5 — Dom 12/07 (4h) — Arrays parte 2: map, filter, find
 
@@ -122,7 +123,7 @@ node tasks.js remove 3
 
 **Tarde — implementação**
 
-- Implementar as 4 operações com testes em `testes.js` (a lógica pura é testável sem mexer no arquivo real).
+- Implementar as 4 operações com testes em `tests.js` (a lógica pura é testável sem mexer no arquivo real).
 - Commits pequenos, um por funcionalidade que passa nos testes.
 - Erros amigáveis: comando inexistente, id inválido, título vazio.
 
@@ -140,7 +141,7 @@ node tasks.js remove 3
 
 - Enunciados seguidos à risca (nomes, contratos de retorno, formatos).
 - Código em inglês em todos os arquivos (identificadores, funções, chaves); comentários/commits podem ser PT.
-- `testes.js` em todos os dias, com casos negativos e `assert.throws` no Ex 1.12.
+- `tests.js` em todos os dias, com casos negativos e `assert.throws` no Ex 1.12.
 - Exercícios de previsão (1.2 e 1.7) com previsões escritas antes e erros anotados no devlog.
 - Projeto funcionando de ponta a ponta com persistência, módulos e testes da lógica.
 - Oral (sem consultar): closure, map vs forEach, referência vs cópia, reduce, JSON, promise vs async/await, CommonJS vs ESM.
