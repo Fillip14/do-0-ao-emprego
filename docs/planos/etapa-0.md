@@ -1,4 +1,6 @@
-# Etapa 0 — Rigor + Git (08 a 14/07/2026)
+# Etapa 0 — Rigor + Git (08 a 14/07/2026) ✅ APROVADA em 08/07
+
+> Concluída 6 dias adiantado: D1 em 07/07, D2–D7 em 08/07. Avaliação em `docs/avaliacoes/`.
 
 **Objetivo:** corrigir os 4 padrões encontrados na avaliação e montar sua base Git/GitHub. Sem conteúdo novo de programação — o foco é COMO você trabalha.
 
@@ -19,7 +21,7 @@
 
 ---
 
-## Dia 1 — Ter 08/07 — Setup Git
+## Dia 1 — Ter 08/07 — Setup Git ✅
 
 - Criar conta no GitHub (se não tiver).
 - No WSL: configurar `git config --global user.name` e `user.email`.
@@ -28,7 +30,7 @@
 - Aprender (IA como tutora): o que fazem `status`, `add`, `commit`, `push`, `log`. Anotar com suas palavras no devlog.
 - **Também hoje:** decidir a rotina (uber ou laboratório) e me contar.
 
-## Dia 2 — Qua 09/07 — Ler enunciado à risca
+## Dia 2 — Qua 09/07 — Ler enunciado à risca ✅
 
 Antes de rodar qualquer código, escreva um checklist do enunciado (o que ele pede EXATAMENTE: nome da função, o que retorna, formato da saída).
 
@@ -36,31 +38,31 @@ Antes de rodar qualquer código, escreva um checklist do enunciado (o que ele pe
 - **Ex 0.2** — Função `contarVogais(texto)` que retorna a QUANTIDADE de vogais (número, não lista). Maiúsculas contam. String vazia retorna 0.
 - Commit: `dia 2: exercicios de leitura de enunciado`
 
-## Dia 3 — Qui 10/07 — Fronteiras
+## Dia 3 — Qui 10/07 — Fronteiras ✅
 
 - **Ex 0.3** — `aprovado(nota)`: retorna `true` se nota >= 7, senão `false`. Teste com 6.9, 7 e 7.1 — os três, obrigatoriamente.
 - **Ex 0.4** — `dentroDoIntervalo(n, min, max)`: `true` se n está entre min e max INCLUSIVE. Teste exatamente nos limites.
 - Para cada função: escreva num comentário quais valores testou e por quê.
 - Commit diário.
 
-## Dia 4 — Sex 11/07 — Testes que devem falhar
+## Dia 4 — Sex 11/07 — Testes que devem falhar ✅
 
 - Aprender `node:assert` (IA como tutora: pedir explicação, não código).
 - Escrever `testes.js` com asserts para os Ex 0.1 a 0.4, incluindo pelo menos **1 caso inválido por função** (idade negativa, string vazia, n fora do intervalo…).
 - Rodar, ver passar, quebrar de propósito uma função e ver o teste pegar.
 
-## Dia 5 — Sáb 12/07 — Git intermediário
+## Dia 5 — Sáb 12/07 — Git intermediário ✅
 
 - Criar uma branch `experimento`, mudar algo, fazer merge na main.
 - Aprender a desfazer: `git restore` e `git reset` (testar num arquivo de rascunho).
 - Escrever `README.md` do repo: quem é você, o que é o projeto, o que tem em cada pasta.
 
-## Dia 6 — Dom 13/07 — Mini-desafio integrador
+## Dia 6 — Dom 13/07 — Mini-desafio integrador ✅
 
 - **Ex 0.5** — `validarSenha(senha)`: retorna objeto `{ valida: boolean, erros: string[] }`. Regras: mínimo 8 caracteres, pelo menos 1 número, pelo menos 1 letra maiúscula. `erros` lista o que faltou (vazio se válida).
 - Fluxo completo: checklist do enunciado → código → testes com casos que falham → commit pequeno a cada parte funcionando.
 
-## Dia 7 — Seg 14/07 — Revisão e entrega
+## Dia 7 — Seg 14/07 — Revisão e entrega ✅
 
 - Reler os 5 exercícios comparando com os enunciados, palavra por palavra.
 - Devlog final da semana.
