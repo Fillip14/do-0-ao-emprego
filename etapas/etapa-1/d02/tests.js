@@ -1,6 +1,6 @@
 const assert = require('node:assert');
-const { createCounter } = require('./ex1-3');
-const { applyToEach, triple, toUpper } = require('./ex1-4');
+const { createCounter } = require('./ex03');
+const { applyToEach, triple, toUpper } = require('./ex04');
 
 const countA = createCounter();
 const countB = createCounter();

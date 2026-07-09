@@ -1,6 +1,6 @@
 const assert = require('node:assert');
-const { getType } = require('./ex1-1');
-const { safeNumber } = require('./ex1-extra');
+const { getType } = require('./ex01');
+const { safeNumber } = require('./ex02-extra');
 
 assert.strictEqual(getType(1), 'number');
 assert.strictEqual(getType('string'), 'string');
