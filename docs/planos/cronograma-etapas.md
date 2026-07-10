@@ -20,6 +20,10 @@ Node + Express + TypeScript no back, React no front, PostgreSQL no banco. Motivo
 
 Regras transversais: commits diários no GitHub desde a Etapa 0 · uso de IA segue a Trilha de IA (abaixo) · ao final de cada etapa me avise, eu avalio e libero (ou não) a próxima.
 
+**Formato de enunciado (padrão a partir de 11/07/2026, vale para toda etapa futura):** todo exercício dos planos de etapa traz **Arquivos** (nomes exatos), **Contrato** (entrada → saída, tipos, casos de fronteira), **Erros** (mensagens exatas quando houver `throw`), **Exemplos** concretos e **O que os testes cobrem** (lista fechada). Dúvida de enunciado → perguntar antes de codar (não é cola). Se um enunciado do Claude estiver ambíguo, o erro decorrente não conta contra o Fillip.
+
+**Ritmo (padrão desde a Etapa 1):** plano organizado por TEMAS com dia sugerido, não por datas fixas. Tema seguinte só abre com o atual **selado** (DoD): tests verdes rodados na hora com caso negativo · revisão do Claude zerada · devlog no ato · pergunta-selo respondida sem consulta · commit pushed. Quantos temas couberem no dia.
+
 ### Etapa 0 — Rigor e Git (semana 1: 08–14/07)
 
 - Refazer Ex 1, 3, 4, 5 e 7 cumprindo o enunciado exatamente; corrigir os bugs apontados no Ex 6 e Ex 8.
