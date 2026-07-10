@@ -13,7 +13,7 @@
 - Tudo em `etapa-1/`, uma subpasta por dia (`d01/`, `d02/`...).
 - **Nomes de arquivo:** `Ex 03` → `ex03.js`, `Ex 12` → `ex12.js`; testes do dia em `tests.js`. **Exceção:** quando o enunciado der um nome explícito (`products.json`, `in-stock.json`, `tasks.js`, `tasks.json`, `lib.js`), esse nome é contrato e vale sobre a regra geral. Mudanças neste plano: só na conversa oficial da etapa.
 - **Código em inglês:** nomes de variáveis, funções, arquivos e chaves de objetos em inglês. Comentários, devlog e mensagens de commit podem ser em português.
-- **Ritmo:** dias corridos, um tema por dia. Dois temas no mesmo dia SÓ se o primeiro fechar redondo: testes completos, correções da revisão zeradas, devlog em dia. **D10 e D11 (assíncrono) são invioláveis: um por dia, sem juntar com nada.**
+- **Ritmo (alterada em 10/07):** dias corridos, sem limite de temas por dia — desde que cada tema feche redondo antes de abrir o próximo: tests completos com casos negativos, correções da revisão zeradas, devlog do tema escrito. A partir do 3º tema no mesmo dia: quiz oral rápido comigo no chat antes de seguir (detector de raso). **D10 e D11 (assíncrono) seguem invioláveis: um por dia, sem juntar com nada.**
 
 ---
 
@@ -49,25 +49,25 @@ Estudar: métodos de string (`slice`, `split`, `trim`, `toLowerCase`, `includes`
 - **Ex 05** — `formatName(name)`: `"  joão da SILVA "` → `"João Da Silva"`.
 - **Ex 06** — Refazer o validador de senha (Ex 0.5 da Etapa 0) usando regex nas verificações. Como `validatePassword(password)` retornando `{ valid, errors }`.
 
-## Dia 4 — Qui 09/07 (tarde) — Arrays parte 1: mutação e referência
+## Dia 4 — Qui 09/07 (tarde) — Arrays parte 1: mutação e referência ✅
 
 Estudar: `push/pop/shift/unshift`, `slice` vs `splice`, `indexOf`, `includes`, referência vs cópia (`[...arr]`).
 
 - **Ex 07** — `ex07.js`: 10 trechos que mutam ou copiam arrays. Prever a saída em comentário antes de rodar. Depois: `copyWithoutLast(list)` que retorna cópia sem o último item, SEM alterar a original (teste que a original não mudou).
 
-## Dia 5 — Sex 10/07 — Arrays parte 2: map, filter, find
+## Dia 5 — Sex 10/07 — Arrays parte 2: map, filter, find ✅ (feito 09/07)
 
 Estudar: `map`, `filter`, `find`, `some`, `every` — e diferença de `forEach` vs `map`.
 
 - **Ex 08** — Refazer o exercício dos produtos (ex05 da pasta `avaliacao/`) SEM nenhum `for`: (a) com estoque, (b) valor total, (c) mais caro, (d) novo: lista de nomes em maiúsculas dos produtos abaixo de R$100.
 
-## Dia 6 — Sáb 11/07 (4h) — reduce e sort
+## Dia 6 — Sáb 11/07 (4h) — reduce e sort ✅ (feito 10/07)
 
 Estudar: `reduce` (acumulador), `sort` com função comparadora (cuidado: sort de números sem comparador quebra — teste isso).
 
 - **Ex 09** — `gradeStats(grades)`: retorna `{ average, highest, lowest, approved }` (aprovado ≥ 7) usando reduce/filter. Lista vazia retorna `null`. Ordene as notas da maior para a menor.
 
-## Dia 7 — Dom 12/07 (4h) — Objetos
+## Dia 7 — Dom 12/07 (4h) — Objetos ✅ (feito 10/07)
 
 Estudar: acesso com `.` e `[]`, `Object.keys/values/entries`, desestruturação, spread em objetos.
 
