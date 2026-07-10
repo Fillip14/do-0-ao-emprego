@@ -20,7 +20,7 @@
 
 **Anotações**
 
-1. git config cria uma "assinatura" dos commits, usa o emai e nome configurado, global significa que vai servir para todos repos da maquina.
+1. git config cria uma "assinatura" dos commits, usa o email e nome configurado, global significa que vai servir para todos repos da maquina.
 2. git init transforma a pasta num repositório.
 3. .gitignore adiciona pastas e arquivos que quer ignorar para nao commitar.
 4. git remote add origin conecta o repo local ao repo do github.

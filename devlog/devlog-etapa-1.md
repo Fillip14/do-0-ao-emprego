@@ -9,7 +9,7 @@
 **Fechamento**
 
 - O que aprendi: primitivo e typeof
-- Travei/faltou: entender melhor array/object, métodos primitivos (string, number, etc)
+- Travei/faltou: entender melhor array/object, primitivos (string, number, etc)
 - Amanhã: dia 2
 
 ## 09/07 - Dia 2, 3, 4 e 5
@@ -40,3 +40,17 @@
 - O que aprendi: closure, callback, fn dentro de fn, regex e métodos de array
 - Travei/faltou: declaração esqueci duas vezes de const/let em fn. Errei 6 das 10 previsões do ex07, errei pois não estava analisando o retorno e sim como o array ficaria. Usar map, filter, find, some, every, forEach separados e juntos.
 - Amanhã: dia 6
+
+## 10/07 - Dia 6
+
+**Anotações**
+
+### D6
+1. .reduce((acc, n)): transforma o array em uma coisa só, o acc é um acumulador do que está sendo feito; o que meu callback retorna nesta volta vira o acc da próxima volta. O valor inicial é o acc da primeira volta; sem ele, array vazio dá erro., n é o elemento do array. 
+2. .sort(): ordena o array, "sort", se não tiver comparadora ordena como string, ele muta o original, para preservar faz um spread; comparadora retorna número: negativo = a antes, positivo = b antes, zero = empate; a - b só funciona para números
+
+**Fechamento**
+
+- O que aprendi: reduce, sort
+- Travei/faltou: confuso em o que muta e o que não muta
+- Amanhã:
