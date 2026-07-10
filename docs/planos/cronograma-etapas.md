@@ -22,7 +22,13 @@ Regras transversais: commits diários no GitHub desde a Etapa 0 · uso de IA seg
 
 **Formato de enunciado (padrão a partir de 11/07/2026, vale para toda etapa futura):** todo exercício dos planos de etapa traz **Arquivos** (nomes exatos), **Contrato** (entrada → saída, tipos, casos de fronteira), **Erros** (mensagens exatas quando houver `throw`), **Exemplos** concretos e **O que os testes cobrem** (lista fechada). Dúvida de enunciado → perguntar antes de codar (não é cola). Se um enunciado do Claude estiver ambíguo, o erro decorrente não conta contra o Fillip.
 
-**Ritmo (padrão desde a Etapa 1):** plano organizado por TEMAS com dia sugerido, não por datas fixas. Tema seguinte só abre com o atual **selado** (DoD): tests verdes rodados na hora com caso negativo · revisão do Claude zerada · devlog no ato · pergunta-selo respondida sem consulta · commit pushed. Quantos temas couberem no dia.
+**Ritmo (padrão desde a Etapa 1, estendido às demais etapas em 07/2026):** plano organizado por unidades com dia sugerido, não por datas fixas. A unidade muda com o tipo de etapa: **temas** em etapas de fundamento (Etapa 1), **marcos de entrega** em etapas de projeto (Etapas 2–4: pedaço do projeto funcionando de ponta a ponta, ex. "rotas GET/POST no ar", "PostgreSQL conectado") e **entregáveis** na Etapa 5 (LinkedIn pronto, currículo pronto, X aplicações/semana). Unidade seguinte só abre com a atual **selada** (DoD): tests verdes rodados na hora com caso negativo · revisão do Claude zerada · devlog no ato · pergunta-selo respondida sem consulta · commit pushed. Quantas unidades couberem no dia.
+
+**Anti-atraso (3 camadas, vale para toda etapa):**
+
+1. **Âncora única:** só a data da **avaliação** da etapa é fixa (ex. 20/07 na Etapa 1). Dentro da etapa, tudo flutua — é o único compromisso de calendário e é o que protege os 6 meses.
+2. **Checkpoint semanal (sexta, no fechamento do dia):** comparar unidades seladas vs. dias sugeridos. Semáforo: **verde** = no ritmo ou adiantado; **amarelo** = 1–2 unidades atrás → plano de recuperação escrito no devlog (o quê, quando); **vermelho** = 3+ unidades atrás → recalibragem obrigatória na conversa oficial da etapa: cortar escopo ou mover a avaliação — decisão explícita e registrada no plano, nunca atraso silencioso.
+3. **Folga declarada:** os últimos ~10–15% de cada etapa são buffer sem conteúdo novo (revisão/margem). Consumir o buffer antes da hora = sinal amarelo automático. Atraso come a folga, não o prazo.
 
 ### Etapa 0 — Rigor e Git (semana 1: 08–14/07)
 
