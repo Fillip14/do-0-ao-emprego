@@ -83,7 +83,7 @@ Estudar: acesso com `.` e `[]`, `Object.keys/values/entries`, desestruturação,
 
 > **Formato dos enunciados do T8 em diante:** todo exercício traz Arquivos, Contrato (entrada/saída/erros), Exemplos e O que os testes cobrem. Se algo ainda estiver ambíguo, pergunta ANTES de codar — dúvida de enunciado não é cola.
 
-## Tema 8 — JSON e arquivos (Node) — dia sugerido: sáb 11/07
+## Tema 8 — JSON e arquivos (Node) ✅ (feito 10/07)
 
 Estudar: `JSON.parse/stringify`, `fs.readFileSync/writeFileSync`, `module.exports`/`require` e a diferença CommonJS vs ESM (`import/export`) — você misturou os dois na avaliação; hora de fixar. No devlog: explicar CommonJS vs ESM com suas palavras.
 
