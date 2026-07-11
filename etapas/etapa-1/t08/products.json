@@ -1,0 +1,22 @@
+[
+  {
+    "name": "teclado",
+    "price": 120,
+    "stock": 3
+  },
+  {
+    "name": "mouse",
+    "price": 55.5,
+    "stock": 0
+  },
+  {
+    "name": "monitor",
+    "price": 899.9,
+    "stock": 7
+  },
+  {
+    "name": "cabo hdmi",
+    "price": 25,
+    "stock": 0
+  }
+]
