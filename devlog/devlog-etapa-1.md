@@ -9,7 +9,7 @@
 **Fechamento**
 
 - O que aprendi: primitivo e typeof
-- Travei/faltou: entender melhor array/object, primitivos (string, number, etc)
+- Travei/faltou: nada
 - Amanhã: dia 2
 
 ## 09/07 - Temas 2, 3, 4 e 5
@@ -38,7 +38,7 @@
 **Fechamento**
 
 - O que aprendi: closure, callback, fn dentro de fn, regex e métodos de array
-- Travei/faltou: declaração esqueci duas vezes de const/let em fn. Errei 6 das 10 previsões do ex07, errei pois não estava analisando o retorno e sim como o array ficaria. Usar map, filter, find, some, every, forEach separados e juntos.
+- Travei/faltou: declaração esqueci duas vezes de const/let em fn. Errei 6 das 10 previsões do ex07, errei pois não estava analisando o retorno e sim como o array ficaria.
 - Amanhã: dia 6
 
 ## 10/07 - Temas 6, 7 e 8
@@ -64,5 +64,21 @@
 **Fechamento**
 
 - O que aprendi: reduce, sort, metodos de objetos, json, fs e padrões JS.
-- Travei/faltou: praticar mais os metodos de array e objetos
+- Travei/faltou: nada
 - Amanhã: tema 9
+
+## 11/07 - Temas 9
+
+**Anotações**
+
+### T9
+1. throw new Error(): serve para sinalizar/lançar erros, exemplo ao inves de a funcao retornar null ou undefined numa conta errada, por exemplo, ela cria um objeto de erro, existe o err.message(string passada), err.stack (caminho de chamadas)
+2. try/catch: captura de erros lançados para o programa não quebrar, o bloco dentro de try roda normal, se nada lançar erro ele passa, se nao o erro é capturado e vai para o catch. NUNCA usar catch vazio. 
+3. assert.throws: ele mesmo chama a função não executada dentro para testar se ela quebra do jeito certo e confere error.message esperado.
+4. "1e2" notacoes cientificas tambem devem ser consideradas com number quando precisamos converter.
+
+**Fechamento**
+
+- O que aprendi: como usar throw new Error, try/catch, assert.throws, [...] COPIA SÓ A CAIXA EXTERNA E NAO OS OBJETOS, SE EU ALTERAR ALTERA O ORIGINAL. push > length
+- Travei/faltou: leitura de enunciado ainda inconsistente.
+- Amanhã: tema 10
