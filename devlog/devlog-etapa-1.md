@@ -82,3 +82,20 @@
 - O que aprendi: como usar throw new Error, try/catch, assert.throws, [...] COPIA SÓ A CAIXA EXTERNA E NAO OS OBJETOS, SE EU ALTERAR ALTERA O ORIGINAL. push > length
 - Travei/faltou: leitura de enunciado ainda inconsistente.
 - Amanhã: tema 10
+
+## 12/07 - Tema 10
+
+**Anotações**
+
+### T10
+1. async: Uma função assíncrona é utilizada para não travar a execução do restante do código síncrono, a callback dela vai para uma fila que será executada após todo o código síncrono ser terminado.
+2. Callback: É uma função passada como argumento para outra chamar.
+3. setTimeout(): Agenda uma callback que será executada após tantos ms, porém igual o async ela vai para a fila que é executada após todo código síncrono.
+4. Promise: é uma promessa de que algo vai chegar, se chegar com sucesso ela entra no .then(), falha entra no .catch(). É possível criar promise com new Promise((resolve,reject) => {}).
+5. pending: toda Promise nasce assim, resultado pendente. fulfilled : alguem chamou resolve e a respostas foi sucesso, os .then(valor) pendurados disparam recebendo o valor. rejected: reject(erro) é chamado, os .catch disparam recebendo o erro. A direção é única e não volta, se foi pro reject acaba ali.
+
+**Fechamento**
+
+- O que aprendi: async, callback, setTimeout, promise e seus 3 estados.
+- Travei/faltou: estrutura do wait — criei a Promise direto em vez de uma função que retorna new Promise a cada chamada; confundi o parâmetro do executor (resolve) com o ms. Leitura de enunciado incompleta.
+- Amanhã: tema 11
