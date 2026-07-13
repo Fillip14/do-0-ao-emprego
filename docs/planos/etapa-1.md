@@ -1,8 +1,10 @@
-# Etapa 1 — Fundamentos JavaScript (início 08/07/2026 — avaliação alvo 20/07)
+# Etapa 1 — Fundamentos JavaScript (início 08/07/2026 — avaliação alvo 21/07)
 
-> Reorganizada em 11/07: o plano é por TEMAS, não por datas. Cada tema tem um dia sugerido (ritmo livre — a data real é a que você fizer). A avaliação alvo (20/07) é confirmada ou antecipada no checkpoint do fim do Tema 11.
+> Reorganizada em 11/07: o plano é por TEMAS, não por datas. Cada tema tem um dia sugerido (ritmo livre — a data real é a que você fizer). A avaliação alvo (21/07) é confirmada ou antecipada no checkpoint do fim do Tema 11.
 
-**Objetivo:** dominar a base da linguagem que sustenta todo o resto do plano (Node, APIs, front-end). Sair da etapa lendo e escrevendo JS com segurança, sempre com testes.
+**Objetivo:** dominar a base da linguagem que sustenta todo o resto do plano (Node, APIs, front-end) + fundamentos web prometidos no cronograma: HTML/CSS funcional, DOM e HTTP na prática. Sair da etapa lendo e escrevendo JS com segurança, sempre com testes, e com o gerenciador de tarefas rodando NO NAVEGADOR.
+
+> Ajustes de 12/07: (1) HTML/CSS, DOM e HTTP adicionados — estavam no cronograma-mestre e faltavam neste plano (falha minha, apontada pelo Fillip); o projeto virou a versão WEB. (2) `this`/classes/protótipos adicionado como **Tema 12**, fechando o bloco de LINGUAGEM antes do bloco web (a pedido do Fillip). Estrutura final: linguagem T1–T12, web T13–T15, revisão T16, projeto T17, entrega T18. Avaliação movida de 20/07 → **21/07** (recalibragem explícita, custo: 1 dia).
 
 **Regras da etapa (Trilha de IA — fase TUTOR):**
 
@@ -114,7 +116,7 @@ Estudar: `JSON.parse/stringify`, `fs.readFileSync/writeFileSync`, `module.export
 
 *O que os testes cobrem (`tests.js`):* filterInStock com o array normal → 2 itens; com todos `stock: 0` → `[]`; com não-array (`{}`, `"abc"`) → `null`; original NÃO mutado (assert do array original depois da chamada).
 
-## Tema 9 — Erros e validação — dia sugerido: dom 12/07
+## Tema 9 — Erros e validação ✅ (feito 11/07)
 
 Estudar: `throw new Error(...)`, `try/catch`, `assert.throws`, mensagens de erro úteis.
 
@@ -137,7 +139,7 @@ Estudar: `throw new Error(...)`, `try/catch`, `assert.throws`, mensagens de erro
 
 *O que os testes cobrem:* os 3 erros com `assert.throws` (conferindo a MENSAGEM, não só que lançou) + os 3 casos válidos com `assert.strictEqual` (valor E tipo number).
 
-## Tema 10 — Assíncrono parte 1 — dia sugerido: seg 13/07 (recomendo não juntar com outro tema)
+## Tema 10 — Assíncrono parte 1 ✅ (feito 12/07)
 
 Estudar: por que JS é assíncrono (event loop na ideia geral), callbacks, `setTimeout`, Promise (`then/catch`), os 3 estados de uma promise (pending/fulfilled/rejected).
 
@@ -160,9 +162,9 @@ console.log('C');
 
 *O que os testes cobrem:* `wait(50).then(...)` — o teste marca `Date.now()` antes e dentro do then, e afirma que passaram ≥ 50ms; e que `wait(0)` retorna uma Promise (`instanceof Promise`).
 
-## Tema 11 — Assíncrono parte 2: async/await e fetch — dia sugerido: ter 14/07 (idem: melhor sozinho)
+## Tema 11 — Assíncrono parte 2: async/await e fetch — dia sugerido: seg 13/07 (melhor sozinho no dia)
 
-Estudar: `async/await`, `try/catch` com await, `fetch` no Node, refazer mentalmente o Ex 13 parte C com await.
+Estudar: `async/await`, `try/catch` com await, `fetch` no Node, refazer mentalmente o Ex 13 parte C com await. De passagem (sem exercício): `Promise.all` — rodar várias promises em paralelo e esperar todas.
 
 **Ex 14**
 
@@ -188,67 +190,178 @@ Estudar: `async/await`, `try/catch` com await, `fetch` no Node, refazer mentalme
 
 **→ Checkpoint: ao fechar o Tema 11, confirmamos, antecipamos ou movemos a data da avaliação.**
 
-## Tema 12 — Revisão espaçada + planejamento do projeto — dia sugerido: qua 15/07
+## Tema 12 — JS orientado a objetos: this, classes e protótipos — dia sugerido: ter 14/07
+
+> Adicionado em 12/07 (recalibragem acima). Fecha o bloco de LINGUAGEM antes do bloco web: você já domina funções e closures — agora o outro jeito de organizar estado.
+
+Estudar: `this` (método vs arrow vs função solta), `class`, `constructor`, métodos, `extends`/`super` (incluindo `extends Error`), `instanceof`, protótipos por baixo do capô (métodos vivem em `Classe.prototype`), quando usar classe vs função pura.
+
+**Ex 15**
+
+*Arquivos:* `t12/ex15.js`, `t12/tests.js`
+
+*Parte A — previsão:* no topo do `ex15.js`, este trecho em comentário. Prever cada item ANTES de rodar; erros de previsão no devlog:
+
+```js
+const user = {
+  name: 'Ana',
+  hi() { return `hi ${this.name}`; },
+  bye: () => `bye ${this.name}`,
+};
+// 1: user.hi() → ?
+// 2: user.bye() → ? (arrow não tem this próprio)
+const f = user.hi;
+// 3: f() → ? (o que é this numa chamada solta?)
+class A { constructor() { this.x = 1; } get() { return this.x; } }
+const a = new A();
+// 4: a.get() → ?
+// 5: A.prototype.get === a.get → ?
+```
+
+*Parte B — contrato:* no mesmo `ex15.js`, exportar 3 classes (CommonJS — a pasta t12/ não tem package.json):
+
+- `ValidationError` e `NotFoundError`, ambas `extends Error`, com `this.name` ajustado no constructor.
+- `TaskStore`:
+  - `new TaskStore()` → começa vazio.
+  - `add(title)` → cria `{ id, title, done: false }` (id = maior existente + 1; vazio → 1, mesma regra que a lib do projeto T17 vai usar), guarda internamente e RETORNA a tarefa criada. `title` vazio, só espaços ou não-string → `throw new ValidationError('invalid title')`.
+  - `toggle(id)` → inverte `done` e retorna a tarefa. Id inexistente → `throw new NotFoundError('task not found')`.
+  - `remove(id)` → remove a tarefa, retorna `undefined`. Id inexistente → `throw new NotFoundError('task not found')`.
+  - `list()` → retorna CÓPIA do array interno (mutar o retorno não pode afetar o store).
+
+*Diferença didática:* a lib do projeto (T17) será PURA (recebe array, devolve array novo); a classe guarda ESTADO interno. Os dois estilos existem no mercado — quando fizer o T17, anote no devlog qual preferiu e por quê.
+
+*O que os testes cobrem (`tests.js`):* fluxo add/toggle/remove; os 2 erros com `assert.throws` conferindo a MENSAGEM e o `instanceof` (ValidationError ≠ NotFoundError); `list()` é cópia (mutar o retorno e afirmar que o interno não mudou); `store.add === TaskStore.prototype.add` → `true` (prova de onde o método vive).
+
+## Tema 13 — HTML/CSS funcional — dia sugerido: qua 15/07
+
+Estudar: estrutura mínima de um documento (`<!DOCTYPE html>`, `html/head/body`, `<meta charset>`), tags semânticas (`header`, `main`, `ul/li`, `form`, `label`), `input`/`button`, classes, como ligar o CSS (`<link rel="stylesheet">`); CSS: seletor de tag e de classe, box model (margin/padding/border), flexbox básico (`display: flex`, `gap`, `justify-content`, `align-items`). Abrir arquivo local no navegador.
+
+**Ex 16 — página estática do gerenciador de tarefas** (só aparência; comportamento é o T14)
+
+*Arquivos:* `t13/index.html`, `t13/style.css`. SEM JavaScript neste tema.
+
+*Estrutura obrigatória do HTML:*
+
+1. `<h1>` com o texto `Task Manager`.
+2. `<form id="task-form">` contendo: `<input id="task-input" type="text" placeholder="new task">` e `<button type="submit">add</button>`.
+3. `<ul id="task-list">` com exatamente 3 `<li>` de exemplo escritos à mão, cada um contendo, nesta ordem: `<span class="title">texto da tarefa</span>`, `<button class="done">done</button>`, `<button class="remove">x</button>`.
+4. O 2º `<li>` deve ter a classe `completed`.
+
+*CSS obrigatório:*
+
+1. `.completed .title` → `text-decoration: line-through`.
+2. Lista sem marcadores (`list-style: none`).
+3. Form e cada `<li>` organizados com flex, com espaçamento visível (`gap`/`padding`) — nada grudado.
+4. Página legível: largura máxima do `main` (~600px) e margem centralizando.
+
+*Verificação (este tema não tem `tests.js` — o selo usa checklist visual):* abrir no navegador e conferir os 8 itens acima, um a um, marcando no devlog. Feio é aceitável; ilegível não.
+
+## Tema 14 — DOM e eventos — dia sugerido: qui 16/07
+
+Estudar: `document.querySelector`, `createElement`, `appendChild`, `element.remove()`, `classList.add/toggle/contains`, `addEventListener` (`click` e `submit`), `event.preventDefault()`, `input.value`, `<script src>` no fim do body.
+
+**Ex 17 — dar vida à página**
+
+*Arquivos:* `t14/index.html`, `t14/style.css` (copiados do T13, REMOVENDO os 3 `<li>` de exemplo), `t14/app.js`.
+
+*Contrato de comportamento:*
+
+| Ação | Resultado |
+|---|---|
+| Submeter o form com texto | cria `<li>` novo no fim da lista (mesma estrutura do T13: span.title + button.done + button.remove), limpa o input e devolve o foco pra ele |
+| Submeter com input vazio ou só espaços | NÃO cria item, nada quebra |
+| Clicar no `done` de um item | o `<li>` ganha/perde a classe `completed` (toggle) |
+| Clicar no `x` de um item | o `<li>` some da página |
+| Apertar F5 | tudo some — esperado; persistência é no T17 |
+
+*Estrutura exigida:* uma função `renderTask(title)` que cria e retorna o `<li>` completo — proibido montar o mesmo HTML em dois lugares.
+
+*Verificação:* checklist manual das 5 linhas da tabela no navegador + console do DevTools sem NENHUM erro vermelho. Marcar no devlog.
+
+## Tema 15 — HTTP na prática — dia sugerido: sex 17/07
+
+Estudar: o que viaja numa request (método, URL, headers, body) e numa response (status, headers, body); métodos GET/POST/PUT/DELETE; famílias de status 2xx/4xx/5xx e os clássicos 200, 201, 301, 404, 500; JSON como corpo; **DevTools aba Network** (encontrar a request do fetch, ver status e response). No devlog: explicar com suas palavras 404 vs 500 (foi fraqueza sua na avaliação de nível — hora de matar).
+
+**Ex 18 — página busca-CEP** (fecha o ciclo: fetch → tela)
+
+*Arquivos:* `t15/index.html`, `t15/style.css`, `t15/address.js`, `t15/app.js`.
+
+*Parte A —* `address.js`: adaptar seu `fetchAddress` do T11 para **ESM de navegador**: `export async function fetchAddress(cep)` (mesmo contrato do Ex 14, mensagens de erro idênticas). No HTML: `<script type="module" src="app.js">`, e `app.js` faz `import { fetchAddress } from './address.js'`. — Aqui o CommonJS vs ESM do T8 vira prática: anote no devlog qual é qual.
+
+*Parte B — comportamento da página:*
+
+| Ação | Resultado |
+|---|---|
+| Submeter form com CEP | botão desabilita e mostra `...` enquanto espera; reabilita ao terminar (sucesso OU erro) |
+| Sucesso | mostra em `<div id="result">`: street, district, city, state (uma linha cada) |
+| CEP mal formado / inexistente / falha de rede | a MENSAGEM do erro aparece no mesmo div, em vermelho (classe `.error`), página não quebra (try/catch) |
+
+*Parte C — Network:* fazer uma busca com a aba Network aberta; anotar no devlog: método, URL chamada, status da resposta e 2 headers que você viu.
+
+*Observação:* abrir com `type="module"` direto do arquivo pode esbarrar em CORS dependendo do navegador — se acontecer, rodar `npx serve` na pasta (ou a extensão Live Server do VS Code) e anotar no devlog por que foi preciso.
+
+## Tema 16 — Revisão espaçada + planejamento do projeto — dia sugerido: sáb 18/07
 
 *Parte A — revisão de memória (manhã):*
 
-- Refazer DE MEMÓRIA, em `t12/review/`, sem abrir o código antigo: Ex 03 (`createCounter`), Ex 09 (`gradeStats`) e Ex 10 (`countWords`). Mesmos contratos dos enunciados originais (pode reler o ENUNCIADO, não o código).
-- Depois de pronto: comparar com a versão original e anotar no devlog o que saiu diferente/esquecido.
+- Refazer DE MEMÓRIA, em `t16/review/`, sem abrir o código antigo: Ex 03 (`createCounter`), Ex 09 (`gradeStats`) e Ex 10 (`countWords`). Mesmos contratos originais (pode reler o ENUNCIADO, não o código).
+- Comparar com a versão original e anotar no devlog o que saiu diferente/esquecido.
 
-*Parte B — quiz oral comigo no chat:* closure, map vs forEach, referência vs cópia, `==` vs `===`, promise vs async/await + os selos retroativos que ficaram pendentes.
+*Parte B — quiz oral comigo no chat:* closure, map vs forEach, referência vs cópia, `==` vs `===`, promise vs async/await, CommonJS vs ESM, `this` e classes (T12) + selos retroativos pendentes (T1–T7).
 
-*Parte C — planejamento do projeto (tarde):* entregáveis do dia, em `t13/`:
+*Parte C — planejamento do projeto (tarde):* entregáveis, em `t17/`:
 
-1. `requirements.md` — checklist de TODOS os requisitos do Tema 13, com suas palavras.
-2. `lib.js` — só as assinaturas das funções (corpo `// TODO`), com um comentário por função dizendo entrada → saída.
-3. `tests.js` — asserts escritos porém comentados (viram sua lista de "o que falta passar").
+1. `requirements.md` — checklist de TODOS os requisitos do Tema 17, com suas palavras.
+2. `lib.js` — só as assinaturas (corpo `// TODO`), 1 comentário por função: entrada → saída.
+3. `tests.js` — asserts escritos porém comentados (sua lista de "o que falta passar").
 
-## Tema 13 — Projeto: implementação — dia sugerido: qui 16/07
+## Tema 17 — Projeto: gerenciador de tarefas WEB — dia sugerido: dom 19/07
 
-**Gerenciador de tarefas v2** — CLI em Node.
+Interface no navegador, lógica testada em Node — o mesmo core serve os dois mundos.
 
-*Arquivos:* `t13/tasks.js` (só lê argv e chama lib), `t13/lib.js` (toda a lógica, funções puras), `t13/tasks.json` (criado em runtime), `t13/tests.js`.
+*Arquivos:* `t17/index.html`, `t17/style.css`, `t17/lib.js` (lógica pura, ESM), `t17/app.js` (DOM + storage), `t17/tests.js` (roda com `node tests.js`), `t17/package.json` com `{ "type": "module" }` (para o Node aceitar import/export), `t17/requirements.md` (do T16).
 
 *Formato da tarefa:* `{ id: number, title: string, done: boolean }`. `id` = maior id existente + 1 (lista vazia → 1). Ids NÃO são reaproveitados após remoção.
 
-*Contratos de `lib.js`* (funções puras: recebem array, retornam ARRAY NOVO, nunca mutam, nunca tocam em arquivo):
+*Contratos de `lib.js`* (funções puras: recebem array, retornam ARRAY NOVO, nunca mutam, nunca tocam DOM nem storage; exportadas com `export`):
 
 - `addTask(tasks, title)` → novo array com a tarefa no fim. `title` vazio, só espaços ou não-string → `throw new Error('invalid title')`.
-- `completeTask(tasks, id)` → novo array com `done: true` na tarefa. `id` inexistente → `throw new Error('task not found')`.
+- `completeTask(tasks, id)` → novo array com `done` INVERTIDO na tarefa (toggle). `id` inexistente → `throw new Error('task not found')`.
 - `removeTask(tasks, id)` → novo array sem a tarefa. `id` inexistente → `throw new Error('task not found')`.
-- `loadTasks(path)` / `saveTasks(path, tasks)` → únicas que tocam arquivo. Arquivo inexistente no load → retorna `[]` (não quebra).
 
-*CLI (`node tasks.js <comando>`):*
+*`app.js` (única camada que toca DOM e storage):*
 
-```
-node tasks.js add "estudar reduce"   → adiciona e imprime: added: 1 - estudar reduce
-node tasks.js list                   → imprime uma por linha: [ ] 1 - estudar reduce / [x] 2 - ...
-node tasks.js done 2                 → marca e imprime: done: 2
-node tasks.js remove 3               → remove e imprime: removed: 3
-```
+- `loadTasks()` → lê `localStorage.getItem('tasks')` e retorna o array (chave inexistente/JSON inválido → `[]`).
+- `saveTasks(tasks)` → `localStorage.setItem('tasks', JSON.stringify(tasks))`.
+- Fluxo: toda ação do usuário → chama a função da lib → `saveTasks` → re-render da lista inteira a partir do array. O array na memória é a única fonte da verdade; o DOM é reflexo dele.
+- Erros da lib capturados com try/catch e mostrados na página (div `.error`), nunca stack trace no console do usuário.
 
-*O que os testes cobrem:* as 4 operações usando arrays em memória (SEM tocar no `tasks.json` real); os 2 erros com `assert.throws`; imutabilidade (array de entrada intacto após cada chamada); `loadTasks` de caminho inexistente → `[]`.
+*Comportamento na página:* igual ao T14 (adicionar/toggle/remover, input inválido não cria) + **sobrevive a F5** (localStorage).
 
-*Processo:* commits pequenos — um por função que passa nos testes (mínimo 4 commits neste tema).
+*O que os testes cobrem (`node tests.js`, SÓ a lib):* as 3 operações; os 2 erros com `assert.throws` (conferindo mensagem); imutabilidade (array de entrada intacto após cada chamada); id não reaproveitado (add → remove → add: id novo); toggle duplo volta ao original.
 
-## Tema 14 — Acabamento e entrega — dia sugerido: sex 17/07
+*Processo:* commits pequenos — um por função da lib que passa nos testes + um por comportamento da página funcionando (mínimo 5 commits).
 
-1. *Erros amigáveis no CLI* (sem stack trace pro usuário): comando inexistente → `unknown command: xyz` + lista dos comandos válidos; `done`/`remove` com id não numérico → `invalid id: xyz`; erros da lib capturados com try/catch e impressos como mensagem simples.
-2. *README* da pasta `etapa-1/` com estas seções: o que é o projeto, como rodar, comandos com exemplos, o que aprendi na etapa, uso de IA (mesmo formato da Etapa 0).
+*Bônus opcional (só se sobrar tempo e o web estiver selado):* interface CLI `t17/tasks.js` usando as MESMAS funções da lib, com `fs` para persistir em `tasks.json` — comandos `add`/`list`/`done`/`remove`, saídas: `added: 1 - texto`, `[ ] 1 - texto`/`[x] 2 - texto`, `done: 2`, `removed: 3`.
+
+## Tema 18 — Acabamento e entrega — dia sugerido: seg 20/07
+
+1. *Polimento de erros:* console do navegador sem erro vermelho em NENHUM fluxo; toda falha visível pro usuário como mensagem na página.
+2. *README* da pasta `etapa-1/` com estas seções: o que é o projeto, como rodar os exercícios (`node`), como abrir o projeto web, comandos/uso com exemplos, o que aprendi na etapa, uso de IA (mesmo formato da Etapa 0).
 3. *Releitura final:* todos os enunciados do plano palavra por palavra vs. o que você entregou (na Etapa 0 escapou `valid/errors` no lugar de `valida/erros` — é pra pegar exatamente isso). Anotar no devlog o que a releitura pegou (ou "nada").
 4. Devlog final da etapa. Push de tudo.
-5. **Me avisar aqui no chat** → avaliação da Etapa 1 (escrita + oral) — alvo Seg 20/07.
+5. **Me avisar aqui no chat** → avaliação da Etapa 1 (escrita + oral) — alvo Ter 21/07.
 
 ---
 
 ## Critérios da avaliação
 
-- Enunciados seguidos à risca (nomes, contratos de retorno, formatos).
-- Código em inglês em todos os arquivos (identificadores, funções, chaves); comentários/commits podem ser PT.
-- `tests.js` em todos os dias, com casos negativos e `assert.throws` no Ex 12.
-- Exercícios de previsão (Ex 02 e Ex 07) com previsões escritas antes e erros anotados no devlog.
-- Projeto funcionando de ponta a ponta com persistência, módulos e testes da lógica.
-- Oral (sem consultar): closure, map vs forEach, referência vs cópia, reduce, JSON, promise vs async/await, CommonJS vs ESM.
-- Commits diários (mínimo 9 dos ~11 dias corridos), devlog em dia.
+- Enunciados seguidos à risca (nomes, contratos de retorno, formatos, mensagens de erro exatas).
+- Código em inglês em todos os arquivos (identificadores, funções, chaves, classes CSS); comentários/commits podem ser PT.
+- `tests.js` em todos os temas de lógica, com casos negativos e `assert.throws` nos Ex 12/14 e na lib do projeto. Temas visuais (T13–T15): checklists de verificação marcados no devlog.
+- Exercícios de previsão (Ex 02, Ex 07, parte A do Ex 13 e parte A do Ex 15) com previsões escritas antes e erros anotados no devlog.
+- Projeto WEB funcionando de ponta a ponta: adicionar/toggle/remover na página, sobrevive a F5 (localStorage), lib pura em ESM testada via Node, erros visíveis na página.
+- Oral (sem consultar): closure, map vs forEach, referência vs cópia, reduce, JSON, promise vs async/await, CommonJS vs ESM, 404 vs 500, o fluxo evento→lib→save→render do projeto, `this` (método vs arrow vs chamada solta), classe vs função pura, onde vivem os métodos (prototype).
+- Commits diários (dias válidos conforme regra de piso), devlog em dia.
 
 **Aprovado →** Etapa 2 (Node a fundo + primeira API). **Pendências →** ajustamos antes de avançar.

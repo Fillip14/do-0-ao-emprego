@@ -26,7 +26,7 @@ Regras transversais: commits diários no GitHub desde a Etapa 0 · uso de IA seg
 
 **Anti-atraso (3 camadas, vale para toda etapa):**
 
-1. **Âncora única:** só a data da **avaliação** da etapa é fixa (ex. 20/07 na Etapa 1). Dentro da etapa, tudo flutua — é o único compromisso de calendário e é o que protege os 6 meses.
+1. **Âncora única:** só a data da **avaliação** da etapa é fixa (ex. 21/07 na Etapa 1). Dentro da etapa, tudo flutua — é o único compromisso de calendário e é o que protege os 6 meses. Mover a âncora só por recalibragem explícita registrada no plano (feito 1x na Etapa 1: 20→21/07, para incluir this/classes).
 2. **Checkpoint semanal (sexta, no fechamento do dia):** comparar unidades seladas vs. dias sugeridos. Semáforo: **verde** = no ritmo ou adiantado; **amarelo** = 1–2 unidades atrás → plano de recuperação escrito no devlog (o quê, quando); **vermelho** = 3+ unidades atrás → recalibragem obrigatória na conversa oficial da etapa: cortar escopo ou mover a avaliação — decisão explícita e registrada no plano, nunca atraso silencioso.
 3. **Folga declarada:** os últimos ~10–15% de cada etapa são buffer sem conteúdo novo (revisão/margem). Consumir o buffer antes da hora = sinal amarelo automático. Atraso come a folga, não o prazo.
 
@@ -38,7 +38,7 @@ Regras transversais: commits diários no GitHub desde a Etapa 0 · uso de IA seg
 
 ### Etapa 1 — JavaScript sólido + fundamentos web (semanas 2–5)
 
-- JS moderno: `let`/`const`, template strings, `map`/`filter`/`reduce`, objetos, módulos, async/await.
+- JS moderno: `let`/`const`, template strings, `map`/`filter`/`reduce`, objetos, módulos, async/await, `this`/classes/protótipos.
 - HTML/CSS funcional (sem perfeccionismo visual) + HTTP na prática.
 - **Projeto:** gerenciador de tarefas (Ex 8) como página web — interface no navegador, lógica em JS.
 - **Avaliação:** projeto + exercícios de array methods que eu passar.
@@ -47,8 +47,10 @@ Regras transversais: commits diários no GitHub desde a Etapa 0 · uso de IA seg
 
 - Começa terminando o Ex 10 (a API que travou) — primeiro item da etapa.
 - API REST completa de tarefas: rotas, validação, status codes corretos, testada no Postman.
+- Testes automatizados com framework (Jest ou Vitest) — evolução do node:assert.
 - PostgreSQL básico: tabelas, SELECT/INSERT/UPDATE/DELETE, conexão pelo Node.
 - TypeScript sobre o que já funciona em JS.
+- Deploy da API (back-end no ar antes do front da Etapa 3).
 - **Avaliação:** API com banco funcionando + eu quebro sua API com requisições maliciosas e vejo como ela responde.
 
 ### Etapa 3 — Front-end: React (semanas 11–15)
