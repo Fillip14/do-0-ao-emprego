@@ -162,7 +162,7 @@ console.log('C');
 
 *O que os testes cobrem:* `wait(50).then(...)` — o teste marca `Date.now()` antes e dentro do then, e afirma que passaram ≥ 50ms; e que `wait(0)` retorna uma Promise (`instanceof Promise`).
 
-## Tema 11 — Assíncrono parte 2: async/await e fetch — dia sugerido: seg 13/07 (melhor sozinho no dia)
+## Tema 11 — Assíncrono parte 2: async/await e fetch ✅ (feito 13/07)
 
 Estudar: `async/await`, `try/catch` com await, `fetch` no Node, refazer mentalmente o Ex 13 parte C com await. De passagem (sem exercício): `Promise.all` — rodar várias promises em paralelo e esperar todas.
 
@@ -188,7 +188,7 @@ Estudar: `async/await`, `try/catch` com await, `fetch` no Node, refazer mentalme
 
 *O que os testes cobrem:* caso válido (conferir as 4 chaves); formato inválido (`'123'`, `'abcdefgh'`) → rejeita com `invalid cep format` (usar `assert.rejects`); CEP inexistente (`'99999999'`) → rejeita com `cep not found`. Testes com rede real, ok nesta fase.
 
-**→ Checkpoint: ao fechar o Tema 11, confirmamos, antecipamos ou movemos a data da avaliação.**
+**→ Checkpoint: ao fechar o Tema 11, confirmamos, antecipamos ou movemos a data da avaliação.** ✅ Feito 13/07: T11 fechou no dia sugerido, ritmo verde — avaliação **21/07 CONFIRMADA**.
 
 ## Tema 12 — JS orientado a objetos: this, classes e protótipos — dia sugerido: ter 14/07
 
