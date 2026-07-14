@@ -125,6 +125,14 @@ Cada tema só é "selado" quando passa pelas 5 travas do **DoD** (Definition of 
 
 Catálogo dia a dia do que foi estudado, com espaço para a transmissão ao vivo e o post correspondente.
 
+### Etapa 0 — Rigor e Git
+
+| Data | Conteúdo estudado | 🎥 Transmissão | 📝 Post |
+|:---:|---|:---:|:---:|
+| 06/07 | **Terminal** — `pwd`, `ls`, `mkdir`, `mv`, wildcard `*`, Tab, `nano` | — | — |
+| 07/07 | **Git** — `config`, `init`, `.gitignore`, `remote add`, `add`, `commit`, `push`, `status`, `log` | — | — |
+| 08/07 | **Rigor + Git avançado** — arrow reduzida, `assert.strictEqual`, testes de fronteira, `branch`/`switch`/`merge`/`restore`/`reset`, `==` vs `===` | — | — |
+
 ### Etapa 1 — Fundamentos JavaScript
 
 | Data | Conteúdo estudado | 🎥 Transmissão | 📝 Post |
