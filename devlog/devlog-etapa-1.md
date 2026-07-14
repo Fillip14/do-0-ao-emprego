@@ -67,7 +67,7 @@
 - Travei/faltou: nada
 - Amanhã: tema 9
 
-## 11/07 - Temas 9
+## 11/07 - Tema 9
 
 **Anotações**
 
@@ -99,3 +99,19 @@
 - O que aprendi: async, callback, setTimeout, promise e seus 3 estados.
 - Travei/faltou: estrutura do wait — criei a Promise direto em vez de uma função que retorna new Promise a cada chamada; confundi o parâmetro do executor (resolve) com o ms. Leitura de enunciado incompleta.
 - Amanhã: tema 11
+
+## 13/07 - Tema 11
+
+**Anotações**
+
+### T11
+1. async/await: novo jeito de utilizar Promise, await só existe dentro de async, ela pausa a função async ate a Promise resolver.
+2. .then agora é pego do return da função async que foi resolvida; .catch agora é usado como try/catch, a await function esta dentro do try e se nessa fn ocorrer um erro, o try aborta na linha do erro (o que tem depois dele não executa) e pula para o catch capturando o erro.
+3. fetch: faz a request HTTP, a response vem e tem que usar await, res.json() retorna uma Promise, pois o corpo ainda esta sendo lido.
+4. Promise.all: recebe um array de promises, resolve com um array de resultados na mesma ordem, e se UMA rejeitar o all inteiro rejeita.
+
+**Fechamento**
+
+- O que aprendi: async/await, assert.rejects, promise.all.
+- Travei/faltou: como usar ancoras regex
+- Amanhã: tema 12
