@@ -134,7 +134,7 @@ Catálogo dia a dia do que foi estudado, com espaço para a transmissão ao vivo
 | 10/07 | **T6–T8** — `reduce`, `sort`, objetos, JSON, `fs`, CommonJS vs ESM | [Assistir](https://www.twitch.tv/videos/2816580372) | — |
 | 11/07 | **T9** — Erros: `throw new Error`, `try/catch`, `assert.throws` | [Assistir](https://www.twitch.tv/videos/2817356800)| — |
 | 12/07 | **T10** — Assíncrono I: `async`, callback, `setTimeout`, Promise e seus 3 estados | [Assistir](https://www.twitch.tv/videos/2818147757)| — |
-| 13/07 | **T11** — Assíncrono II: `async/await`, `fetch`, `Promise.all` | [Assistir](https://www.twitch.tv/videos/2819162687) | [Post nº1 — a virada de carreira](https://www.linkedin.com/in/anfillip) |
+| 13/07 | **T11** — Assíncrono II: `async/await`, `fetch`, `Promise.all` | [Assistir](https://www.twitch.tv/videos/2819162687) | [Post nº1 — a virada de carreira](https://www.linkedin.com/feed/update/urn:li:activity:7482621538416971776/) |
 | 14/07 | **T12–T13** — OO (`this`, classes, protótipos) + HTML/CSS (tags semânticas, box model, flexbox) | [Assistir](https://www.twitch.tv/videos/2819777408) | — |
 
 > 💡 A matéria-prima detalhada de cada dia está sempre no [`devlog/`](devlog/).
