@@ -190,7 +190,7 @@ Estudar: `async/await`, `try/catch` com await, `fetch` no Node, refazer mentalme
 
 **→ Checkpoint: ao fechar o Tema 11, confirmamos, antecipamos ou movemos a data da avaliação.** ✅ Feito 13/07: T11 fechou no dia sugerido, ritmo verde — avaliação **21/07 CONFIRMADA**.
 
-## Tema 12 — JS orientado a objetos: this, classes e protótipos — dia sugerido: ter 14/07
+## Tema 12 — JS orientado a objetos: this, classes e protótipos ✅ (feito 14/07) — dia sugerido: ter 14/07
 
 > Adicionado em 12/07 (recalibragem acima). Fecha o bloco de LINGUAGEM antes do bloco web: você já domina funções e closures — agora o outro jeito de organizar estado.
 
@@ -232,7 +232,7 @@ const a = new A();
 
 *O que os testes cobrem (`tests.js`):* fluxo add/toggle/remove; os 2 erros com `assert.throws` conferindo a MENSAGEM e o `instanceof` (ValidationError ≠ NotFoundError); `list()` é cópia (mutar o retorno e afirmar que o interno não mudou); `store.add === TaskStore.prototype.add` → `true` (prova de onde o método vive).
 
-## Tema 13 — HTML/CSS funcional — dia sugerido: qua 15/07
+## Tema 13 — HTML/CSS funcional ✅ (feito 14/07) — dia sugerido: qua 15/07
 
 Estudar: estrutura mínima de um documento (`<!DOCTYPE html>`, `html/head/body`, `<meta charset>`), tags semânticas (`header`, `main`, `ul/li`, `form`, `label`), `input`/`button`, classes, como ligar o CSS (`<link rel="stylesheet">`); CSS: seletor de tag e de classe, box model (margin/padding/border), flexbox básico (`display: flex`, `gap`, `justify-content`, `align-items`). Abrir arquivo local no navegador.
 

@@ -1,7 +1,5 @@
 # Resumo — métodos e ferramentas da Etapa 1
 
-> Material de consulta. Regra dos drills continua: tenta de memória PRIMEIRO, consulta depois.
-
 ## Números e conversão (T1)
 
 | Método | Serve para | Exemplo |
@@ -14,6 +12,19 @@
 | `Number.isInteger(x)` | testar se é inteiro | `Number.isInteger(3.5)` → `false` |
 | `Array.isArray(x)` | testar se é array (typeof não serve) | `Array.isArray([])` → `true` |
 
+## Funções a fundo (T2)
+
+| Ferramenta | Serve para | Exemplo |
+|---|---|---|
+| `function nome() {}` vs `() => {}` | declarar função; a arrow não tem `this` nem `arguments` próprios | `const dobro = x => x * 2` |
+| parâmetro default | valor quando o argumento vem `undefined` | `function f(x = 10) {}` → `f()` usa `10` |
+| rest `...args` | juntar o resto dos argumentos num array | `function soma(...n) { return n.reduce((a,b)=>a+b, 0) }` |
+| escopo `let`/`const` vs `var` | `let`/`const` têm escopo de BLOCO; `var` vaza pra função | dentro de `if {}`, `let` só existe ali |
+| hoisting | declarações sobem; `function` inteira sobe, `let`/`const` não usáveis antes | chamar `var` antes → `undefined`; `let` antes → erro |
+| closure | função lembra as variáveis de onde nasceu | `createCounter()` mantém `count` privado entre chamadas |
+
+> Closure é o motor do `createCounter`: cada contador tem SUA variável presa no escopo — dois contadores não se misturam.
+
 ## Strings (T3) — string nunca muta; métodos retornam string NOVA
 
 | Método | Serve para | Exemplo |
@@ -25,6 +36,8 @@
 | `includes(text)` | contém o trecho? | `'banana'.includes('nan')` → `true` |
 | `padStart(len, char)` | completar à esquerda até len | `'5'.padStart(3, '0')` → `'005'` |
 | `regex.test(str)` | a string bate com o padrão? | `/^\d{8}$/.test('01001000')` → `true` |
+
+> Regex: `^` prende no INÍCIO, `$` no FIM — sem âncoras, `test` acha o padrão em qualquer pedaço. `\d` = dígito, `\w` = letra/número/_, `{8}` = exatamente 8.
 
 ## Arrays parte 1 — os que MUTAM o original (T4)
 
@@ -59,7 +72,7 @@
 | `every(fn)` | TODOS passam? (para no 1º false) | boolean | `n.every(x => x > 0)` → `true` |
 | `forEach(fn)` | só EXECUTAR (imprimir, salvar) | `undefined` | `n.forEach(x => console.log(x))` |
 
-> Erro clássico (você já cometeu): usar `map` com push externo = trabalho de `forEach`; usar `forEach` esperando retorno = trabalho de `map`.
+> `map` com push externo = trabalho de `forEach`; `forEach` esperando retorno = trabalho de `map`.
 
 ## Arrays parte 3 — reduce e sort (T6)
 
@@ -85,7 +98,18 @@
 | `{ ...obj }` (spread) | cópia RASA + sobrescrever chaves | `{ ...u, age: 31 }` → novo obj com age 31 |
 | desestruturação | extrair chaves em variáveis | `const { name } = u` → `name = 'ana'` |
 
-> Cópia RASA (3ª chance na avaliação!): spread/slice/filter/map copiam a "caixa", mas os OBJETOS dentro são os mesmos — alterar `copia[0].x` altera `original[0].x`. Cópia profunda: `JSON.parse(JSON.stringify(obj))`.
+### Cópia RASA vs cópia PROFUNDA
+
+Spread/slice/filter/map copiam a "caixa" de fora, mas os OBJETOS dentro são os MESMOS — alterar `copia[0].x` altera `original[0].x`. Cópia profunda constrói tudo do zero, em todos os níveis.
+
+Formas de copiar um array em PROFUNDIDADE:
+
+| Forma | Como | Cuidado |
+|---|---|---|
+| `structuredClone(arr)` | nativo, clona qualquer nível | NÃO copia funções (dá erro se houver) |
+| `JSON.parse(JSON.stringify(arr))` | serializa e reconstrói | perde `undefined`, funções, `Date` (vira string) |
+| `arr.map(item => ({ ...item }))` | spread item a item | só resolve UM nível (array de objetos rasos) |
+| lodash `cloneDeep(arr)` | biblioteca, robusto | precisa instalar o lodash |
 
 ## JSON e arquivos (T8)
 
@@ -96,8 +120,10 @@
 | `fs.readFileSync(path, 'utf8')` | ler arquivo → string | `const raw = fs.readFileSync('p.json', 'utf8')` |
 | `fs.writeFileSync(path, str)` | escrever string no arquivo | `fs.writeFileSync('out.json', json)` |
 | `module.exports` / `require` | exportar/importar (CommonJS) | `module.exports = { fn }` / `const { fn } = require('./lib.js')` |
+| `export` / `import` | exportar/importar (ESM) | `export function fn() {}` / `import { fn } from './lib.js'` |
 
-> Fluxo: ler → `parse` → mexer → `stringify` → escrever. (parse = string PARA dados; stringify = dados PARA string — você inverteu uma vez, cuidado.)
+> Fluxo: ler → `parse` → mexer → `stringify` → escrever. (parse = string PARA dados; stringify = dados PARA string.)
+> CommonJS (`require`/`module.exports`) é o padrão do Node em `.js`; ESM (`import`/`export`) precisa de `"type": "module"` no package.json ou extensão `.mjs`.
 
 ## Erros (T9)
 
@@ -108,3 +134,56 @@
 | `assert.throws(() => fn(x), { message })` | testar que lança O erro certo (passa a função SEM executar) | `assert.throws(() => parseAge('-5'), { message: 'invalid age: negative' })` |
 | `assert.strictEqual(a, b)` | igualdade com `===` (confere valor E tipo) | `assert.strictEqual(parseAge('25'), 25)` |
 | `assert.deepStrictEqual(a, b)` | igualdade profunda de arrays/objetos | `assert.deepStrictEqual(f(), { a: 1 })` |
+
+## Assíncrono parte 1 — callbacks e Promise (T10)
+
+| Ferramenta | Serve para | Exemplo |
+|---|---|---|
+| `setTimeout(fn, ms)` | rodar `fn` depois de `ms` (vai pra fila, não trava o resto) | `setTimeout(() => console.log('B'), 0)` |
+| `new Promise((resolve, reject) => ...)` | embrulhar algo assíncrono num objeto que "vai ter" um valor | `wait(ms)` que resolve depois de `ms` |
+| `.then(fn)` | rodar quando a promise RESOLVE | `wait(1000).then(() => console.log('1'))` |
+| `.catch(fn)` | rodar quando a promise REJEITA | `p.catch(e => console.log(e.message))` |
+
+> 3 estados da promise: pending → fulfilled (resolve) OU rejected (reject). Sync roda tudo primeiro; `setTimeout(...,0)` só corre depois.
+
+## Assíncrono parte 2 — async/await e fetch (T11)
+
+| Ferramenta | Serve para | Exemplo |
+|---|---|---|
+| `async function` | marca função que devolve Promise; libera o `await` dentro | `async function fetchAddress(cep) {}` |
+| `await promise` | espera a promise resolver e devolve o VALOR (parece síncrono) | `const res = await fetch(url)` |
+| `try/catch` com await | capturar erro de promise rejeitada | `try { await f() } catch (e) {}` |
+| `fetch(url)` | requisição HTTP; retorna Promise de Response | `const r = await fetch(url); const data = await r.json()` |
+| `Promise.all([...])` | rodar várias em PARALELO e esperar TODAS | `await Promise.all([a, b, c])` |
+| `assert.rejects(() => fn(), { message })` | testar que uma async REJEITA com o erro certo | `assert.rejects(() => fetchAddress('123'), { message: 'invalid cep format' })` |
+
+> `await r.json()` também é assíncrono (o corpo chega em pedaços) — precisa de `await`. `async` sempre devolve Promise, mesmo com `return` de valor simples.
+
+## Orientação a objetos — this, classes, protótipos (T12)
+
+| Ferramenta | Serve para | Exemplo |
+|---|---|---|
+| `this` em método | o objeto ANTES do ponto na chamada | `user.hi()` → `this` é `user` |
+| `this` em arrow | NÃO tem `this` próprio; herda de fora | `bye: () => this.name` → `this` não é o objeto |
+| `this` em chamada solta | perde o dono → `undefined` (strict) | `const f = user.hi; f()` → `this` indefinido |
+| `class` / `constructor` | molde de objetos com estado + métodos | `class TaskStore { constructor() { this.tasks = [] } }` |
+| `extends` / `super` | herdar de outra classe (inclui `extends Error`) | `class NotFoundError extends Error {}` |
+| `instanceof` | testar de qual classe o objeto veio | `err instanceof ValidationError` → `true` |
+| `Classe.prototype.metodo` | onde os métodos VIVEM (compartilhados) | `store.add === TaskStore.prototype.add` → `true` |
+
+> Classe guarda ESTADO interno; função pura recebe e devolve sem guardar. Método (`function`) pega o `this` do dono; arrow NÃO — nunca use arrow como método que precisa de `this`.
+
+## HTML/CSS funcional (T13)
+
+| Ferramenta | Serve para | Exemplo |
+|---|---|---|
+| `<!DOCTYPE html>` + `html/head/body` | estrutura mínima da página | `<meta charset="utf-8">` no head |
+| tags semânticas | dar significado à estrutura | `header`, `main`, `ul/li`, `form`, `label` |
+| `<input>` / `<button>` | campo de texto e botão | `<button type="submit">add</button>` |
+| `<link rel="stylesheet">` | ligar o CSS ao HTML | `<link rel="stylesheet" href="style.css">` |
+| seletor de tag / de classe | escolher o que estilizar | `li {}` (tag), `.completed {}` (classe) |
+| box model | margin (fora) / border / padding (dentro) | espaçamento sem grudar |
+| flexbox | alinhar em linha/coluna | `display: flex; gap: 8px; justify-content` |
+| `text-decoration: line-through` | riscar item concluído | `.completed .title { text-decoration: line-through }` |
+
+> `list-style: none` tira os marcadores da `<ul>`. `max-width` + `margin: 0 auto` no `main` centraliza e limita a largura.
