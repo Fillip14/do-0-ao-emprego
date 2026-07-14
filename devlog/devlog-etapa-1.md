@@ -116,7 +116,7 @@
 - Travei/faltou: nada
 - Amanhã: tema 12
 
-## 14/07 - Tema 12
+## 14/07 - Temas 12 e 13
 
 **Anotações**
 
@@ -128,9 +128,20 @@
 5. super: so em classe filha, no constructor chama o construtor da mae, obrigatorio antes de usar o this se nao vai dar erro (preciso chamar antes para pegar os this da mae); super.method: chama a versão do method da mae.
 6. instanceof: pergunta se um objeto foi criado a partir de uma determinada classe. Retorna true se herda da cadeia inteira subindo (filho herda da mãe; neto herda do filho da mãe.)
 7. prototpye: os métodos nao são criados para cada instancia, vivem uma vez só em Classe.prototype e toda instancia aponta para lá.
+8. Outro métodos de cópia profunda de array: return .map((task) => ({ ...task })); return structuredClone(tasks);
+
+### T13
+1. Todo html segue um esqueleto fixo com html, head e body; !DOCTYPE html avisa que é HTML5; meta charset="UTF-8" define que o enconding da pagina é UTF-8
+2. As tags semanticas descrevem o conteudo e não a aparencia. header: cabeçalho; main: conteudo principal, unico por pagina; ul: lista não numerada; ol lista numerada; li: list item, cada item dentro de uma ul/ol (li so existe dentro dessas); form: formulários que o usuário precisa preencher/enviar; label: texto de um input (se liga ao input pelo id, clciar no rotulo foca no campo)
+3. input: entradas, campos de digitação; button: botão clicavel.
+4. class: é um rotulo para agrupar elementos para depois estilizar no css, um elemento pode ter varias classes (id é unico na página, class reutilizavel)
+5. CSS: faz a estilização do html, faz link no head (ex.: link rel="stylesheet" href="style.css" )
+6. Sintaxe base do css: seletor {propriedade: valor; }; li (todo li da página); .title (todo elemento da class="title"); #task-form (elemento com id="task-form"); da para juntar dois .completed .title;
+9. box model: elemento é uma caixa com 4 camadas (margin, border, padding, conteudo);
+10. flexbox básico: alinha e distribui os filhos dentro de um pai, declara como flex e eles se organizam numa linha. Algumas propriedades: display, gap, justify-content, align-items.
 
 **Fechamento**
 
-- O que aprendi: class, method, prototype, constructor, super, extends e instanceof.
-- Travei/faltou: nada
+- O que aprendi: class, method, prototype, constructor, super, extends e instanceof; HTML/CSS tags semanticas, input, buto, class, box model e flexbox.
+- Travei/faltou: aprofundar mais nas propriedades css
 - Amanhã:

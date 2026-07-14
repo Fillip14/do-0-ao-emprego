@@ -1,0 +1,21 @@
+.completed .title {
+  text-decoration: line-through;
+}
+
+li {
+  display: flex;
+  list-style: none;
+  gap: 10px;
+  padding: 10px;
+}
+
+form {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+}
+
+main {
+  max-width: 660px;
+  margin: 0 auto;
+}
