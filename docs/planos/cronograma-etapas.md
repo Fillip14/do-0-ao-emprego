@@ -4,11 +4,7 @@ Baseado na avaliação de 06/07/2026. **Rotina definida em 07/07:** projeto seg�
 
 ## Diagnóstico consolidado
 
-**Prática (Ex 1–9):** iniciante avançado. Lógica, estruturas de dados, arquivos, JSON e funções funcionais. Padrões a corrigir: seguir enunciado à risca, fronteiras (`>` vs `>=`), testar casos que devem falhar, `return` vs `print`.
-
-**Conceitos (nível 5):** intuição boa, precisão baixa. Acertos: front/back, GET/POST, JSON, panorama de navegação. Correções necessárias: Git não é serviço (é ferramenta local; GitHub é o serviço) e commit não é comentário — é um "snapshot" das mudanças (a mensagem é só a etiqueta); API não é tradutor servidor↔banco — é o contrato pelo qual um sistema expõe funções para outro (quem fala com o banco é o driver); 404 = recurso não encontrado (erro do lado do cliente), 500 = erro interno do servidor.
-
-**Experiência prévia relevante:** back-end estilo "reclame aqui" com Express e TypeScript (usuários, login, reclamações, banco). Isso decide a stack.
+Avaliação de 06/07: **iniciante avançado** em lógica; conceitos web com boa intuição e baixa precisão. Experiência prévia relevante: back-end estilo "reclame aqui" com Express e TypeScript — isso decide a stack. Detalhes e correção exercício a exercício em `avaliacao-de-nivel/correcao-avaliacao-de-nivel.md`; os padrões de erro identificados são acompanhados de forma viva nas avaliações de etapa.
 
 ## Decisão de stack: JavaScript/TypeScript full stack
 
@@ -86,6 +82,24 @@ Desenvolvimento assistido por IA é habilidade de mercado e faz parte do plano �
 **Etapa 4 — IA como agente.** No capstone, partes do projeto são construídas com um agente de código (Claude Code ou similar): você especifica, o agente implementa, você revisa e testa. O README documenta o que foi assistido e como foi validado — isso vira *diferencial* de portfólio, não algo a esconder. Habilidade treinada: especificação, revisão e orquestração — o trabalho real de dev assistido por IA.
 
 **Etapa 5 — IA como pauta de entrevista.** Saber contar essa progressão é resposta forte para "como você usa IA?" — pergunta cada vez mais comum. Você terá evidência pública (commits, READMEs) de uso com critério, não dependência.
+
+---
+
+## Trilha de Marca Pessoal — do perfil à audiência
+
+Presença pública é ativo de empregabilidade, mas se constrói em camadas: perfil → rede → conteúdo → colheita. Regra de proteção: esta trilha roda FORA do horário de estudo (máx. 30–60 min/dia) e é a PRIMEIRA coisa a pausar se o checkpoint semanal der amarelo ou vermelho. A âncora da etapa vale mais que qualquer post.
+
+**Formato dos posts:** texto é o motor (hook nas 2 primeiras linhas, antes do "ver mais"); imagem só quando mostra algo real (print da página, GIF de demo, código formatado via Carbon/ray.so, gráfico de commits). Regra prática: bug/aprendizado → texto puro; projeto/demo → texto + print ou GIF. Carrossel fica para a Etapa 3+, se fizer sentido.
+
+**Etapa 1 — Fundação.** Consertar os perfis uma única vez: headline e Sobre honestos no LinkedIn, seção Experiência preenchida (eletrônica + lab), projetos com estado real, `do-0-ao-emprego` pinado em 1º no GitHub, README do perfil realinhado a JS/TS. Depois, conexões: 5–10 pedidos/dia (devs da região, recrutadores, quem interage na live). Posts: liberados após o conserto do perfil (post nº 1 do backlog pode sair ainda na Etapa 1) — máx. 1/semana até a avaliação; cadência 2–3/semana começa na Etapa 2. Streaming: liberado, desde que não coma horas do plano.
+
+**Etapa 2 — Conteúdo (2–3 posts/semana, nunca diário).** Backlog em ordem: (1) início do projeto e a ideia; (2) Etapa 0 — hábitos antes de conteúdo; (3–4) bugs e erros reais dos temas de JS (história de bug > aula de método); (5) fundamentos web; (6) projeto web da Etapa 1 com print/GIF. Matéria-prima é o devlog — reaproveitar, não criar do zero. + 10 min/dia comentando posts de devs/recrutadores (networking real).
+
+**Etapa 3 — Demo.** Posts com demo visual do front React e do primeiro full stack no ar. Live coding do projeto como conteúdo.
+
+**Etapa 4 — Build in public.** O capstone vira série de posts: decisões, erros, code review, deploy. README + série contam a mesma história que será contada em entrevista.
+
+**Etapa 5 — Colheita.** Perfil pronto e rede aquecida desde a Etapa 1: a etapa vira só currículo, aplicações e entrevistas — não construção de presença do zero.
 
 ---
 
