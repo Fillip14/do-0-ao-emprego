@@ -113,5 +113,24 @@
 **Fechamento**
 
 - O que aprendi: async/await, assert.rejects, promise.all.
-- Travei/faltou: como usar ancoras regex
+- Travei/faltou: nada
 - Amanhã: tema 12
+
+## 14/07 - Tema 12
+
+**Anotações**
+
+### T12
+1. this: a - arrow: herda o this de onde foi definido (escopo externo); b - class: this é um estado da instancia criada da classe, posso acessar de outros metodos da classe; c - chamada solta: guardo o método numa variável e chamo sem nada antes do ponto → this fica undefined (ninguém preencheu). Ex: const f = user.hi; f() → hi undefined.
+2. constructor: é o metodo que roda automaticamente no new, ele recebe os dados inicias e monta o estado da instancia, roda uma vez por objeto criado, os argumentos repassados vão para ele.
+3. métodos: sao funcoes que vivem dentro da classe
+4. extends: cria uma classe filha que herda da classe mãe
+5. super: so em classe filha, no constructor chama o construtor da mae, obrigatorio antes de usar o this se nao vai dar erro (preciso chamar antes para pegar os this da mae); super.method: chama a versão do method da mae.
+6. instanceof: pergunta se um objeto foi criado a partir de uma determinada classe. Retorna true se herda da cadeia inteira subindo (filho herda da mãe; neto herda do filho da mãe.)
+7. prototpye: os métodos nao são criados para cada instancia, vivem uma vez só em Classe.prototype e toda instancia aponta para lá.
+
+**Fechamento**
+
+- O que aprendi: class, method, prototype, constructor, super, extends e instanceof.
+- Travei/faltou: nada
+- Amanhã:
