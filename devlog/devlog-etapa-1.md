@@ -116,7 +116,7 @@
 - Travei/faltou: nada
 - Amanhã: tema 12
 
-## 14/07 - Temas 12 e 13
+## 14/07 - Temas 12, 13 e 14
 
 **Anotações**
 
@@ -139,9 +139,22 @@
 6. Sintaxe base do css: seletor {propriedade: valor; }; li (todo li da página); .title (todo elemento da class="title"); #task-form (elemento com id="task-form"); da para juntar dois .completed .title;
 9. box model: elemento é uma caixa com 4 camadas (margin, border, padding, conteudo);
 10. flexbox básico: alinha e distribui os filhos dentro de um pai, declara como flex e eles se organizam numa linha. Algumas propriedades: display, gap, justify-content, align-items.
+11. Checklist visual: todos itens ficaram funcionais e ok.
+
+### T14
+1. document.querySelector: document é a pagina inteira, querySelector acha o primeiro elemento que casa com o seletor CSS ("#task-form"); querySelectorAll: retorna todos numa especie de lista.
+2. .createElement(): você cria o elemento em memória, fora da página, eles nao existem em lugar nenhum mas pode configurar o conteudo e a classe.
+3. .appendChild(): coloca um elemento dentro de outro, isso que faz ele aparecer.
+4. .remove(): remove o próprio elemento do DOM.
+5. .classList.add(): adiciona a uma lista; .remove(): remove; .toggle(): inverte o estado; .contains(): true/false existe essa classe?
+6. .addEventListener(event, () => {}): quando o event acontecer executa a fn
+7. .preventDefault(): alguns eventos como submit de form recarregam a página, e isso acaba fazendo um form sumir por exemplo, entao submits devem começar com o preventDefault()
+8. input.value: o value é o texto dentro de um input, depois posso setar com o valor que quiser e input.focus().
+9. script src: vai no fim do body, precisa ir no fim pois assim todos elementos da página ja existem e não quebra em chamadas querySelector
+10. checklist do exercicio ok
 
 **Fechamento**
 
-- O que aprendi: class, method, prototype, constructor, super, extends e instanceof; HTML/CSS tags semanticas, input, buto, class, box model e flexbox.
-- Travei/faltou: aprofundar mais nas propriedades css
-- Amanhã:
+- O que aprendi: class, method, prototype, constructor, super, extends e instanceof; HTML/CSS tags semanticas, input, buto, class, box model e flexbox; DOM e eventos.
+- Travei/faltou: T12 e T14 nada. T13: aprofundar mais nas propriedades css
+- Amanhã: Tema 15
