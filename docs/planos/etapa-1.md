@@ -256,7 +256,7 @@ Estudar: estrutura mínima de um documento (`<!DOCTYPE html>`, `html/head/body`,
 
 *Verificação (este tema não tem `tests.js` — o selo usa checklist visual):* abrir no navegador e conferir os 8 itens acima, um a um, marcando no devlog. Feio é aceitável; ilegível não.
 
-## Tema 14 — DOM e eventos — dia sugerido: qui 16/07
+## Tema 14 — DOM e eventos ✅ (feito 14/07) — dia sugerido: qui 16/07
 
 Estudar: `document.querySelector`, `createElement`, `appendChild`, `element.remove()`, `classList.add/toggle/contains`, `addEventListener` (`click` e `submit`), `event.preventDefault()`, `input.value`, `<script src>` no fim do body.
 
