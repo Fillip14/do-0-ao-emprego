@@ -158,3 +158,23 @@
 - O que aprendi: class, method, prototype, constructor, super, extends e instanceof; HTML/CSS tags semanticas, input, buto, class, box model e flexbox; DOM e eventos.
 - Travei/faltou: T12 e T14 nada. T13: aprofundar mais nas propriedades css
 - Amanhã: Tema 15
+
+## 15/07 - Temas 15 e 16
+
+**Anotações**
+
+### T15
+1. Request e response elas possuem uma anatomia. Linha inicial: método + URL; headers: metadados da req (content-type: formato mandado/authorization: quem sou eu/accept: que formato aceito de volta); body: só em POST/PUT, GET não tem. A response tem o status da resposta na linha incial.
+2. Métodos: GET/POST/PUT/DELETE; um fetch sem metodo usa o GET por padrão.
+3. Status: são separados em familias; 2xx: status verdes, que a req deu certo, OK; 3xx: redirecionamento, mudou endereço; 4xx: req chegou mas tinha algum problema no que foi enviado, Not Found, bad request, sem permissão, não autorizado; 5xx: req estava ok mas o problema foi no servidor, internal server error. 404 = o servidor funcionou e a resposta certa dele é "isso não existe aqui"; 500 = o servidor quebrou no meio do processamento (bug dele). A request pode estar perfeita nos dois casos — muda de quem é a culpa. Fetch mesmo o status 404 é um sucesso internamente para ele, pois a comunicação dele funcionou, usar res.status ou res.ok para saber o resultado da req solicitada.
+4. JSON no body: é só texto, a forma universal de troca entre cliente e servidor. Saindo voce usar JSON.stringify, chegando voce usa res.json()(significa pegar o body e rodar JSON.parse nele).
+5. DevTools - Network: onde consigo ver tudo acontecendo de verdade, req, res.
+6. Network: método: GET; URL: https://viacep.com.br/ws/01001000/json/; status: 200 ok; headers: content-type(application/json; charset=utf-8), access-control-allow-credentials(true).
+7. ESM = import/export (é o que uso aqui no T15); CommonJS = require/module.exports (é o que usei no T8, em Node sem type: module). Mesma ideia — exportar e importar entre arquivos — sintaxes diferentes. Com isso tive que colocar type="module" no script do index.html para ele entender que os scripts eram em ESM
+8. Precisei utilizar o live server devido ao CORS bloquear pois não tinha origem (file://)
+
+**Fechamento**
+
+- O que aprendi: HTTP request, response, metodos, status, JSON e devtools.
+- Travei/faltou: usei um await sem colocar async no inicio da fn e isso estava quebrando
+- Amanhã:
