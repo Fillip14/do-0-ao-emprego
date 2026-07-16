@@ -187,3 +187,47 @@ Formas de copiar um array em PROFUNDIDADE:
 | `text-decoration: line-through` | riscar item concluído | `.completed .title { text-decoration: line-through }` |
 
 > `list-style: none` tira os marcadores da `<ul>`. `max-width` + `margin: 0 auto` no `main` centraliza e limita a largura.
+
+## DOM e eventos (T14)
+
+| Ferramenta | Serve para | Exemplo |
+|---|---|---|
+| `document.querySelector(sel)` | primeiro elemento que casa o seletor CSS | `querySelector('#task-form')` |
+| `querySelectorAll(sel)` | todos que casam (NodeList, tem `forEach`) | `querySelectorAll('li')` |
+| `document.createElement(tag)` | criar elemento em memória (ainda fora da página) | `const li = createElement('li')` |
+| `pai.appendChild(el)` | inserir o elemento dentro de outro (faz aparecer) | `list.appendChild(li)` |
+| `el.remove()` | remover o próprio elemento do DOM | `li.remove()` |
+| `el.classList.add/remove/toggle/contains` | mexer nas classes | `li.classList.toggle('completed')` |
+| `el.addEventListener(evt, fn)` | reagir a evento (`click`, `submit`) | `form.addEventListener('submit', fn)` |
+| `event.preventDefault()` | impedir o padrão (submit recarregar a página) | 1ª linha do handler de submit |
+| `input.value` / `input.focus()` | ler/setar o texto do campo / dar foco | `input.value = ''; input.focus()` |
+
+> `<script src>` vai no FIM do `<body>`: garante que os elementos já existem quando o JS roda (senão `querySelector` acha `null`).
+
+## HTTP na prática (T15)
+
+| Ferramenta | Serve para | Exemplo |
+|---|---|---|
+| método HTTP | GET (padrão, sem body), POST/PUT (com body), DELETE | `fetch(url)` sem method → GET |
+| família de status | 2xx sucesso · 3xx redirect · 4xx erro do cliente · 5xx erro do servidor | 200, 404, 500 |
+| 404 × 500 | 404 = servidor ok, recurso não existe; 500 = servidor quebrou no meio | culpa do cliente × culpa do servidor |
+| `res.ok` / `res.status` | saber o resultado real da requisição | `if (!res.ok) throw new Error(...)` |
+| `res.json()` | ler o body e fazer `parse` do JSON (assíncrono) | `const data = await res.json()` |
+| DevTools → Network | ver req/res de verdade: método, URL, status, headers | aba Network |
+
+> O `fetch` só cai no `.catch` por falha de REDE — um 404/500 é "sucesso" pra ele (a comunicação funcionou). Quem decide o resultado é `res.ok`/`res.status`.
+
+## Projeto web — persistência e arquitetura (T17)
+
+| Ferramenta / padrão | Serve para | Exemplo |
+|---|---|---|
+| `localStorage.getItem/setItem(chave, str)` | guardar/ler dados no navegador (só TEXTO) | `setItem('tasks', JSON.stringify(tasks))` |
+| `JSON.stringify` ao salvar / `JSON.parse` ao ler | objeto ↔ texto pro `localStorage` | `JSON.parse(getItem('tasks')) ?? []` |
+| `ul.replaceChildren()` | esvaziar a lista de uma vez antes do re-render | limpa tudo pra redesenhar do array |
+| `event.target.closest(sel)` + `dataset` | event delegation: 1 listener no pai descobre alvo/id | `e.target.closest('li').dataset.id` |
+| lib pura (ESM) | funções recebem array, devolvem array NOVO, não tocam DOM/storage | `addTask`, `completeTask`, `removeTask` |
+| `app.js` (única camada com efeito) | DOM + `localStorage`; `try/catch` mostra o erro na `.error` | fluxo `evento → lib → save → render` |
+
+> **Array = única fonte da verdade**; o DOM é só reflexo. Toda ação: evento → função da lib → `saveTasks` → re-render da lista inteira a partir do array. Mantém tela e dados em sincronia e sobrevive ao F5.
+> **Função pura** = mesma entrada → mesma saída (determinística) **e** sem efeito colateral (não muta os argumentos, não toca DOM/storage/variável externa). Por isso a lib é pura e testável no Node, separada do `app.js` impuro. `Math.random()`/`Date.now()` NÃO são puras (não determinísticas).
+> **prototype:** os métodos vivem uma vez só no `Classe.prototype` (compartilhados por todas as instâncias) — `a.metodo === b.metodo` é `true`. O `constructor` monta só os DADOS de cada instância.

@@ -20,6 +20,8 @@ Regras transversais: commits diários no GitHub desde a Etapa 0 · uso de IA seg
 
 **Ritmo (padrão desde a Etapa 1, estendido às demais etapas em 07/2026):** plano organizado por unidades com dia sugerido, não por datas fixas. A unidade muda com o tipo de etapa: **temas** em etapas de fundamento (Etapa 1), **marcos de entrega** em etapas de projeto (Etapas 2–4: pedaço do projeto funcionando de ponta a ponta, ex. "rotas GET/POST no ar", "PostgreSQL conectado") e **entregáveis** na Etapa 5 (LinkedIn pronto, currículo pronto, X aplicações/semana). Unidade seguinte só abre com a atual **selada** (DoD): tests verdes rodados na hora com caso negativo · revisão do Claude zerada · devlog no ato · pergunta-selo respondida sem consulta · commit pushed. Quantas unidades couberem no dia.
 
+**Devlog (padrão a partir da Etapa 2, decidido 16/07):** registra só o fechamento do dia + travas/erros de previsão — a evidência do processo. Explicações de referência ("o que cada método/ferramenta faz") vão direto para o resumo da etapa, não para o devlog: evita escrever a mesma coisa em dois lugares.
+
 **Anti-atraso (3 camadas, vale para toda etapa):**
 
 1. **Âncora única:** só a data da **avaliação** da etapa é fixa (ex. 21/07 na Etapa 1). Dentro da etapa, tudo flutua — é o único compromisso de calendário e é o que protege os 6 meses. Mover a âncora só por recalibragem explícita registrada no plano (feito 1x na Etapa 1: 20→21/07, para incluir this/classes).
@@ -87,19 +89,9 @@ Desenvolvimento assistido por IA é habilidade de mercado e faz parte do plano �
 
 ## Trilha de Marca Pessoal — do perfil à audiência
 
-Presença pública é ativo de empregabilidade, mas se constrói em camadas: perfil → rede → conteúdo → colheita. Regra de proteção: esta trilha roda FORA do horário de estudo (máx. 30–60 min/dia) e é a PRIMEIRA coisa a pausar se o checkpoint semanal der amarelo ou vermelho. A âncora da etapa vale mais que qualquer post.
+Presença pública é ativo de empregabilidade, construída em camadas: perfil → rede → conteúdo → colheita. Regra de proteção: roda FORA do horário de estudo (máx. 30–60 min/dia) e é a PRIMEIRA coisa a pausar se o checkpoint semanal der amarelo ou vermelho — a âncora da etapa vale mais que qualquer post.
 
-**Formato dos posts:** texto é o motor (hook nas 2 primeiras linhas, antes do "ver mais"); imagem só quando mostra algo real (print da página, GIF de demo, código formatado via Carbon/ray.so, gráfico de commits). Regra prática: bug/aprendizado → texto puro; projeto/demo → texto + print ou GIF. Carrossel fica para a Etapa 3+, se fizer sentido.
-
-**Etapa 1 — Fundação.** Consertar os perfis uma única vez: headline e Sobre honestos no LinkedIn, seção Experiência preenchida (eletrônica + lab), projetos com estado real, `do-0-ao-emprego` pinado em 1º no GitHub, README do perfil realinhado a JS/TS. Depois, conexões: 5–10 pedidos/dia (devs da região, recrutadores, quem interage na live). Posts: liberados após o conserto do perfil (post nº 1 do backlog pode sair ainda na Etapa 1) — máx. 1/semana até a avaliação; cadência 2–3/semana começa na Etapa 2. Streaming: liberado, desde que não coma horas do plano.
-
-**Etapa 2 — Conteúdo (2–3 posts/semana, nunca diário).** Backlog em ordem: (1) início do projeto e a ideia; (2) Etapa 0 — hábitos antes de conteúdo; (3–4) bugs e erros reais dos temas de JS (história de bug > aula de método); (5) fundamentos web; (6) projeto web da Etapa 1 com print/GIF. Matéria-prima é o devlog — reaproveitar, não criar do zero. + 10 min/dia comentando posts de devs/recrutadores (networking real).
-
-**Etapa 3 — Demo.** Posts com demo visual do front React e do primeiro full stack no ar. Live coding do projeto como conteúdo.
-
-**Etapa 4 — Build in public.** O capstone vira série de posts: decisões, erros, code review, deploy. README + série contam a mesma história que será contada em entrevista.
-
-**Etapa 5 — Colheita.** Perfil pronto e rede aquecida desde a Etapa 1: a etapa vira só currículo, aplicações e entrevistas — não construção de presença do zero.
+> O plano detalhado (camada por etapa, backlog de posts, formato, estado atual) vive em [`marca-pessoal.md`](marca-pessoal.md) — documento vivo e fonte única desta trilha.
 
 ---
 
