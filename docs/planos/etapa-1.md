@@ -300,7 +300,7 @@ Estudar: o que viaja numa request (método, URL, headers, body) e numa response 
 
 *Observação:* abrir com `type="module"` direto do arquivo pode esbarrar em CORS dependendo do navegador — se acontecer, rodar `npx serve` na pasta (ou a extensão Live Server do VS Code) e anotar no devlog por que foi preciso.
 
-## Tema 16 — Revisão espaçada + planejamento do projeto — dia sugerido: sáb 18/07
+## Tema 16 — Revisão espaçada + planejamento do projeto ✅ (feito 15/07) — dia sugerido: sáb 18/07
 
 *Parte A — revisão de memória (manhã):*
 
