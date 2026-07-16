@@ -20,7 +20,7 @@ contrato, um `tests.js`.
 | `t06` | `gradeStats` | `ex09.js`, `warmup.js`, `tests.js` |
 | `t07` | `countWords` | `ex10.js`, `drill.js`, `tests.js` |
 | `t08` | Módulos (CommonJS × ESM) | `ex11.js`, `lib.js`, `products.json`, `in-stock.json`, `tests.js` |
-| `t09` | Erros e validção | `ex12.js`, `tests.js` |
+| `t09` | Erros e validação | `ex12.js`, `tests.js` |
 | `t10` | Assíncrono (then/catch) | `ex13.js`, `tests.js` |
 | `t11` | Assíncrono (promise, async/await) | `ex14.js`, `tests.js` |
 | `t12` | `this`, classes, prototype | `ex15.js`, `tests.js` |
