@@ -173,8 +173,11 @@
 7. ESM = import/export (é o que uso aqui no T15); CommonJS = require/module.exports (é o que usei no T8, em Node sem type: module). Mesma ideia — exportar e importar entre arquivos — sintaxes diferentes. Com isso tive que colocar type="module" no script do index.html para ele entender que os scripts eram em ESM
 8. Precisei utilizar o live server devido ao CORS bloquear pois não tinha origem (file://)
 
+### T16
+1. Ficou mais fácil resolver os exercicios.
+
 **Fechamento**
 
 - O que aprendi: HTTP request, response, metodos, status, JSON e devtools.
-- Travei/faltou: usei um await sem colocar async no inicio da fn e isso estava quebrando
-- Amanhã:
+- Travei/faltou: usei um await sem colocar async no inicio da fn e isso estava quebrando. this/arrow, slice/splice, sort
+- Amanhã: T17

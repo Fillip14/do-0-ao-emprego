@@ -278,7 +278,7 @@ Estudar: `document.querySelector`, `createElement`, `appendChild`, `element.remo
 
 *Verificação:* checklist manual das 5 linhas da tabela no navegador + console do DevTools sem NENHUM erro vermelho. Marcar no devlog.
 
-## Tema 15 — HTTP na prática — dia sugerido: sex 17/07
+## Tema 15 — HTTP na prática ✅ (feito 15/07) — dia sugerido: sex 17/07
 
 Estudar: o que viaja numa request (método, URL, headers, body) e numa response (status, headers, body); métodos GET/POST/PUT/DELETE; famílias de status 2xx/4xx/5xx e os clássicos 200, 201, 301, 404, 500; JSON como corpo; **DevTools aba Network** (encontrar a request do fetch, ver status e response). No devlog: explicar com suas palavras 404 vs 500 (foi fraqueza sua na avaliação de nível — hora de matar).
 
