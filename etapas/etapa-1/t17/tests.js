@@ -8,15 +8,15 @@ const task2 = 'Task 2';
 assert.deepStrictEqual(addTask([], task1), [{ id: 1, title: 'Task 1', done: false }]);
 assert.deepStrictEqual(completeTask(tasks, 1), [{ id: 1, title: 'Task 1', done: true }]);
 assert.deepStrictEqual(tasks, [{ id: 1, title: 'Task 1', done: false }]);
-// assert.deepStrictEqual(removeTask(tasks, 1), []);
+assert.deepStrictEqual(removeTask(tasks, 1), []);
 
 assert.deepStrictEqual(completeTask(completeTask(tasks, 1), 1), [
   { id: 1, title: 'Task 1', done: false },
 ]);
 
-// assert.deepStrictEqual(removeTask(addTask(tasks, 'Task 2'), 1), [
-//   { id: 2, title: 'Task 2', done: false },
-// ]);
+assert.deepStrictEqual(removeTask(addTask(tasks, 'Task 2'), 1), [
+  { id: 2, title: 'Task 2', done: false },
+]);
 
 assert.throws(
   () => addTask([], ''),
@@ -28,9 +28,9 @@ assert.throws(
   (err) => err.message === 'task not found',
 );
 
-// assert.throws(
-//   () => removeTask(tasks, 2),
-//   (err) => err.message === 'task not found',
-// );
+assert.throws(
+  () => removeTask(tasks, 2),
+  (err) => err.message === 'task not found',
+);
 
 console.log('Todos testes passaram');
