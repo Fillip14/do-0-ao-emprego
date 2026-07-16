@@ -315,7 +315,7 @@ Estudar: o que viaja numa request (método, URL, headers, body) e numa response 
 2. `lib.js` — só as assinaturas (corpo `// TODO`), 1 comentário por função: entrada → saída.
 3. `tests.js` — asserts escritos porém comentados (sua lista de "o que falta passar").
 
-## Tema 17 — Projeto: gerenciador de tarefas WEB — dia sugerido: dom 19/07
+## Tema 17 — Projeto: gerenciador de tarefas WEB ✅ (feito 16/07) — dia sugerido: dom 19/07
 
 Interface no navegador, lógica testada em Node — o mesmo core serve os dois mundos.
 

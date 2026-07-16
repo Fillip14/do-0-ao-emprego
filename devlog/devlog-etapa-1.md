@@ -186,7 +186,7 @@
 
 **Anotações**
 
-### T17
+### T17 e T18
 1. Manter dados no localStorage como persistencia, load/save.
 2. Separação de funções para cada fn, handler, etc.
 
@@ -194,4 +194,4 @@
 
 - O que aprendi: Manter dados no localStorage.
 - Travei/faltou: nada
-- Amanhã: T18
+- Amanhã: Etapa 2
