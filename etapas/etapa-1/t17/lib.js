@@ -21,18 +21,15 @@ export const completeTask = (tasks, id) => {
   const task = tasks.find((task) => task.id === id);
   if (!task) throw new Error('task not found');
 
-  // const listTasks = structuredClone(
-  //   tasks.map((task) => (task.id === id ? { ...task, done: !task.done } : task)),
-  // );
-
-  return tasks.map((task) => (task.id === id ? { ...task, done: !task.done } : task));
+  return tasks.map((task) => {
+    if (task.id === id) task.done = task.done ? false : true;
+    return task;
+  });
 };
 
 export const removeTask = (tasks, id) => {
   const task = tasks.find((task) => task.id === id);
   if (!task) throw new Error('task not found');
-
-  // const listTasks = structuredClone(tasks.filter((task) => task.id !== id));
 
   return tasks.filter((task) => task.id !== id);
 };
