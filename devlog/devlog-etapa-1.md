@@ -181,3 +181,17 @@
 - O que aprendi: HTTP request, response, metodos, status, JSON e devtools.
 - Travei/faltou: usei um await sem colocar async no inicio da fn e isso estava quebrando. this/arrow, slice/splice, sort
 - Amanhã: T17
+
+## 16/07 - Temas 17 e 18
+
+**Anotações**
+
+### T17
+1. Manter dados no localStorage como persistencia, load/save.
+2. Separação de funções para cada fn, handler, etc.
+
+**Fechamento**
+
+- O que aprendi: Manter dados no localStorage.
+- Travei/faltou: nada
+- Amanhã: T18
