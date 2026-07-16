@@ -321,7 +321,7 @@ Interface no navegador, lógica testada em Node — o mesmo core serve os dois m
 
 *Arquivos:* `t17/index.html`, `t17/style.css`, `t17/lib.js` (lógica pura, ESM), `t17/app.js` (DOM + storage), `t17/tests.js` (roda com `node tests.js`), `t17/package.json` com `{ "type": "module" }` (para o Node aceitar import/export), `t17/requirements.md` (do T16).
 
-*Formato da tarefa:* `{ id: number, title: string, done: boolean }`. `id` = maior id existente + 1 (lista vazia → 1). Ids NÃO são reaproveitados após remoção.
+*Formato da tarefa:* `{ id: number, title: string, done: boolean }`. `id` = maior id existente + 1 (lista vazia → 1). É **max+1**, não um contador monotônico — logo ids PODEM ser reaproveitados após remoção (ex.: `[1,2]` → remove `2` → add → id `2` de novo).
 
 *Contratos de `lib.js`* (funções puras: recebem array, retornam ARRAY NOVO, nunca mutam, nunca tocam DOM nem storage; exportadas com `export`):
 
@@ -338,7 +338,7 @@ Interface no navegador, lógica testada em Node — o mesmo core serve os dois m
 
 *Comportamento na página:* igual ao T14 (adicionar/toggle/remover, input inválido não cria) + **sobrevive a F5** (localStorage).
 
-*O que os testes cobrem (`node tests.js`, SÓ a lib):* as 3 operações; os 2 erros com `assert.throws` (conferindo mensagem); imutabilidade (array de entrada intacto após cada chamada); id não reaproveitado (add → remove → add: id novo); toggle duplo volta ao original.
+*O que os testes cobrem (`node tests.js`, SÓ a lib):* as 3 operações; os 2 erros com `assert.throws` (conferindo mensagem); imutabilidade (array de entrada intacto após cada chamada); id = max+1 (remover o maior e adicionar de novo → id reaproveitado; lista vazia → 1); toggle duplo volta ao original.
 
 *Processo:* commits pequenos — um por função da lib que passa nos testes + um por comportamento da página funcionando (mínimo 5 commits).
 

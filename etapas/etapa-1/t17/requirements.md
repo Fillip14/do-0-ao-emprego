@@ -31,8 +31,7 @@
 1. Testar as 3 functions;
 2. Testar os 2 erros com assert.throws
 3. Imutabilidade
-4. Id não reaproveitado
-5. Toggle duplo
+4. Toggle duplo
 
 ## Outros
 1. F5 sobrevive pelo localStorage
