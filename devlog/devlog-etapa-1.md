@@ -186,9 +186,12 @@
 
 **Anotações**
 
-### T17 e T18
+### T17
 1. Manter dados no localStorage como persistencia, load/save.
 2. Separação de funções para cada fn, handler, etc.
+
+## T18
+1. Releitura T1–T17: tudo relido e observado, nenhuma divergencia.
 
 **Fechamento**
 
