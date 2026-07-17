@@ -54,7 +54,7 @@ Progresso geral do plano de 6 meses. A única data fixa de cada etapa é a **ava
 ```
 Etapa 0 · Rigor e Git                 ██████████████████████  100%  ✅ aprovada
 Etapa 1 · JS sólido + fundamentos web ██████████████████████  100%  ✅ aprovada
-Etapa 2 · Back-end (Node/Express/TS)  ░░░░░░░░░░░░░░░░░░░░░░    0%  🔨 em andamento
+Etapa 2 · Back-end (Node/Express/TS)  █░░░░░░░░░░░░░░░░░░░░░    5%  🔨 em andamento
 Etapa 3 · Front-end (React)           ░░░░░░░░░░░░░░░░░░░░░░    0%  🔒 bloqueada
 Etapa 4 · Capstone "reclame aqui"     ░░░░░░░░░░░░░░░░░░░░░░    0%  🔒 bloqueada
 Etapa 5 · Portfólio e busca           ░░░░░░░░░░░░░░░░░░░░░░    0%  🔒 bloqueada
@@ -124,6 +124,7 @@ Catálogo dia a dia do que foi estudado.
 | Data | Conteúdo estudado |
 |:---:|---|
 | 16/07 | **Abertura da etapa** — plano de 5 semanas criado (blocos por tema); decisões de ferramenta: Bruno e Vitest |
+| 17/07 | **S1 — HTTP puro** — primeiro servidor com `node:http`: `createServer`, `req.method`/`req.url`, `statusCode`, header `Content-Type`, `server.listen` |
 
 > 💡 A matéria-prima detalhada de cada dia está no devlog de cada etapa, em [`etapas/`](etapas/).
 
