@@ -1,6 +1,6 @@
 # Cronograma de Etapas — Do 0 ao Emprego
 
-Baseado na avaliação de 06/07/2026. **Rotina definida em 07/07:** projeto seg–sex 8h–17h + 4h no sábado + 4h no domingo (~45h/semana; trabalho no laboratório 19h–22h). É mais tempo que o cenário original (~35h) — as durações das etapas ficam mantidas e a folga vira profundidade e margem de segurança, não pressa.
+Baseado na avaliação de 06/07/2026. **Rotina definida em 07/07:** projeto seg–sex 8h–17h + 4h no sábado + 4h no domingo (~45h/semana).
 
 ## Diagnóstico consolidado
 
@@ -15,18 +15,6 @@ Node + Express + TypeScript no back, React no front, PostgreSQL no banco. Motivo
 ## Etapas
 
 Regras transversais: commits diários no GitHub desde a Etapa 0 · uso de IA segue a Trilha de IA (abaixo) · ao final de cada etapa me avise, eu avalio e libero (ou não) a próxima.
-
-**Formato de enunciado (padrão a partir de 11/07/2026, vale para toda etapa futura):** todo exercício dos planos de etapa traz **Arquivos** (nomes exatos), **Contrato** (entrada → saída, tipos, casos de fronteira), **Erros** (mensagens exatas quando houver `throw`), **Exemplos** concretos e **O que os testes cobrem** (lista fechada). Dúvida de enunciado → perguntar antes de codar (não é cola). Se um enunciado do Claude estiver ambíguo, o erro decorrente não conta contra o Fillip.
-
-**Ritmo (padrão desde a Etapa 1, estendido às demais etapas em 07/2026):** plano organizado por unidades com dia sugerido, não por datas fixas. A unidade muda com o tipo de etapa: **temas** em etapas de fundamento (Etapa 1), **marcos de entrega** em etapas de projeto (Etapas 2–4: pedaço do projeto funcionando de ponta a ponta, ex. "rotas GET/POST no ar", "PostgreSQL conectado") e **entregáveis** na Etapa 5 (LinkedIn pronto, currículo pronto, X aplicações/semana). Unidade seguinte só abre com a atual **selada** (DoD): tests verdes rodados na hora com caso negativo · revisão do Claude zerada · devlog no ato · pergunta-selo respondida sem consulta · commit pushed. Quantas unidades couberem no dia.
-
-**Devlog (padrão a partir da Etapa 2, decidido 16/07):** registra só o fechamento do dia + travas/erros de previsão — a evidência do processo. Explicações de referência ("o que cada método/ferramenta faz") vão direto para o resumo da etapa, não para o devlog: evita escrever a mesma coisa em dois lugares.
-
-**Anti-atraso (3 camadas, vale para toda etapa):**
-
-1. **Âncora única:** só a data da **avaliação** da etapa é fixa (ex. 21/07 na Etapa 1). Dentro da etapa, tudo flutua — é o único compromisso de calendário e é o que protege os 6 meses. Mover a âncora só por recalibragem explícita registrada no plano (feito 1x na Etapa 1: 20→21/07, para incluir this/classes).
-2. **Checkpoint semanal (sexta, no fechamento do dia):** comparar unidades seladas vs. dias sugeridos. Semáforo: **verde** = no ritmo ou adiantado; **amarelo** = 1–2 unidades atrás → plano de recuperação escrito no devlog (o quê, quando); **vermelho** = 3+ unidades atrás → recalibragem obrigatória na conversa oficial da etapa: cortar escopo ou mover a avaliação — decisão explícita e registrada no plano, nunca atraso silencioso.
-3. **Folga declarada:** os últimos ~10–15% de cada etapa são buffer sem conteúdo novo (revisão/margem). Consumir o buffer antes da hora = sinal amarelo automático. Atraso come a folga, não o prazo.
 
 ### Etapa 0 — Rigor e Git (semana 1: 08–14/07)
 
@@ -99,4 +87,4 @@ Presença pública é ativo de empregabilidade, construída em camadas: perfil �
 
 - Mudança de interesse no meio do caminho → a regra da stack travada existe para isso. Anote a ideia nova num `ideias-depois.md` e volte ao plano.
 - Distração → estude com celular fora do alcance em blocos de 50min + 10min de pausa; YouTube/WhatsApp nas pausas.
-- Constância → o commit diário é o termômetro: dia sem commit é dia para me contar o que houve, sem culpa — dado, não derrota.
+- Constância
