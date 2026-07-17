@@ -1,15 +1,22 @@
-import { createServer } from 'node:http';
+import express from 'express';
 
-const hostname = '127.0.0.1';
+const app = express();
 const port = process.env.PORT || 3000;
 
-const server = createServer((req, res) => {
-  console.log(req.method, req.url);
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'application/json');
-  res.end('{ "ok": true }');
+app.use(express.json());
+
+const tasks = [];
+
+app.get('/tasks', (req, res) => {
+  res.json(tasks);
 });
 
-server.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
+app.post('/tasks', (req, res) => {
+  const newTask = { id: crypto.randomUUID(), title: req.body.titulo };
+  tasks.push(newTask);
+  res.status(201).json(newTask);
+});
+
+app.listen(port, () => {
+  console.log(`Server running at http://localhost:${port}/`);
 });
