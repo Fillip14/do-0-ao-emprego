@@ -22,7 +22,7 @@ A API sobe em `http://localhost:3000`.
 | Método | Caminho | O que faz | Body | Resposta |
 |---|---|---|---|---|
 | GET | /tasks | Obtém as tarefas salvas em array (não persiste no momento) | Vazio | 200 + array de tarefas |
-| POST | /tasks | Salva a tarefa num array (não persiste no momento) | `{"title": "..."}` | 200 + array de tarefas |
+| POST | /tasks | Salva a tarefa num array (não persiste no momento) | `{"title": "..."}` | 201 + {"id": "<uuid>", "title": "..."}|
 
 ## Testando
 
