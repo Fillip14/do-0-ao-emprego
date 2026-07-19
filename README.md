@@ -54,7 +54,7 @@ Progresso geral do plano de 6 meses. A única data fixa de cada etapa é a **ava
 ```
 Etapa 0 · Rigor e Git                 ██████████████████████  100%  ✅ aprovada
 Etapa 1 · JS sólido + fundamentos web ██████████████████████  100%  ✅ aprovada
-Etapa 2 · Back-end (Node/Express/TS)  ████░░░░░░░░░░░░░░░░░░   20%  🔨 em andamento
+Etapa 2 · Back-end (Node/Express/TS)  ████████████░░░░░░░░░░   55%  🔨 em andamento
 Etapa 3 · Front-end (React)           ░░░░░░░░░░░░░░░░░░░░░░    0%  🔒 bloqueada
 Etapa 4 · Capstone "reclame aqui"     ░░░░░░░░░░░░░░░░░░░░░░    0%  🔒 bloqueada
 Etapa 5 · Portfólio e busca           ░░░░░░░░░░░░░░░░░░░░░░    0%  🔒 bloqueada
@@ -82,14 +82,14 @@ Organização própria: **5 semanas, cada uma com um entregável que funciona** 
 | Semana | Foco | Entregável | Status |
 |:---:|---|---|:---:|
 | **S1** (16–17/07) | Node e Express | API de tarefas em memória: GET lista + POST cria, testada no Bruno | ✅ |
-| **S2** (a partir de 20/07) | REST completo + testes | CRUD `/tasks` com validação, formato de erro consistente e suíte Vitest | ⬜ |
+| **S2** (18–19/07) | REST completo + testes | CRUD `/tasks` com validação, formato de erro consistente e suíte Vitest | ✅ |
 | **S3** (30/07–05/08) | PostgreSQL | API persistindo no banco via `pg`, queries 100% parametrizadas | ⬜ |
 | **S4** (06–12/08) | TypeScript | API migrada para TS com `strict` ligado, testes verdes | ⬜ |
 | **S5** (13–19/08) | Deploy e robustez | API pública no ar + auto-ataque + README completo | ⬜ |
 
 > Ferramentas escolhidas (e justificadas no devlog): cliente HTTP **Bruno** (collections `.yml` commitadas em `api/bruno/`) · testes com **Vitest**.
 
-> ⚡ **S1 fechou em 2 dias** (checkpoint verde, 5 dias de folga) — a S2 foi antecipada para 20/07. As datas das semanas são teto, não meta; a avaliação pode antecipar.
+> ⚡ **S1 fechou em 2 dias** (checkpoint verde) e a **S2 também** (18–19/07): CRUD completo, formato de erro unificado, suíte Vitest 15/15 e collection do Bruno com casos de erro — **10 dias à frente do cronograma**. As datas das semanas são teto, não meta; a avaliação pode antecipar.
 
 **Legenda:** ✅ concluída · ⏳ em andamento · ⬜ a fazer
 
@@ -127,6 +127,8 @@ Catálogo dia a dia do que foi estudado.
 |:---:|---|
 | 16/07 | **Abertura da etapa** — plano de 5 semanas criado (blocos por tema); decisões de ferramenta: Bruno e Vitest |
 | 17/07 | **S1 — do HTTP puro à API no Express** — servidor com `node:http` (`createServer`, `req.method`/`req.url`, `statusCode`, `server.listen`); projeto npm (`npm init`, scripts `start`/`dev`, dependencies vs devDependencies); Express: `GET /tasks` + `POST /tasks` (array em memória, `express.json()`, status 201, id com `crypto.randomUUID`, middleware de log); collection do Bruno commitada e README da API. **Entregável 1 concluído — checkpoint verde** |
+| 18/07 | **S2 — CRUD, erros e testes** — contrato REST das 5 rotas selado (PATCH vs PUT justificado, DELETE 200 + mensagem); CRUD completo fiel ao contrato; formato de erro `{message}` estilo GitHub, validação de `title` extraída como middleware de rota, 404 coringa e handler de erro 4-params (`err.status \|\| 500`); `app.js`/`server.js` separados; **Vitest + supertest**: suíte com 15 testes verdes cobrindo o contrato inteiro — um teste achou bug real (`req.body` undefined) e `beforeEach` resolveu estado sujo entre testes |
+| 19/07 | **S2 — fechamento (bloco D)** — collection do Bruno completa: 5 operações + casos de erro (título inválido, 404, JSON quebrado com `Content-Type` manual) e variável `{{taskId}}`; README da API atualizado com o contrato completo e formato de erro; resumo de estudos das semanas 1–2. **Entregável 2 concluído** |
 
 > 💡 A matéria-prima detalhada de cada dia está no devlog de cada etapa, em [`etapas/`](etapas/).
 
