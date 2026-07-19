@@ -4,7 +4,7 @@ const app = express();
 
 app.use(express.json());
 app.disable('x-powered-by');
-const tasks = [];
+export const tasks = [];
 
 app.use((req, res, next) => {
   console.log(req.method, req.url);
@@ -12,7 +12,7 @@ app.use((req, res, next) => {
 });
 
 const validateTitle = (req, res, next) => {
-  const title = req.body.title;
+  const title = req.body?.title;
 
   if (typeof title !== 'string' || title.trim() === '')
     return res.status(400).json({ message: 'Invalid title' });
@@ -66,11 +66,10 @@ app.delete('/tasks/:id', (req, res) => {
 });
 
 app.use((req, res) => {
-  res.status(404).json({ message: 'Not Found' });
+  res.status(404).json({ message: 'Not found' });
 });
 
 app.use((err, req, res, next) => {
-  console.error(err);
   res.status(err.status || 500).json({ message: 'An unexpected error occurred' });
 });
 
