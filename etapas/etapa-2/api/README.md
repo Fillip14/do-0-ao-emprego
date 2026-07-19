@@ -4,7 +4,7 @@ Uma API desenvolvida para o plano desta etapa a qual faz parte do projeto maior 
 
 ## Stack
 
-Utiliza node com express. Padrão ESM.
+Utiliza Node.js com Express. Padrão ESM.
 
 ## Como rodar
 
@@ -21,9 +21,16 @@ A API sobe em `http://localhost:3000`.
 
 | Método | Caminho | O que faz | Body | Resposta |
 |---|---|---|---|---|
-| GET | /tasks | Obtém as tarefas salvas em array (não persiste no momento) | Vazio | 200 + array de tarefas |
-| POST | /tasks | Salva a tarefa num array (não persiste no momento) | `{"title": "..."}` | 201 + {"id": "<uuid>", "title": "..."}|
+| GET | /tasks | Obtém as tarefas salvas em array | Vazio | 200 + array de tarefas |
+| GET | /tasks/:id | Obtém a tarefa específica pelo id | Vazio | 200 + {"id": "<uuid>", "title": "..."} |
+| POST | /tasks | Salva a tarefa num array | `{"title": "..."}` | 201 + {"id": "<uuid>", "title": "..."}|
+| PATCH | /tasks/:id | Atualiza o title de uma tarefa | `{"title": "..."}` | 200 + {"id": "<uuid>", "title": "..."}|
+| DELETE | /tasks/:id | Deleta uma task pelo id | Vazio | 200 + {message: "Removed"} |
+
+Todos os erros respondem `{"message": "..."}` com o status adequado (400, 404 ou 500). As tarefas ficam em array na memória — reiniciar o servidor limpa a lista (persistência chega com PostgreSQL na semana 3).
 
 ## Testando
 
-A pasta bruno/ contém uma collection do Bruno (https://www.usebruno.com) com as requisições prontas — abra no app e dispare
+A pasta bruno/ contém uma collection do Bruno (https://www.usebruno.com) com as requisições prontas — abra no app e dispare, incluindo os casos de erro.
+
+`npm test` roda a suíte com 15 testes (Vitest + supertest), cobrindo sucesso e erro de todas as rotas.

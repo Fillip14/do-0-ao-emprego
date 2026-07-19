@@ -1,0 +1,18 @@
+info:
+  name: postBrokenJson
+  type: http
+  seq: 8
+
+http:
+  method: POST
+  url: http://localhost:3000/tasks
+  body:
+    type: text
+    data: "{quebrado"
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
