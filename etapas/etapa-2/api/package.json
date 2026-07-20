@@ -8,15 +8,21 @@
   "main": "server.js",
   "scripts": {
     "test": "PGHOST=/var/run/postgresql PGDATABASE=tasks_test vitest",
-    "start": "PGHOST=/var/run/postgresql PGDATABASE=tasks node server.js",
-    "dev": "PGHOST=/var/run/postgresql PGDATABASE=tasks node --watch server.js"
+    "start": "PGHOST=/var/run/postgresql PGDATABASE=tasks node dist/server.js",
+    "dev": "PGHOST=/var/run/postgresql PGDATABASE=tasks node --watch server.js",
+    "build": "tsc"
   },
   "dependencies": {
     "express": "^5.2.1",
     "pg": "^8.22.0"
   },
   "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.1.1",
+    "@types/pg": "^8.20.0",
+    "@types/supertest": "^7.2.1",
     "supertest": "^7.2.2",
+    "typescript": "^7.0.2",
     "vitest": "^4.1.10"
   }
 }

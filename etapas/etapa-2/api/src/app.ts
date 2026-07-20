@@ -1,17 +1,17 @@
-import express from 'express';
+import express, { type NextFunction, type Response, type Request } from 'express';
 import { query } from './db.js';
 
 const app = express();
 
-app.use(express.json());
 app.disable('x-powered-by');
+app.use(express.json());
 
-app.use((req, res, next) => {
+app.use((req: Request, res: Response, next: NextFunction) => {
   console.log(req.method, req.url);
   next();
 });
 
-const validateTitle = (req, res, next) => {
+const validateTitle = (req: Request, res: Response, next: NextFunction) => {
   const title = req.body?.title;
 
   if (typeof title !== 'string' || title.trim() === '')
@@ -20,7 +20,7 @@ const validateTitle = (req, res, next) => {
   next();
 };
 
-const validateId = (req, res, next) => {
+const validateId = (req: Request<{ id: string }>, res: Response, next: NextFunction) => {
   const id = req.params.id;
 
   const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -30,12 +30,12 @@ const validateId = (req, res, next) => {
   next();
 };
 
-app.get('/tasks', async (req, res) => {
+app.get('/tasks', async (req: Request, res: Response) => {
   const result = await query('SELECT id, title, done FROM tasks ORDER BY created_at ASC');
   return res.status(200).json(result.rows);
 });
 
-app.get('/tasks/:id', validateId, async (req, res) => {
+app.get('/tasks/:id', validateId, async (req: Request<{ id: string }>, res: Response) => {
   const taskId = req.params.id;
   const result = await query('SELECT id, title, done FROM tasks WHERE id = $1', [taskId]);
 
@@ -44,7 +44,7 @@ app.get('/tasks/:id', validateId, async (req, res) => {
   return res.status(200).json(result.rows[0]);
 });
 
-app.post('/tasks', validateTitle, async (req, res) => {
+app.post('/tasks', validateTitle, async (req: Request, res: Response) => {
   const title = req.body.title;
   const result = await query('INSERT INTO tasks (title) VALUES($1) RETURNING id, title, done', [
     title,
@@ -53,7 +53,7 @@ app.post('/tasks', validateTitle, async (req, res) => {
   return res.status(201).json(result.rows[0]);
 });
 
-app.patch('/tasks/:id', validateId, validateTitle, async (req, res) => {
+app.patch('/tasks/:id', validateId, validateTitle, async (req: Request, res: Response) => {
   const taskId = req.params.id;
   const newTitle = req.body.title;
 
@@ -67,7 +67,7 @@ app.patch('/tasks/:id', validateId, validateTitle, async (req, res) => {
   return res.status(200).json(result.rows[0]);
 });
 
-app.delete('/tasks/:id', validateId, async (req, res) => {
+app.delete('/tasks/:id', validateId, async (req: Request<{ id: string }>, res: Response) => {
   const taskId = req.params.id;
 
   const result = await query('DELETE FROM tasks WHERE id = $1', [taskId]);
@@ -77,11 +77,11 @@ app.delete('/tasks/:id', validateId, async (req, res) => {
   return res.status(200).json({ message: 'Removed' });
 });
 
-app.use((req, res) => {
+app.use((req: Request, res: Response) => {
   res.status(404).json({ message: 'Not found' });
 });
 
-app.use((err, req, res, next) => {
+app.use((err: Error & { status?: number }, req: Request, res: Response, next: NextFunction) => {
   console.error(err);
   res.status(err.status || 500).json({ message: 'An unexpected error occurred' });
 });
