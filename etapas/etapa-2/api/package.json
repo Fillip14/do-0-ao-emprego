@@ -8,11 +8,12 @@
   "main": "server.js",
   "scripts": {
     "test": "vitest",
-    "start": "node server.js",
+    "start": "PGHOST=/var/run/postgresql PGDATABASE=tasks node server.js",
     "dev": "node --watch server.js"
   },
   "dependencies": {
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "pg": "^8.22.0"
   },
   "devDependencies": {
     "supertest": "^7.2.2",
