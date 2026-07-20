@@ -1,9 +1,14 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, afterAll } from 'vitest';
 import request from 'supertest';
-import app, { tasks } from './app.js';
+import app from './app.js';
+import { query, pool } from './db.js';
 
-beforeEach(() => {
-  tasks.length = 0;
+beforeEach(async () => {
+  await query('DELETE FROM tasks');
+});
+
+afterAll(async () => {
+  await pool.end();
 });
 
 describe('GET /tasks', () => {
@@ -11,7 +16,7 @@ describe('GET /tasks', () => {
     const resTest = await request(app).post('/tasks').send({ title: 'Titulo' });
     const res = await request(app).get('/tasks');
     expect(res.status).toBe(200);
-    expect(res.body).toEqual([{ id: resTest.body.id, title: 'Titulo' }]);
+    expect(res.body).toEqual([{ id: resTest.body.id, title: 'Titulo', done: false }]);
   });
 });
 
@@ -20,11 +25,17 @@ describe('GET /tasks/:id', () => {
     const resTest = await request(app).post('/tasks').send({ title: 'Titulo' });
     const res = await request(app).get(`/tasks/${resTest.body.id}`);
     expect(res.status).toBe(200);
-    expect(res.body).toEqual({ id: resTest.body.id, title: 'Titulo' });
+    expect(res.body).toEqual({ id: resTest.body.id, title: 'Titulo', done: false });
   });
 
-  it('responde 404 com message task not found', async () => {
+  it('responde 400 com message Invalid id', async () => {
     const res = await request(app).get(`/tasks/12`);
+    expect(res.status).toBe(400);
+    expect(res.body).toEqual({ message: 'Invalid id' });
+  });
+
+  it('responde 404 com message Task not found', async () => {
+    const res = await request(app).get(`/tasks/00000000-0000-4000-8000-000000000000`);
     expect(res.status).toBe(404);
     expect(res.body).toEqual({ message: 'Task not found' });
   });
@@ -38,8 +49,14 @@ describe('DELETE /tasks/:id', () => {
     expect(res.body).toEqual({ message: 'Removed' });
   });
 
-  it('responde 404 com message task not found', async () => {
+  it('responde 400 com message Invalid id', async () => {
     const res = await request(app).delete(`/tasks/12`);
+    expect(res.status).toBe(400);
+    expect(res.body).toEqual({ message: 'Invalid id' });
+  });
+
+  it('responde 404 com message Task not found', async () => {
+    const res = await request(app).delete(`/tasks/00000000-0000-4000-8000-000000000000`);
     expect(res.status).toBe(404);
     expect(res.body).toEqual({ message: 'Task not found' });
   });
@@ -49,7 +66,7 @@ describe('POST /tasks', () => {
   it('responde 201 com objeto contendo id e title', async () => {
     const res = await request(app).post('/tasks').send({ title: 'Titulo' });
     expect(res.status).toBe(201);
-    expect(res.body).toMatchObject({ title: 'Titulo' });
+    expect(res.body).toMatchObject({ title: 'Titulo', done: false });
     expect(res.body.id).toEqual(expect.any(String));
   });
 
@@ -71,16 +88,18 @@ describe('POST /tasks', () => {
     expect(res.body).toEqual({ message: 'Invalid title' });
   });
 
-  it('responde 404 com message not found em rota inexistente', async () => {
-    const res = await request(app).post(`/tasks/12`);
-    expect(res.status).toBe(404);
-    expect(res.body).toEqual({ message: 'Not found' });
-  });
-
   it('responde 400 com message invalid title sem .send', async () => {
     const res = await request(app).post(`/tasks`);
     expect(res.status).toBe(400);
     expect(res.body).toEqual({ message: 'Invalid title' });
+  });
+});
+
+describe('rota inexistente', () => {
+  it('responde 404 com message Not found', async () => {
+    const res = await request(app).post(`/tasks/12`);
+    expect(res.status).toBe(404);
+    expect(res.body).toEqual({ message: 'Not found' });
   });
 });
 
@@ -91,19 +110,13 @@ describe('PATCH /tasks/:id', () => {
       .patch(`/tasks/${resTest.body.id}`)
       .send({ title: 'Novo titulo' });
     expect(res.status).toBe(200);
-    expect(res.body).toEqual({ id: resTest.body.id, title: 'Novo titulo' });
+    expect(res.body).toEqual({ id: resTest.body.id, title: 'Novo titulo', done: false });
   });
 
-  it('responde 400 com message invalid title', async () => {
+  it('responde 400 com message Invalid id — id inválido tem prioridade sobre título inválido', async () => {
     const res = await request(app).patch(`/tasks/12`).send({ title: '' });
     expect(res.status).toBe(400);
-    expect(res.body).toEqual({ message: 'Invalid title' });
-  });
-
-  it('responde 404 com message task not found', async () => {
-    const res = await request(app).patch(`/tasks/12`).send({ title: 'Novo titulo' });
-    expect(res.status).toBe(404);
-    expect(res.body).toEqual({ message: 'Task not found' });
+    expect(res.body).toEqual({ message: 'Invalid id' });
   });
 
   it('responde 400 com message An unexpected error occurred', async () => {
@@ -114,5 +127,13 @@ describe('PATCH /tasks/:id', () => {
 
     expect(res.status).toBe(400);
     expect(res.body).toEqual({ message: 'An unexpected error occurred' });
+  });
+
+  it('responde 404 com message Task not found', async () => {
+    const res = await request(app)
+      .patch(`/tasks/00000000-0000-4000-8000-000000000000`)
+      .send({ title: 'Novo titulo' });
+    expect(res.status).toBe(404);
+    expect(res.body).toEqual({ message: 'Task not found' });
   });
 });
