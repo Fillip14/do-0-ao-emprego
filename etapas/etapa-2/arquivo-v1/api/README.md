@@ -4,7 +4,9 @@ Uma API desenvolvida para o plano desta etapa a qual faz parte do projeto maior 
 
 ## Stack
 
-Node.js com Express (padrão ESM) e PostgreSQL, acessado pelo driver `pg` com pool de conexões. Testes com Vitest + supertest.
+Node.js com Express (padrão ESM), **TypeScript com `strict` ligado** e PostgreSQL, acessado pelo driver `pg` com pool de conexões. Testes com Vitest + supertest.
+
+O código-fonte fica em `src/` (`.ts`) e o `tsc` gera o JavaScript executável em `dist/` — é o `dist/` que o Node roda, e ele não é versionado.
 
 ## Banco de dados
 
@@ -56,10 +58,19 @@ Elas já vêm definidas nos scripts do `package.json`, então `npm start` e `npm
 git clone https://github.com/Fillip14/do-0-ao-emprego.git
 cd do-0-ao-emprego/etapas/etapa-2/api
 npm install
+npm run build
 npm start
 ```
 
 A API sobe em `http://localhost:3000`.
+
+| Script | O que faz |
+|---|---|
+| `npm run build` | compila `src/*.ts` para `dist/` (obrigatório antes do `start`) |
+| `npm start` | roda `dist/server.js` |
+| `npm test` | roda a suíte no banco `tasks_test` |
+
+O Vitest lê os arquivos `.ts` direto, **sem checar tipos**. Suíte verde não significa TypeScript limpo — quem valida isso é `npx tsc --noEmit`.
 
 ## Rotas
 
@@ -82,11 +93,22 @@ Todos os erros respondem `{"message": "..."}`:
 | 400 | `title` ausente, vazio ou não-string | `{"message": "Invalid title"}` |
 | 400 | id fora do formato UUID (validado antes de chegar ao banco) | `{"message": "Invalid id"}` |
 | 400 | JSON malformado no corpo | `{"message": "An unexpected error occurred"}` |
+| 400 | erro do Postgres causado pelo cliente (`22P02` tipo inválido, `23514` restrição violada) | `{"message": "Invalid request data"}` |
 | 404 | id válido, mas inexistente | `{"message": "Task not found"}` |
 | 404 | rota não registrada | `{"message": "Not found"}` |
 | 500 | falha inesperada (banco fora do ar, erro de query) | `{"message": "An unexpected error occurred"}` |
 
 Id malformado e id inexistente são casos distintos: o primeiro é barrado na validação de entrada (400), o segundo é a ausência de linhas afetadas pela query (404).
+
+O mapeamento de `err.code` do Postgres para 400 é uma **segunda camada de defesa**: hoje `validateId` e a validação de `title` barram esses casos antes de chegar ao banco, então ele não é alcançável pelas rotas atuais. Existe para que uma query ou restrição futura não vire 500 silenciosamente.
+
+## Validação e tipos
+
+TypeScript garante formato em tempo de compilação; nas bordas da aplicação (URL, corpo da requisição, resposta do banco) o tipo é apenas uma declaração de intenção. Por isso a validação em runtime continua:
+
+- `validateId` — regex de UUID sobre `req.params.id`
+- `hasValidTitle` — *type predicate* (`body is { title: string }`): checa o corpo em runtime **e** estreita o tipo para o compilador
+- `query<T>` — o generic informa o formato esperado das linhas; não verifica o que o banco devolve
 
 ## Persistência
 

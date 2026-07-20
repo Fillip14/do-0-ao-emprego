@@ -1,5 +1,6 @@
 import express, { type NextFunction, type Response, type Request } from 'express';
 import { query } from './db.js';
+import { hasValidTitle } from './validators.js';
 
 const app = express();
 
@@ -12,10 +13,9 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 });
 
 const validateTitle = (req: Request, res: Response, next: NextFunction) => {
-  const title = req.body?.title;
-
-  if (typeof title !== 'string' || title.trim() === '')
+  if (!hasValidTitle(req.body)) {
     return res.status(400).json({ message: 'Invalid title' });
+  }
 
   next();
 };
@@ -44,28 +44,37 @@ app.get('/tasks/:id', validateId, async (req: Request<{ id: string }>, res: Resp
   return res.status(200).json(result.rows[0]);
 });
 
-app.post('/tasks', validateTitle, async (req: Request, res: Response) => {
-  const title = req.body.title;
-  const result = await query('INSERT INTO tasks (title) VALUES($1) RETURNING id, title, done', [
-    title,
-  ]);
+app.post(
+  '/tasks',
+  validateTitle,
+  async (req: Request<unknown, unknown, { title: string }>, res: Response) => {
+    const title = req.body.title;
+    const result = await query('INSERT INTO tasks (title) VALUES($1) RETURNING id, title, done', [
+      title,
+    ]);
+    console.log(result.rows[0]);
+    return res.status(201).json(result.rows[0]);
+  },
+);
 
-  return res.status(201).json(result.rows[0]);
-});
+app.patch(
+  '/tasks/:id',
+  validateId,
+  validateTitle,
+  async (req: Request<{ id: string }, unknown, { title: string }>, res: Response) => {
+    const taskId = req.params.id;
+    const newTitle = req.body.title;
 
-app.patch('/tasks/:id', validateId, validateTitle, async (req: Request, res: Response) => {
-  const taskId = req.params.id;
-  const newTitle = req.body.title;
+    const result = await query(
+      'UPDATE tasks SET title = $1 WHERE id = $2 RETURNING id, title, done',
+      [newTitle, taskId],
+    );
 
-  const result = await query(
-    'UPDATE tasks SET title = $1 WHERE id = $2 RETURNING id, title, done',
-    [newTitle, taskId],
-  );
+    if (result.rowCount === 0) return res.status(404).json({ message: 'Task not found' });
 
-  if (result.rowCount === 0) return res.status(404).json({ message: 'Task not found' });
-
-  return res.status(200).json(result.rows[0]);
-});
+    return res.status(200).json(result.rows[0]);
+  },
+);
 
 app.delete('/tasks/:id', validateId, async (req: Request<{ id: string }>, res: Response) => {
   const taskId = req.params.id;
@@ -81,9 +90,20 @@ app.use((req: Request, res: Response) => {
   res.status(404).json({ message: 'Not found' });
 });
 
-app.use((err: Error & { status?: number }, req: Request, res: Response, next: NextFunction) => {
-  console.error(err);
-  res.status(err.status || 500).json({ message: 'An unexpected error occurred' });
-});
+app.use(
+  (
+    err: Error & { status?: number; code?: string },
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => {
+    console.error(err);
+
+    const badRequest = err.code === '22P02' || err.code === '23514';
+    const status = err.status || (badRequest ? 400 : 500);
+
+    res.status(status).json({ message: 'An unexpected error occurred' });
+  },
+);
 
 export default app;

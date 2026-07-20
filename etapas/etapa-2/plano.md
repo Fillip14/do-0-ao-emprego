@@ -1,116 +1,226 @@
 # Etapa 2 — Back-end: Node, Express, TypeScript e banco
 
-> Refeito em 16/07/2026 do zero, usando apenas o cronograma-mestre (`docs/cronograma-etapas.md`) e as regras vivas do projeto. Organização própria desta etapa: **5 semanas, cada uma com um entregável que funciona** — no back-end, "estudei" não conta; "está no ar e responde" conta.
+> **Plano vigente da etapa** · Reinício em **21/07/2026** (decisão do Fillip, 20/07: a v1 da etapa, 16–20/07, foi rápida demais pra fixar — trabalho arquivado em `arquivo-v1/`, etapa recomeça por este plano). · **Avaliação alvo: 28/09/2026, antecipável** no checkpoint semanal.
 
-**Objetivo (do cronograma):** API REST completa de tarefas — rotas, validação, status codes corretos, testada em cliente HTTP — com testes automatizados, PostgreSQL conectado pelo Node, TypeScript sobre o que já funciona em JS, e deploy: o back-end no ar antes do front da Etapa 3.
+## Objetivo
 
-**Decisões de ferramenta (Fillip, 16/07):** cliente HTTP = **Bruno** (no lugar do Postman; collections viram arquivos `.bru` commitáveis no repo — vantagem real pra portfólio) · framework de teste = **Vitest**.
-
-**Início:** 16/07/2026 · **Avaliação alvo:** fim da semana 5 (**19/08**) — pode ser antecipada no checkpoint semanal se os entregáveis vierem antes.
+Construir o **lado do servidor**: uma API REST de tarefas completa — rotas com validação e status corretos, testes automatizados, PostgreSQL, TypeScript strict e deploy — **pública no ar** ao fim da etapa. É ela que a Etapa 3 (React) vai consumir: o front do mês seguinte conversa com a URL que esta etapa entrega, formando o primeiro sistema completo do portfólio.
 
 ## Regras da etapa
 
-- **Trilha de IA — fase REVISOR:** proibido pedir código pronto. Após cada exercício/feature funcionando, pedir um code review à IA (bugs, casos de borda, alternativas), comparar a solução dela com a sua e registrar no devlog o que acatou/recusou e por quê. A habilidade em treino: ler código alheio criticamente.
-- **Commits diários** no GitHub (regra transversal do projeto). Devlog curto por dia — ele também é matéria-prima da trilha de marca pessoal.
-- **Checkpoint semanal** (fim de cada semana, aqui no chat): verde/amarelo/vermelho. Amarelo ou vermelho → replanejamos a semana seguinte e a marca pessoal pausa primeiro.
-- **Watchlist:** zerada na entrada da etapa; itens entram por evidência nova. Drills periódicos + drill amplo antes da avaliação.
-- **Stack travada:** Node + Express + TypeScript + PostgreSQL. Ideia nova no meio do caminho → `ideias-depois.md`.
-- Estrutura: tudo em `etapas/etapa-2/`; a API vive em `api/` e evolui semana a semana no mesmo lugar.
+1. **Trilha de IA — fase REVISOR:** proibido pedir código pronto. A IA explica conceitos, escreve enunciados e faz **code review depois que o seu código funciona** (bugs, casos de borda, alternativas — em formato antes→depois). Quem digita é você.
+2. **Commits diários** no GitHub, push conferido.
+3. **Checkpoint semanal** (verde/amarelo/vermelho) contra a âncora da avaliação. Amarelo/vermelho → replaneja, e a marca pessoal pausa primeiro.
+4. **Stack travada:** Node + Express + TypeScript + PostgreSQL. Ideia nova no meio do caminho → `ideias-depois.md`.
+5. **Decisões técnicas são suas** (formato de erro, PUT×PATCH, plataforma de deploy…), sempre com justificativa — saber defender escolha é matéria de entrevista.
+6. **Testes desde a semana 1** — toda semana tem sua fatia de teste; nunca ficam "pra depois".
+7. **`exercicios.md` no dia 1 de cada semana:** a IA escreve o enunciado completo de todos os exercícios da semana (arquivos, passos, o que esperar ver). O plano diz *o quê*; o `exercicios.md` diz *como*; a pasta guarda o resultado — um arquivo por exercício.
+
+## O que deve existir no final
+
+**A API de tarefas, no ar**, com o CRUD completo:
+
+| Rota | Sucesso | Erros |
+|---|:---:|---|
+| `GET /tasks` · `GET /tasks/:id` | 200 | 400 id inválido · 404 não existe |
+| `POST /tasks` | 201 | 400 entrada inválida |
+| `PUT/PATCH /tasks/:id` · `DELETE /tasks/:id` | 200/204 | 400 · 404 |
+
+E por trás dela: fila de middlewares com erro centralizado (formato único em JSON, nunca crash nem stack trace vazado) · PostgreSQL com pool e queries 100% parametrizadas, schema versionado em migrations · suíte de testes cobrindo sucesso e erro de toda rota · TypeScript strict de ponta a ponta · deploy com banco gerenciado e segredos em env vars, resistente a abuso · README completo com rotas documentadas e URL de produção.
+
+## Estrutura de pastas — uma pasta por semana
+
+Cada semana nasce numa pasta nova, projeto autocontido (`npm install` + `npm start`/`npm test` funcionam nela); a anterior fica congelada como histórico. Recriar a base da semana anterior é revisão embutida. A versão oficial da API (a que vai pro ar e serve a Etapa 3) é a da última semana em que ela é tocada.
+
+```
+etapas/etapa-2/
+├── arquivo-v1/              ← trabalho de 16–20/07 (api/, sql/, resumo, planos antigos) — histórico
+├── semana-01-node/
+│   ├── exercicios.md        ← enunciados da semana (criado no dia 1)
+│   ├── ex03-http-cru.js     ← um arquivo por exercício
+│   └── ...
+├── semana-02-express/
+├── ... (até semana-10-docker-ci/)
+```
+
+## As semanas
+
+> Legenda: **🔨 Ex:** exercício de código · **📖 Verif.:** tópico teórico com verificação rápida (responder/demonstrar prova que entendeu).
+
+### Semana 1 — Node
+
+**Ambiente:** WSL/Ubuntu (projeto DENTRO do WSL) · Node LTS via nvm (nunca o instalador do Windows) · VS Code + extensão WSL · git + `.gitignore` com `node_modules/`.
+
+1. O que é um servidor: um processo vivo escutando uma porta. — 📖 **Verif.:** desenhar o caminho navegador→porta→processo→resposta e apontar onde mora a porta.
+2. Anatomia do HTTP: linha inicial, headers, corpo; métodos; famílias de status. — 📖 **Verif.:** rodar `curl -i` num site real e marcar as 3 partes na saída.
+3. O módulo `node:http` cru: `createServer`, `req`/`res`, `listen`. — 🔨 **Ex:** servidor que responde JSON em `/` e texto em `/sobre`; conferir as 3 partes com `curl -i`.
+4. Streams: `req`/`res` são fluxos, não blocos. — 🔨 **Ex:** logar cada pedaço do body chegando (`req.on('data')`) mandando um corpo grande.
+5. Event loop: uma thread, um evento por vez. — 🔨 **Ex:** rota com `while` de 5s; provar com 2 terminais que ela trava as outras.
+6. `uncaughtException`/`unhandledRejection`. — 🔨 **Ex:** provocar um throw sem try e uma promise sem catch; ver como o processo morre em cada caso.
+7. `process.env`: código vs ambiente. — 🔨 **Ex:** porta vinda de `PORT=4000`, com default quando ausente.
+8. Projeto npm: package.json, lock, scripts, deps × devDeps, semver, `--watch`. — 🔨 **Ex:** projeto do zero com scripts `start`/`dev`; saber explicar cada linha do package.json.
+9. ESM vs CommonJS. — 📖 **Verif.:** alternar o `"type"` do package.json e prever o que quebra ANTES de rodar.
+10. Módulos nativos: `path`, `fs/promises`, `crypto`. — 🔨 **Ex:** script que gera UUID, monta caminho com `path.join` e grava/lê um JSON.
+11. Debugging: `node --inspect` + VS Code. — 🔨 **Ex:** breakpoint dentro do handler; inspecionar `req.url` e headers com o processo pausado.
+12. Testes: Vitest, `describe`/`it`/`expect`. — 🔨 **Ex:** 2 funções puras testadas com caso feliz + caso de borda cada; `npm test` verde.
+
+### Semana 2 — Express
+
+**Ambiente:** pasta nova, projeto npm novo, `npm install express` · curl + Bruno/Postman com collection salva na pasta da semana.
+
+1. O que o Express acrescenta ao `http` cru. — 📖 **Verif.:** reescrever o servidor da S1 em Express e listar 3 coisas que ele fez por você.
+2. `express.json()` e o `req.body`. — 🔨 **Ex:** POST que ecoa o body; remover o middleware e ver o `undefined`.
+3. As três portas: `params` × `query` × `body`. — 🔨 **Ex:** rota que devolve `{params, query, body}` + um curl que preenche os três de uma vez.
+4. Rotas com parâmetro (`/tasks/:id`). — 🔨 **Ex:** GET que devolve o id recebido e o `typeof` dele (surpresa: string).
+5. `express.Router`. — 🔨 **Ex:** mover as rotas de tarefas pra um `tasks.routes.js` plugado com `app.use`.
+6. Semântica REST: verbos e status de escrita. — 📖 **Verif.:** montar de memória a tabela verbo→status do CRUD, justificando 201/204/400/404.
+7. Idempotência. — 📖 **Verif.:** rodar o mesmo DELETE 2x e explicar por que a 2ª resposta muda — e por que está certo.
+8. Resposta bem-feita: 201 + `Location`; 405. — 🔨 **Ex:** POST devolvendo o header `Location`; método errado em rota certa devolvendo 405.
+9. Middleware: `app.use`, ordem, `next()`. — 🔨 **Ex:** logger artesanal (método, url, status, ms); inverter a ordem com `express.json` e observar o efeito.
+10. `morgan`. — 🔨 **Ex:** plugar `morgan('dev')`, comparar com o artesanal e decidir qual fica (justificando).
+11. Validação + erro centralizado. — 🔨 **Ex:** `validateTitle` + handler de 4 parâmetros + 404 coringa; title vazio → 400 no SEU formato de erro.
+12. Erro em handler async (Express 4 × 5). — 🔨 **Ex:** handler async que lança; ver o pedido pendurar (ou não) e corrigir.
+13. Testes: supertest. — 🔨 **Ex:** separar `app` de `server`; suíte com caso feliz + erro de cada rota da semana.
+
+### Semana 3 — TypeScript
+
+**Ambiente:** pasta nova · `typescript` + `@types/*` em devDeps · `tsconfig` strict desde o dia 1 · tsx pra dev + `tsc` → `dist/` pra produção · sub-pasta playground.
+
+1. O que o TS resolve e o que cobra. — 📖 **Verif.:** achar 3 bugs seus de JS (da Etapa 1 vale) que o TS teria pego e dizer como.
+2. Tipos básicos, inferência, `any` vs `unknown`. — 🔨 **Ex:** no playground, deixar inferir, forçar erros de atribuição e comparar `any` × `unknown` no mesmo dado.
+3. `interface`/`type`. — 🔨 **Ex:** modelar `Task`; criar objeto com campo faltando e com campo extra — ler as duas mensagens do compilador.
+4. União e narrowing. — 🔨 **Ex:** função que recebe `string | number`; ver no hover o tipo afunilar dentro do `if`.
+5. União literal no lugar de enum. — 🔨 **Ex:** `status: "todo" | "done"`; atribuir `"doen"` e ver o typo virar erro de compilação.
+6. Tipar funções e bordas (`unknown` até provar o contrário). — 🔨 **Ex:** entrada `unknown` → validação → sai `Task`; sem validar, o compilador barra.
+7. Type predicates. — 🔨 **Ex:** `isTask(x): x is Task`; usar num `if` e ver o `unknown` virar `Task` do outro lado.
+8. Discriminated unions. — 🔨 **Ex:** `Result = {ok:true, task} | {ok:false, error}`; consumir com narrowing exaustivo.
+9. Generics. — 🔨 **Ex:** `firstItem<T>` e um embrulho `ApiResponse<T>`; ver o tipo fluir sem `as`.
+10. Utility types. — 🔨 **Ex:** `Partial<Task>` pro PATCH e `Omit<Task,'id'>` pro POST — derivar em vez de redigitar.
+11. `as` e `satisfies`. — 🔨 **Ex:** mentir um tipo com `as` e provocar o crash em runtime que o compilador engoliu; refazer com `satisfies`.
+12. O `tsconfig`. — 🔨 **Ex:** desligar o `strict`, ver erros sumirem, religar; excluir testes do build e conferir o `dist/`.
+13. Testes em TS. — 🔨 **Ex:** suíte compilando; `tsc --noEmit` rodando ANTES do vitest no script `test`.
+
+### Semana 4 — Banco (PostgreSQL)
+
+**Ambiente:** Postgres via `apt` no WSL (serviço sobe com `sudo service postgresql start`) · role própria + banco · pasta nova com `pg` · `.env` fora do git + `.env.example` no repo.
+
+1. Servidor × cliente: o processo na 5432 e o `psql`. — 📖 **Verif.:** mapear os pares (Postgres↔?, psql↔?) com a API e o Bruno da S2.
+2. Criar banco e tabela: tipos, `NOT NULL`, `DEFAULT`, `CHECK`, PK. — 🔨 **Ex:** criar a tabela `tasks` e violar CADA restrição de propósito, lendo os erros.
+3. Aspas simples × duplas; snake_case. — 📖 **Verif.:** prever o resultado de `SELECT 'title'` vs `SELECT "title"` antes de rodar.
+4. SQL essencial com WHERE; `RETURNING`; `BEGIN`/`ROLLBACK`. — 🔨 **Ex:** ciclo INSERT→SELECT→UPDATE→DELETE; rodar um UPDATE sem WHERE dentro de transação e desfazer.
+5. `NULL` de verdade. — 🔨 **Ex:** inserir NULL e provar que `= NULL` não acha e `IS NULL` acha; `COALESCE` com default.
+6. `LIKE`/`ILIKE`. — 🔨 **Ex:** busca por pedaço do título com `ILIKE '%...%'` — parametrizado.
+7. Agregações. — 🔨 **Ex:** contar tarefas por `done` com `GROUP BY`; filtrar grupos com `HAVING`.
+8. `UNIQUE`, índices, `EXPLAIN`. — 🔨 **Ex:** violar um UNIQUE e ler o erro; criar índice e comparar o `EXPLAIN` antes/depois.
+9. Duas tabelas: FK, `JOIN`, `CASCADE`. — 🔨 **Ex:** tabela `lists` + FK em `tasks`; JOIN listando tarefa+lista; DELETE em cascata visto acontecer.
+10. O `pg`: pool + queries parametrizadas. — 🔨 **Ex:** `db.js` com pool via env; `getAllTasks`/`createTask` com `$1`; script smoke provando.
+11. SQL injection. — 🔨 **Ex:** versão concatenada + entrada maliciosa (ver o estrago numa tabela sacrificável); a mesma entrada na versão `$1` falhando inofensiva.
+12. Transação pelo Node. — 🔨 **Ex:** duas escritas no MESMO client com BEGIN/COMMIT; forçar erro no meio e ver o ROLLBACK salvar.
+13. Testes com banco. — 🔨 **Ex:** banco `_test` + `beforeEach` de limpeza + `afterAll` fechando o pool; suíte verde.
+
+### Semana 5 — Testes a fundo
+
+**Ambiente:** pasta nova · cobertura habilitada (`--coverage`) · supertest já conhecido — semana de técnica, não de ferramenta.
+
+1. A pirâmide: unitário × integração × e2e. — 📖 **Verif.:** classificar seus testes da S4 nas categorias e justificar.
+2. Padrão AAA. — 🔨 **Ex:** refatorar 3 testes seus marcando Arrange/Act/Assert com comentários.
+3. Hooks de ciclo de vida. — 🔨 **Ex:** mover setup repetido pra `beforeEach`; provar com `.only` que cada teste roda sozinho.
+4. Fixtures e factories. — 🔨 **Ex:** `makeTask(overrides)` substituindo todo objeto copiado na suíte.
+5. `it.each`. — 🔨 **Ex:** tabela de títulos inválidos (vazio, número, null, espaços) num teste só.
+6. Dublês: mock, spy, stub. — 🔨 **Ex:** testar uma função que usa o banco passando `vi.fn()` no lugar — e conferir com que argumentos foi chamada.
+7. Tempo falso. — 🔨 **Ex:** função com `setTimeout` testada em 0ms reais com `useFakeTimers` + `advanceTimersByTime`.
+8. Testar o tratador de erro. — 🔨 **Ex:** app de teste com rota que sempre lança; asserts do status e do formato do erro.
+9. `.skip`/`.only`/`.todo`. — 📖 **Verif.:** explicar o que acontece com a suíte no CI se um `.only` for commitado.
+10. Snapshot testing. — 📖 **Verif.:** explicar em 2 frases por que "aprovar sem ler" é a armadilha.
+11. Cobertura. — 🔨 **Ex:** rodar `--coverage`, achar a linha descoberta, escrever o teste que a cobre — e dizer o que os 100% ainda não provam.
+12. TDD. — 🔨 **Ex:** uma função nova (ex.: filtro de tarefas) escrita teste-primeiro: vermelho → verde → refatora.
+13. O que NÃO testar. — 📖 **Verif.:** achar 1 teste seu que testa implementação (ou lib alheia) e dizer o que testaria no lugar.
+14. Property-based. — 📖 **Verif.:** ler um exemplo de fast-check e descrever que casos ele inventaria pro seu validador de título.
+
+### Semana 6 — Arquitetura em camadas + listas de verdade
+
+**Ambiente:** pasta nova já em camadas (`routes/`, `services/`, `repositories/`) · `zod` instalado.
+
+1. Por que separar camadas. — 📖 **Verif.:** dizer qual camada muda se você trocar o Express — e qual muda se trocar o Postgres.
+2. O caminho do pedido pelas camadas. — 📖 **Verif.:** desenhar o fluxo de `GET /tasks?done=true` da rota até o SQL e de volta.
+3. Injeção de dependência. — 🔨 **Ex:** service recebendo o repositório por parâmetro; teste do service com repo falso, sem banco.
+4. Erros de domínio. — 🔨 **Ex:** `NotFoundError` lançado no service; tratador central mapeando classe → 404.
+5. DTO: banco ≠ resposta. — 🔨 **Ex:** repo devolve `created_at`, a API responde `createdAt`; mapper na borda + teste.
+6. Validação com zod. — 🔨 **Ex:** schemas do POST/PATCH com `z.infer` substituindo a validação manual; erro do zod saindo 400 no seu formato.
+7. Paginação. — 🔨 **Ex:** `GET /tasks?page=2&limit=5` com LIMIT/OFFSET + metadados `{total, page}` na resposta.
+8. Cursor vs offset. — 📖 **Verif.:** explicar por que `OFFSET 100000` é caro e como cursor evita.
+9. Filtros e busca. — 🔨 **Ex:** `?done=` e `?q=` combináveis, validados, SQL parametrizado.
+10. Ordenação segura. — 🔨 **Ex:** `?sort=` com whitelist; tentar `?sort=;DROP TABLE tasks` e receber 400.
+
+### Semana 7 — Migrations + ORM
+
+**Ambiente:** pasta nova · node-pg-migrate (ou similar) com `migrations/` versionada · Prisma/Drizzle num sub-projeto à parte só pra comparação.
+
+1. O problema do schema sem histórico. — 📖 **Verif.:** explicar como alguém reproduziria seu banco hoje só com o repo — e o que quebra.
+2. Migration up/down. — 🔨 **Ex:** migration que cria `tasks`; rodar num banco ZERADO e chegar no schema completo.
+3. Schema × dados. — 📖 **Verif.:** dizer qual migration é "criar coluna priority" e qual é "preencher priority nas linhas antigas".
+4. Rollback. — 🔨 **Ex:** rodar o down, conferir que voltou, rodar o up de novo — os dois sentidos funcionam.
+5. Seeds. — 🔨 **Ex:** seed com 5 tarefas; banco zerado + migrations + seed = ambiente pronto em um comando.
+6. O que o ORM abstrai e cobra. — 📖 **Verif.:** listar 2 coisas que ele faz por você e 2 que ele esconde de você.
+7. Comparação prática. — 🔨 **Ex:** as 5 operações do CRUD escritas no Prisma, lado a lado com as suas no `pg`.
+8. O problema N+1. — 🔨 **Ex:** listar listas+tarefas do jeito ingênuo com log de queries ligado; contar as queries; refazer com include/join.
+9. Transações no ORM; Prisma Studio. — 🔨 **Ex:** duas escritas atômicas; conferir o resultado no Studio.
+10. Por que SQL primeiro, ORM depois. — 📖 **Verif.:** responder com argumento SEU, em 3 frases.
+
+### Semana 8 — Autenticação + segurança de borda
+
+**Ambiente:** pasta nova · `bcrypt` + `jsonwebtoken` (segredo via env) · `helmet` + `express-rate-limit` na fila de middlewares.
+
+1. Hash com salt; por que não é reversível. — 📖 **Verif.:** explicar por que vazar hashes ≠ vazar senhas, e o que o salt impede.
+2. `bcrypt.compare` e timing attacks. — 📖 **Verif.:** explicar por que comparar com `===` seria errado duas vezes.
+3. Cadastro e login. — 🔨 **Ex:** `POST /users` guardando hash (nunca a senha) + `POST /login` comparando.
+4. Mensagens que não entregam. — 🔨 **Ex:** login errado devolve "invalid credentials" sem dizer qual campo; teste cobrindo usuário inexistente E senha errada.
+5. Sessão × JWT. — 📖 **Verif.:** tabela de memória com 3 trade-offs; escolher um pro projeto e justificar.
+6. Cookie httpOnly × header; CSRF. — 📖 **Verif.:** explicar que roubo o httpOnly evita e que truque o CSRF explora.
+7. Refresh token; limites do logout com JWT. — 📖 **Verif.:** explicar por que access curto + refresh, em 3 frases.
+8. Middleware de auth: 401 × 403. — 🔨 **Ex:** `requireAuth` protegendo as escritas (leitura pública); testes dos dois status.
+9. Mass assignment. — 🔨 **Ex:** mandar `{done:true, admin:true}` no PATCH e provar que só a whitelist entra.
+10. CORS a fundo. — 🔨 **Ex:** página HTML local com `fetch` pra API; ver o bloqueio e o preflight no DevTools; liberar só a origem certa.
+11. Helmet + rate limiting. — 🔨 **Ex:** comparar headers antes/depois do helmet; estourar o limite e receber 429.
+12. Dados sensíveis fora dos logs. — 📖 **Verif.:** revisar seus logs e apontar onde senha/token poderiam vazar.
+13. OWASP Top 10. — 📖 **Verif.:** marcar os 3 que sua API já mitiga e dizer como.
+14. 2FA e OAuth. — 📖 **Verif.:** explicar em 2 frases o que "entrar com Google" delega e pra quem.
+
+### Semana 9 — Deploy
+
+**Ambiente:** conta em banco gerenciado free tier (Neon ou similar) · plataforma de deploy comparada na hora (Render/Railway/Fly) · `.env.example` completo; env vars na plataforma.
+
+1. Dev × teste × produção. — 📖 **Verif.:** listar tudo que muda entre seu ambiente e produção (banco, porta, segredos, logs).
+2. Banco gerenciado. — 🔨 **Ex:** criar no Neon; API LOCAL apontando pro banco na nuvem via env; criar uma tarefa.
+3. O caminho do deploy. — 🔨 **Ex:** subir; acompanhar o build nos logs da plataforma; abrir a URL pública no celular (4G, fora do wifi).
+4. Processo que cai e volta. — 📖 **Verif.:** explicar o que aconteceria com tarefas guardadas em array quando a plataforma reinicia.
+5. `/health`. — 🔨 **Ex:** rota com `{status:'ok'}` + um `SELECT 1` provando que o banco responde.
+6. Graceful shutdown. — 🔨 **Ex:** handler de SIGTERM fechando servidor e pool; testar local com `kill`.
+7. Logs estruturados. — 🔨 **Ex:** pino no lugar do console.log; um info por request, um error no tratador central.
+8. Monitor de uptime. — 🔨 **Ex:** monitor externo no `/health`; derrubar de propósito e receber o alerta.
+9. Free tier na prática. — 📖 **Verif.:** medir o cold start real (primeira request após dormir) e anotar o número.
+10. Backup. — 📖 **Verif.:** descobrir na doc do seu banco gerenciado o que é automático e o que é por sua conta.
+11. Auto-ataque. — 🔨 **Ex:** bateria hostil na URL pública (JSON quebrado, tipos errados, ids absurdos, injection, rotas fantasma); cada correção vira teste.
+
+### Semana 10 — Docker + CI
+
+**Ambiente:** Docker Engine no WSL (ou Docker Desktop com integração) · `.github/workflows/` no repo.
+
+1. Imagem × container. — 📖 **Verif.:** explicar com uma analogia sua (classe × instância vale).
+2. `Dockerfile` da API. — 🔨 **Ex:** construir a imagem e responder um request vindo de dentro do container (porta mapeada).
+3. Cache de camadas. — 🔨 **Ex:** mudar um `.ts` e medir o rebuild; inverter a ordem dos `COPY` e medir de novo.
+4. Multi-stage build. — 🔨 **Ex:** build em 2 estágios; `docker images` comparando os tamanhos.
+5. `docker compose`. — 🔨 **Ex:** API + Postgres subindo juntos com um comando, do zero.
+6. Volumes. — 🔨 **Ex:** criar tarefa → `compose down` → `up`: sobrevive com volume, morre sem — ver os dois casos.
+7. Kit de inspeção. — 🔨 **Ex:** provocar um erro e diagnosticar usando só `docker logs` e `docker exec`.
+8. CI: workflow no push. — 🔨 **Ex:** suíte rodando a cada push; fazer um push que quebra de propósito e ver o X vermelho.
+9. Postgres no CI. — 🔨 **Ex:** service container; testes de integração verdes no Actions.
+10. Cache e secrets no CI. — 🔨 **Ex:** cache do npm (medir a diferença de tempo); um secret do repo lido no workflow.
+11. Badge. — 🔨 **Ex:** badge de build no README refletindo o último push.
+12. CD. — 📖 **Verif.:** explicar o passo que falta entre "CI verde" e "produção atualizada".
 
 ---
 
-## Semana 1 (16–22/07) — Node e Express: a primeira API
+## Avaliação
 
-**Bloco A — HTTP e Node cru.** Entender o ciclo request → response: método, URL, headers, body, status code. Criar um servidor com o módulo `http` puro do Node (sem Express) que responde qualquer coisa — o objetivo é ver o que o Express vai abstrair depois. De Node por dentro: ideia geral do event loop (por que Node atende muita gente com uma thread) e `process.env`.
-
-**Bloco B — Projeto npm decente.** `npm init` na pasta `api/`, entender `package.json` (scripts, dependencies vs devDependencies), `.gitignore` com `node_modules`, script `start` e um modo dev com reinício automático (`node --watch` resolve). Critério: você sabe explicar cada linha do seu `package.json`.
-
-**Bloco C — Express.** Instalar, primeira rota GET devolvendo JSON, `express.json()` (e o que acontece sem ele), rota POST lendo `req.body`, escolher e mandar status code na resposta. Aqui nasce a API de tarefas: array em memória, GET lista, POST cria.
-
-**Bloco D — Bruno e fechamento.** Criar a collection dentro de `api/bruno/`, montar as requests GET e POST, ler a response com atenção (status, headers, body). README mínimo, teste de clone limpo (`git clone` → `npm install` → `npm start` funciona?), code review da IA, checkpoint.
-
-**Entregável 1 — API de tarefas em memória rodando local, com duas rotas:**
-
-- Uma rota **GET** que retorna a lista de tarefas em JSON (array em memória, começa vazio).
-- Uma rota **POST** que recebe um JSON com o título da tarefa, adiciona à lista e responde com a tarefa criada e o status code adequado.
-- Cada rota testada no Bruno, com a collection (`.bru`) commitada em `api/bruno/`.
-- Projeto npm organizado: `npm start` funciona numa máquina que acabou de clonar o repo (com `README` mínimo dizendo como).
-
-## Semana 2 (23–29/07) — API REST completa + testes automatizados
-
-**Bloco A — Desenho REST antes de codar.** Semântica de GET/POST/PUT/PATCH/DELETE e status de escrita (201, 204, 400, 404). Desenhar no papel as 5 rotas de `/tasks`: método, caminho, o que entra, o que sai no sucesso, o que sai em cada erro. Só depois implementar buscar-por-id, atualizar e remover.
-
-**Bloco B — Validação e erro centralizado.** Middleware do Express: o que é, a ordem importa, `next()`. Validar toda entrada do cliente (título vazio? id que não é número? body sem JSON?). Definir SEU formato de erro JSON — decisão sua, justificada no devlog — e um handler de erro central que garante que a API inteira responde erro sempre do mesmo jeito.
-
-**Bloco C — Vitest.** Instalar e configurar, primeiro teste trivial pra ver rodando, depois testes de rota (supertest ou fetch contra o app). Cobrir caso feliz E caso de erro de cada uma das 5 rotas. Devlog: 2–3 linhas de POR QUE Vitest e não Jest — justificar ferramenta é habilidade de entrevista.
-
-**Bloco D — Fechamento.** Collection Bruno com as 5 operações + casos de erro, `npm test` verde, code review da IA, checkpoint.
-
-**Entregável 2 — CRUD completo e testado:**
-
-- `/tasks` com as 5 operações: listar, buscar por id, criar, atualizar, remover.
-- Validação em toda entrada do cliente; erro sempre responde com status 4xx adequado e um corpo JSON explicando o problema — formato de erro consistente na API inteira (você define o formato e o mantém).
-- Suíte Vitest rodando com `npm test`: caso feliz E caso de erro de cada rota. Nenhuma rota sem teste.
-- Collection do Bruno atualizada (as 5 operações + casos de erro).
-
-## Semana 3 (30/07–05/08) — PostgreSQL
-
-**Bloco A — SQL puro, sem Node.** Instalar Postgres no WSL, entrar no `psql`, criar banco e tabela de tarefas (escolher tipos de coluna e justificar), praticar SELECT/INSERT/UPDATE/DELETE com WHERE até sair sem consultar. Salvar os scripts comentados em `sql/`.
-
-**Bloco B — `pg` no Node.** O pacote `pg`, criar o pool (e entender por que pool e não uma conexão por request), primeira query saindo do Node, queries parametrizadas (`$1`) — e provar pra si mesmo, com um exemplo, por que SQL concatenado com string do cliente abre SQL injection.
-
-**Bloco C — Trocar o array pelo banco.** Migrar rota a rota, mantendo o comportamento externo idêntico (mesmas respostas, mesmos status). Teste de fogo: criar tarefas, reiniciar o servidor, elas continuam lá.
-
-**Bloco D — Testes de novo verdes.** Os testes da semana 2 vão quebrar — resolver como isolar (banco de teste ou limpeza entre testes é decisão sua). Suíte verde, Bruno conferido, code review da IA, checkpoint.
-
-**Entregável 3 — a API persiste de verdade:**
-
-- Sessão de SQL puro no `psql` registrada em `sql/` (scripts que você rodou, comentados).
-- API usando o banco no lugar do array em memória: reiniciar o servidor não perde nada.
-- Todas as queries parametrizadas — zero SQL montado com string do cliente.
-- Testes da semana 2 adaptados e verdes de novo (banco de teste ou limpeza entre testes — resolver isso faz parte).
-
-## Semana 4 (06–12/08) — TypeScript sobre o que já funciona
-
-**Bloco A — TS isolado, fora da API.** Num playground à parte: o que o TS resolve (erro antes de rodar), tipos básicos, `interface`/`type`, união e narrowing, tipar funções e retornos. Exercitar até o compilador parar de te surpreender no básico.
-
-**Bloco B — Tooling.** `tsconfig` com `strict` ligado desde o início (ligar depois dói mais), rodar TS em dev (tsx ou similar), compilar pra produção, ajustar os scripts npm pra ambos.
-
-**Bloco C — Migrar a API.** Arquivo por arquivo, compilando a cada passo — nunca "converter tudo e rezar". Definir o tipo da tarefa UMA vez e usá-lo em rota, validação e banco. Tipar o que vem do `pg` e do `req.body` é onde mora o aprendizado real.
-
-**Bloco D — Prova de valor.** Testes verdes de novo; devlog com 3 lugares onde o TS pegou (ou pegaria) um erro que o JS deixava passar — exemplos seus, não teóricos. Code review da IA, checkpoint.
-
-**Entregável 4 — API migrada para TS:**
-
-- Código da API inteiro em TypeScript, `strict` ligado, compilando sem erro.
-- O tipo da tarefa definido uma vez e usado em toda a API (rota, validação, banco).
-- Testes continuam verdes.
-- No devlog: 3 lugares onde o TS pegou (ou pegaria) um erro que o JS deixava passar — exemplos seus, não teóricos.
-
-## Semana 5 (13–19/08) — Deploy, robustez e entrega
-
-**Bloco A — Preparar pra produção.** Tirar todo valor fixo do código: conexão do banco e porta via variáveis de ambiente, `.env` local (fora do git) e `.env.example` no repo. Entender o que é CORS — vai importar na Etapa 3.
-
-**Bloco B — Banco gerenciado + deploy.** Criar banco free tier (Neon ou similar), apontar a API pra ele localmente primeiro. Comparar plataformas na hora (Render/Railway/Fly — free tiers mudam), escolher uma justificando no devlog, subir com env vars na plataforma. Nenhum segredo commitado.
-
-**Bloco C — Auto-ataque.** Montar uma lista de requisições hostis (JSON quebrado, tipos errados, ids absurdos, tentativa de SQL injection, rotas inexistentes) e rodar contra a API no ar. Crash, stack trace vazado ou status incoerente → corrigir. Cada caso hostil vira teste automatizado.
-
-**Bloco D — Entrega.** README completo (o que é, stack, rodar local, testar, rotas documentadas, URL de produção, seção de uso de IA), devlog final da etapa, push de tudo, **me avisar no chat**.
-
-**Entregável 5 — back-end no ar:**
-
-- API pública respondendo, com banco gerenciado; nenhum segredo commitado (env vars na plataforma).
-- Rodada de robustez ANTES de me avisar: você mesmo ataca sua API (JSON quebrado, tipos errados, ids absurdos, tentativa de SQL injection, rotas inexistentes) e corrige o que derrubar ou vazar stack trace. Cada caso hostil vira teste automatizado.
-- `README` da API completo: o que é, stack, como rodar local, como testar, rotas documentadas, URL de produção, seção de uso de IA (fase revisor).
-- Devlog final da etapa, push de tudo, **me avisar no chat**.
-
----
-
-## Avaliação (do cronograma)
-
-1. **API com banco funcionando** — local e no ar, demonstrada ao vivo.
-2. **Eu quebro sua API:** mando requisições maliciosas e vejo como ela responde. Crash, stack trace vazado ou status incoerente = pendência.
-3. **Testes:** suíte rodando verde na hora, cobrindo sucesso, erro e casos hostis.
-4. **Oral:** status codes e quando usar cada um, middleware, validação, por que queries parametrizadas, pool de conexões, o que o TS strict te deu, decisões que você tomou (formato de erro, framework de teste, plataforma de deploy) — e os registros da fase revisor no devlog.
-
-**Aprovado →** Etapa 3 (React consumindo esta API). **Pendências →** ajustamos antes de avançar.
+Demo ao vivo · o avaliador ataca a API com requisições maliciosas · suíte verde na hora · oral: status codes, middleware, por que queries parametrizadas, pool, o que o strict deu, e as decisões de contrato tomadas.

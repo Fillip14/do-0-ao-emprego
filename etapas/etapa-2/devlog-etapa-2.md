@@ -12,8 +12,14 @@
 - Travei/faltou: nada
 - Amanhã: continuação semana 3
 
-## 20/07/2026 (Semana 3)
+## 20/07/2026 (Semana 3 e 4)
 
 - O que aprendi: utilizar o PostgreSQL, seus comandos, criar tabelas, editar tabelas
 - Travei/faltou: nada
-- Amanhã: continuação semana 3
+- Amanhã: Semana 4
+
+---
+
+## — REINÍCIO DA ETAPA · 21/07/2026 —
+
+Decisão de 20/07: as 4 semanas fecharam em 5 dias, mas velocidade não virou retenção — "sinto que não aprendi". Etapa reiniciada do zero com plano novo (10 semanas, exercício por tópico, uma pasta por semana). O trabalho de 16–20/07 está preservado em `arquivo-v1/`. Nova avaliação alvo: 28/09, antecipável.
