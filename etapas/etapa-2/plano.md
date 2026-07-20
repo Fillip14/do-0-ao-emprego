@@ -15,6 +15,7 @@ Construir o **lado do servidor**: uma API REST de tarefas completa — rotas com
 5. **Decisões técnicas são suas** (formato de erro, PUT×PATCH, plataforma de deploy…), sempre com justificativa — saber defender escolha é matéria de entrevista.
 6. **Testes desde a semana 1** — toda semana tem sua fatia de teste; nunca ficam "pra depois".
 7. **`exercicios.md` no dia 1 de cada semana:** a IA escreve o enunciado completo de todos os exercícios da semana (arquivos, passos, o que esperar ver). O plano diz *o quê*; o `exercicios.md` diz *como*; a pasta guarda o resultado — um arquivo por exercício.
+8. **Watchlist leve** (restaurada 20/07, zerada na entrada): a IA mantém em silêncio uma lista de erros recorrentes — entra com evidência (2x, ou 1x se grave/em verificação 📖), sai com 2 checkpoints limpos. Revisão dos ativos só no checkpoint semanal; **drill amplo antes da avaliação**. Sem drills anunciados no meio da semana, sem cobrança item a item.
 
 ## O que deve existir no final
 

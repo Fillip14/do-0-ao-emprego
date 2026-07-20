@@ -29,15 +29,19 @@ Regras transversais: commits diários no GitHub desde a Etapa 0 · uso de IA seg
 - **Projeto:** gerenciador de tarefas (Ex 8) como página web — interface no navegador, lógica em JS.
 - **Avaliação:** projeto + exercícios de array methods que eu passar.
 
-### Etapa 2 — Back-end: Node, Express, TypeScript e banco (semanas 6–10)
+### Etapa 2 — Back-end: Node, Express, TypeScript e banco (reiniciada 21/07 · 10 semanas · avaliação alvo 28/09, antecipável)
 
-- Começa terminando o Ex 10 (a API que travou) — primeiro item da etapa.
-- API REST completa de tarefas: rotas, validação, status codes corretos, testada no Postman.
-- Testes automatizados com framework (Jest ou Vitest) — evolução do node:assert.
-- PostgreSQL básico: tabelas, SELECT/INSERT/UPDATE/DELETE, conexão pelo Node.
-- TypeScript sobre o que já funciona em JS.
-- Deploy da API (back-end no ar antes do front da Etapa 3).
-- **Avaliação:** API com banco funcionando + eu quebro sua API com requisições maliciosas e vejo como ela responde.
+> Reiniciada em 21/07: a v1 (16–20/07) fechou 4 semanas em 5 dias sem fixar — velocidade não é aprendizado. Plano novo: uma semana por assunto, uma pasta por semana, exercício definido por tópico. Detalhe completo (~123 tópicos): `etapas/etapa-2/plano.md`.
+
+- Fundamentos por dentro antes do atalho: HTTP cru e `node:http` → Express (rotas, middleware, validação, erro centralizado com formato único).
+- Testes automatizados desde a semana 1 (Vitest + supertest) + uma semana só de técnica: pirâmide, mocks, cobertura, TDD.
+- TypeScript `strict` de ponta a ponta — a API nasce tipada, não migra.
+- PostgreSQL de verdade: SQL puro, `pg` com pool e queries parametrizadas, SQL injection demonstrada, transações; schema versionado com migrations; ORM (Prisma) comparado ao SQL cru.
+- Arquitetura em camadas (rota/serviço/repositório), validação com zod, paginação, filtros e ordenação segura.
+- Autenticação (bcrypt, JWT, 401×403) e segurança de borda (CORS, helmet, rate limiting, OWASP) — antecipação do capstone.
+- Deploy: banco gerenciado, env vars, `/health`, logs estruturados, auto-ataque na URL pública — back-end no ar antes do front da Etapa 3.
+- Docker (imagem, compose com Postgres) + CI no GitHub Actions rodando a suíte a cada push.
+- **Avaliação:** API pública com banco funcionando + eu quebro sua API com requisições maliciosas + suíte verde na hora + oral sobre decisões e conceitos.
 
 ### Etapa 3 — Front-end: React (semanas 11–15)
 
