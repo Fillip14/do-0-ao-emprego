@@ -11,3 +11,9 @@
 - O que aprendi: utilizar o vitest, describe, it, CRUD completo, erros em middleware.
 - Travei/faltou: nada
 - Amanhã: continuação semana 3
+
+## 20/07/2026 (Semana 3)
+
+- O que aprendi: utilizar o PostgreSQL, seus comandos, criar tabelas, editar tabelas
+- Travei/faltou: nada
+- Amanhã: continuação semana 3
