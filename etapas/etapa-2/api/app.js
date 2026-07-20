@@ -1,10 +1,10 @@
 import express from 'express';
+import { query } from './db.js';
 
 const app = express();
 
 app.use(express.json());
 app.disable('x-powered-by');
-export const tasks = [];
 
 app.use((req, res, next) => {
   console.log(req.method, req.url);
@@ -20,47 +20,59 @@ const validateTitle = (req, res, next) => {
   next();
 };
 
-app.get('/tasks', (req, res) => res.json(tasks));
+const validateId = (req, res, next) => {
+  const id = req.params.id;
 
-app.get('/tasks/:id', (req, res) => {
+  const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+  if (!UUID.test(id)) return res.status(400).json({ message: 'Invalid id' });
+
+  next();
+};
+
+app.get('/tasks', async (req, res) => {
+  const result = await query('SELECT id, title, done FROM tasks ORDER BY created_at ASC');
+  return res.status(200).json(result.rows);
+});
+
+app.get('/tasks/:id', validateId, async (req, res) => {
   const taskId = req.params.id;
+  const result = await query('SELECT id, title, done FROM tasks WHERE id = $1', [taskId]);
 
-  const task = tasks.find((task) => task.id === taskId);
+  if (result.rowCount === 0) return res.status(404).json({ message: 'Task not found' });
 
-  if (typeof task === 'undefined') return res.status(404).json({ message: 'Task not found' });
-
-  return res.status(200).json(task);
+  return res.status(200).json(result.rows[0]);
 });
 
-app.post('/tasks', validateTitle, (req, res) => {
+app.post('/tasks', validateTitle, async (req, res) => {
   const title = req.body.title;
+  const result = await query('INSERT INTO tasks (title) VALUES($1) RETURNING id, title, done', [
+    title,
+  ]);
 
-  const newTask = { id: crypto.randomUUID(), title: title };
-  tasks.push(newTask);
-  return res.status(201).json(newTask);
+  return res.status(201).json(result.rows[0]);
 });
 
-app.patch('/tasks/:id', validateTitle, (req, res) => {
+app.patch('/tasks/:id', validateId, validateTitle, async (req, res) => {
   const taskId = req.params.id;
   const newTitle = req.body.title;
 
-  const task = tasks.find((task) => task.id === taskId);
+  const result = await query(
+    'UPDATE tasks SET title = $1 WHERE id = $2 RETURNING id, title, done',
+    [newTitle, taskId],
+  );
 
-  if (typeof task === 'undefined') return res.status(404).json({ message: 'Task not found' });
+  if (result.rowCount === 0) return res.status(404).json({ message: 'Task not found' });
 
-  task.title = newTitle;
-
-  return res.status(200).json(task);
+  return res.status(200).json(result.rows[0]);
 });
 
-app.delete('/tasks/:id', (req, res) => {
+app.delete('/tasks/:id', validateId, async (req, res) => {
   const taskId = req.params.id;
 
-  const posTask = tasks.findIndex((task) => task.id === taskId);
+  const result = await query('DELETE FROM tasks WHERE id = $1', [taskId]);
 
-  if (posTask === -1) return res.status(404).json({ message: 'Task not found' });
-
-  tasks.splice(posTask, 1);
+  if (result.rowCount === 0) return res.status(404).json({ message: 'Task not found' });
 
   return res.status(200).json({ message: 'Removed' });
 });
@@ -70,6 +82,7 @@ app.use((req, res) => {
 });
 
 app.use((err, req, res, next) => {
+  console.error(err);
   res.status(err.status || 500).json({ message: 'An unexpected error occurred' });
 });
 
