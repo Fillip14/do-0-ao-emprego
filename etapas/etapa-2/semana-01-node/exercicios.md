@@ -9,16 +9,16 @@
 
 Marque cada item só depois de ver a saída com os próprios olhos:
 
-- [ ] Projeto **dentro do WSL** (`pwd` começa com `/home/`, nunca `/mnt/c/`)
-- [ ] Node LTS via **nvm** — `which node` aponta pra dentro de `~/.nvm/`, não pra `/mnt/c/Program Files/`
-- [ ] VS Code com extensão **WSL** (canto inferior esquerdo mostra `WSL: Ubuntu`)
-- [ ] `git status` funciona na pasta e `.gitignore` tem `node_modules/`
+- [X] Projeto **dentro do WSL** (`pwd` começa com `/home/`, nunca `/mnt/c/`)
+- [X] Node LTS via **nvm** — `which node` aponta pra dentro de `~/.nvm/`, não pra `/mnt/c/Program Files/`
+- [X] VS Code com extensão **WSL** (canto inferior esquerdo mostra `WSL: Ubuntu`)
+- [X] `git status` funciona na pasta e `.gitignore` tem `node_modules/`
 
 Se `which node` mostrar caminho do Windows, pare e resolva — metade dos bugs esquisitos da semana nascem aí.
 
 ---
 
-## Ex 01 — 📖 O que é um servidor
+## Ex 01 — 📖 O que é um servidor ✅ (feito 20/07)
 
 **Arquivo:** `ex01-server.md`
 
@@ -33,7 +33,7 @@ Você vai conferir o item 4 na prática no Ex 03 — escreva a previsão **antes
 
 ---
 
-## Ex 02 — 📖 Anatomia do HTTP
+## Ex 02 — 📖 Anatomia do HTTP ✅ (feito 20/07)
 
 **Arquivo:** `ex02-http.md`
 
