@@ -6,8 +6,11 @@
   "author": "",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "vitest",
     "start": "node ex07-env.js",
     "dev": "node --watch ex07-env.js"
+  },
+  "devDependencies": {
+    "vitest": "^4.1.10"
   }
 }
