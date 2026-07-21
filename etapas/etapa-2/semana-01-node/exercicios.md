@@ -18,7 +18,7 @@ Se `which node` mostrar caminho do Windows, pare e resolva — metade dos bugs e
 
 ---
 
-## Ex 01 — 📖 O que é um servidor ✅ (feito 20/07)
+## Ex 01 — 📖 O que é um servidor · ✅ (feito 20/07)
 
 **Arquivo:** `ex01-server.md`
 
@@ -33,7 +33,7 @@ Você vai conferir o item 4 na prática no Ex 03 — escreva a previsão **antes
 
 ---
 
-## Ex 02 — 📖 Anatomia do HTTP ✅ (feito 20/07)
+## Ex 02 — 📖 Anatomia do HTTP · ✅ (feito 20/07)
 
 **Arquivo:** `ex02-http.md`
 
@@ -45,7 +45,7 @@ Você vai conferir o item 4 na prática no Ex 03 — escreva a previsão **antes
 
 ---
 
-## Ex 03 — 🔨 `node:http` cru
+## Ex 03 — 🔨 `node:http` cru · ✅ (feito 21/07)
 
 **Arquivo:** `ex03-raw-http.js`
 
@@ -64,7 +64,7 @@ Rode com `node ex03-raw-http.js` e comprove com `curl -i` nas três situações.
 
 ---
 
-## Ex 04 — 🔨 Streams
+## Ex 04 — 🔨 Streams · ✅ (feito 21/07)
 
 **Arquivo:** `ex04-streams.js`
 
@@ -87,7 +87,7 @@ Adicione `large-body.txt` ao `.gitignore`.
 
 ---
 
-## Ex 05 — 🔨 Event loop
+## Ex 05 — 🔨 Event loop · ✅ (feito 21/07)
 
 **Arquivo:** `ex05-event-loop.js`
 
@@ -106,7 +106,7 @@ No fim do arquivo, registre os dois tempos medidos e responda:
 
 ---
 
-## Ex 06 — 🔨 Erros não tratados
+## Ex 06 — 🔨 Erros não tratados · ✅ (feito 21/07)
 
 **Arquivo:** `ex06-errors.js`
 
@@ -130,7 +130,7 @@ Depois registre handlers de `process.on('uncaughtException')` e `process.on('unh
 
 ---
 
-## Ex 07 — 🔨 `process.env`
+## Ex 07 — 🔨 `process.env` · ⚠️ revisar no checkpoint · ✅ (feito 21/07)
 
 **Arquivo:** `ex07-env.js`
 
@@ -152,7 +152,7 @@ PORT=abc node ex07-env.js        # ???
 
 ---
 
-## Ex 08 — 🔨 Projeto npm de verdade
+## Ex 08 — 🔨 Projeto npm de verdade · ✅ (feito 21/07)
 
 **Arquivos:** `package.json` na raiz da pasta da semana + `ex08-package.md`
 
@@ -173,7 +173,7 @@ E responda:
 
 ---
 
-## Ex 09 — 📖 ESM vs CommonJS
+## Ex 09 — 📖 ESM vs CommonJS · ✅ (feito 21/07)
 
 **Arquivo:** `ex09-modules.md`
 
@@ -187,7 +187,7 @@ Decisão sua (justificada, uma frase no arquivo): **o resto da etapa vai em ESM 
 
 ---
 
-## Ex 10 — 🔨 Módulos nativos
+## Ex 10 — 🔨 Módulos nativos · ✅ (feito 21/07)
 
 **Arquivo:** `ex10-core-modules.js`
 
@@ -207,7 +207,7 @@ Script (não servidor) que:
 
 ---
 
-## Ex 11 — 🔨 Debugging com `--inspect`
+## Ex 11 — 🔨 Debugging com `--inspect` · ✅ (feito 21/07)
 
 **Arquivo:** `ex11-debug.md` (+ `.vscode/launch.json` se você criar)
 
@@ -224,7 +224,7 @@ Script (não servidor) que:
 
 ---
 
-## Ex 12 — 🔨 Testes com Vitest
+## Ex 12 — 🔨 Testes com Vitest · ⚠️ feito pela IA, refazer (ver `NOTA-EX12.md`) · ✅ feito 21/07
 
 **Arquivos:** `ex12-functions.js` + `ex12-functions.test.js`
 

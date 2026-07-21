@@ -48,7 +48,9 @@ etapas/etapa-2/
 
 > Legenda: **🔨 Ex:** exercício de código · **📖 Verif.:** tópico teórico com verificação rápida (responder/demonstrar prova que entendeu).
 
-### Semana 1 — Node
+### Semana 1 — Node · ✅ concluída (20–21/07)
+
+> 12/12 exercícios feitos · pendências: Ex 07 (`process.env`) mal resolvido e Ex 12 escrito pela IA — ambos revisados no checkpoint. Pasta: [`semana-01-node/`](semana-01-node/).
 
 **Ambiente:** WSL/Ubuntu (projeto DENTRO do WSL) · Node LTS via nvm (nunca o instalador do Windows) · VS Code + extensão WSL · git + `.gitignore` com `node_modules/`.
 
