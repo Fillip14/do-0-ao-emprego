@@ -1,16 +1,61 @@
 import { Router } from 'express';
+
 const tasksRoutes = Router();
+
+const tasks = [
+  { id: 1, title: 'comprar pão', done: false },
+  { id: 2, title: 'estudar express', done: true },
+];
+let nextId = 3;
+
+tasksRoutes.get('/', (req, res) => {
+  return res.json(tasks);
+});
 
 tasksRoutes.get('/:id', (req, res) => {
   const idNumber = Number(req.params.id);
 
   if (idNumber <= 0 || !Number.isInteger(idNumber))
     return res.status(400).json({ errors: [{ field: 'id', message: 'invalid id' }] });
-  return res.json({ id: req.params.id, typeofId: typeof req.params.id });
+
+  const task = tasks.find((task) => task.id === idNumber);
+
+  if (typeof task === 'undefined')
+    return res.status(404).json({ errors: [{ field: 'id', message: 'not found' }] });
+
+  return res.json(task);
 });
 
 tasksRoutes.get('/:listId/items/:itemId', (req, res) => {
   return res.json({ listId: req.params.listId, itemId: req.params.itemId });
 });
 
+tasksRoutes.post('/', (req, res) => {
+  const newTask = { id: nextId++, title: req.body.title, done: false };
+  tasks.push(newTask);
+  return res.status(201).location(`/tasks/${newTask.id}`).json(newTask);
+});
+
+tasksRoutes.delete('/:id', (req, res) => {
+  const idNumber = Number(req.params.id);
+
+  if (idNumber <= 0 || !Number.isInteger(idNumber))
+    return res.status(400).json({ errors: [{ field: 'id', message: 'invalid id' }] });
+
+  const index = tasks.findIndex((task) => task.id === idNumber);
+
+  if (index === -1)
+    return res.status(404).json({ errors: [{ field: 'id', message: 'not found' }] });
+
+  tasks.splice(index, 1);
+
+  return res.status(204).send();
+});
+
+tasksRoutes.all('/', (req, res) => {
+  return res
+    .set('Allow', 'GET, POST')
+    .status(405)
+    .json({ errors: [{ message: 'method not allowed' }] });
+});
 export default tasksRoutes;
