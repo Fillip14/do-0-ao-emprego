@@ -8,20 +8,36 @@ const tasks = [
 ];
 let nextId = 3;
 
+const validateTitle = (req, res, next) => {
+  const { title } = req.body;
+  if (typeof title !== 'string' || title.trim() === '') {
+    const err = new Error('title is required');
+    err.status = 400;
+    return next(err);
+  }
+  next();
+};
+
 tasksRoutes.get('/', (req, res) => {
   return res.json(tasks);
 });
 
-tasksRoutes.get('/:id', (req, res) => {
+tasksRoutes.get('/:id', (req, res, next) => {
   const idNumber = Number(req.params.id);
 
-  if (idNumber <= 0 || !Number.isInteger(idNumber))
-    return res.status(400).json({ errors: [{ field: 'id', message: 'invalid id' }] });
+  if (idNumber <= 0 || !Number.isInteger(idNumber)) {
+    const err = new Error('invalid id');
+    err.status = 400;
+    return next(err);
+  }
 
   const task = tasks.find((task) => task.id === idNumber);
 
-  if (typeof task === 'undefined')
-    return res.status(404).json({ errors: [{ field: 'id', message: 'not found' }] });
+  if (typeof task === 'undefined') {
+    const err = new Error('not found');
+    err.status = 404;
+    return next(err);
+  }
 
   return res.json(task);
 });
@@ -30,22 +46,28 @@ tasksRoutes.get('/:listId/items/:itemId', (req, res) => {
   return res.json({ listId: req.params.listId, itemId: req.params.itemId });
 });
 
-tasksRoutes.post('/', (req, res) => {
+tasksRoutes.post('/', validateTitle, (req, res) => {
   const newTask = { id: nextId++, title: req.body.title, done: false };
   tasks.push(newTask);
   return res.status(201).location(`/tasks/${newTask.id}`).json(newTask);
 });
 
-tasksRoutes.delete('/:id', (req, res) => {
+tasksRoutes.delete('/:id', (req, res, next) => {
   const idNumber = Number(req.params.id);
 
-  if (idNumber <= 0 || !Number.isInteger(idNumber))
-    return res.status(400).json({ errors: [{ field: 'id', message: 'invalid id' }] });
+  if (idNumber <= 0 || !Number.isInteger(idNumber)) {
+    const err = new Error('invalid id');
+    err.status = 400;
+    return next(err);
+  }
 
   const index = tasks.findIndex((task) => task.id === idNumber);
 
-  if (index === -1)
-    return res.status(404).json({ errors: [{ field: 'id', message: 'not found' }] });
+  if (index === -1) {
+    const err = new Error('not found');
+    err.status = 404;
+    return next(err);
+  }
 
   tasks.splice(index, 1);
 
@@ -58,4 +80,5 @@ tasksRoutes.all('/', (req, res) => {
     .status(405)
     .json({ errors: [{ message: 'method not allowed' }] });
 });
+
 export default tasksRoutes;
