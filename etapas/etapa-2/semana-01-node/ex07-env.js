@@ -1,30 +1,18 @@
 import { createServer } from 'node:http';
 
-process.on('uncaughtException', (err) => {
-  console.log('EXCEPTION:', err.message);
-});
-
-process.on('unhandledRejection', (err) => {
-  console.log('REJECTION:', err.message);
-});
-
 const hostname = '127.0.0.1';
-const port = process.env.PORT || 3000;
+const port = Number(process.env.PORT ?? 3000);
+
+if (!Number.isInteger(port) || port < 1 || port > 65535) {
+  console.error('PORT inválida:', process.env.PORT);
+  process.exit(1);
+}
 
 const server = createServer((req, res) => {
   console.log(req.url);
 
-  if (req.url === '/throw') {
-    throw new Error('boom');
-  }
-
-  if (req.url === '/promise') {
-    Promise.reject(new Error('boom'));
-    return;
-  }
-
-  res.writeHead(404, { 'Content-Type': 'application/json' });
-  return res.end(JSON.stringify({ message: 'Not found' }));
+  res.writeHead(200, { 'Content-Type': 'application/json' });
+  return res.end();
 });
 
 server.listen(port, hostname, () => {
