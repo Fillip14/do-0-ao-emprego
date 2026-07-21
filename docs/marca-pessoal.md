@@ -1,7 +1,7 @@
 # Trilha de Marca Pessoal — controle vivo
 
 > Painel de acompanhamento da presença pública (GitHub, LinkedIn, Twitch, posts) e **fonte única** da trilha de marca pessoal — o [`cronograma-etapas.md`](cronograma-etapas.md) só aponta para cá.
-> **Atualizar a cada fechamento de dia/etapa.** Última atualização: **16/07/2026**.
+> **Atualizar a cada fechamento de dia/etapa.** Última atualização: **21/07/2026**.
 
 A lógica da trilha é em camadas: **perfil → rede → conteúdo → colheita**. Não se pula camada.
 
@@ -20,7 +20,7 @@ A lógica da trilha é em camadas: **perfil → rede → conteúdo → colheita*
 
 ```
 Etapa 1 · Fundação (perfil + rede)    ██████████████████████  100%  ✅ concluída
-Etapa 2 · Conteúdo (posts + rede)     ░░░░░░░░░░░░░░░░░░░░░░    0%  🔨 em andamento
+Etapa 2 · Conteúdo (posts + rede)     ██░░░░░░░░░░░░░░░░░░░░   10%  🔨 em andamento
 Etapa 3 · Demo (posts com demo)       ░░░░░░░░░░░░░░░░░░░░░░    0%  🔒 bloqueada
 Etapa 4 · Build in public (capstone)  ░░░░░░░░░░░░░░░░░░░░░░    0%  🔒 bloqueada
 Etapa 5 · Colheita (aplicações)       ░░░░░░░░░░░░░░░░░░░░░░    0%  🔒 bloqueada
@@ -48,7 +48,7 @@ Re-ancorado no reinício de 21/07 (10 semanas). Acervo das etapas 0–1 + matér
 
 | Semana | Posts (2–3) |
 |:---:|---|
-| **S1** (21–27/07) | ⬜ **Por que reiniciei a etapa** *(quente — velocidade ≠ aprendizado; honestidade rende)* · ⬜ Etapa 1 aprovada + o que vem na Etapa 2 · ⬜ Início do projeto e a ideia |
+| **S1** (21–27/07) | ✅ **Por que reiniciei a etapa** *(publicado 21/07)* · ⬜ Etapa 1 aprovada + o que vem na Etapa 2 · ⬜ Início do projeto e a ideia |
 | **S2** (28/07–03/08) | ⬜ Minha primeira API respondendo *(print do Bruno)* · ⬜ Por que Bruno e não Postman · ⬜ Etapa 0 — hábitos antes de conteúdo |
 | **S3** (04–10/08) | ⬜ Por que Vitest e não Jest · ⬜ Bugs e erros reais dos temas de JS *(história de bug > aula de método)* |
 | **S4** (11–17/08) | ⬜ SQL injection: quebrei minha própria API *(demo real)* · ⬜ Fundamentos web |
