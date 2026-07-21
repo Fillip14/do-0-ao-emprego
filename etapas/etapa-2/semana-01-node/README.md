@@ -1,6 +1,6 @@
-# Semana 1 — Node
+# Tema 1 — Node
 
-Etapa 2 · 20–21/07/2026 · Fundamentos de Node sem framework: HTTP cru, streams, event loop, erros, ambiente, npm, módulos e primeiros testes.
+Etapa 2 · *semana sugerida 1* · feito em 20–21/07/2026 · Fundamentos de Node sem framework: HTTP cru, streams, event loop, erros, ambiente, npm, módulos e primeiros testes.
 
 ## Como rodar
 

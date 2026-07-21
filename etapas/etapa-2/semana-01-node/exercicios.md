@@ -1,6 +1,6 @@
-# Semana 1 — Node · Enunciados
+# Tema 1 — Node · Enunciados
 
-> Pasta: `etapas/etapa-2/semana-01-node/` · Projeto autocontido: `npm install` + `npm start` + `npm test` funcionam aqui dentro.
+> Pasta: `etapas/etapa-2/tema-01-node/` · Projeto autocontido: `npm install` + `npm start` + `npm test` funcionam aqui dentro.
 > Regra da etapa: **fase REVISOR** — nada de código pronto. Você escreve, roda, e só depois eu reviso (antes→depois).
 > **Nomes de arquivo em inglês** (regra do projeto); o conteúdo — enunciados, comentários, respostas — continua em português.
 > **Commit por exercício.** Mensagem no formato `s1: ex03 servidor http cru` (mensagem pode ser PT).

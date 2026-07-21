@@ -1,6 +1,8 @@
 # Etapa 2 — Back-end: Node, Express, TypeScript e banco
 
-> **Plano vigente da etapa** · Reinício em **21/07/2026** (decisão do Fillip, 20/07: a v1 da etapa, 16–20/07, foi rápida demais pra fixar — trabalho arquivado em `arquivo-v1/`, etapa recomeça por este plano). · **Avaliação alvo: 28/09/2026, antecipável** no checkpoint semanal.
+> **Plano vigente da etapa** · Reinício em **21/07/2026** (decisão do Fillip, 20/07: a v1 da etapa, 16–20/07, foi rápida demais pra fixar — trabalho arquivado em `arquivo-v1/`, etapa recomeça por este plano). · **Avaliação alvo: 28/09/2026, antecipável** no checkpoint.
+>
+> **Organizado por TEMAS, não por datas** (mudança de 21/07, mesmo formato da Etapa 1). Cada tema traz a **semana sugerida** — referência de ritmo, não prazo — e recebe a data real de conclusão quando fecha. A avaliação alvo é confirmada ou antecipada no checkpoint do Tema 3.
 
 ## Objetivo
 
@@ -10,12 +12,12 @@ Construir o **lado do servidor**: uma API REST de tarefas completa — rotas com
 
 1. **Trilha de IA — fase REVISOR:** proibido pedir código pronto. A IA explica conceitos, escreve enunciados e faz **code review depois que o seu código funciona** (bugs, casos de borda, alternativas — em formato antes→depois). Quem digita é você.
 2. **Commits diários** no GitHub, push conferido.
-3. **Checkpoint semanal** (verde/amarelo/vermelho) contra a âncora da avaliação. Amarelo/vermelho → replaneja, e a marca pessoal pausa primeiro.
+3. **Checkpoint a cada tema** (verde/amarelo/vermelho) contra a âncora da avaliação. Amarelo/vermelho → replaneja, e a marca pessoal pausa primeiro.
 4. **Stack travada:** Node + Express + TypeScript + PostgreSQL. Ideia nova no meio do caminho → `ideias-depois.md`.
 5. **Decisões técnicas são suas** (formato de erro, PUT×PATCH, plataforma de deploy…), sempre com justificativa — saber defender escolha é matéria de entrevista.
-6. **Testes desde a semana 1** — toda semana tem sua fatia de teste; nunca ficam "pra depois".
-7. **`exercicios.md` no dia 1 de cada semana:** a IA escreve o enunciado completo de todos os exercícios da semana (arquivos, passos, o que esperar ver). O plano diz *o quê*; o `exercicios.md` diz *como*; a pasta guarda o resultado — um arquivo por exercício.
-8. **Watchlist leve** (restaurada 20/07, zerada na entrada): a IA mantém em silêncio uma lista de erros recorrentes — entra com evidência (2x, ou 1x se grave/em verificação 📖), sai com 2 checkpoints limpos. Revisão dos ativos só no checkpoint semanal; **drill amplo antes da avaliação**. Sem drills anunciados no meio da semana, sem cobrança item a item.
+6. **Testes desde o Tema 1** — todo tema tem sua fatia de teste; nunca ficam "pra depois".
+7. **`exercicios.md` na abertura de cada tema:** a IA escreve o enunciado completo de todos os exercícios do tema (arquivos, passos, o que esperar ver). O plano diz *o quê*; o `exercicios.md` diz *como*; a pasta guarda o resultado — um arquivo por exercício.
+8. **Watchlist leve** (restaurada 20/07, zerada na entrada): a IA mantém em silêncio uma lista de erros recorrentes — entra com evidência (2x, ou 1x se grave/em verificação 📖), sai com 2 checkpoints limpos. Revisão dos ativos só no checkpoint de tema; **drill amplo antes da avaliação**. Sem drills anunciados no meio do tema, sem cobrança item a item.
 
 ## O que deve existir no final
 
@@ -29,28 +31,28 @@ Construir o **lado do servidor**: uma API REST de tarefas completa — rotas com
 
 E por trás dela: fila de middlewares com erro centralizado (formato único em JSON, nunca crash nem stack trace vazado) · PostgreSQL com pool e queries 100% parametrizadas, schema versionado em migrations · suíte de testes cobrindo sucesso e erro de toda rota · TypeScript strict de ponta a ponta · deploy com banco gerenciado e segredos em env vars, resistente a abuso · README completo com rotas documentadas e URL de produção.
 
-## Estrutura de pastas — uma pasta por semana
+## Estrutura de pastas — uma pasta por tema
 
-Cada semana nasce numa pasta nova, projeto autocontido (`npm install` + `npm start`/`npm test` funcionam nela); a anterior fica congelada como histórico. Recriar a base da semana anterior é revisão embutida. A versão oficial da API (a que vai pro ar e serve a Etapa 3) é a da última semana em que ela é tocada.
+Cada tema nasce numa pasta nova, projeto autocontido (`npm install` + `npm start`/`npm test` funcionam nela); a anterior fica congelada como histórico. Recriar a base do tema anterior é revisão embutida. A versão oficial da API (a que vai pro ar e serve a Etapa 3) é a do último tema em que ela é tocada.
 
 ```
 etapas/etapa-2/
 ├── arquivo-v1/              ← trabalho de 16–20/07 (api/, sql/, resumo, planos antigos) — histórico
-├── semana-01-node/
-│   ├── exercicios.md        ← enunciados da semana (criado no dia 1)
-│   ├── ex03-http-cru.js     ← um arquivo por exercício
+├── tema-01-node/
+│   ├── exercicios.md        ← enunciados do tema (criado na abertura)
+│   ├── ex03-raw-http.js     ← um arquivo por exercício
 │   └── ...
-├── semana-02-express/
-├── ... (até semana-10-docker-ci/)
+├── tema-02-express/
+├── ... (até tema-10-docker-ci/)
 ```
 
-## As semanas
+## Os temas
 
 > Legenda: **🔨 Ex:** exercício de código · **📖 Verif.:** tópico teórico com verificação rápida (responder/demonstrar prova que entendeu).
 
-### Semana 1 — Node · ✅ concluída (20–21/07)
+### Tema 1 — Node · *semana sugerida 1* · ✅ feito 20–21/07
 
-> 12/12 exercícios feitos · **checkpoint 🟡 amarelo**: semana árida e abstrata; Ex 07, 10 e 12 voltam pra revisão. Pasta: [`semana-01-node/`](semana-01-node/).
+> 12/12 exercícios · **checkpoint 🟡 amarelo**: tema árido e abstrato; Ex 07, 10 e 12 voltam pra revisão. Pasta: [`tema-01-node/`](tema-01-node/).
 
 **Ambiente:** WSL/Ubuntu (projeto DENTRO do WSL) · Node LTS via nvm (nunca o instalador do Windows) · VS Code + extensão WSL · git + `.gitignore` com `node_modules/`.
 
@@ -67,7 +69,7 @@ etapas/etapa-2/
 11. Debugging: `node --inspect` + VS Code. — 🔨 **Ex:** breakpoint dentro do handler; inspecionar `req.url` e headers com o processo pausado.
 12. Testes: Vitest, `describe`/`it`/`expect`. — 🔨 **Ex:** 2 funções puras testadas com caso feliz + caso de borda cada; `npm test` verde.
 
-### Semana 2 — Express
+### Tema 2 — Express · *semana sugerida 2*
 
 **Ambiente:** pasta nova, projeto npm novo, `npm install express` · curl + Bruno/Postman com collection salva na pasta da semana.
 
@@ -85,7 +87,7 @@ etapas/etapa-2/
 12. Erro em handler async (Express 4 × 5). — 🔨 **Ex:** handler async que lança; ver o pedido pendurar (ou não) e corrigir.
 13. Testes: supertest. — 🔨 **Ex:** separar `app` de `server`; suíte com caso feliz + erro de cada rota da semana.
 
-### Semana 3 — TypeScript
+### Tema 3 — TypeScript · *semana sugerida 3*
 
 **Ambiente:** pasta nova · `typescript` + `@types/*` em devDeps · `tsconfig` strict desde o dia 1 · tsx pra dev + `tsc` → `dist/` pra produção · sub-pasta playground.
 
@@ -103,7 +105,7 @@ etapas/etapa-2/
 12. O `tsconfig`. — 🔨 **Ex:** desligar o `strict`, ver erros sumirem, religar; excluir testes do build e conferir o `dist/`.
 13. Testes em TS. — 🔨 **Ex:** suíte compilando; `tsc --noEmit` rodando ANTES do vitest no script `test`.
 
-### Semana 4 — Banco (PostgreSQL)
+### Tema 4 — Banco (PostgreSQL) · *semana sugerida 4*
 
 **Ambiente:** Postgres via `apt` no WSL (serviço sobe com `sudo service postgresql start`) · role própria + banco · pasta nova com `pg` · `.env` fora do git + `.env.example` no repo.
 
@@ -121,7 +123,7 @@ etapas/etapa-2/
 12. Transação pelo Node. — 🔨 **Ex:** duas escritas no MESMO client com BEGIN/COMMIT; forçar erro no meio e ver o ROLLBACK salvar.
 13. Testes com banco. — 🔨 **Ex:** banco `_test` + `beforeEach` de limpeza + `afterAll` fechando o pool; suíte verde.
 
-### Semana 5 — Testes a fundo
+### Tema 5 — Testes a fundo · *semana sugerida 5*
 
 **Ambiente:** pasta nova · cobertura habilitada (`--coverage`) · supertest já conhecido — semana de técnica, não de ferramenta.
 
@@ -140,7 +142,7 @@ etapas/etapa-2/
 13. O que NÃO testar. — 📖 **Verif.:** achar 1 teste seu que testa implementação (ou lib alheia) e dizer o que testaria no lugar.
 14. Property-based. — 📖 **Verif.:** ler um exemplo de fast-check e descrever que casos ele inventaria pro seu validador de título.
 
-### Semana 6 — Arquitetura em camadas + listas de verdade
+### Tema 6 — Arquitetura em camadas + listas de verdade · *semana sugerida 6*
 
 **Ambiente:** pasta nova já em camadas (`routes/`, `services/`, `repositories/`) · `zod` instalado.
 
@@ -155,7 +157,7 @@ etapas/etapa-2/
 9. Filtros e busca. — 🔨 **Ex:** `?done=` e `?q=` combináveis, validados, SQL parametrizado.
 10. Ordenação segura. — 🔨 **Ex:** `?sort=` com whitelist; tentar `?sort=;DROP TABLE tasks` e receber 400.
 
-### Semana 7 — Migrations + ORM
+### Tema 7 — Migrations + ORM · *semana sugerida 7*
 
 **Ambiente:** pasta nova · node-pg-migrate (ou similar) com `migrations/` versionada · Prisma/Drizzle num sub-projeto à parte só pra comparação.
 
@@ -170,7 +172,7 @@ etapas/etapa-2/
 9. Transações no ORM; Prisma Studio. — 🔨 **Ex:** duas escritas atômicas; conferir o resultado no Studio.
 10. Por que SQL primeiro, ORM depois. — 📖 **Verif.:** responder com argumento SEU, em 3 frases.
 
-### Semana 8 — Autenticação + segurança de borda
+### Tema 8 — Autenticação + segurança de borda · *semana sugerida 8*
 
 **Ambiente:** pasta nova · `bcrypt` + `jsonwebtoken` (segredo via env) · `helmet` + `express-rate-limit` na fila de middlewares.
 
@@ -189,7 +191,7 @@ etapas/etapa-2/
 13. OWASP Top 10. — 📖 **Verif.:** marcar os 3 que sua API já mitiga e dizer como.
 14. 2FA e OAuth. — 📖 **Verif.:** explicar em 2 frases o que "entrar com Google" delega e pra quem.
 
-### Semana 9 — Deploy
+### Tema 9 — Deploy · *semana sugerida 9*
 
 **Ambiente:** conta em banco gerenciado free tier (Neon ou similar) · plataforma de deploy comparada na hora (Render/Railway/Fly) · `.env.example` completo; env vars na plataforma.
 
@@ -205,7 +207,7 @@ etapas/etapa-2/
 10. Backup. — 📖 **Verif.:** descobrir na doc do seu banco gerenciado o que é automático e o que é por sua conta.
 11. Auto-ataque. — 🔨 **Ex:** bateria hostil na URL pública (JSON quebrado, tipos errados, ids absurdos, injection, rotas fantasma); cada correção vira teste.
 
-### Semana 10 — Docker + CI
+### Tema 10 — Docker + CI · *semana sugerida 10*
 
 **Ambiente:** Docker Engine no WSL (ou Docker Desktop com integração) · `.github/workflows/` no repo.
 
