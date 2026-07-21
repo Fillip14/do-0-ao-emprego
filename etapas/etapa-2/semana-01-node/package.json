@@ -1,0 +1,13 @@
+{
+  "name": "semana-01-node",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ex07-env.js",
+    "dev": "node --watch ex07-env.js"
+  }
+}
