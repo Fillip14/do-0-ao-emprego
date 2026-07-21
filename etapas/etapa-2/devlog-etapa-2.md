@@ -6,3 +6,6 @@
 
 ## — REINÍCIO DA ETAPA · 21/07/2026 —
 
+- Tema 1 (Node) fechado — 12/12 exercícios, pasta `t01-node/`, checkpoint 🟡 amarelo.
+- **Tema 2 (Express) aberto** — `exercicios.md` criado em `t02-express/` com os 13 tópicos do plano.
+

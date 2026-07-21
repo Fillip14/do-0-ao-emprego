@@ -38,12 +38,12 @@ Cada tema nasce numa pasta nova, projeto autocontido (`npm install` + `npm start
 ```
 etapas/etapa-2/
 ├── arquivo-v1/              ← trabalho de 16–20/07 (api/, sql/, resumo, planos antigos) — histórico
-├── tema-01-node/
+├── t01-node/
 │   ├── exercicios.md        ← enunciados do tema (criado na abertura)
 │   ├── ex03-raw-http.js     ← um arquivo por exercício
 │   └── ...
-├── tema-02-express/
-├── ... (até tema-10-docker-ci/)
+├── t02-express/
+├── ... (até t10-docker-ci/)
 ```
 
 ## Os temas
@@ -52,7 +52,7 @@ etapas/etapa-2/
 
 ### Tema 1 — Node · *semana sugerida 1* · ✅ feito 20–21/07
 
-> 12/12 exercícios · **checkpoint 🟡 amarelo**: tema árido e abstrato; Ex 07, 10 e 12 voltam pra revisão. Pasta: [`tema-01-node/`](tema-01-node/).
+> 12/12 exercícios · **checkpoint 🟡 amarelo**: tema árido e abstrato; Ex 07, 10 e 12 voltam pra revisão. Pasta: [`t01-node/`](t01-node/).
 
 **Ambiente:** WSL/Ubuntu (projeto DENTRO do WSL) · Node LTS via nvm (nunca o instalador do Windows) · VS Code + extensão WSL · git + `.gitignore` com `node_modules/`.
 
@@ -69,7 +69,9 @@ etapas/etapa-2/
 11. Debugging: `node --inspect` + VS Code. — 🔨 **Ex:** breakpoint dentro do handler; inspecionar `req.url` e headers com o processo pausado.
 12. Testes: Vitest, `describe`/`it`/`expect`. — 🔨 **Ex:** 2 funções puras testadas com caso feliz + caso de borda cada; `npm test` verde.
 
-### Tema 2 — Express · *semana sugerida 2*
+### Tema 2 — Express · *semana sugerida 2* · aberto 21/07
+
+> Pasta: [`t02-express/`](t02-express/) · enunciados em `t02-express/exercicios.md`.
 
 **Ambiente:** pasta nova, projeto npm novo, `npm install express` · curl + Bruno/Postman com collection salva na pasta da semana.
 
