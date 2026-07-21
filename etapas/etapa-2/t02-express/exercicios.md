@@ -4,218 +4,385 @@
 > Regra da etapa: **fase REVISOR** — nada de código pronto. Você escreve, roda, e só depois eu reviso (antes→depois).
 > **Nomes de arquivo e identificadores em inglês**; enunciados, comentários e respostas em português.
 > **Commit por exercício.** Mensagem no formato `t02: ex03 params query body`.
+> **Formato dos enunciados:** cada exercício abre com **Estudar** — o conceito explicado com exemplo em código — e fecha com o bullet **Ex NN**, que é o que você faz. Dúvida sobre o conceito, pergunta no chat; não é cola.
 
 ## Antes de começar — ambiente (checklist)
 
-- [ ] Pasta nova `t02-express/` com `npm init` respondido (sem `-y`)
-- [ ] `npm install express` — o Express entra em `dependencies`, não em devDeps. Confira no package.json.
-- [ ] `vitest` + `supertest` em `devDependencies` (vão ser usados do Ex 13, mas instale agora)
-- [ ] Cliente HTTP com collection salva: **Bruno** ou Postman, arquivo da collection commitado nesta pasta
-- [ ] `.gitignore` com `node_modules/`
+- [X] Pasta nova `t02-express/` com `npm init` respondido (sem `-y`)
+- [X] `npm install express` — o Express entra em `dependencies`, não em devDeps. Confira no package.json.
+- [X] `vitest` + `supertest` em `devDependencies` (vão ser usados do Ex 13, mas instale agora)
+- [X] Cliente HTTP com collection salva: **Bruno** ou Postman, arquivo da collection commitado nesta pasta
+- [X] `.gitignore` com `node_modules/`
 
 O `curl` continua sendo obrigatório: a collection é conforto, o `curl -i` é a prova.
 
 ---
 
-## Ex 01 — 📖 O que o Express acrescenta ao `http` cru
+## Ex 01 — 🔨 O que o Express acrescenta ao `http` cru
 
-**Arquivo:** `ex01-why-express.md` (+ `ex01-server.js`)
+**Arquivo:** `ex01.js`
 
-1. Reescreva **em Express** o servidor do Ex 03 do Tema 1 (JSON em `/`, texto em `/about`, 404 no resto). Mesmo comportamento visível, código novo.
-2. Coloque os dois arquivos lado a lado — o cru (copiado do T1, como referência) e o novo — e liste **3 coisas concretas que o Express fez por você**. Nada genérico tipo "facilita": aponte a linha do código cru que sumiu.
-3. Responda: o Express **substitui** o `node:http` ou **usa** ele por baixo? Ache a evidência (o que `app.listen()` devolve?) e cole.
-4. Uma frase: o 404 do Express aparece sozinho — de onde ele vem, se você não escreveu nenhum `if`?
+**Estudar:** `express()`, `app.get`, `res.json` × `res.send` × `res.status`, `app.listen`, a fila de rotas e o `finalhandler`.
+
+```js
+import express from 'express';
+const app = express();
+
+app.get('/ping', (req, res) => {
+  res.json({ pong: true });
+});
+
+app.listen(3000, () => console.log('ouvindo na 3000'));
+```
+
+`res.json(obj)` = `JSON.stringify` + `Content-Type: application/json` + fecha a resposta, tudo numa linha. `res.send('texto')` adivinha o `Content-Type` pelo tipo do argumento. `res.status(404)` só muda o número, não responde — encadeia: `res.status(404).json({...})`.
+
+Comparado ao `ex03-raw-http.js` do T1, sumiram três coisas: o roteamento (`if (req.url === ...)` → `app.get`), a serialização (`writeHead` + `end(JSON.stringify(x))` → `res.json(x)`) e o 404 na mão.
+
+O Express **não substitui** o `node:http` — usa por baixo. `app.listen()` devolve um `Server`, a mesma classe que o `createServer()` do T1 devolvia.
+
+O 404 aparece sozinho porque suas rotas são uma **fila**, não um `switch`: o Express percorre de cima pra baixo e, se ninguém casar, cai no `finalhandler` — registrado por último, responde 404. Repare que vem em HTML, não JSON; você troca isso no Ex 11.
+
+- **Ex 01** — servidor em Express com o mesmo comportamento do Ex 03 do T1: JSON em `/`, texto puro em `/about`. **Não escreva o 404**, deixe o Express dar o dele. Comprove com `curl -i` nas três situações e cole as saídas. Repare no `Content-Type` do `/about`: no cru você cravou `text/plain`, com `res.send()` o Express decide sozinho e vem diferente.
 
 ---
 
 ## Ex 02 — 🔨 `express.json()` e o `req.body`
 
-**Arquivo:** `ex02-json-body.js`
+**Arquivo:** `ex02.js`
 
-Rota `POST /echo` que devolve o corpo recebido de volta, como JSON.
+**Estudar:** `app.use` e o conceito de middleware, `express.json()`, `req.body`.
 
-Comprove nesta ordem e cole as saídas:
+```js
+app.use(express.json());        // antes das rotas
 
-```bash
-curl -i -X POST localhost:3000/echo -H "Content-Type: application/json" -d '{"title":"comprar pão"}'
+app.post('/users', (req, res) => {
+  console.log(req.body.nome);   // "Ana"
+});
 ```
 
-1. **Com** `app.use(express.json())` — o que veio no `req.body`?
-2. **Sem** o middleware (comente a linha) — o que veio? Exatamente o quê: `undefined`, `{}`, ou erro?
-3. Com o middleware ligado, mande um JSON **quebrado** (`-d '{"title":'`). Que status volta? Quem respondeu isso?
-4. Mande sem o header `Content-Type`. O que muda?
+No Ex 04 do T1 você viu o corpo chegar picado em pedaços via `req.on('data')`. Juntar os pedaços, virar string, dar `JSON.parse` e tratar erro é trabalho repetido em toda rota que recebe dados. O `express.json()` é um **middleware** que faz isso uma vez, antes das rotas, e pendura o resultado em `req.body`.
 
-**Responda no fim:**
+Quatro detalhes que pegam:
 
-- Ligando com o Tema 1: o `express.json()` está fazendo qual trabalho que você viu na mão no Ex 04 (streams)?
-- Uma frase: por que isso é *opt-in* e não vem ligado por padrão?
+- **Sem a linha, `req.body` é `undefined`** — não `{}`.
+- **`undefined` some do JSON.** `res.json({ body: undefined })` sai como `{}`, porque `JSON.stringify` descarta chaves `undefined`. Confira com `console.log` no servidor, não pela resposta.
+- **Só age se o `Content-Type` for `application/json`.** Por isso é *opt-in*: nem toda API recebe JSON (upload, formulário, XML), e parsear tudo por padrão é desperdício e superfície de ataque.
+- **JSON quebrado → 400 automático**, respondido pelo próprio Express.
+
+- **Ex 02** — rota `POST /echo` que devolve o corpo recebido de volta. Rode os quatro casos e cole as saídas: (a) com `express.json()`, (b) com a linha comentada, (c) com JSON quebrado (`-d '{"title":'`), (d) sem o header `Content-Type`.
+
+  ```bash
+  curl -i -X POST localhost:3000/echo -H "Content-Type: application/json" -d '{"title":"comprar pão"}'
+  ```
 
 ---
 
 ## Ex 03 — 🔨 As três portas: `params` × `query` × `body`
 
-**Arquivo:** `ex03-three-inputs.js`
+**Arquivo:** `ex03.js`
 
-Rota `POST /inspect/:id` que responde:
+**Estudar:** `req.params` × `req.query` × `req.body` — as três entradas de dados de uma requisição.
 
-```json
-{ "params": {...}, "query": {...}, "body": {...} }
+| Onde | Na URL / corpo | No código | Obrigatório? |
+|---|---|---|---|
+| `params` | `/users/`**`7`** | `req.params.id` | **Sim** — é parte do caminho; sem ele a rota nem casa |
+| `query` | `/users?`**`ativo=true`** | `req.query.ativo` | Não — `undefined` se ausente |
+| `body` | corpo do POST | `req.body.nome` | Não — e depende do `express.json()` |
+
+```js
+app.post('/users/:id', (req, res) => {
+  console.log(req.params.id);    // "7"     ← caminho
+  console.log(req.query.ativo);  // "true"  ← depois do ?
+  console.log(req.body.nome);    // "Ana"   ← corpo
+});
 ```
 
-Escreva **um único curl** que preencha os três de uma vez, e cole comando + resposta no arquivo.
+Cada um tem seu papel: `params` identifica *qual* recurso, `query` filtra/ordena/pagina, `body` carrega o conteúdo novo. Trocar de lugar é erro clássico de júnior — tipo mandar filtro no body de um GET.
 
-**Responda:**
+**Tipos:** `params` e `query` chegam **sempre como string** (a URL é texto puro). O `body` mantém os tipos, porque passou por `JSON.parse` — `{"done": true}` chega boolean de verdade.
 
-- Qual dos três é obrigatório pela rota, e quais são opcionais?
-- Qual o `typeof` de cada valor que chegou? Alguma surpresa?
-- Onde **não** se manda senha: query, body ou header? Por quê? (Pense em log de servidor e histórico do navegador.)
+**Senha nunca vai na query.** A URL aparece no histórico do navegador, no log de acesso do servidor, no header `Referer` mandado pra terceiros e em qualquer proxy no caminho. Senha e token vão no body ou no header `Authorization`.
+
+- **Ex 03** — `POST /inspect/:id` respondendo `{ params, query, body }`. Escreva **um único curl** que preencha os três de uma vez; cole comando e resposta.
 
 ---
 
 ## Ex 04 — 🔨 Rotas com parâmetro
 
-**Arquivo:** `ex04-route-params.js`
+**Arquivo:** `ex04.js`
 
-`GET /tasks/:id` que devolve `{ id, typeofId }`.
+**Estudar:** sintaxe `:param`, múltiplos params, validação na borda, formato de erro da API.
 
-1. Chame com `/tasks/7` e com `/tasks/abc`. Cole as duas respostas.
-2. O `typeof` do id é o que você esperava? Escreva sua previsão **antes** de rodar.
-3. Faça a rota devolver **400** quando o id não for um inteiro positivo. Decisão sua: `{ "error": "..." }` em qual formato? Escreva o formato escolhido no arquivo — **ele vale pra etapa inteira** a partir daqui.
-4. Adicione `GET /tasks/:listId/items/:itemId` e mostre o `req.params` com dois parâmetros.
+```js
+app.get('/users/:id', (req, res) => {
+  res.json({ id: req.params.id });
+});
+// GET /users/7   → { "id": "7" }
+// GET /users/abc → { "id": "abc" }   ← casa também!
+```
 
-**Responda:** por que tudo chega como string, se você mandou um número na URL?
+Vários params no mesmo caminho funcionam: `/lists/:listId/items/:itemId` enche `req.params` com as duas chaves.
+
+**A pegadinha:** a rota casa com **qualquer coisa**. `/users/abc`, `/users/-1`, `/users/999999999999` — todas entram no handler, todas como string. Quem valida e converte é você. Repassar isso direto pro banco é o buraco que o Tema 4 explora.
+
+**Formato de erro — decisão sua, vale pra etapa inteira.** Quando a validação falha você responde 400 com um JSON. O formato é escolha sua, mas escolha agora e mantenha até o deploy: cliente de API precisa de erro previsível.
+
+```js
+{ "error": "invalid id" }                               // simples
+{ "error": { "code": "INVALID_ID", "message": "..." } }  // com código
+{ "errors": [{ "field": "id", "message": "..." }] }      // lista, boa pra formulário
+```
+
+A terceira escala melhor quando um POST tem 5 campos inválidos de uma vez; a primeira é a mais rápida de escrever. Saber defender a escolha é matéria de entrevista.
+
+- **Ex 04** — `GET /tasks/:id` devolvendo `{ id, typeofId }`; chame com `/tasks/7` e `/tasks/abc` e cole as respostas. Depois: 400 no **seu formato** quando o id não for inteiro positivo (cole o `curl -i`), e uma rota `GET /tasks/:listId/items/:itemId` mostrando os dois params. No topo do arquivo, o formato de erro escolhido + justificativa em uma linha.
 
 ---
 
 ## Ex 05 — 🔨 `express.Router`
 
-**Arquivos:** `ex05-app.js` + `routes/tasks.routes.js`
+**Arquivos:** `ex05.js` + `routes/tasks.routes.js`
 
-Mova todas as rotas de tarefas para um router próprio, plugado com `app.use('/tasks', tasksRouter)`.
+**Estudar:** `express.Router`, montagem com prefixo, router como middleware.
 
-1. As rotas dentro do router **não** repetem o prefixo `/tasks` — confirme que continuam respondendo na mesma URL de antes.
-2. Mude o prefixo pra `/api/tasks` mexendo em **uma linha só**. Prove com curl.
-3. Volte pro `/tasks`.
+```js
+// routes/users.routes.js
+import { Router } from 'express';
+const router = Router();
 
-**Responda:**
+router.get('/', (req, res) => { ... });      // vira GET /users
+router.get('/:id', (req, res) => { ... });   // vira GET /users/:id
 
-- O que o Router é, na prática? (Dica: o que acontece se você der `console.log(typeof tasksRouter)`?)
-- Que problema isso resolve num arquivo de 40 rotas?
+export default router;
+```
+
+```js
+// ex05.js
+import usersRouter from './routes/users.routes.js';
+
+app.use('/users', usersRouter);   // o prefixo mora AQUI, uma vez só
+```
+
+Dentro do router os caminhos são **relativos** — `'/'` e `'/:id'`, sem repetir `/users`. O prefixo é colado no `app.use`.
+
+**Pra que serve:** num app de 40 rotas sem router você tem um arquivo de 600 linhas, o prefixo repetido 40 vezes (trocar `/users` por `/api/users` = 40 edições) e zero separação entre domínios. Com routers, cada recurso ganha seu arquivo e o app vira um índice de 10 linhas.
+
+**O detalhe que importa:** `Router()` devolve uma **função** — `console.log(typeof router)` mostra. É a mesma natureza de um middleware, recebe `(req, res, next)`. Por isso entra num `app.use` igualzinho ao `express.json()`. Router e middleware são a mesma coisa por baixo: o Express é uma pilha de funções do começo ao fim.
+
+- **Ex 05** — mova as rotas de tarefas pra `routes/tasks.routes.js`, plugado com `app.use('/tasks', tasksRouter)`; confirme com curl que respondem nas mesmas URLs. Depois mude o prefixo pra `/api/tasks` mexendo em **uma linha só**, prove com curl, e volte pro `/tasks`.
 
 ---
 
 ## Ex 06 — 📖 Semântica REST: verbos e status
 
-**Arquivo:** `ex06-rest-table.md`
+**Arquivo:** `ex06.md`
 
-**De memória, sem consultar** (consulte só depois, para corrigir em outra cor/seção): monte a tabela do CRUD completo de `/tasks`.
+**Estudar:** o contrato REST do CRUD — qual verbo, qual URL, qual status.
 
-| Ação | Verbo | URL | Status de sucesso | Erros possíveis |
+| Ação | Verbo | URL | Sucesso | Erros |
 |---|---|---|---|---|
+| listar | GET | `/tasks` | 200 | — |
+| ler uma | GET | `/tasks/:id` | 200 | 400 id inválido · 404 não existe |
+| criar | POST | `/tasks` | **201** + `Location` | 400 entrada inválida |
+| substituir | PUT | `/tasks/:id` | 200 | 400 · 404 |
+| alterar campo | PATCH | `/tasks/:id` | 200 | 400 · 404 |
+| apagar | DELETE | `/tasks/:id` | **204** (sem corpo) | 404 |
 
-Depois justifique, uma frase cada:
+Por quê:
 
-- Por que **201** no POST e não 200?
-- Por que **204** e não 200 com corpo no DELETE?
-- **400** × **404**: qual a diferença exata? Dê um exemplo de cada na sua API.
-- **422** existe — por que você vai (ou não vai) usar? Decisão sua.
-- Por que `GET /tasks/delete/7` é errado, se "funciona"?
+- **201, não 200, no POST** — 200 diz "deu certo"; 201 diz "deu certo **e criei um recurso novo**, ele está no `Location`". O cliente sabe que agora existe uma URL nova.
+- **204 no DELETE** — não sobrou nada pra devolver. 204 significa "sucesso, e o corpo está vazio de propósito" — o cliente não fica tentando parsear um JSON que não existe.
+- **400 × 404** — 400 é *"o que você mandou está errado"* (id `abc`, title vazio). 404 é *"o que você mandou está bem formado, mas não existe aqui"* (id `99` válido, tarefa apagada). Confundir os dois faz o cliente tentar corrigir o que não tem conserto.
+- **422** — alguns times usam pra "sintaxe ok, semântica inválida" (JSON válido mas `title` vazio), reservando 400 pra JSON quebrado. É legítimo e é decisão sua; o importante é ser consistente.
+- **`GET /tasks/delete/7` é errado** porque põe a ação na URL. Em REST o **verbo** diz a ação e a **URL** diz o recurso. Além de feio, é perigoso: GET é presumido seguro — um crawler, um preload do navegador ou um antivírus abrindo links apagaria suas tarefas.
 
-Marque o que você errou na versão de memória. Isso é matéria de entrevista.
+- **Ex 06** — monte essa tabela **de memória, sem consultar**, e só depois compare com a de cima marcando o que errou. Escreva as justificativas com as suas palavras. É matéria de entrevista.
 
 ---
 
 ## Ex 07 — 📖 Idempotência
 
-**Arquivo:** `ex07-idempotency.md`
+**Arquivo:** `ex07.md`
 
-1. Com a API rodando, rode o **mesmo DELETE duas vezes**. Cole as duas respostas.
-2. A segunda mudou. Explique por que isso está **certo** e não é um bug.
-3. Classifique GET, POST, PUT, PATCH, DELETE em idempotente / não idempotente — e diga qual é o único **inseguro e não idempotente**.
-4. Cenário: o app do celular manda um POST, a rede cai antes da resposta chegar, e o app tenta de novo. O que acontece? E se fosse PUT?
-5. Uma frase: idempotente é o mesmo que "devolve sempre a mesma resposta"? (Cuidado — não é.)
+**Estudar:** idempotência, métodos seguros × inseguros, o que acontece quando o cliente reenvia.
+
+**Idempotente** = repetir a chamada deixa o **servidor** no mesmo estado. Não quer dizer "devolve sempre a mesma resposta" — essa é a confusão clássica.
+
+| Método | Seguro (não altera nada) | Idempotente |
+|---|:---:|:---:|
+| GET | ✅ | ✅ |
+| PUT | ❌ | ✅ — mandar o mesmo objeto 5× dá o mesmo resultado de 1× |
+| DELETE | ❌ | ✅ — depois da 1ª, já não existe; continua não existindo |
+| PATCH | ❌ | ⚠️ depende (`{done:true}` sim; `{views: +1}` não) |
+| **POST** | ❌ | ❌ — **o único inseguro e não idempotente** |
+
+**O DELETE repetido:** 1ª vez 204, 2ª vez 404. A resposta mudou, mas o estado do servidor não — a tarefa está ausente nos dois casos. Isso é idempotente e está certo.
+
+**Por que isso importa na prática:** o app manda um POST, a rede cai antes da resposta chegar, o app não sabe se deu certo e tenta de novo → **duas tarefas criadas**. Com PUT o mesmo cenário é inofensivo, porque o cliente escolhe o id e reenviar sobrescreve. É por isso que sistemas de pagamento usam chave de idempotência: transformam um POST num "só uma vez, mesmo que chegue dez".
+
+- **Ex 07** — com a API rodando, rode o mesmo DELETE duas vezes e cole as duas respostas. Escreva com as suas palavras por que a resposta mudar não é bug, e monte a tabela de idempotência de memória antes de olhar a de cima.
 
 ---
 
 ## Ex 08 — 🔨 Resposta bem-feita: `Location` e 405
 
-**Arquivo:** `ex08-good-responses.js`
+**Arquivo:** `ex08.js`
 
-1. `POST /tasks` devolvendo **201** + header `Location: /tasks/<id>` apontando pro recurso criado. Comprove com `curl -i` e depois faça um `GET` na URL que veio no `Location` — tem que achar.
-2. Faça `DELETE /tasks` (na coleção, sem id) devolver **405** com o header `Allow` listando os métodos válidos.
-3. Cole os `curl -i` dos dois casos.
+**Estudar:** `res.set`/`res.location`, header `Location` no 201, status 405 e header `Allow`.
 
-**Responda:**
+```js
+app.post('/tasks', (req, res) => {
+  const task = { id: 7, ...req.body };
+  res.status(201).location(`/tasks/${task.id}`).json(task);
+});
 
-- Qual a diferença entre 405 e 404 pro cliente que tá chamando errado?
-- O `Location` é obrigatório? O que o cliente ganha com ele?
+app.all('/tasks', (req, res) => {          // pega os métodos não tratados
+  res.set('Allow', 'GET, POST').status(405).json({ error: 'method not allowed' });
+});
+```
+
+**`Location`** é opcional pela spec, mas é o que fecha o ciclo: o cliente acabou de criar algo e ainda não sabe o id. Sem o header ele teria que cavar o JSON de resposta ou listar tudo de novo. Com ele, o próximo request já sai pronto — e é assim que cliente automatizado (e o supertest do Ex 13) navega.
+
+**405 × 404** dizem coisas diferentes pro cliente: 404 = "essa URL não existe, procura outra". 405 = "a URL existe, o **método** é que está errado". O header `Allow` completa a dica, listando o que vale ali. Devolver 404 pra método errado manda o cliente caçar um bug que não existe.
+
+- **Ex 08** — `POST /tasks` devolvendo 201 + `Location`; comprove com `curl -i` e depois faça um GET na URL que veio no header (tem que achar). Depois faça `DELETE /tasks` (na coleção, sem id) devolver 405 com `Allow`. Cole os dois `curl -i`.
 
 ---
 
 ## Ex 09 — 🔨 Middleware: ordem e `next()`
 
-**Arquivo:** `ex09-middleware.js`
+**Arquivo:** `ex09.js`
 
-Logger artesanal, escrito por você, que imprime por request: **método · url · status · duração em ms**.
+**Estudar:** anatomia de um middleware, ordem de registro, `next()`, `res.on('finish')`.
 
-O pulo do gato: o status só existe *depois* da resposta. Descubra como esperar por isso (procure `res.on('finish')`).
+```js
+app.use((req, res, next) => {
+  const start = Date.now();
 
-Depois, experimentos — registre a observação de cada um:
+  res.on('finish', () => {                 // dispara quando a resposta termina
+    console.log(req.method, req.url, res.statusCode, Date.now() - start + 'ms');
+  });
 
-1. Ponha o logger **antes** de `express.json()` e depois **depois**. Muda alguma coisa no que ele consegue ver?
-2. Ponha o logger **depois** das rotas. Ele ainda roda? Por quê?
-3. Num middleware qualquer, **esqueça o `next()`** de propósito. O que o curl faz? Quanto tempo fica assim?
-4. Chame `next()` **e** `res.send()` no mesmo middleware. O que o Node reclama?
+  next();                                  // passa a bola pro próximo
+});
+```
 
-**Responda:** o que é, em uma frase, a "fila de middlewares"? E o que o `next()` realmente faz?
+Um middleware é só uma função `(req, res, next)` na fila. Cada request percorre a fila **na ordem em que você registrou** até alguém responder. `next()` chama o próximo da fila; `next(err)` pula direto pro tratador de erro (Ex 11).
+
+O pulo do gato do logger: **o status não existe ainda** quando o middleware roda — a resposta nem começou. Por isso você registra um listener em `res.on('finish')` e loga depois, com a duração fechada.
+
+Três erros que valem provocar de propósito:
+
+- **esquecer o `next()`** → o request fica pendurado até o timeout do cliente; nenhum erro aparece no servidor. É o bug mais confuso do Express.
+- **chamar `next()` e responder no mesmo middleware** → a fila continua e alguém tenta responder de novo: `ERR_HTTP_HEADERS_SENT`.
+- **registrar depois das rotas** → só roda se nenhuma rota tiver respondido, porque a fila é sequencial.
+
+- **Ex 09** — logger artesanal imprimindo método · url · status · ms. Depois registre a observação de cada experimento: (a) logger antes × depois do `express.json()`, (b) logger depois das rotas, (c) middleware sem `next()`, (d) `next()` + `res.send()` juntos.
 
 ---
 
 ## Ex 10 — 🔨 `morgan`
 
-**Arquivo:** `ex10-morgan.js` (+ nota no fim)
+**Arquivo:** `ex10.js`
 
-1. `npm install morgan`, plugue `morgan('dev')` junto com o seu logger do Ex 09.
-2. Faça 3 requests e cole a saída dos dois lado a lado.
-3. Teste outro formato (`combined`) e cole.
+**Estudar:** `morgan`, formatos `dev` × `combined`, quando usar lib pronta × código próprio.
 
-**Decisão sua, justificada em 2 frases:** qual fica na API final — o seu ou o morgan? Não existe resposta certa; existe resposta defendida. Anote o que o perdedor fazia melhor.
+```js
+import morgan from 'morgan';
+
+app.use(morgan('dev'));        // colorido, curto, pra desenvolvimento
+app.use(morgan('combined'));   // formato Apache, pra produção/análise
+```
+
+O `morgan` é o logger do Ex 09 pronto, testado e configurável. `dev` é enxuto e colorido por faixa de status; `combined` é verboso (IP, timestamp, user-agent, referer) e é o formato que ferramentas de análise de log já sabem ler.
+
+O que ele **não** faz: log estruturado em JSON, correlação por request-id, campos do seu domínio. Pra isso existe o `pino`, que entra no Tema 9. Escrever o seu no Ex 09 não foi desperdício — foi pra você saber o que a lib faz por baixo antes de confiar nela.
+
+- **Ex 10** — instale, plugue `morgan('dev')` junto com o seu logger, faça 3 requests e cole as duas saídas lado a lado. Teste o `combined` e cole. **Decisão sua, justificada em 2 frases:** qual fica na API final. Anote o que o perdedor fazia melhor.
 
 ---
 
 ## Ex 11 — 🔨 Validação + tratador de erro central
 
-**Arquivo:** `ex11-validation.js`
+**Arquivo:** `ex11.js`
 
-Três peças, nesta ordem:
+**Estudar:** middleware de validação, tratador de erro de 4 parâmetros, 404 coringa, `err.status`.
 
-1. **`validateTitle`** — middleware que barra title ausente, vazio, só espaços, ou que não seja string. Passou → `next()`. Não passou → erro.
-2. **Tratador de erro central** — o middleware de **4 parâmetros** `(err, req, res, next)`, registrado por último. Toda resposta de erro da API sai **daqui**, no formato que você definiu no Ex 04. Nada de `res.status(400).json(...)` espalhado pelas rotas.
-3. **404 coringa** — `app.use` no fim, pra rota inexistente cair num JSON seu, não no HTML do Express.
+```js
+// 1. validação — vira middleware, não código solto na rota
+function validateTitle(req, res, next) {
+  const { title } = req.body;
+  if (typeof title !== 'string' || title.trim() === '') {
+    const err = new Error('title is required');
+    err.status = 400;                 // o tratador lê isso
+    return next(err);                 // NÃO responde aqui
+  }
+  next();
+}
 
-Comprove: title vazio → 400 no seu formato · rota fantasma → 404 no seu formato · id inexistente → 404. Cole os três `curl -i`.
+app.post('/tasks', validateTitle, (req, res) => { ... });
 
-**Responda:**
+// 2. 404 coringa — depois de todas as rotas
+app.use((req, res, next) => {
+  const err = new Error('not found');
+  err.status = 404;
+  next(err);
+});
 
-- Como o erro do middleware chega no tratador? (Teste `throw` síncrono e `next(err)` — os dois funcionam?)
-- Por que o tratador tem que ser o **último** registrado?
-- O que **nunca** pode aparecer na resposta de erro em produção? (Rode um erro de propósito e olhe a resposta com atenção.)
+// 3. tratador central — 4 parâmetros, sempre o ÚLTIMO
+app.use((err, req, res, next) => {
+  res.status(err.status || 500).json({ error: err.message });   // seu formato do Ex 04
+});
+```
+
+**O tratador tem 4 parâmetros.** É assim que o Express o distingue de um middleware comum — ele conta os argumentos da função. Com 3, vira middleware normal e nunca recebe erro nenhum.
+
+**Tem que ser o último registrado** porque a fila é sequencial: `next(err)` pula os middlewares normais e procura o próximo tratador *daí pra frente*. Registrado no meio, os erros das rotas abaixo dele não o alcançam.
+
+**Erro síncrono chega sozinho.** Um `throw` dentro de um handler síncrono é capturado pelo Express e vira `next(err)` automaticamente. Em handler `async` isso muda — é o Ex 12.
+
+**Por que centralizar:** sem isso você repete `res.status(400).json(...)` em 20 lugares, e no dia que o formato mudar são 20 edições — com uma esquecida garantida. Com o tratador central, o formato de erro tem um dono só.
+
+**Nunca vaze stack trace em produção.** Ela expõe caminho de arquivo, versão de lib e estrutura interna — mapa pronto pra quem está atacando. Logue completo no servidor, responda enxuto pro cliente.
+
+- **Ex 11** — as três peças na ordem: `validateTitle`, 404 coringa, tratador central. Comprove com `curl -i`: title vazio → 400 no seu formato · rota fantasma → 404 no seu formato · id inexistente → 404. Provoque um erro não tratado e confira que a resposta não vaza stack trace.
 
 ---
 
 ## Ex 12 — 🔨 Erro em handler async
 
-**Arquivo:** `ex12-async-errors.js`
+**Arquivo:** `ex12.js`
 
-1. Handler `async` que faz `throw new Error('boom')` depois de um `await`.
-2. Chame com curl. **O pedido pendura ou volta erro?** Registre o tempo real e o que apareceu no terminal do servidor.
-3. Descubra a sua versão do Express (`npm ls express`) e explique o comportamento observado — 4 e 5 fazem coisas diferentes aqui.
-4. Corrija de duas formas: **try/catch com `next(err)`** e um **wrapper** (`asyncHandler(fn)`) que faz isso sozinho. Deixe as duas no arquivo.
+**Estudar:** erro em handler `async`, diferença Express 4 × 5, `try/catch` + `next(err)`, wrapper `asyncHandler`.
 
-**Responda:**
+```js
+app.get('/boom', async (req, res) => {
+  await algumaCoisa();
+  throw new Error('boom');        // Express 4: pendura. Express 5: vira 500.
+});
+```
 
-- Por que o Express 4 não enxerga o erro de uma promise rejeitada? (Volte no Ex 06 do Tema 1.)
-- Qual das duas correções vai pra API final e por quê?
+**Por que o Express 4 não vê:** ele envolve a chamada do handler num `try/catch` síncrono. Uma função `async` **retorna imediatamente** uma Promise — o `throw` acontece depois, quando o `try` já fechou. O erro vira `unhandledRejection` (o mesmo do Ex 06 do T1), ninguém responde, e o cliente fica pendurado até o timeout. **Express 5 corrigiu isso**: ele passou a esperar a Promise do handler e mandar a rejeição pro tratador. Você está no 5 — confirme com `npm ls express`.
+
+Duas formas de tratar explicitamente:
+
+```js
+// A) try/catch em cada handler
+app.get('/a', async (req, res, next) => {
+  try { ... } catch (err) { next(err); }
+});
+
+// B) wrapper que faz isso sozinho
+const asyncHandler = fn => (req, res, next) =>
+  Promise.resolve(fn(req, res, next)).catch(next);
+
+app.get('/b', asyncHandler(async (req, res) => { ... }));
+```
+
+O wrapper existe porque o try/catch em 30 handlers é ruído repetido — e basta esquecer um. No Express 5 nenhum dos dois é obrigatório, mas o wrapper continua útil quando o código precisa rodar também no 4, e o try/catch continua necessário quando você quer **tratar** o erro, não só repassá-lo.
+
+- **Ex 12** — handler `async` que lança depois de um `await`. Chame com curl e registre o que aconteceu (pendurou? qual status? o que apareceu no terminal do servidor?). Confirme sua versão do Express. Depois implemente as duas correções e deixe as duas no arquivo. **Decisão sua:** qual vai pra API final e por quê.
 
 ---
 
@@ -223,26 +390,42 @@ Comprove: title vazio → 400 no seu formato · rota fantasma → 404 no seu for
 
 **Arquivos:** `app.js` + `server.js` + `app.test.js`
 
-O passo que destrava tudo: **separar o app do servidor**. `app.js` monta e exporta o app (sem `listen`); `server.js` importa e dá `listen`. O teste importa o `app.js` e nunca sobe porta nenhuma.
+**Estudar:** separação app × server, `supertest`, asserts de status, corpo e header.
 
-Suíte cobrindo, para cada rota do tema, **um caso feliz e um caso de erro**:
+```js
+// app.js — monta e exporta, SEM listen
+const app = express();
+app.get('/tasks', ...);
+export default app;
 
-- `GET /tasks` → 200 e corpo array
-- `GET /tasks/:id` → 200 · id inválido → 400 · id inexistente → 404
-- `POST /tasks` → 201, com `Location` no header e o corpo criado · title vazio → 400 **no seu formato de erro**
-- `DELETE /tasks/:id` → 204 · repetido → 404
-- rota fantasma → 404 no seu formato
+// server.js — só sobe
+import app from './app.js';
+app.listen(process.env.PORT || 3000);
 
-Requisitos:
+// app.test.js
+import request from 'supertest';
+import app from './app.js';
 
-1. `npm test` **verde**.
-2. Quebre uma validação de propósito e veja o teste **vermelho**. Cole as duas saídas.
-3. Pelo menos um teste que verifica **header** (`Location` ou `Content-Type`), não só status.
+it('lista tarefas', async () => {
+  const res = await request(app).get('/tasks');
+  expect(res.status).toBe(200);
+  expect(Array.isArray(res.body)).toBe(true);
+});
+```
 
-**Responda:**
+**Por que separar:** o supertest recebe o `app` e sobe um servidor efêmero numa porta aleatória, sozinho. Se o `app.js` já desse `listen`, cada arquivo de teste brigaria pela porta 3000 e daria `EADDRINUSE`. Separado, os testes rodam em paralelo sem conflito e sem você gerenciar servidor.
 
-- Por que o supertest não precisa de `listen`? O que ele faz com o app?
-- Se o teste passa mas o `server.js` não sobe, seu teste teria pego? O que isso diz sobre o que ele cobre?
+**O que essa suíte não cobre:** se o `server.js` estiver quebrado, os testes passam mesmo assim — eles nunca o importam. Testar o app não é testar o processo; isso volta no Tema 9, com a rota `/health`.
+
+- **Ex 13** — separe `app.js` de `server.js` e escreva a suíte cobrindo, para cada rota do tema, um caso feliz e um de erro:
+
+  - `GET /tasks` → 200 e corpo array
+  - `GET /tasks/:id` → 200 · id inválido → 400 · id inexistente → 404
+  - `POST /tasks` → 201, com `Location` no header e o corpo criado · title vazio → 400 **no seu formato de erro**
+  - `DELETE /tasks/:id` → 204 · repetido → 404
+  - rota fantasma → 404 no seu formato
+
+  `npm test` verde. Depois quebre uma validação de propósito e veja vermelho — cole as duas saídas. Pelo menos um teste tem que verificar **header**, não só status.
 
 ---
 
