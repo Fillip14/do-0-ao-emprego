@@ -50,7 +50,7 @@ etapas/etapa-2/
 
 ### Semana 1 — Node · ✅ concluída (20–21/07)
 
-> 12/12 exercícios feitos · pendências: Ex 07 (`process.env`) mal resolvido e Ex 12 escrito pela IA — ambos revisados no checkpoint. Pasta: [`semana-01-node/`](semana-01-node/).
+> 12/12 exercícios feitos · **checkpoint 🟡 amarelo**: semana árida e abstrata; Ex 07, 10 e 12 voltam pra revisão. Pasta: [`semana-01-node/`](semana-01-node/).
 
 **Ambiente:** WSL/Ubuntu (projeto DENTRO do WSL) · Node LTS via nvm (nunca o instalador do Windows) · VS Code + extensão WSL · git + `.gitignore` com `node_modules/`.
 

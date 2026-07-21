@@ -30,7 +30,10 @@ Cada exercício também roda solto: `node exNN-nome.js`
 | 11 | `ex11-debug.md` | Debug com `--inspect` e breakpoint no VS Code |
 | 12 | `ex12-functions.js` + `.test.js` | Funções puras testadas com Vitest |
 
-## Pendências
 
-- Ex 12 escrito pela IA (ver `NOTA-EX12.md`) — refazer sem consultar.
-- Ex 07 ficou mal resolvido — revisar no checkpoint.
+**3 coisas que me surpreenderam**: o ex04 sobre como dados grandes são processados; como usar a ferramente de debug; e errors.
+**1 coisa que ficou mal resolvida**: o ex03 a parte do req.on
+
+## Checkpoint
+
+🟡 **Amarelo** — 12/12 exercícios feitos e o conteúdo entrou, mas foi a semana mais árida da etapa: tudo abstrato, sem nada visível funcionando no fim. Os exercícios 07, 10 e 12 ficaram travados e voltam pra revisão.

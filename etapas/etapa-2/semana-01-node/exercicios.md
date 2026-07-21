@@ -130,7 +130,7 @@ Depois registre handlers de `process.on('uncaughtException')` e `process.on('unh
 
 ---
 
-## Ex 07 — 🔨 `process.env` · ⚠️ revisar no checkpoint · ✅ (feito 21/07)
+## Ex 07 — 🔨 `process.env` · ⚠️ refazer · ✅ (feito 21/07)
 
 **Arquivo:** `ex07-env.js`
 
@@ -187,7 +187,7 @@ Decisão sua (justificada, uma frase no arquivo): **o resto da etapa vai em ESM 
 
 ---
 
-## Ex 10 — 🔨 Módulos nativos · ✅ (feito 21/07)
+## Ex 10 — 🔨 Módulos nativos · ⚠️ refazer (feito 21/07)
 
 **Arquivo:** `ex10-core-modules.js`
 
@@ -224,7 +224,7 @@ Script (não servidor) que:
 
 ---
 
-## Ex 12 — 🔨 Testes com Vitest · ⚠️ feito pela IA, refazer (ver `NOTA-EX12.md`) · ✅ feito 21/07
+## Ex 12 — 🔨 Testes com Vitest · ⚠️ refazer · ✅ feito 21/07
 
 **Arquivos:** `ex12-functions.js` + `ex12-functions.test.js`
 
