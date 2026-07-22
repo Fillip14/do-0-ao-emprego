@@ -16,13 +16,27 @@ export const resetTasks = () => {
 };
 
 const validateTitle = (req, res, next) => {
-  const { title } = req.body;
+  const title = req.body?.title;
   if (typeof title !== 'string' || title.trim() === '') {
     const err = new Error('title is required');
     err.status = 400;
     err.field = 'title';
     return next(err);
   }
+  next();
+};
+
+const validateId = (req, res, next) => {
+  const idNumber = Number(req.params.id);
+
+  if (idNumber <= 0 || !Number.isInteger(idNumber)) {
+    const err = new Error('invalid id');
+    err.status = 400;
+    err.field = 'id';
+    return next(err);
+  }
+
+  req.id = idNumber;
   next();
 };
 
@@ -33,17 +47,8 @@ tasksRoutes.get('/', (req, res) => {
   return res.json(tasks);
 });
 
-tasksRoutes.get('/:id', (req, res, next) => {
-  const idNumber = Number(req.params.id);
-
-  if (idNumber <= 0 || !Number.isInteger(idNumber)) {
-    const err = new Error('invalid id');
-    err.status = 400;
-    err.field = 'id';
-    return next(err);
-  }
-
-  const task = tasks.find((task) => task.id === idNumber);
+tasksRoutes.get('/:id', validateId, (req, res, next) => {
+  const task = tasks.find((task) => task.id === req.id);
 
   if (typeof task === 'undefined') {
     const err = new Error('not found');
@@ -61,17 +66,8 @@ tasksRoutes.post('/', validateTitle, (req, res) => {
   return res.status(201).location(`/tasks/${newTask.id}`).json(newTask);
 });
 
-tasksRoutes.patch('/:id', validateTitle, (req, res, next) => {
-  const idNumber = Number(req.params.id);
-
-  if (idNumber <= 0 || !Number.isInteger(idNumber)) {
-    const err = new Error('invalid id');
-    err.status = 400;
-    err.field = 'id';
-    return next(err);
-  }
-
-  const task = tasks.find((task) => task.id === idNumber);
+tasksRoutes.patch('/:id', validateId, validateTitle, (req, res, next) => {
+  const task = tasks.find((task) => task.id === req.id);
 
   if (typeof task === 'undefined') {
     const err = new Error('not found');
@@ -80,25 +76,13 @@ tasksRoutes.patch('/:id', validateTitle, (req, res, next) => {
     return next(err);
   }
 
-  const patchTask = tasks.map((task) => {
-    if (task.id === idNumber) task.title = req.body.title;
-    return task;
-  });
+  task.title = req.body.title;
 
   return res.status(200).json(task);
 });
 
-tasksRoutes.delete('/:id', (req, res, next) => {
-  const idNumber = Number(req.params.id);
-
-  if (idNumber <= 0 || !Number.isInteger(idNumber)) {
-    const err = new Error('invalid id');
-    err.status = 400;
-    err.field = 'id';
-    return next(err);
-  }
-
-  const index = tasks.findIndex((task) => task.id === idNumber);
+tasksRoutes.delete('/:id', validateId, (req, res, next) => {
+  const index = tasks.findIndex((task) => task.id === req.id);
 
   if (index === -1) {
     const err = new Error('not found');
@@ -112,11 +96,12 @@ tasksRoutes.delete('/:id', (req, res, next) => {
   return res.status(204).send();
 });
 
-tasksRoutes.all('/', (req, res) => {
-  return res
-    .set('Allow', 'GET, POST')
-    .status(405)
-    .json({ errors: [{ message: 'method not allowed' }] });
+tasksRoutes.all('/', (req, res, next) => {
+  res.set('Allow', 'GET, POST');
+  const err = new Error('method not allowed');
+  err.status = 405;
+  err.field = 'method';
+  return next(err);
 });
 
 export default tasksRoutes;

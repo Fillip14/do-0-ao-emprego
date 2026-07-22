@@ -72,6 +72,17 @@ describe('POST /tasks', () => {
     expect(res.headers.location).toBe('/tasks/3');
   });
 
+  it('responde 400 quando sem body', async () => {
+    const res = await request(app).post('/tasks');
+    expect(res.status).toBe(400);
+    expect(res.body.errors).toEqual([
+      {
+        field: 'title',
+        message: 'title is required',
+      },
+    ]);
+  });
+
   it('responde 400 quando sem title', async () => {
     const res = await request(app).post('/tasks').send({});
     expect(res.status).toBe(400);
