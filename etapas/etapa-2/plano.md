@@ -69,9 +69,9 @@ etapas/etapa-2/
 11. Debugging: `node --inspect` + VS Code. — 🔨 **Ex:** breakpoint dentro do handler; inspecionar `req.url` e headers com o processo pausado.
 12. Testes: Vitest, `describe`/`it`/`expect`. — 🔨 **Ex:** 2 funções puras testadas com caso feliz + caso de borda cada; `npm test` verde.
 
-### Tema 2 — Express · *semana sugerida 2* · aberto 21/07
+### Tema 2 — Express · *semana sugerida 2* · ✅ feito 21–22/07
 
-> Pasta: [`t02-express/`](t02-express/) · enunciados em `t02-express/exercicios.md`.
+> 13/13 exercícios · **checkpoint 🟢 verde**: todos escritos por mim, decisões de contrato justificadas e um bug real (`POST` sem `Content-Type` → 500) achado por raciocínio e coberto por teste. Ponto de atenção: ritmo — tema de uma semana fechado em dois dias. Pasta: [`t02-express/`](t02-express/).
 
 **Ambiente:** pasta nova, projeto npm novo, `npm install express` · curl + Bruno/Postman com collection salva na pasta da semana.
 
