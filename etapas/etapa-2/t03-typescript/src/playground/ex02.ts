@@ -21,4 +21,5 @@ const viaAny: any = JSON.parse(raw);
 const viaUnknown: unknown = JSON.parse(raw);
 
 viaAny.nada.nada; // Passa limpo
+// @ts-expect-error
 viaUnknown.nada.nada; // 'viaUnknown' é do tipo 'desconhecido'. ts 18046
