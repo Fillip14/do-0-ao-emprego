@@ -9,7 +9,7 @@ node_modules
 Thumbs.db
 
 # dirs
-playground/
+playground-e1/
 playground-ts/
 .vscode
 dist/
