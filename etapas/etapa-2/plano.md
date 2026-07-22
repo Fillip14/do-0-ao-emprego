@@ -96,7 +96,7 @@ etapas/etapa-2/
 
 **Ambiente:** pasta nova · `typescript` + `@types/*` em devDeps · `"type": "module"` + `module: nodenext` casados · todo `.ts` dentro de `src/` (playground em `src/playground/`) · `tsconfig` strict desde o dia 1, mais um `tsconfig.build.json` que exclui teste e playground do `dist/` · tsx pra dev + `tsc` pra produção.
 
-1. O que o TS resolve e o que cobra. — 📖 **Verif.:** achar 3 bugs seus de JS (da Etapa 1 vale) que o TS teria pego e dizer como.
+1. O que o TS resolve e o que cobra. — 📖 **Verif.:** na API do T2, achar 3 buracos que o TS fecharia e 1 que ele não fecha, dizendo por quê.
 2. Tipos básicos, inferência, `any` vs `unknown`. — 🔨 **Ex:** no playground, deixar inferir, forçar erros de atribuição e comparar `any` × `unknown` no mesmo dado.
 3. `interface`/`type`. — 🔨 **Ex:** modelar `Task`; criar objeto com campo faltando e com campo extra — ler as duas mensagens do compilador.
 4. União e narrowing. — 🔨 **Ex:** função que recebe `string | number`; ver no hover o tipo afunilar dentro do `if`.

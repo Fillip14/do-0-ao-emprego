@@ -14,14 +14,14 @@ Os Ex 02–11 são de tipo puro, num playground. Os Ex 12–14 juntam tudo: **o 
 
 ## Antes de começar — ambiente (checklist)
 
-- [ ] Pasta nova `t03-typescript/` com `npm init` respondido (sem `-y`)
-- [ ] **`"type": "module"` no package.json** — ver a nota abaixo, é a armadilha de dia 1
-- [ ] `npm install -D typescript @types/node tsx vitest` — **tudo em devDependencies**. O TypeScript não roda em produção; produção roda o JavaScript que ele gerou.
-- [ ] `npx tsc --init`, e então **ajuste o que ele gerou** (ele vem com `"module": "commonjs"`, que não é o que queremos)
-- [ ] Estrutura de pastas montada como abaixo — **todo código `.ts` vive dentro de `src/`**
-- [ ] Dois arquivos de config (Ex 12 explica o porquê; crie agora)
-- [ ] Scripts no package.json: `"dev": "tsx watch src/server.ts"`, `"build": "tsc -p tsconfig.build.json"`, `"typecheck": "tsc --noEmit"`, `"test": "npm run typecheck && vitest run"`
-- [ ] `.gitignore` com `node_modules/` **e `dist/`** — código gerado não vai pro repo
+- [X] Pasta nova `t03-typescript/` com `npm init` respondido (sem `-y`)
+- [X] **`"type": "module"` no package.json** — ver a nota abaixo, é a armadilha de dia 1
+- [X] `npm install -D typescript @types/node tsx vitest` — **tudo em devDependencies**. O TypeScript não roda em produção; produção roda o JavaScript que ele gerou.
+- [X] `npx tsc --init`, e então **ajuste o que ele gerou** (ele vem com `"module": "commonjs"`, que não é o que queremos)
+- [X] Estrutura de pastas montada como abaixo — **todo código `.ts` vive dentro de `src/`**
+- [X] Dois arquivos de config (Ex 12 explica o porquê; crie agora)
+- [X] Scripts no package.json: `"dev": "tsx watch src/server.ts"`, `"build": "tsc -p tsconfig.build.json"`, `"typecheck": "tsc --noEmit"`, `"test": "npm run typecheck && vitest run"`
+- [X] `.gitignore` com `node_modules/` **e `dist/`** — código gerado não vai pro repo
 
 ### A armadilha de dia 1: ESM × CommonJS
 
@@ -128,7 +128,11 @@ O JS só descobre problema de tipo **quando a linha executa** — e uma linha de
 
 **O limite que mais confunde iniciante:** **o TS some em runtime.** Ele checa, gera JavaScript e sai de cena — não existe `if (typeof x === 'Task')` gerado por ele. Um JSON que chega num `POST` pode ser qualquer coisa, e o compilador não tem como saber. Tipo é promessa sobre o código que **você** escreveu; dado que vem de fora precisa de validação em runtime — é o Ex 06 e o Ex 07 deste tema, e o `zod` do Tema 6.
 
-- **Ex 01** — vasculhe seu código da Etapa 1 (ou do T1/T2) e ache **3 bugs reais que você teve** que o TS teria pego. Para cada um: o trecho como estava, a mensagem que o compilador daria, e o que você teria que mudar pra ele aceitar. Depois escreva **1 bug seu que o TS NÃO teria pego** e por quê — esse é o mais importante do exercício. (Sugestão de onde procurar o quarto: o bug do `Content-Type` no T2.)
+- **Ex 01** — abra o `t02-express/ex13/app.js` e o `routes/tasks.routes.js` ao lado, e ache **3 lugares onde o TypeScript mudaria alguma coisa**. Não bugs que já aconteceram — **buracos que estão lá agora**, abertos, esperando a entrada errada. Para cada um: o trecho como está, o que o compilador exigiria de você, e como o código ficaria depois. Onde olhar: `req.params.id`, que chega string e você trata como número · `req.body`, que pode ser literalmente qualquer coisa · alguma busca no array que pode não achar nada e devolver `undefined` sem ninguém checar.
+
+  Depois, o item que vale mais que os três juntos: **1 buraco que o TypeScript NÃO fecha**, e por quê. Você já tem o candidato — o `POST` sem `Content-Type` que derrubava o handler em 500. O compilador teria como saber que o `req.body` chegaria `undefined` ali? Responda isso e você entendeu o limite da ferramenta.
+
+  > *Versão trocada em 22/07. A original era caçar 3 bugs reais do passado no devlog e no `git log`; virou análise do código atual porque a memória não rendeu. Mesmo objetivo, matéria-prima fresca.*
 
 ---
 
