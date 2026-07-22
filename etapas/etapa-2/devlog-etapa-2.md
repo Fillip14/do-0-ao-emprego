@@ -20,6 +20,9 @@
 
 - **Tema 2 (Express) fechado** — 13/13 exercícios, pasta `t02-express/`, **checkpoint 🟢 verde**. API final em `t02-express/ex13/` com `app.js` separado do `server.js` e suíte em supertest.
 
+- **Tema 3 (TypeScript) aberto** — `exercicios.md` criado em `t03-typescript/` com **14 exercícios**: os 13 tópicos do plano mais um Ex 14 que porta a API do T2 pra TypeScript.
+- **Mudança no plano da etapa**, saída da revisão do enunciado do T3: a API passa a ser explicitamente **progressiva** (regra nova nas regras da etapa — tema que não muda a API não fechou), a pasta nova nasce da **cópia** da anterior a partir do T3 em vez de ser redigitada, e T4, T5 e T7 ganharam exercício de fechamento que traz o aprendizado do tema pra dentro da API.
+
 - O que aprendi: erro em handler `async` e por que o Express 4 penduraria o pedido onde o 5 devolve 500 · separar o `app` do `server` pra poder testar · que suíte verde não quer dizer API correta
-- Travei/faltou: nada
-- Amanhã: Tema 3 (TypeScript)
+- Travei/faltou: nada no código. Revisando a primeira versão do enunciado do T3 achei 9 problemas — contradição entre exercícios, `rootDir` apontando pra uma pasta que nenhum exercício criava, um exemplo de `satisfies` errado, e o principal: 13 exercícios de playground sem nada que roda no fim, que é exatamente o que deixou o T1 amarelo. Enunciado refeito antes de começar.
+- Amanhã: Ex 01 do Tema 3
