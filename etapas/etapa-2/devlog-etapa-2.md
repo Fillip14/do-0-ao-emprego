@@ -2,7 +2,7 @@
 
 ### 16/07 ao 20/07/2026
 
-1. **v1 da etapa (arquivada)** — sob o plano antigo de 5 semanas com entregável semanal, 4 "semanas" fecharam em 5 dias: API Express em memória testada no Bruno (S1) · CRUD completo com validação, erro centralizado e 15 testes Vitest/supertest (S2) · PostgreSQL com queries parametrizadas, SQL injection demonstrada de verdade e banco de teste isolado (S3) · migração TypeScript `strict` com 16 testes verdes (S4). O código funcionou, mas velocidade não virou retenção — **etapa reiniciada em 21/07** com plano novo de 10 semanas; código e detalhes da v1 em [`etapas/etapa-2/arquivo-v1/`](etapas/etapa-2/arquivo-v1/) |
+1. **v1 da etapa (arquivada)** — sob o plano antigo de 5 semanas com entregável semanal, 4 "semanas" fecharam em 5 dias: API Express em memória testada no Bruno (S1) · CRUD completo com validação, erro centralizado e 15 testes Vitest/supertest (S2) · PostgreSQL com queries parametrizadas, SQL injection demonstrada de verdade e banco de teste isolado (S3) · migração TypeScript `strict` com 16 testes verdes (S4). O código funcionou, mas velocidade não virou retenção — **etapa reiniciada em 21/07** com plano novo de 10 semanas; código e detalhes da v1 em [`etapas/etapa-2/arquivo-v1/`](etapas/etapa-2/arquivo-v1/)
 
 
 # Reinício da etapa · 21/07/2026
@@ -20,9 +20,17 @@
 
 - **Tema 2 (Express) fechado** — 13/13 exercícios, pasta `t02-express/`, **checkpoint 🟢 verde**. API final em `t02-express/ex13/` com `app.js` separado do `server.js` e suíte em supertest.
 
-- **Tema 3 (TypeScript) aberto** — `exercicios.md` criado em `t03-typescript/` com **14 exercícios**: os 13 tópicos do plano mais um Ex 14 que porta a API do T2 pra TypeScript.
-- **Mudança no plano da etapa**, saída da revisão do enunciado do T3: a API passa a ser explicitamente **progressiva** (regra nova nas regras da etapa — tema que não muda a API não fechou), a pasta nova nasce da **cópia** da anterior a partir do T3 em vez de ser redigitada, e T4, T5 e T7 ganharam exercício de fechamento que traz o aprendizado do tema pra dentro da API.
+- **Tema 3 (TypeScript) aberto** — `exercicios.md` em `t03-typescript/` com **14 exercícios**: os 13 tópicos do plano mais um Ex 14 de integração.
+- **Ex 01 a 06 feitos** — o Ex 01 virou análise da minha API do T2 em vez de arqueologia de bugs antigos (não lembrava de nenhum). Descoberta do dia: o TypeScript **não** teria pego o bug do `Content-Type`, porque `req.body` é `any`.
+
+**Decisões de estrutura da etapa (as três minhas):**
+
+1. **A API é progressiva.** Regra nova: tema que não muda a API não fechou. Antes dava pra terminar um tema com dez pastas de estudo e nenhuma API.
+2. **A API vive numa pasta só — `etapas/etapa-2/api/`.** A primeira ideia era copiar a pasta do tema anterior a cada tema. Troquei: copiar duplica a API dez vezes, arrasta o playground velho junto e **apaga a história dela no git** — cada cópia entra como arquivo novo. Com uma pasta só, `git log api/` conta a evolução: o dia em que virou TS, o dia em que ganhou banco, o dia em que ganhou auth. A `api/` nasce no Ex 14, copiada uma única vez do `t02-express/ex13/`, e daí só evolui por commit.
+3. **O contrato da API mora no `api/README.md`**, não no plano — rotas, status, formato de erro, arquitetura. Uma fonte de verdade só, e é a que quem visita o repo lê. Tirei a tabela de rotas do `plano.md` por isso.
+
+Consequência: as pastas `tNN-*` passam a guardar só estudo (playground, respostas escritas, sub-projetos). Nos temas 6, 8, 9 e 10 elas ficam quase vazias — o tema inteiro acontece dentro da `api/`.
 
 - O que aprendi: erro em handler `async` e por que o Express 4 penduraria o pedido onde o 5 devolve 500 · separar o `app` do `server` pra poder testar · que suíte verde não quer dizer API correta
 - Travei/faltou: nada no código. Revisando a primeira versão do enunciado do T3 achei 9 problemas — contradição entre exercícios, `rootDir` apontando pra uma pasta que nenhum exercício criava, um exemplo de `satisfies` errado, e o principal: 13 exercícios de playground sem nada que roda no fim, que é exatamente o que deixou o T1 amarelo. Enunciado refeito antes de começar.
-- Amanhã: Ex 01 do Tema 3
+- Amanhã: Ex 07 do Tema 3

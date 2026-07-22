@@ -29,13 +29,13 @@ Regras transversais: commits diários no GitHub desde a Etapa 0 · uso de IA seg
 - **Projeto:** gerenciador de tarefas (Ex 8) como página web — interface no navegador, lógica em JS.
 - **Avaliação:** projeto + exercícios de array methods que eu passar.
 
-### Etapa 2 — Back-end: Node, Express, TypeScript e banco (reiniciada 21/07 · 10 semanas · avaliação alvo 28/09, antecipável)
+### Etapa 2 — Back-end: Node, Express, TypeScript e banco (reiniciada 21/07 · 10 temas · avaliação alvo 28/09, antecipável)
 
-> Reiniciada em 21/07: a v1 (16–20/07) fechou 4 semanas em 5 dias sem fixar — velocidade não é aprendizado. Plano novo: uma semana por assunto, uma pasta por semana, exercício definido por tópico. Detalhe completo (~123 tópicos): `etapas/etapa-2/plano.md`.
+> API funcional para servir a Etapa 3.
 
 - Fundamentos por dentro antes do atalho: HTTP cru e `node:http` → Express (rotas, middleware, validação, erro centralizado com formato único).
 - Testes automatizados desde a semana 1 (Vitest + supertest) + uma semana só de técnica: pirâmide, mocks, cobertura, TDD.
-- TypeScript `strict` de ponta a ponta — a API nasce tipada, não migra.
+- TypeScript `strict`: a API nasce em JS no Tema 2 e migra pra TS no Tema 3 — migrar código que já funciona é a experiência mais comum do mercado.
 - PostgreSQL de verdade: SQL puro, `pg` com pool e queries parametrizadas, SQL injection demonstrada, transações; schema versionado com migrations; ORM (Prisma) comparado ao SQL cru.
 - Arquitetura em camadas (rota/serviço/repositório), validação com zod, paginação, filtros e ordenação segura.
 - Autenticação (bcrypt, JWT, 401×403) e segurança de borda (CORS, helmet, rate limiting, OWASP) — antecipação do capstone.
@@ -49,7 +49,7 @@ Regras transversais: commits diários no GitHub desde a Etapa 0 · uso de IA seg
 - **Projeto:** front React conectado à API de tarefas da Etapa 2 → primeiro projeto full stack completo, com deploy.
 - **Avaliação:** projeto no ar, código revisado por mim.
 
-### Etapa 4 — Capstone: o "reclame aqui" concluído (semanas 16–20)
+### Etapa 4 — Capstone: o "reporte-aqui" concluído (semanas 16–20)
 
 - Refazer do zero, agora sabendo o que faz: cadastro/login (auth), CRUD de reclamações, banco, front React, deploy.
 - README caprichado, testes básicos. Este é o projeto central do portfólio — e a resposta para "o site que não foi concluído".

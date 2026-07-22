@@ -1,6 +1,7 @@
 # Tema 3 — TypeScript · Enunciados
 
-> Pasta: `etapas/etapa-2/t03-typescript/` · **Projeto novo e autocontido**: `npm init`, TypeScript instalado aqui, e `npm run dev` / `npm run build` / `npm test` funcionam nesta pasta. As pastas do T1 e do T2 ficam congeladas — não edite nada lá.
+> Pasta: `etapas/etapa-2/t03-typescript/` · **Projeto novo e autocontido**: `npm init`, TypeScript instalado aqui, e `npm run typecheck` / `npm test` funcionam nesta pasta. As pastas do T1 e do T2 ficam congeladas — não edite nada lá.
+> **O Ex 14 é fora daqui**: ele cria a `etapas/etapa-2/api/`, que sobrevive ao tema e vai até o Tema 10. Ver a estrutura abaixo.
 > Regra da etapa: **fase REVISOR** — nada de código pronto. Você escreve, roda, e só depois eu reviso (antes→depois).
 > **Nomes de arquivo e identificadores em inglês**; enunciados, comentários e respostas em português.
 > **Commit por exercício.** Mensagem no formato `t03: ex04 union narrowing`.
@@ -8,7 +9,7 @@
 
 ## Onde este tema chega
 
-Os Ex 02–11 são de tipo puro, num playground. Os Ex 12–14 juntam tudo: **o Ex 14 porta a API do T2 (`t02-express/ex13/`) para TypeScript**, com os tipos que você construiu ao longo do tema. É essa API tipada que o Tema 4 pluga no PostgreSQL — o tema não termina em exercício de compilador, termina em servidor que sobe.
+Os Ex 02–11 são de tipo puro, num playground descartável. Os Ex 12–14 juntam tudo: **o Ex 14 cria a `etapas/etapa-2/api/`** — a API do T2 portada pra TypeScript com os tipos que você construiu no caminho. Essa pasta é a única da etapa que sobrevive aos temas: o T4 pluga o Postgres nela, o T9 sobe ela pro ar, a Etapa 3 consome ela. O tema não termina em exercício de compilador, termina em servidor que sobe.
 
 > São **14 exercícios**; o plano lista 13 tópicos. O Ex 14 é integração dos anteriores, não matéria nova.
 
@@ -20,7 +21,7 @@ Os Ex 02–11 são de tipo puro, num playground. Os Ex 12–14 juntam tudo: **o 
 - [X] `npx tsc --init`, e então **ajuste o que ele gerou** (ele vem com `"module": "commonjs"`, que não é o que queremos)
 - [X] Estrutura de pastas montada como abaixo — **todo código `.ts` vive dentro de `src/`**
 - [X] Dois arquivos de config (Ex 12 explica o porquê; crie agora)
-- [X] Scripts no package.json: `"dev": "tsx watch src/server.ts"`, `"build": "tsc -p tsconfig.build.json"`, `"typecheck": "tsc --noEmit"`, `"test": "npm run typecheck && vitest run"`
+- [X] Scripts no package.json: `"typecheck": "tsc --noEmit"`, `"test": "npm run typecheck && vitest run"`, `"build": "tsc -p tsconfig.build.json"` *(o `dev` com `tsx watch` só faz sentido na `api/`, que tem servidor — aqui não há o que servir)*
 - [X] `.gitignore` com `node_modules/` **e `dist/`** — código gerado não vai pro repo
 
 ### A armadilha de dia 1: ESM × CommonJS
@@ -47,24 +48,31 @@ Não é erro de digitação. Com `nodenext`, o especificador do import é o cami
 
 ### Estrutura
 
+**Duas pastas, e elas não se misturam.** Os Ex 01–13 acontecem aqui, na pasta do tema. O Ex 14 acontece na `api/`, que é irmã desta e nasce lá.
+
 ```
-t03-typescript/
-├── tsconfig.json           ← checa TUDO em src/, testes incluídos
-├── tsconfig.build.json     ← estende o de cima, exclui teste e playground → dist/
-├── ex01.md  ex12.md        ← exercícios escritos (fora de src/, não são código)
-└── src/
-    ├── playground/         ← Ex 02 a Ex 11
-    │   └── ex02.ts ... ex11.ts
-    ├── task.ts             ← Ex 13: os tipos e validadores, extraídos do playground
-    ├── task.test.ts
-    ├── app.ts              ← Ex 14: a API do T2, agora em TS
-    ├── server.ts
-    ├── app.test.ts
-    └── routes/
-        └── tasks.routes.ts
+etapas/etapa-2/
+│
+├── t03-typescript/          ← ESTA pasta: estudo, descartável
+│   ├── tsconfig.json        ← checa TUDO em src/, testes incluídos
+│   ├── tsconfig.build.json  ← estende o de cima, exclui teste e playground
+│   ├── ex01.md  ex12.md     ← exercícios escritos
+│   └── src/
+│       ├── playground/      ← Ex 02 a Ex 11 — rascunho, morre aqui
+│       │   └── ex02.ts ... ex11.ts
+│       ├── task.ts          ← Ex 13 — este NÃO morre aqui: vai pra api/ no Ex 14
+│       └── task.test.ts
+│
+└── api/                     ← nasce no Ex 14 e sobrevive até o Tema 10;
+                                projeto npm próprio, herda a config daqui + express.
+                                Estrutura e contrato no seu próprio README.
 ```
 
-**Por que tudo dentro de `src/`:** o `rootDir` e o `include` do tsconfig apontam para lá. Arquivo `.ts` fora de `src/` fica **fora do projeto** — o `npm run typecheck` não o vê, e o editor deixa de aplicar o seu `strict` nele. Como este tema inteiro depende do sublinhado vermelho estar certo, um arquivo fora do `include` é um exercício mudo. Se o VS Code parecer permissivo demais em algum arquivo, a primeira suspeita é essa.
+**São dois projetos npm separados**, cada um com seu `package.json` e seus tsconfigs. A `api/` herda a configuração que você acertou aqui (o `type: module`, o `nodenext`, o `strict`, os dois configs) — copie, não reinvente. O que ela ganha a mais é o `express` e os `@types` dele.
+
+**O `task.ts` é a única coisa desta pasta que sobrevive.** Todo o resto é rascunho: serviu pra você ver o compilador reclamar e pode ficar congelado aqui como registro do estudo.
+
+**Por que tudo dentro de `src/`:** o `rootDir` e o `include` do tsconfig apontam para lá (vale nas duas pastas). Arquivo `.ts` fora de `src/` fica **fora do projeto** — o `npm run typecheck` não o vê, e o editor deixa de aplicar o seu `strict` nele. Como este tema inteiro depende do sublinhado vermelho estar certo, um arquivo fora do `include` é um exercício mudo. Se o VS Code parecer permissivo demais em algum arquivo, a primeira suspeita é essa.
 
 ```jsonc
 // tsconfig.json — a checagem completa
@@ -596,15 +604,20 @@ O vitest roda `.ts` direto (usa esbuild por baixo), então não há passo de bui
 
 ---
 
-## Ex 14 — 🔨 Portar a API do T2 para TypeScript
+## Ex 14 — 🔨 Nasce a `api/`, já em TypeScript
 
-**Arquivos:** `src/app.ts` + `src/server.ts` + `src/routes/tasks.routes.ts` + `src/app.test.ts`
+**Pasta:** `etapas/etapa-2/api/` — **fora desta pasta de tema.**
+**Arquivos:** `src/app.ts` + `src/server.ts` + `src/routes/tasks.routes.ts` + `src/app.test.ts` + `package.json` + os dois tsconfigs
 
 **Estudar:** `@types/express`, tipar `req`/`res`, o `req.body` que chega como `any`, o tratador de erro tipado.
 
-Este é o exercício que fecha o tema. Os 13 anteriores foram no playground; agora os tipos vão para dentro de um servidor que sobe. **A API que sai daqui é a que o Tema 4 pluga no PostgreSQL** — de hoje em diante a versão oficial é esta, e a do `t02-express/ex13/` fica congelada como histórico.
+Este é o exercício que fecha o tema, e ele acontece **em outra pasta**. Os 13 anteriores foram playground descartável; aqui nasce a coisa que sobrevive à etapa.
 
-**Copie, não redigite.** Traga os arquivos do `t02-express/ex13/` para `src/` e renomeie para `.ts` — daí em diante o exercício é consertar o que o compilador reclamar e tipar o que faltou. Do T3 em diante a regra da etapa mudou: a pasta nova nasce da cópia da anterior, e o tema é o que você **acrescenta** nela. Redigitar do zero era revisão embutida enquanto a API cabia numa tarde; agora é hora perdida.
+**Como a `api/` nasce — a única cópia da etapa inteira.** Copie `t02-express/ex13/` para `etapas/etapa-2/api/`, renomeie os arquivos para `.ts`, e traga a config deste tema junto (os dois `tsconfig`, os scripts, o `type: module`). Daí em diante o exercício é consertar o que o compilador reclamar e tipar o que faltou.
+
+**Depois desta cópia, nunca mais se copia nada.** Do T4 ao T10 a `api/` só evolui por commit, na mesma pasta — é o `git log api/` que vira a história da API, e é ela que vai pro ar no T9 e que a Etapa 3 consome. O `t02-express/ex13/` fica congelado como histórico.
+
+**O que fica aqui e o que vai pra lá:** o playground (`ex02.ts` a `ex11.ts`), o `ex01.md` e o `ex12.md` ficam nesta pasta de tema. O `task.ts` e o `task.test.ts` do Ex 13 **vão junto pra `api/src/`** — eles não são rascunho, são o validador de borda da aplicação.
 
 ```bash
 npm install express
@@ -633,7 +646,7 @@ app.get('/tasks/:id', (req: Request, res: Response) => {
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => { ... });
 ```
 
-- **Ex 14** — porte para TypeScript, mantendo o comportamento e o **seu formato de erro** do T2:
+- **Ex 14** — na pasta `etapas/etapa-2/api/`, porte para TypeScript mantendo o comportamento e o **seu formato de erro** do T2:
 
   - `GET /tasks` e `GET /tasks/:id`
   - `POST /tasks` (201 + `Location`)

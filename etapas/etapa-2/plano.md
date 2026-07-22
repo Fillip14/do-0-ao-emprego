@@ -17,36 +17,39 @@ Construir o **lado do servidor**: uma API REST de tarefas completa — rotas com
 5. **Decisões técnicas são suas** (formato de erro, PUT×PATCH, plataforma de deploy…), sempre com justificativa — saber defender escolha é matéria de entrevista.
 6. **Testes desde o Tema 1** — todo tema tem sua fatia de teste; nunca ficam "pra depois".
 7. **`exercicios.md` na abertura de cada tema:** a IA escreve o enunciado completo de todos os exercícios do tema (arquivos, passos, o que esperar ver). O plano diz *o quê*; o `exercicios.md` diz *como*; a pasta guarda o resultado — um arquivo por exercício.
-8. **A API é progressiva — todo tema entrega ela mais completa.** Nenhum tema termina em exercício solto: o que você aprendeu tem que estar *dentro* da API, rodando, antes do checkpoint. Se ao fim de um tema a API não mudou, o tema não fechou. É por isso que existe uma API pública no fim da etapa em vez de dez pastas de estudo.
-9. **Watchlist leve** (restaurada 20/07, zerada na entrada): a IA mantém em silêncio uma lista de erros recorrentes — entra com evidência (2x, ou 1x se grave/em verificação 📖), sai com 2 checkpoints limpos. Revisão dos ativos só no checkpoint de tema; **drill amplo antes da avaliação**. Sem drills anunciados no meio do tema, sem cobrança item a item.
+8. **Watchlist leve** (restaurada 20/07, zerada na entrada): a IA mantém em silêncio uma lista de erros recorrentes — entra com evidência (2x, ou 1x se grave/em verificação 📖), sai com 2 checkpoints limpos. Revisão dos ativos só no checkpoint de tema; **drill amplo antes da avaliação**. Sem drills anunciados no meio do tema, sem cobrança item a item.
+9. **A API é progressiva — todo tema entrega ela mais completa.** Nenhum tema termina em exercício solto: o que você aprendeu tem que estar *dentro* da `api/`, rodando e commitado, antes do checkpoint. Se ao fim de um tema o `git log api/` não mostrar nada, o tema não fechou. É por isso que existe uma API pública no fim da etapa em vez de dez pastas de estudo.
+10. **O contrato da API mora no `api/README.md`**, não neste plano — rotas, status, formato de erro, arquitetura, como rodar, URL de produção. Uma fonte de verdade só, e é a que quem visita o repositório lê.
 
-## O que deve existir no final
+## Estrutura de pastas — uma API viva + uma pasta de estudo por tema
 
-**A API de tarefas, no ar**, com o CRUD completo:
+Dois lugares, com papéis distintos:
 
-| Rota | Sucesso | Erros |
-|---|:---:|---|
-| `GET /tasks` · `GET /tasks/:id` | 200 | 400 id inválido · 404 não existe |
-| `POST /tasks` | 201 | 400 entrada inválida |
-| `PUT/PATCH /tasks/:id` · `DELETE /tasks/:id` | 200/204 | 400 · 404 |
+**`api/` — a API viva.** Nasce no T3, copiada uma única vez do `t02-express/ex13/`, e daí em diante **só evolui por commit**. Nunca é copiada de novo. É ela que vai pro ar no T9 e que a Etapa 3 consome. `git log api/` conta a história inteira: o dia em que virou TypeScript, o dia em que o array virou Postgres, o dia em que ganhou auth.
 
-E por trás dela: fila de middlewares com erro centralizado (formato único em JSON, nunca crash nem stack trace vazado) · PostgreSQL com pool e queries 100% parametrizadas, schema versionado em migrations · suíte de testes cobrindo sucesso e erro de toda rota · TypeScript strict de ponta a ponta · deploy com banco gerenciado e segredos em env vars, resistente a abuso · README completo com rotas documentadas e URL de produção.
+**`tNN-*/` — a pasta de estudo do tema.** Guarda tudo que **não** é a API: playground de tipos (T3), respostas escritas dos tópicos 📖, sub-projetos de comparação (o Prisma do T7). Código da API nunca mora aqui. Nos temas mais práticos (T6, T9, T10) essa pasta tem pouca coisa além das respostas escritas — e está certo assim; não é tema mal executado, é a natureza dele.
 
-## Estrutura de pastas — uma pasta por tema
-
-Cada tema nasce numa pasta nova, projeto autocontido (`npm install` + `npm start`/`npm test` funcionam nela); a anterior fica congelada como histórico. A versão oficial da API (a que vai pro ar e serve a Etapa 3) é sempre a do tema mais recente.
-
-**Como a pasta nova nasce, do T3 em diante: copiando a anterior, não redigitando.** Nos temas 1 e 2 recriar a base era a revisão embutida — a API cabia numa tarde. Do T3 em diante ela cresce demais pra isso valer a pena, e redigitar camadas e auth no braço é hora perdida, não fixação. A regra passa a ser: **copie a pasta do tema anterior, e o tema inteiro é o que você acrescenta nela.** O aprendizado do tema tem que aparecer *dentro* da API que já existia — não ao lado dela.
+**T1 e T2 ficam como estão** — autocontidos de verdade, já congelados.
 
 ```
 etapas/etapa-2/
-├── arquivo-v1/              ← trabalho de 16–20/07 (api/, sql/, resumo, planos antigos) — histórico
-├── t01-node/
-│   ├── exercicios.md        ← enunciados do tema (criado na abertura)
-│   ├── ex03-raw-http.js     ← um arquivo por exercício
-│   └── ...
-├── t02-express/
-├── ... (até t10-docker-ci/)
+├── arquivo-v1/              ← trabalho de 16–20/07 — histórico
+├── api/                     ← A API VIVA — nasce no T3, evolui até o T10
+│   ├── src/
+│   ├── package.json
+│   └── README.md            ← **a documentação da API**: arquitetura, tabela de rotas
+│                              com status e erros, formato de erro, como rodar,
+│                              URL de produção. É aqui que o contrato mora — não no plano.
+├── t01-node/                ← congelado
+├── t02-express/             ← congelado (origem da api/)
+├── t03-typescript/          ← playground de tipos + ex01.md, ex12.md
+├── t04-postgres/            ← SQL avulso, experimentos de psql
+├── t05-testes/              ← respostas 📖 do tema
+├── t06-camadas/             ← só as respostas escritas
+├── t07-migrations-orm/      ← sub-projeto Prisma (comparação) + respostas
+├── t08-auth/                ← tema mais teórico da etapa: várias respostas escritas
+├── t09-deploy/              ← medições (cold start, backup) e respostas
+└── t10-docker-ci/           ← respostas
 ```
 
 ## Os temas
@@ -109,7 +112,7 @@ etapas/etapa-2/
 11. `as` e `satisfies`. — 🔨 **Ex:** mentir um tipo com `as` e provocar o crash em runtime que o compilador engoliu; refazer com `satisfies`.
 12. O `tsconfig`. — 🔨 **Ex:** desligar o `strict` e, se nada sumir, plantar os casos que só ele pega; religar. Build pelos dois configs, `dist/` rodando com `node` puro.
 13. Testes em TS. — 🔨 **Ex:** tipos e validadores saem do playground pra `src/task.ts`; suíte cobrindo o lixo que o tipo não garante; `tsc --noEmit` ANTES do vitest no script `test`.
-14. **A API em TypeScript.** — 🔨 **Ex:** copiar `t02-express/ex13/` pra `src/` e portar: `req.body` passando pelo `parseTask` (zero `as` em rota), `NewTask`/`TaskPatch` nas bordas, supertest verde e `node dist/server.js` no ar. **É esta API que o Tema 4 pluga no Postgres.**
+14. **Nasce a `api/`, já em TypeScript.** — 🔨 **Ex:** copiar `t02-express/ex13/` para `etapas/etapa-2/api/` — **a única cópia da etapa inteira** — e portar: `req.body` passando pelo `parseTask` (zero `as` em rota), `NewTask`/`TaskPatch` nas bordas, supertest verde e `node dist/server.js` no ar. Daqui em diante essa pasta só evolui por commit.
 
 ### Tema 4 — Banco (PostgreSQL) · *semana sugerida 4*
 
@@ -128,7 +131,7 @@ etapas/etapa-2/
 11. SQL injection. — 🔨 **Ex:** versão concatenada + entrada maliciosa (ver o estrago numa tabela sacrificável); a mesma entrada na versão `$1` falhando inofensiva.
 12. Transação pelo Node. — 🔨 **Ex:** duas escritas no MESMO client com BEGIN/COMMIT; forçar erro no meio e ver o ROLLBACK salvar.
 13. Testes com banco. — 🔨 **Ex:** banco `_test` + `beforeEach` de limpeza + `afterAll` fechando o pool; suíte verde.
-14. **A API no Postgres.** — 🔨 **Ex:** copiar a API do T3 e trocar o array em memória pelo banco — as cinco rotas lendo e gravando de verdade, pool via env, 100% parametrizado, suíte verde contra o `_test`. **A prova:** criar uma tarefa, reiniciar o processo, e ela continuar lá.
+14. **A `api/` no Postgres.** — 🔨 **Ex:** na `api/`, trocar o array em memória pelo banco — as cinco rotas lendo e gravando de verdade, pool via env, 100% parametrizado, suíte verde contra o `_test`. **A prova:** criar uma tarefa, reiniciar o processo, e ela continuar lá.
 
 ### Tema 5 — Testes a fundo · *semana sugerida 5*
 
@@ -148,7 +151,7 @@ etapas/etapa-2/
 12. TDD. — 🔨 **Ex:** uma função nova (ex.: filtro de tarefas) escrita teste-primeiro: vermelho → verde → refatora.
 13. O que NÃO testar. — 📖 **Verif.:** achar 1 teste seu que testa implementação (ou lib alheia) e dizer o que testaria no lugar.
 14. Property-based. — 📖 **Verif.:** ler um exemplo de fast-check e descrever que casos ele inventaria pro seu validador de título.
-15. **A suíte da API elevada.** — 🔨 **Ex:** aplicar as técnicas do tema na suíte da API de verdade — AAA, `makeTask` no lugar dos objetos copiados, `it.each` na tabela de títulos inválidos, teste do tratador de erro. Rodar `--coverage`, achar a linha descoberta e cobrir. A API não muda de comportamento; muda a confiança nela.
+15. **A suíte da `api/` elevada.** — 🔨 **Ex:** aplicar as técnicas do tema na suíte da API de verdade — AAA, `makeTask` no lugar dos objetos copiados, `it.each` na tabela de títulos inválidos, teste do tratador de erro. Rodar `--coverage`, achar a linha descoberta e cobrir. A API não muda de comportamento; muda a confiança nela.
 
 ### Tema 6 — Arquitetura em camadas + listas de verdade · *semana sugerida 6*
 
@@ -179,7 +182,7 @@ etapas/etapa-2/
 8. O problema N+1. — 🔨 **Ex:** listar listas+tarefas do jeito ingênuo com log de queries ligado; contar as queries; refazer com include/join.
 9. Transações no ORM; Prisma Studio. — 🔨 **Ex:** duas escritas atômicas; conferir o resultado no Studio.
 10. Por que SQL primeiro, ORM depois. — 📖 **Verif.:** responder com argumento SEU, em 3 frases.
-11. **O schema da API em migrations.** — 🔨 **Ex:** o banco da API passa a nascer só de migrations + seed, num comando, a partir do zero — nenhuma tabela criada na mão. Apagar o banco e reconstruir inteiro é o teste. (O Prisma fica no sub-projeto de comparação; a API oficial continua no `pg`.)
+11. **O schema da `api/` em migrations.** — 🔨 **Ex:** o banco da API passa a nascer só de migrations + seed, num comando, a partir do zero — nenhuma tabela criada na mão. Apagar o banco e reconstruir inteiro é o teste. (O Prisma fica no sub-projeto de comparação, na pasta do tema; a `api/` continua no `pg`.)
 
 ### Tema 8 — Autenticação + segurança de borda · *semana sugerida 8*
 
