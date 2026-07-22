@@ -20,6 +20,7 @@ const validateTitle = (req, res, next) => {
   if (typeof title !== 'string' || title.trim() === '') {
     const err = new Error('title is required');
     err.status = 400;
+    err.field = 'title';
     return next(err);
   }
   next();
@@ -38,6 +39,7 @@ tasksRoutes.get('/:id', (req, res, next) => {
   if (idNumber <= 0 || !Number.isInteger(idNumber)) {
     const err = new Error('invalid id');
     err.status = 400;
+    err.field = 'id';
     return next(err);
   }
 
@@ -46,6 +48,7 @@ tasksRoutes.get('/:id', (req, res, next) => {
   if (typeof task === 'undefined') {
     const err = new Error('not found');
     err.status = 404;
+    err.field = 'id';
     return next(err);
   }
 
@@ -64,6 +67,7 @@ tasksRoutes.patch('/:id', validateTitle, (req, res, next) => {
   if (idNumber <= 0 || !Number.isInteger(idNumber)) {
     const err = new Error('invalid id');
     err.status = 400;
+    err.field = 'id';
     return next(err);
   }
 
@@ -72,6 +76,7 @@ tasksRoutes.patch('/:id', validateTitle, (req, res, next) => {
   if (typeof task === 'undefined') {
     const err = new Error('not found');
     err.status = 404;
+    err.field = 'id';
     return next(err);
   }
 
@@ -89,6 +94,7 @@ tasksRoutes.delete('/:id', (req, res, next) => {
   if (idNumber <= 0 || !Number.isInteger(idNumber)) {
     const err = new Error('invalid id');
     err.status = 400;
+    err.field = 'id';
     return next(err);
   }
 
@@ -97,6 +103,7 @@ tasksRoutes.delete('/:id', (req, res, next) => {
   if (index === -1) {
     const err = new Error('not found');
     err.status = 404;
+    err.field = 'id';
     return next(err);
   }
 
