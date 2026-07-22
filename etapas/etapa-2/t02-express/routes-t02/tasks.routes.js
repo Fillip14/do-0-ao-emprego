@@ -18,6 +18,9 @@ const validateTitle = (req, res, next) => {
   next();
 };
 
+export const asyncHandler = (fn) => (req, res, next) =>
+  Promise.resolve(fn(req, res, next)).catch(next);
+
 tasksRoutes.get('/', (req, res) => {
   return res.json(tasks);
 });
