@@ -8,15 +8,18 @@
 # Reinício da etapa · 21/07/2026
 
 ### 21/07
-- Tema 1 (Node) fechado — 12/12 exercícios, pasta `t01-node/`, checkpoint 🟡 amarelo.
 
-- O que aprendi: node
-- Travei/faltou: nada
-- Amanhã: semana 2
+- **Tema 1 (Node) aberto e fechado** — 12/12 exercícios, pasta `t01-node/`, checkpoint 🟡 amarelo.
+- **Tema 2 (Express) aberto** — `exercicios.md` criado em `t02-express/` com os 13 tópicos do plano; Ex 01 a 11 feitos no mesmo dia.
+
+- O que aprendi: node · e no Express: a fila de rotas e o `finalhandler`, `express.json()` e as armadilhas do `req.body`, as três entradas (`params`/`query`/`body`), `Router` com prefixo, a tabela do CRUD e os porquês dos status, idempotência, `Location` e 405, middleware com `res.on('finish')`, tratador de erro central
+- Travei/faltou: o formato dos enunciados travou logo no começo — muita pergunta escrita pra responder. Pedi pra reescrever e agora é "Estudar (explicação + código) → o que fazer"
+- Amanhã: fechar o Tema 2
 
 ### 22/07
-- **Tema 2 (Express) aberto** — `exercicios.md` criado em `t02-express/` com os 13 tópicos do plano.
 
-- O que aprendi: express
+- **Tema 2 (Express) fechado** — 13/13 exercícios, pasta `t02-express/`, **checkpoint 🟢 verde**. API final em `t02-express/ex13/` com `app.js` separado do `server.js` e suíte em supertest.
+
+- O que aprendi: erro em handler `async` e por que o Express 4 penduraria o pedido onde o 5 devolve 500 · separar o `app` do `server` pra poder testar · que suíte verde não quer dizer API correta
 - Travei/faltou: nada
-- Amanhã: semana 3
+- Amanhã: Tema 3 (TypeScript)
