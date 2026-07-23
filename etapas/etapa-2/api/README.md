@@ -51,8 +51,8 @@ Registradas conforme o tema avança (regra 8 do plano).
 
 ### Tema 3 — TypeScript
 - **Rigor máximo:** `strict` + `noUncheckedIndexedAccess` + `exactOptionalPropertyTypes` + `verbatimModuleSyntax` — escolhido pra aprender, encarando na mão o que o compilador cobra.
-- Convenção `interface` × `type`: *a decidir no Marco 1.*
-- `Result` × exceção no `parseTask`: *a decidir no Marco 3.*
+- Convenção **`interface` × `type`:** entidade/modelo = `interface` (ex.: `Task`); derivados e uniões = `type` (ex.: `NewTask`, `Status`). Cada um no que é bom, e fica legível pra quem lê o contrato.
+- **`parseTask` — validação por exceção, não `Result`:** dado inválido → `throw` no formato de erro padrão, que sobe pelo `asyncHandler` e cai no tratador central (→ 400). Escolhido pra reusar a infra de erro do T2 em vez de abrir um segundo caminho só pro parse.
 
 ### Herdadas do Tema 2 — Express
 - Formato de erro `{ errors: [{ field?, message }] }`.
