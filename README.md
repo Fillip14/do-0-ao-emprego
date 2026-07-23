@@ -154,9 +154,9 @@ do-0-ao-emprego/
 ├── etapas/                  → uma pasta por etapa, autocontida
 │   ├── etapa-0/             → plano, devlog, avaliação e exercícios
 │   ├── etapa-1/             → idem + código por tema (t01/…t17/)
-│   └── etapa-2/             → plano (10 temas), devlog, arquivo-v1/
+│   └── etapa-2/             → plano, devlog, arquivo-v1/
 │       ├── api/             → A API — nasce no tema 3 e cresce até o 10.
-│       │                      É ela que vai pro ar e que a Etapa 3 consome
+│       │
 │       └── t01-node/ …      → uma pasta de estudo por tema (playground,
 │                              respostas escritas, sub-projetos)
 ```

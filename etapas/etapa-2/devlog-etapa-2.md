@@ -34,3 +34,5 @@ Consequência: as pastas `tNN-*` passam a guardar só estudo (playground, respos
 - O que aprendi: erro em handler `async` e por que o Express 4 penduraria o pedido onde o 5 devolve 500 · separar o `app` do `server` pra poder testar · que suíte verde não quer dizer API correta
 - Travei/faltou: nada no código. Revisando a primeira versão do enunciado do T3 achei 9 problemas — contradição entre exercícios, `rootDir` apontando pra uma pasta que nenhum exercício criava, um exemplo de `satisfies` errado, e o principal: 13 exercícios de playground sem nada que roda no fim, que é exatamente o que deixou o T1 amarelo. Enunciado refeito antes de começar.
 - Amanhã: Ex 07 do Tema 3
+
+### 23/07
