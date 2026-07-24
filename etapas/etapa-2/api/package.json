@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "typecheck": "tsc --noEmit",
-    "test": "npm run typecheck && vitest run",
+    "test": "npm run typecheck && vitest",
     "build": "tsc -p tsconfig.build.json"
   },
   "dependencies": {
