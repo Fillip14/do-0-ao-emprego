@@ -20,7 +20,7 @@ const expectError = (res: Response, httpStatus: number, field: string, message: 
 describe('Routes errors', () => {
   it('responde 404 em rota inexistente', async () => {
     const res = await request(app).get('/oi');
-    expectError(res, HttpStatus.NOT_FOUND, 'Route', 'Not Found');
+    expectError(res, HttpStatus.NOT_FOUND, 'route', 'Not Found');
   });
 
   it('responde 405 em method inexistente em /', async () => {
@@ -113,7 +113,7 @@ describe('GET /tasks/:id', () => {
 });
 
 describe('POST /tasks', () => {
-  it('responde 201 em post', async () => {
+  it('responde 201 em post com term null', async () => {
     const res = await request(app)
       .post(TASKS_PREFIX)
       .send({ title: 'Teste', status: 'todo', term: null });
@@ -125,6 +125,29 @@ describe('POST /tasks', () => {
       term: null,
     });
     expect(res.headers.location).toBe('/tasks/3');
+  });
+
+  it('responde 201 em post com term string e get provando', async () => {
+    const res = await request(app)
+      .post(TASKS_PREFIX)
+      .send({ title: 'Teste', status: 'todo', term: 'Teste' });
+    expect(res.status).toBe(201);
+    expect(res.body).toEqual({
+      id: 3,
+      title: 'Teste',
+      status: 'todo',
+      term: 'Teste',
+    });
+    expect(res.headers.location).toBe('/tasks/3');
+
+    const resGet = await request(app).get(`${TASKS_PREFIX}/3`);
+    expect(resGet.status).toBe(200);
+    expect(resGet.body).toEqual({
+      id: 3,
+      title: 'Teste',
+      status: 'todo',
+      term: 'Teste',
+    });
   });
 
   it('responde 400 em post sem body', async () => {

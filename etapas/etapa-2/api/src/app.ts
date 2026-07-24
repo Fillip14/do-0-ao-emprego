@@ -14,7 +14,7 @@ app.use(TASKS_PREFIX, tasksRoutes);
 
 // Middleware - Pagina não encontrada
 app.use((_req: Request, _res: Response, next: NextFunction) => {
-  const err = new AppError('Not Found', HttpStatus.NOT_FOUND, 'Route');
+  const err = new AppError('Not Found', HttpStatus.NOT_FOUND, 'route');
   next(err);
 });
 
