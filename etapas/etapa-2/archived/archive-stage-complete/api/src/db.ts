@@ -1,4 +1,4 @@
-import pg, { type QueryResult, type QueryResultRow } from '../node_modules/@types/pg/index.js';
+import pg, { type QueryResult, type QueryResultRow } from 'pg';
 const { Pool } = pg;
 
 const pool = new Pool(); // uma vez, no arquivo inteiro

@@ -15,7 +15,7 @@
  * as execuções e as conclusões são dele.
  */
 
-import pg from '../node_modules/@types/pg';
+import pg from 'pg';
 const { Pool } = pg;
 const pool = new Pool();
 
