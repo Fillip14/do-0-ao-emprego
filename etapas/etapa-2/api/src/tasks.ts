@@ -12,7 +12,6 @@ const allowedFields = ['title', 'status', 'term'];
 
 export type NewTask = Omit<Task, 'id'>;
 export type TaskPatch = Partial<Omit<Task, 'id'>>;
-// export type TaskPreview = Pick<Task, 'id' | 'title'>;
 
 export const isNewTask = (body: unknown): body is NewTask => {
   if (typeof body !== 'object' || body === null) return false;

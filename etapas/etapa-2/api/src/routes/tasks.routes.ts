@@ -75,8 +75,14 @@ tasksRoutes.delete('/:id', validateId, (req: Request, res: Response, next: NextF
   return res.status(204).send();
 });
 
-tasksRoutes.all('/', (req: Request, res: Response, next: NextFunction) => {
-  res.set('Allow', 'GET, POST, PATCH, DELETE');
+tasksRoutes.all('/', (_req: Request, res: Response, next: NextFunction) => {
+  res.set('Allow', 'GET, POST');
+  const err = new AppError('Method Not Allowed', HttpStatus.METHOD_NOT_ALLOWED, 'method');
+  return next(err);
+});
+
+tasksRoutes.all('/:id', (_req: Request, res: Response, next: NextFunction) => {
+  res.set('Allow', 'GET, PATCH, DELETE');
   const err = new AppError('Method Not Allowed', HttpStatus.METHOD_NOT_ALLOWED, 'method');
   return next(err);
 });

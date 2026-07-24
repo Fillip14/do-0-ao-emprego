@@ -21,8 +21,19 @@ describe('ROTAS ERRADAS', () => {
     ]);
   });
 
-  it('responde 405 em method inexistente', async () => {
+  it('responde 405 em method inexistente em /', async () => {
     const res = await request(app).put(TASKS_PREFIX);
+    expect(res.status).toBe(405);
+    expect(res.body.errors).toEqual([
+      {
+        field: 'method',
+        message: 'Method Not Allowed',
+      },
+    ]);
+  });
+
+  it('responde 405 em method inexistente em /:id', async () => {
+    const res = await request(app).put(`${TASKS_PREFIX}/1`);
     expect(res.status).toBe(405);
     expect(res.body.errors).toEqual([
       {
