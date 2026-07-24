@@ -19,15 +19,6 @@ export const resetTasks = () => {
   nextId = 3;
 };
 
-// const validateTitle = (req: Request, res: Response, next: NextFunction) => {
-//   const title = req.body?.title;
-//   if (typeof title !== 'string' || title.trim() === '') {
-//     const err = new AppError('Title is required', HttpStatus.BAD_REQUEST, 'title');
-//     return next(err);
-//   }
-//   next();
-// };
-
 const validateId = (req: Request, _res: Response, next: NextFunction) => {
   const id = Number(req.params.id);
 
@@ -43,22 +34,21 @@ const validateId = (req: Request, _res: Response, next: NextFunction) => {
 
 tasksRoutes.get('/', (_req: Request, res: Response) => res.json(tasks));
 
+tasksRoutes.post('/', (req: Request, res: Response) => {
+  const receivedTask = parseTask(req.body);
+  const newTask: Task = { id: nextId++, ...receivedTask };
+
+  tasks.push(newTask);
+
+  return res.status(HttpStatus.CREATED).location(`/tasks/${newTask.id}`).json(newTask);
+});
+
 tasksRoutes.get('/:id', validateId, (req: Request, res: Response, next: NextFunction) => {
   const task = tasks.find((task) => task.id === req.taskId);
 
-  if (typeof task === 'undefined') {
-    const err = new AppError('Not Found', HttpStatus.NOT_FOUND, 'id');
-    return next(err);
-  }
+  if (!task) return next(new AppError('Not Found', HttpStatus.NOT_FOUND, 'id'));
 
   return res.json(task);
-});
-
-tasksRoutes.post('/', (req: Request, res: Response, _next: NextFunction) => {
-  const receivedTask = parseTask(req.body);
-  const newTask: Task = { id: nextId++, ...receivedTask };
-  tasks.push(newTask);
-  return res.status(HttpStatus.CREATED).location(`/tasks/${newTask.id}`).json(newTask);
 });
 
 tasksRoutes.patch('/:id', validateId, (req: Request, res: Response, next: NextFunction) => {
@@ -66,10 +56,7 @@ tasksRoutes.patch('/:id', validateId, (req: Request, res: Response, next: NextFu
 
   const task = tasks.find((task) => task.id === req.taskId);
 
-  if (typeof task === 'undefined') {
-    const err = new AppError('Not Found', HttpStatus.NOT_FOUND, 'id');
-    return next(err);
-  }
+  if (!task) return next(new AppError('Not Found', HttpStatus.NOT_FOUND, 'id'));
 
   if (patchTask.title !== undefined) task.title = patchTask.title;
   if (patchTask.status !== undefined) task.status = patchTask.status;
@@ -78,23 +65,20 @@ tasksRoutes.patch('/:id', validateId, (req: Request, res: Response, next: NextFu
   return res.json(task);
 });
 
-// tasksRoutes.delete('/:id', validateId, (req: Request, res: Response, next: NextFunction) => {
-//   const index = tasks.findIndex((task) => task.id === req.id);
+tasksRoutes.delete('/:id', validateId, (req: Request, res: Response, next: NextFunction) => {
+  const index = tasks.findIndex((task) => task.id === req.taskId);
 
-//   if (index === -1) {
-//     const err = new AppError('not found', 404, 'id');
-//     return next(err);
-//   }
+  if (index === -1) return next(new AppError('Not Found', HttpStatus.NOT_FOUND, 'id'));
 
-//   tasks.splice(index, 1);
+  tasks.splice(index, 1);
 
-//   return res.status(204).send();
-// });
+  return res.status(204).send();
+});
 
-// tasksRoutes.all('/', (req: Request, res: Response, next: NextFunction) => {
-//   res.set('Allow', 'GET, POST');
-//   const err = new AppError('method not allowed', 405, 'method');
-//   return next(err);
-// });
+tasksRoutes.all('/', (req: Request, res: Response, next: NextFunction) => {
+  res.set('Allow', 'GET, POST, PATCH, DELETE');
+  const err = new AppError('Method Not Allowed', HttpStatus.METHOD_NOT_ALLOWED, 'method');
+  return next(err);
+});
 
 export default tasksRoutes;
