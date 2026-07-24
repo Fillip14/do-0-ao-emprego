@@ -3,6 +3,8 @@ import request, { type Response } from 'supertest';
 import app from './app.js';
 import { resetTasks } from './routes/tasks.routes.js';
 import { HttpStatus } from './constants/http-constants.js';
+import { isNewTask, parseTask } from './tasks.js';
+import { AppError } from './errors.js';
 
 beforeEach(() => {
   resetTasks();
@@ -15,7 +17,7 @@ const expectError = (res: Response, httpStatus: number, field: string, message: 
   expect(res.body.errors).toEqual([{ field, message }]);
 };
 
-describe('ROTAS ERRADAS', () => {
+describe('Routes errors', () => {
   it('responde 404 em rota inexistente', async () => {
     const res = await request(app).get('/oi');
     expectError(res, HttpStatus.NOT_FOUND, 'Route', 'Not Found');
@@ -29,6 +31,48 @@ describe('ROTAS ERRADAS', () => {
   it('responde 405 em method inexistente em /:id', async () => {
     const res = await request(app).put(`${TASKS_PREFIX}/1`);
     expectError(res, HttpStatus.METHOD_NOT_ALLOWED, 'method', 'Method Not Allowed');
+  });
+});
+
+describe('tasks.ts', () => {
+  it('retorna true para uma task válida', () => {
+    expect(
+      isNewTask({
+        title: 'Teste',
+        status: 'todo',
+        term: null,
+      }),
+    ).toBe(true);
+  });
+
+  it('retorna false para uma task com chave inválida', () => {
+    expect(
+      isNewTask({
+        banana: 'Teste',
+      }),
+    ).toBe(false);
+  });
+
+  it('retorna a task quando válida', () => {
+    const task = parseTask({
+      title: 'Teste',
+      status: 'todo',
+      term: null,
+    });
+
+    expect(task).toEqual({
+      title: 'Teste',
+      status: 'todo',
+      term: null,
+    });
+  });
+
+  it('lança AppError quando a task é inválida', () => {
+    expect(() =>
+      parseTask({
+        banana: 'Teste',
+      }),
+    ).toThrow(AppError);
   });
 });
 
@@ -186,8 +230,8 @@ describe('PATCH /tasks', () => {
     expectError(res, HttpStatus.BAD_REQUEST, 'task', 'Invalid Task');
   });
 
-  it('responde 400 em patch com term inválido', async () => {
-    const res = await request(app).patch(`${TASKS_PREFIX}/2`).send({ term: '' });
+  it('responde 400 em patch com status inválido', async () => {
+    const res = await request(app).patch(`${TASKS_PREFIX}/2`).send({ status: 'Teste' });
     expectError(res, HttpStatus.BAD_REQUEST, 'task', 'Invalid Task');
   });
 });
