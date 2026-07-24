@@ -1,7 +1,8 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import request from 'supertest';
+import request, { type Response } from 'supertest';
 import app from './app.js';
 import { resetTasks } from './routes/tasks.routes.js';
+import { HttpStatus } from './constants/http-constants.js';
 
 beforeEach(() => {
   resetTasks();
@@ -9,38 +10,25 @@ beforeEach(() => {
 
 const TASKS_PREFIX = '/tasks';
 
+const expectError = (res: Response, httpStatus: number, field: string, message: string) => {
+  expect(res.status).toBe(httpStatus);
+  expect(res.body.errors).toEqual([{ field, message }]);
+};
+
 describe('ROTAS ERRADAS', () => {
   it('responde 404 em rota inexistente', async () => {
-    const res = await request(app).get(`/oi`);
-    expect(res.status).toBe(404);
-    expect(res.body.errors).toEqual([
-      {
-        field: 'Route',
-        message: 'Not Found',
-      },
-    ]);
+    const res = await request(app).get('/oi');
+    expectError(res, HttpStatus.NOT_FOUND, 'Route', 'Not Found');
   });
 
   it('responde 405 em method inexistente em /', async () => {
     const res = await request(app).put(TASKS_PREFIX);
-    expect(res.status).toBe(405);
-    expect(res.body.errors).toEqual([
-      {
-        field: 'method',
-        message: 'Method Not Allowed',
-      },
-    ]);
+    expectError(res, HttpStatus.METHOD_NOT_ALLOWED, 'method', 'Method Not Allowed');
   });
 
   it('responde 405 em method inexistente em /:id', async () => {
     const res = await request(app).put(`${TASKS_PREFIX}/1`);
-    expect(res.status).toBe(405);
-    expect(res.body.errors).toEqual([
-      {
-        field: 'method',
-        message: 'Method Not Allowed',
-      },
-    ]);
+    expectError(res, HttpStatus.METHOD_NOT_ALLOWED, 'method', 'Method Not Allowed');
   });
 });
 
@@ -66,35 +54,17 @@ describe('GET /tasks/:id', () => {
 
   it('responde 400 em get id inválido', async () => {
     const res = await request(app).get(`${TASKS_PREFIX}/-2`);
-    expect(res.status).toBe(400);
-    expect(res.body.errors).toEqual([
-      {
-        field: 'id',
-        message: 'Invalid id',
-      },
-    ]);
+    expectError(res, HttpStatus.BAD_REQUEST, 'id', 'Invalid id');
   });
 
   it('responde 404 em get id inexistente', async () => {
     const res = await request(app).get(`${TASKS_PREFIX}/3`);
-    expect(res.status).toBe(404);
-    expect(res.body.errors).toEqual([
-      {
-        field: 'id',
-        message: 'Not Found',
-      },
-    ]);
+    expectError(res, HttpStatus.NOT_FOUND, 'id', 'Not Found');
   });
 
   it('responde 400 em get id string', async () => {
     const res = await request(app).get(`${TASKS_PREFIX}/oi`);
-    expect(res.status).toBe(400);
-    expect(res.body.errors).toEqual([
-      {
-        field: 'id',
-        message: 'Invalid id',
-      },
-    ]);
+    expectError(res, HttpStatus.BAD_REQUEST, 'id', 'Invalid id');
   });
 });
 
@@ -115,62 +85,42 @@ describe('POST /tasks', () => {
 
   it('responde 400 em post sem body', async () => {
     const res = await request(app).post(TASKS_PREFIX);
-    expect(res.status).toBe(400);
-    expect(res.body.errors).toEqual([
-      {
-        field: 'task',
-        message: 'Invalid Task',
-      },
-    ]);
+    expectError(res, HttpStatus.BAD_REQUEST, 'task', 'Invalid Task');
   });
 
   it('responde 400 em post body vazio', async () => {
     const res = await request(app).post(TASKS_PREFIX).send({});
-    expect(res.status).toBe(400);
-    expect(res.body.errors).toEqual([
-      {
-        field: 'task',
-        message: 'Invalid Task',
-      },
-    ]);
+    expectError(res, HttpStatus.BAD_REQUEST, 'task', 'Invalid Task');
   });
 
   it('responde 400 em post com campo vazio', async () => {
     const res = await request(app).post(TASKS_PREFIX).send({ title: '' });
-    expect(res.status).toBe(400);
-    expect(res.body.errors).toEqual([
-      {
-        field: 'task',
-        message: 'Invalid Task',
-      },
-    ]);
+    expectError(res, HttpStatus.BAD_REQUEST, 'task', 'Invalid Task');
   });
 
   it('responde 400 em post com title não string', async () => {
     const res = await request(app).post(TASKS_PREFIX).send({ title: 42 });
-    expect(res.status).toBe(400);
-    expect(res.body.errors).toEqual([
-      {
-        field: 'task',
-        message: 'Invalid Task',
-      },
-    ]);
+    expectError(res, HttpStatus.BAD_REQUEST, 'task', 'Invalid Task');
   });
 
   it('responde 400 em post com key diferente', async () => {
     const res = await request(app).post(TASKS_PREFIX).send({ banana: 'Teste' });
-    expect(res.status).toBe(400);
-    expect(res.body.errors).toEqual([
-      {
-        field: 'task',
-        message: 'Invalid Task',
-      },
-    ]);
+    expectError(res, HttpStatus.BAD_REQUEST, 'task', 'Invalid Task');
+  });
+
+  it('responde 400 em post com status inválido', async () => {
+    const res = await request(app).post(TASKS_PREFIX).send({ status: 'Teste' });
+    expectError(res, HttpStatus.BAD_REQUEST, 'task', 'Invalid Task');
+  });
+
+  it('responde 400 em post com term inválido', async () => {
+    const res = await request(app).post(TASKS_PREFIX).send({ term: '' });
+    expectError(res, HttpStatus.BAD_REQUEST, 'task', 'Invalid Task');
   });
 });
 
 describe('PATCH /tasks', () => {
-  it('responde 200 em patch', async () => {
+  it('responde 200 em patch com term null', async () => {
     const res = await request(app)
       .patch(`${TASKS_PREFIX}/1`)
       .send({ title: 'Novo titulo', term: null });
@@ -183,7 +133,7 @@ describe('PATCH /tasks', () => {
     });
   });
 
-  it('responde 200 em patch', async () => {
+  it('responde 200 em patch com term string', async () => {
     const res = await request(app)
       .patch(`${TASKS_PREFIX}/2`)
       .send({ title: 'Novo titulo', term: 'Teste' });
@@ -198,68 +148,47 @@ describe('PATCH /tasks', () => {
 
   it('responde 400 em patch com id inválido', async () => {
     const res = await request(app).patch(`${TASKS_PREFIX}/-2`).send({ title: 'Novo titulo' });
-    expect(res.status).toBe(400);
-    expect(res.body.errors).toEqual([
-      {
-        field: 'id',
-        message: 'Invalid id',
-      },
-    ]);
+    expectError(res, HttpStatus.BAD_REQUEST, 'id', 'Invalid id');
   });
 
   it('responde 404 em patch com id inexistente', async () => {
     const res = await request(app).patch(`${TASKS_PREFIX}/10`).send({ title: 'Novo titulo' });
-    expect(res.status).toBe(404);
-    expect(res.body.errors).toEqual([
-      {
-        field: 'id',
-        message: 'Not Found',
-      },
-    ]);
+    expectError(res, HttpStatus.NOT_FOUND, 'id', 'Not Found');
   });
 
   it('responde 400 em patch sem body', async () => {
     const res = await request(app).patch(`${TASKS_PREFIX}/2`).send();
-    expect(res.status).toBe(400);
-    expect(res.body.errors).toEqual([
-      {
-        field: 'task',
-        message: 'Invalid Task',
-      },
-    ]);
+    expectError(res, HttpStatus.BAD_REQUEST, 'task', 'Invalid Task');
   });
 
   it('responde 400 em patch com body vazio', async () => {
     const res = await request(app).patch(`${TASKS_PREFIX}/2`).send({});
-    expect(res.status).toBe(400);
-    expect(res.body.errors).toEqual([
-      {
-        field: 'task',
-        message: 'Invalid Task',
-      },
-    ]);
+    expectError(res, HttpStatus.BAD_REQUEST, 'task', 'Invalid Task');
   });
 
-  it('responde 400 quando title vazio', async () => {
+  it('responde 400 em patch com title vazio', async () => {
     const res = await request(app).patch(`${TASKS_PREFIX}/2`).send({ title: '' });
-    expect(res.status).toBe(400);
-    expect(res.body.errors).toEqual([
-      {
-        field: 'task',
-        message: 'Invalid Task',
-      },
-    ]);
+    expectError(res, HttpStatus.BAD_REQUEST, 'task', 'Invalid Task');
   });
 
-  it('responde 400 quando title não string', async () => {
+  it('responde 400 em patch com title não string', async () => {
     const res = await request(app).patch(`${TASKS_PREFIX}/2`).send({ title: 42 });
-    expect(res.status).toBe(400);
-    expect(res.body.errors).toEqual([
-      {
-        field: 'task',
-        message: 'Invalid Task',
-      },
-    ]);
+    expectError(res, HttpStatus.BAD_REQUEST, 'task', 'Invalid Task');
+  });
+
+  it('responde 400 em patch com chave inválida', async () => {
+    const res = await request(app).patch(`${TASKS_PREFIX}/2`).send({ banana: 'Teste' });
+    expectError(res, HttpStatus.BAD_REQUEST, 'task', 'Invalid Task');
+  });
+
+  it('responde 400 em patch com term inválido', async () => {
+    const res = await request(app).patch(`${TASKS_PREFIX}/2`).send({ term: '' });
+    expectError(res, HttpStatus.BAD_REQUEST, 'task', 'Invalid Task');
+  });
+
+  it('responde 400 em patch com term inválido', async () => {
+    const res = await request(app).patch(`${TASKS_PREFIX}/2`).send({ term: '' });
+    expectError(res, HttpStatus.BAD_REQUEST, 'task', 'Invalid Task');
   });
 });
 
@@ -269,34 +198,16 @@ describe('DELETE /tasks', () => {
     expect(res.status).toBe(204);
 
     const resSecond = await request(app).delete(`${TASKS_PREFIX}/2`);
-    expect(resSecond.status).toBe(404);
-    expect(resSecond.body.errors).toEqual([
-      {
-        field: 'id',
-        message: 'Not Found',
-      },
-    ]);
+    expectError(resSecond, HttpStatus.NOT_FOUND, 'id', 'Not Found');
   });
 
   it('responde 400 quando id inválido', async () => {
     const res = await request(app).delete(`${TASKS_PREFIX}/-2`);
-    expect(res.status).toBe(400);
-    expect(res.body.errors).toEqual([
-      {
-        field: 'id',
-        message: 'Invalid id',
-      },
-    ]);
+    expectError(res, HttpStatus.BAD_REQUEST, 'id', 'Invalid id');
   });
 
   it('responde 404 quando id inexistente', async () => {
     const res = await request(app).delete(`${TASKS_PREFIX}/10`);
-    expect(res.status).toBe(404);
-    expect(res.body.errors).toEqual([
-      {
-        field: 'id',
-        message: 'Not Found',
-      },
-    ]);
+    expectError(res, HttpStatus.NOT_FOUND, 'id', 'Not Found');
   });
 });
