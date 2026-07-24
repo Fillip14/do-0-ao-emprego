@@ -10,12 +10,6 @@ export interface Task {
 
 const allowedFields = ['title', 'status', 'term'];
 
-// export interface Task extends NewTask {
-//   readonly id: number;
-// }
-
-// const STATUSES = ['todo', 'doing', 'done'] as const;
-
 export type NewTask = Omit<Task, 'id'>;
 export type TaskPatch = Partial<Omit<Task, 'id'>>;
 // export type TaskPreview = Pick<Task, 'id' | 'title'>;

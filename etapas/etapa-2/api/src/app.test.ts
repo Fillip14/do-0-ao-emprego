@@ -7,9 +7,11 @@ beforeEach(() => {
   resetTasks();
 });
 
-describe('GET /', () => {
-  it('responde 404 quando rota inexistente', async () => {
-    const res = await request(app).get('/oi');
+const TASKS_PREFIX = '/tasks';
+
+describe('ROTAS ERRADAS', () => {
+  it('responde 404 em rota inexistente', async () => {
+    const res = await request(app).get(`/oi`);
     expect(res.status).toBe(404);
     expect(res.body.errors).toEqual([
       {
@@ -18,11 +20,22 @@ describe('GET /', () => {
       },
     ]);
   });
+
+  it('responde 405 em method inexistente', async () => {
+    const res = await request(app).put(TASKS_PREFIX);
+    expect(res.status).toBe(405);
+    expect(res.body.errors).toEqual([
+      {
+        field: 'method',
+        message: 'Method Not Allowed',
+      },
+    ]);
+  });
 });
 
 describe('GET /tasks', () => {
   it('responde 200 quando get all', async () => {
-    const res = await request(app).get('/tasks');
+    const res = await request(app).get(TASKS_PREFIX);
     expect(res.status).toBe(200);
     expect(Array.isArray(res.body)).toBe(true);
   });
@@ -30,7 +43,7 @@ describe('GET /tasks', () => {
 
 describe('GET /tasks/:id', () => {
   it('responde 200 em get id', async () => {
-    const res = await request(app).get('/tasks/2');
+    const res = await request(app).get(`${TASKS_PREFIX}/2`);
     expect(res.status).toBe(200);
     expect(res.body).toEqual({
       id: 2,
@@ -41,7 +54,7 @@ describe('GET /tasks/:id', () => {
   });
 
   it('responde 400 em get id inválido', async () => {
-    const res = await request(app).get('/tasks/-2');
+    const res = await request(app).get(`${TASKS_PREFIX}/-2`);
     expect(res.status).toBe(400);
     expect(res.body.errors).toEqual([
       {
@@ -52,7 +65,7 @@ describe('GET /tasks/:id', () => {
   });
 
   it('responde 404 em get id inexistente', async () => {
-    const res = await request(app).get('/tasks/3');
+    const res = await request(app).get(`${TASKS_PREFIX}/3`);
     expect(res.status).toBe(404);
     expect(res.body.errors).toEqual([
       {
@@ -61,12 +74,23 @@ describe('GET /tasks/:id', () => {
       },
     ]);
   });
+
+  it('responde 400 em get id string', async () => {
+    const res = await request(app).get(`${TASKS_PREFIX}/oi`);
+    expect(res.status).toBe(400);
+    expect(res.body.errors).toEqual([
+      {
+        field: 'id',
+        message: 'Invalid id',
+      },
+    ]);
+  });
 });
 
 describe('POST /tasks', () => {
   it('responde 201 em post', async () => {
     const res = await request(app)
-      .post('/tasks')
+      .post(TASKS_PREFIX)
       .send({ title: 'Teste', status: 'todo', term: null });
     expect(res.status).toBe(201);
     expect(res.body).toEqual({
@@ -79,7 +103,7 @@ describe('POST /tasks', () => {
   });
 
   it('responde 400 em post sem body', async () => {
-    const res = await request(app).post('/tasks');
+    const res = await request(app).post(TASKS_PREFIX);
     expect(res.status).toBe(400);
     expect(res.body.errors).toEqual([
       {
@@ -90,7 +114,7 @@ describe('POST /tasks', () => {
   });
 
   it('responde 400 em post body vazio', async () => {
-    const res = await request(app).post('/tasks').send({});
+    const res = await request(app).post(TASKS_PREFIX).send({});
     expect(res.status).toBe(400);
     expect(res.body.errors).toEqual([
       {
@@ -101,7 +125,7 @@ describe('POST /tasks', () => {
   });
 
   it('responde 400 em post com campo vazio', async () => {
-    const res = await request(app).post('/tasks').send({ title: '' });
+    const res = await request(app).post(TASKS_PREFIX).send({ title: '' });
     expect(res.status).toBe(400);
     expect(res.body.errors).toEqual([
       {
@@ -112,7 +136,7 @@ describe('POST /tasks', () => {
   });
 
   it('responde 400 em post com title não string', async () => {
-    const res = await request(app).post('/tasks').send({ title: 42 });
+    const res = await request(app).post(TASKS_PREFIX).send({ title: 42 });
     expect(res.status).toBe(400);
     expect(res.body.errors).toEqual([
       {
@@ -123,7 +147,7 @@ describe('POST /tasks', () => {
   });
 
   it('responde 400 em post com key diferente', async () => {
-    const res = await request(app).post('/tasks').send({ banana: 'Teste' });
+    const res = await request(app).post(TASKS_PREFIX).send({ banana: 'Teste' });
     expect(res.status).toBe(400);
     expect(res.body.errors).toEqual([
       {
@@ -136,7 +160,9 @@ describe('POST /tasks', () => {
 
 describe('PATCH /tasks', () => {
   it('responde 200 em patch', async () => {
-    const res = await request(app).patch('/tasks/1').send({ title: 'Novo titulo', term: null });
+    const res = await request(app)
+      .patch(`${TASKS_PREFIX}/1`)
+      .send({ title: 'Novo titulo', term: null });
     expect(res.status).toBe(200);
     expect(res.body).toEqual({
       id: 1,
@@ -147,7 +173,9 @@ describe('PATCH /tasks', () => {
   });
 
   it('responde 200 em patch', async () => {
-    const res = await request(app).patch('/tasks/2').send({ title: 'Novo titulo', term: 'Teste' });
+    const res = await request(app)
+      .patch(`${TASKS_PREFIX}/2`)
+      .send({ title: 'Novo titulo', term: 'Teste' });
     expect(res.status).toBe(200);
     expect(res.body).toEqual({
       id: 2,
@@ -158,7 +186,7 @@ describe('PATCH /tasks', () => {
   });
 
   it('responde 400 em patch com id inválido', async () => {
-    const res = await request(app).patch('/tasks/-2').send({ title: 'Novo titulo' });
+    const res = await request(app).patch(`${TASKS_PREFIX}/-2`).send({ title: 'Novo titulo' });
     expect(res.status).toBe(400);
     expect(res.body.errors).toEqual([
       {
@@ -169,7 +197,7 @@ describe('PATCH /tasks', () => {
   });
 
   it('responde 404 em patch com id inexistente', async () => {
-    const res = await request(app).patch('/tasks/10').send({ title: 'Novo titulo' });
+    const res = await request(app).patch(`${TASKS_PREFIX}/10`).send({ title: 'Novo titulo' });
     expect(res.status).toBe(404);
     expect(res.body.errors).toEqual([
       {
@@ -180,7 +208,7 @@ describe('PATCH /tasks', () => {
   });
 
   it('responde 400 em patch sem body', async () => {
-    const res = await request(app).patch('/tasks/2').send();
+    const res = await request(app).patch(`${TASKS_PREFIX}/2`).send();
     expect(res.status).toBe(400);
     expect(res.body.errors).toEqual([
       {
@@ -191,7 +219,7 @@ describe('PATCH /tasks', () => {
   });
 
   it('responde 400 em patch com body vazio', async () => {
-    const res = await request(app).patch('/tasks/2').send({});
+    const res = await request(app).patch(`${TASKS_PREFIX}/2`).send({});
     expect(res.status).toBe(400);
     expect(res.body.errors).toEqual([
       {
@@ -202,7 +230,7 @@ describe('PATCH /tasks', () => {
   });
 
   it('responde 400 quando title vazio', async () => {
-    const res = await request(app).patch('/tasks/2').send({ title: '' });
+    const res = await request(app).patch(`${TASKS_PREFIX}/2`).send({ title: '' });
     expect(res.status).toBe(400);
     expect(res.body.errors).toEqual([
       {
@@ -213,7 +241,7 @@ describe('PATCH /tasks', () => {
   });
 
   it('responde 400 quando title não string', async () => {
-    const res = await request(app).patch('/tasks/2').send({ title: 42 });
+    const res = await request(app).patch(`${TASKS_PREFIX}/2`).send({ title: 42 });
     expect(res.status).toBe(400);
     expect(res.body.errors).toEqual([
       {
@@ -224,40 +252,40 @@ describe('PATCH /tasks', () => {
   });
 });
 
-// describe('DELETE /tasks', () => {
-//   it('responde 204 quando delete', async () => {
-//     const res = await request(app).delete('/tasks/2');
-//     expect(res.status).toBe(204);
+describe('DELETE /tasks', () => {
+  it('responde 204 quando delete', async () => {
+    const res = await request(app).delete(`${TASKS_PREFIX}/2`);
+    expect(res.status).toBe(204);
 
-//     const resSecond = await request(app).delete('/tasks/2');
-//     expect(resSecond.status).toBe(404);
-//     expect(resSecond.body.errors).toEqual([
-//       {
-//         field: 'id',
-//         message: 'not found',
-//       },
-//     ]);
-//   });
+    const resSecond = await request(app).delete(`${TASKS_PREFIX}/2`);
+    expect(resSecond.status).toBe(404);
+    expect(resSecond.body.errors).toEqual([
+      {
+        field: 'id',
+        message: 'Not Found',
+      },
+    ]);
+  });
 
-//   it('responde 400 quando id inválido', async () => {
-//     const res = await request(app).delete('/tasks/-2');
-//     expect(res.status).toBe(400);
-//     expect(res.body.errors).toEqual([
-//       {
-//         field: 'id',
-//         message: 'invalid id',
-//       },
-//     ]);
-//   });
+  it('responde 400 quando id inválido', async () => {
+    const res = await request(app).delete(`${TASKS_PREFIX}/-2`);
+    expect(res.status).toBe(400);
+    expect(res.body.errors).toEqual([
+      {
+        field: 'id',
+        message: 'Invalid id',
+      },
+    ]);
+  });
 
-//   it('responde 404 quando id inexistente', async () => {
-//     const res = await request(app).delete('/tasks/10');
-//     expect(res.status).toBe(404);
-//     expect(res.body.errors).toEqual([
-//       {
-//         field: 'id',
-//         message: 'not found',
-//       },
-//     ]);
-// });
-// });
+  it('responde 404 quando id inexistente', async () => {
+    const res = await request(app).delete(`${TASKS_PREFIX}/10`);
+    expect(res.status).toBe(404);
+    expect(res.body.errors).toEqual([
+      {
+        field: 'id',
+        message: 'Not Found',
+      },
+    ]);
+  });
+});
