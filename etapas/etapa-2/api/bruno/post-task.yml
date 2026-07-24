@@ -5,10 +5,10 @@ info:
 
 http:
   method: POST
-  url: http://localhost:3000/tas
+  url: http://localhost:3000/tasks
   body:
     type: json
-    data: '{titulo: "Titulo"}'
+    data: '{"title": "Titulo", "status": "todo"}'
   auth: inherit
 
 settings:

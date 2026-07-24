@@ -42,5 +42,5 @@
     "skipLibCheck": true,
     "moduleResolution": "nodenext" 
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*.ts", "src/**/*.d.ts"]
 }

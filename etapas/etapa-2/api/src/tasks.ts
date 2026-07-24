@@ -1,3 +1,4 @@
+import { HttpStatus } from './constants/http-constants.js';
 import { AppError } from './errors.js';
 
 export interface Task {
@@ -7,33 +8,31 @@ export interface Task {
   term?: string;
 }
 
-const STATUSES = ['todo', 'doing', 'done'] as const;
+// export interface Task extends NewTask {
+//   readonly id: number;
+// }
+
+// const STATUSES = ['todo', 'doing', 'done'] as const;
 
 export type NewTask = Omit<Task, 'id'>;
-export type TaskPatch = Partial<Omit<Task, 'id'>>;
-export type TaskPreview = Pick<Task, 'id' | 'title'>;
+// export type TaskPatch = Partial<Omit<Task, 'id'>>;
+// export type TaskPreview = Pick<Task, 'id' | 'title'>;
 
-export const isTask = (value: unknown): value is Task => {
-  if (!(typeof value === 'object' && value !== null)) return false;
-  if ('term' in value && typeof value.term !== 'string') return false;
+export const isNewTask = (body: unknown): body is NewTask => {
+  if (typeof body !== 'object' || body === null) return false;
 
-  if (
-    !(
-      'id' in value &&
-      typeof value.id === 'number' &&
-      'title' in value &&
-      typeof value.title === 'string' &&
-      'status' in value &&
-      (value.status === 'todo' || value.status === 'doing' || value.status === 'done')
-    )
-  )
-    return false;
-  return true;
+  const task = body as Record<string, unknown>;
+
+  return (
+    typeof task.title === 'string' &&
+    task.title.trim() !== '' &&
+    (task.status === 'todo' || task.status === 'doing' || task.status === 'done') &&
+    (task.term === undefined || typeof task.term === 'string')
+  );
 };
 
-export const parseTask = (input: unknown) => {
-  if (!isTask(input)) {
-    throw new AppError('invalid task', 400, 'task');
-  }
+export const parseTask = (input: unknown): NewTask => {
+  if (!isNewTask(input)) throw new AppError('Invalid Task', HttpStatus.BAD_REQUEST, 'task');
+
   return input;
 };
