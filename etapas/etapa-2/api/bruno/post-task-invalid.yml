@@ -1,14 +1,14 @@
 info:
-  name: post-task
+  name: post-task-invalid
   type: http
-  seq: 3
+  seq: 5
 
 http:
   method: POST
   url: http://localhost:3000/tasks
   body:
     type: json
-    data: '{"title": "Titulo", "status": "todo", "term": null}'
+    data: '{"title": "Titulo", "status": "todo"}'
   auth: inherit
 
 settings:

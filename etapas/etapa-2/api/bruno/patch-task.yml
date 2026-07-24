@@ -1,14 +1,14 @@
 info:
-  name: post-task
+  name: patch-task
   type: http
-  seq: 3
+  seq: 7
 
 http:
-  method: POST
-  url: http://localhost:3000/tasks
+  method: PATCH
+  url: http://localhost:3000/tasks/1
   body:
     type: json
-    data: '{"title": "Titulo", "status": "todo", "term": null}'
+    data: '{"title": "Novo titulo"}'
   auth: inherit
 
 settings:
