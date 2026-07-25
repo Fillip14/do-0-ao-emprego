@@ -17,8 +17,6 @@ node dist/server.js  # sobe o build (produção)
 
 ## Rotas
 
-Base: `/tasks`. Corpo e respostas em JSON.
-
 | Método | Rota | O que faz | Sucesso |
 |---|---|---|---|
 | `GET` | `/tasks` | lista todas as tarefas | `200` |
@@ -26,18 +24,17 @@ Base: `/tasks`. Corpo e respostas em JSON.
 | `POST` | `/tasks` | cria uma tarefa | `201` + header `Location` |
 | `PATCH` | `/tasks/:id` | altera campos de uma tarefa | `200` |
 | `DELETE` | `/tasks/:id` | remove uma tarefa | `204` |
+| | | | | 
 
-## Página não encontrada (404 coringa)
+### Página não encontrada (404)
 
-Qualquer rota fora das acima cai num handler coringa no fim da cadeia, que responde `404` no formato de erro padrão.
+Qualquer rota fora das acima cai num handler no fim da cadeia, que responde `404`.
 
-## Tratador de erro central
+### Middleware de erro central
 
-Um error handler central (middleware de 4 parâmetros) concentra o tratamento — sem `try/catch` espalhado pelas rotas. Os handlers assíncronos são embrulhados num **`asyncHandler`**, que captura a rejeição da Promise e encaminha pro tratador central via `next(err)`. Assim um erro em qualquer rota async vira resposta tratada, não um `500` solto.
+Um error handler central (middleware de 4 parâmetros) concentra o tratamento — sem `try/catch` espalhado pelas rotas. Os handlers assíncronos são embrulhados num **`asyncHandler`**, que captura a rejeição da Promise e encaminha pro middleware central via `next(err)`. Assim um erro em qualquer rota async vira resposta tratada, não um `500` solto.
 
-## Formato de erro
-
-Toda resposta de erro segue:
+### Formato de erro
 
 ```json
 { "errors": [ { "field": "title", "message": "título é obrigatório" } ] }
@@ -45,9 +42,21 @@ Toda resposta de erro segue:
 
 `field` é opcional — erros que não são de um campo específico vêm só com `message`.
 
-## Decisões-contrato
+## Schema da `Task`
 
-Registradas conforme o tema avança (regra 8 do plano).
+| Campo | Tipo | Notas |
+|---|---|---|
+| `id` | `number` | gerado pelo servidor, imutável (`readonly`) |
+| `title` | `string` | obrigatório, não vazio |
+| `status` | `'todo' \| 'doing' \| 'done'` | um dos três valores |
+| `term` | `string \| null` | prazo (data) ou `null` quando sem prazo |
+
+- **Corpo do `POST`:** `title`, `status`, `term` (sem `id` — o servidor gera).
+- **Corpo do `PATCH`:** qualquer subconjunto dos campos acima, menos `id` — **pelo menos um**.
+
+## Decisões de contrato
+
+Registradas conforme o tema avança.
 
 ### Tema 3 — TypeScript
 - **Rigor máximo:** `strict` + `noUncheckedIndexedAccess` + `exactOptionalPropertyTypes` + `verbatimModuleSyntax` — escolhido pra aprender, encarando na mão o que o compilador cobra.
@@ -57,8 +66,7 @@ Registradas conforme o tema avança (regra 8 do plano).
 ### Herdadas do Tema 2 — Express
 - Formato de erro `{ errors: [{ field?, message }] }`.
 - `asyncHandler` no lugar de `try/catch`.
-- `morgan('combined')` como logger.
-- Só `PATCH` (alteração parcial), sem `PUT`.
+- `morgan` como logger.
 - `validateId` como middleware — valida o `:id` antes do handler.
 
 ## Arquitetura
