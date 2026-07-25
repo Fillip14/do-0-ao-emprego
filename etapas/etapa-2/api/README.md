@@ -28,7 +28,6 @@ A collection do [Bruno](https://www.usebruno.com/) fica em **`bruno/`** — abra
 | `POST` | `/tasks` | cria uma tarefa | `201` + header `Location` |
 | `PATCH` | `/tasks/:id` | altera campos de uma tarefa | `200` |
 | `DELETE` | `/tasks/:id` | remove uma tarefa | `204` |
-| | | | | 
 
 ### Página não encontrada (404)
 

@@ -10,7 +10,6 @@ Avaliação de 06/07: **iniciante avançado** em lógica; conceitos web com boa 
 
 Node + Express + TypeScript no back, React no front, PostgreSQL no banco. Motivos: você já começou nela, é a de maior volume de vagas júnior, e cobre front e back com uma linguagem só. **Travada até janeiro/2027.**
 
----
 
 ## Etapas
 
@@ -63,7 +62,7 @@ Regras transversais: commits diários no GitHub desde a Etapa 0 · uso de IA seg
 - Algoritmos básicos de entrevista + entrevistas simuladas comigo.
 - Início das aplicações para vagas. Meta: **pronto para aplicar** — o emprego em si pode levar mais tempo, e tudo bem.
 
----
+
 
 ## Trilha de IA — do tutor ao agente
 
@@ -79,14 +78,12 @@ Desenvolvimento assistido por IA é habilidade de mercado e faz parte do plano �
 
 **Etapa 5 — IA como pauta de entrevista.** Saber contar essa progressão é resposta forte para "como você usa IA?" — pergunta cada vez mais comum. Você terá evidência pública (commits, READMEs) de uso com critério, não dependência.
 
----
 
 ## Trilha de Marca Pessoal — do perfil à audiência
 
 Presença pública é ativo de empregabilidade, construída em camadas: perfil → rede → conteúdo → colheita. Regra de proteção: roda FORA do horário de estudo (máx. 30–60 min/dia).
 > O plano detalhado (camada por etapa, backlog de posts, formato, estado atual) vive em [`marca-pessoal.md`](marca-pessoal.md) — documento vivo e fonte única desta trilha.
 
----
 
 ## Contra os desafios pessoais (seção 7 do plano original)
 

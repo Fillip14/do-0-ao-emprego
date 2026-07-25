@@ -34,13 +34,11 @@ Este repositório é a prova viva desse caminho: cada erro, cada conceito que de
 
 Transição de carreira em aproximadamente **6 meses**, com stack **JavaScript/TypeScript full stack**, baseada em prática e portfólio. A meta honesta ao fim do período é estar **pronto para aplicar** — o emprego em si pode levar mais tempo, e tudo bem.
 
-| | |
 |---|---|
 | 🧭 **Stack** | Node + Express + TypeScript · React · PostgreSQL |
 | ⏱️ **Ritmo** | ~45h/semana (seg–sex 8h–17h + fins de semana) |
 | 🧪 **Método** | Prática com testes desde o dia 1, portfólio público, commit diário |
 | 🤖 **IA** | Tutor no início → agente no fim |
-| | |
 
 ## 🤖 Trilha de IA e Cronograma das etapas
 
@@ -78,14 +76,13 @@ Etapa 5 · Portfólio e busca           ░░░░░░░░░░░░░�
 | **T1** | Node — HTTP, `node:http`, event loop, npm, ESM | ✅ |
 | **T2** | Express — rotas, middleware, validação, erro central, supertest | ✅ |
 | **T3** | TypeScript — strict, narrowing, generics, utility types, **API portada para TS** | ✅ |
-| **T4** | PostgreSQL — SQL, `pg`, injection, transações | ⬜ |
+| **T4** | PostgreSQL — SQL, `pg`, injection, transações | ⏳ |
 | **T5** | Testes a fundo — pirâmide, mocks, cobertura, TDD | ⬜ |
 | **T6** | Camadas + paginação, filtros, zod | ⬜ |
 | **T7** | Migrations + ORM | ⬜ |
 | **T8** | Auth + segurança de borda | ⬜ |
 | **T9** | Deploy — banco gerenciado, health, logs, auto-ataque | ⬜ |
 | **T10** | Docker + CI | ⬜ |
-| | | |
 
 **Legenda:** ✅ concluída · ⏳ em andamento · ⬜ a fazer
 
@@ -100,7 +97,6 @@ O que foi estudado dia a dia.
 | 06/07 | **Terminal** — navegação, arquivos, `nano` |
 | 07/07 | **Git** — `init`, `commit`, `push`, `.gitignore` |
 | 08/07 | **Rigor + Git avançado** — branches e merge · rigor e testes de fronteira |
-| | |
 
 ### Etapa 1 — Fundamentos JavaScript
 
@@ -115,7 +111,6 @@ O que foi estudado dia a dia.
 | 14/07 | **T12–T14** — Orientação a objetos · HTML/CSS · DOM e eventos |
 | 15/07 | **T15–T16** — HTTP na prática · revisão espaçada |
 | 16/07 | **T17–T18 + avaliação** — Projeto: gerenciador de tarefas web · **avaliação da Etapa 1 (aprovada)** |
-| | |
 
 ### Etapa 2 — Back-end: Node, Express, TypeScript e banco
 
@@ -126,7 +121,7 @@ O que foi estudado dia a dia.
 | 22/07 | **T2 — Express** — handler `async`, supertest · **T3 — TypeScript** — inferência, `any` × `unknown`, `interface` × `type`, narrowing, união literal, validação de borda |
 | 23/07 | **Alterado metodologia de estudo. v1 tema 3 (arquivada)** em [`archive-t03/`](etapas/etapa-2/archived/archive-t03). **T3 — TypeScript** — type predicates, discriminated unions, generics, utility types,`as` e `satisfies`, `tsconfig` |
 | 24/07 | **T3 — TypeScript** — API tipada |
-| | |
+| 25/07 | **T4 — PostgreSQL** — Iniciado tema sobre postgreqsl |
 
 > 💡 A matéria-prima detalhada de cada dia está no devlog de cada etapa, em [`etapas/`](etapas/).
 
