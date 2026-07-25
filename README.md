@@ -71,7 +71,7 @@ Etapa 5 · Portfólio e busca           ░░░░░░░░░░░░░�
 
 **Back-end completo** · 🔄 **reiniciada em 21/07** · avaliação alvo **30/07**.
 
-> Plano de 10 temas, questionário por tópico. A API cresce a cada tema.
+> Plano de 10 temas, questionário por temas. A API cresce a cada tema.
 
 | Tema | Assunto | Status |
 |:---:|---|:---:|
@@ -122,8 +122,7 @@ O que foi estudado dia a dia.
 | Data | Conteúdo estudado |
 |:---:|---|
 | 16–20/07 | **v1 da etapa (arquivada)** em [`archive-stage-complete/`](etapas/etapa-2/archived/archive-stage-complete) |
-| 20/07 | **T1 — Node** — servidor, HTTP, `node:http` |
-| 21/07 | **T1 — Node** — streams, event loop, npm, testes · **T2 — Express** — rotas, middleware, validação |
+| 21/07 | **T1 — Node** — servidor, HTTP, `node:http`, streams, event loop, npm, testes · **T2 — Express** — rotas, middleware, validação |
 | 22/07 | **T2 — Express** — handler `async`, supertest · **T3 — TypeScript** — inferência, `any` × `unknown`, `interface` × `type`, narrowing, união literal, validação de borda |
 | 23/07 | **Alterado metodologia de estudo. v1 tema 3 (arquivada)** em [`archive-t03/`](etapas/etapa-2/archived/archive-t03). **T3 — TypeScript** — type predicates, discriminated unions, generics, utility types,`as` e `satisfies`, `tsconfig` |
 | 24/07 | **T3 — TypeScript** — API tipada |
@@ -138,15 +137,15 @@ Onde procurar cada coisa — os links deste repositório moram todos aqui.
 
 ```
 do-0-ao-emprego/
-├── README.md                → você está aqui
-├── docs/                    → cronograma das etapas, planejamento e marca pessoal
-├── avaliacao-de-nivel/      → avaliação inicial e correção
-└── etapas/                  → uma pasta por etapa, autocontida
-    ├── etapa-0/             → plano, devlog, avaliação e exercícios
-    ├── etapa-1/             → idem + código por tema (t01/…t17/)
-    └── etapa-2/             → plano.md, devlog-etapa-2.md + as pastas abaixo
-        ├── api/             → API — nasce no tema 3 e cresce até o 10
-        ├── archived/        → histórico de planos (v1 da etapa e v1 do tema 3)
+├── README.md                → você está aqui: progresso, diário de bordo e este mapa
+├── docs/                    → planejamento do projeto inteiro: cronograma das etapas, plano original, marca pessoal
+├── avaliacao-de-nivel/      → a avaliação de 06/07 e a correção que definiu o nível de partida
+└── etapas/                  → uma pasta por etapa, autocontida: plano + devlog + entregas
+    ├── etapa-0/             → Rigor e Git — plano, devlog, avaliação e exercícios refeitos
+    ├── etapa-1/             → JavaScript e web — idem + código por tema (t01/…t17/)
+    └── etapa-2/             → Back-end (ATUAL) — `plano.md` e `devlog-etapa-2.md` ficam na raiz da pasta
+        ├── api/             → a API viva, cresce a cada tema (+ `bruno/` com a collection) — contrato em `api/README.md`
+        ├── archived/        → planos e temas anulados (v1 da etapa, v1 do tema 3) — histórico, não vigente
         └── studies/         → estudo por tema (t01/ e t02/ em pasta; t03+ em `studie-tNN-tema.md`)
 ```
 
