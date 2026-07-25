@@ -10,7 +10,6 @@ A lógica da trilha é em camadas: **perfil → rede → conteúdo → colheita*
 ## 🛡️ Regra de proteção (inegociável)
 
 - Roda **FORA do horário de estudo**: máx. **30–60 min/dia**.
-- É a **PRIMEIRA coisa a pausar** se o checkpoint semanal der amarelo ou vermelho.
 - A **âncora da etapa vale mais que qualquer post**. Marca pessoal nunca justifica atrasar conteúdo.
 - Streaming liberado enquanto não comer horas do plano.
 

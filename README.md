@@ -14,15 +14,14 @@
 <p align="center">
   <a href="#-quem-sou-eu">Quem sou eu</a> ·
   <a href="#-o-projeto">O projeto</a> ·
-  <a href="#-trilha-de-ia">Trilha de IA</a> ·
-  <a href="#-cronograma-das-etapas">Cronograma</a> ·
+  <a href="#-trilha-de-ia-e-cronograma-das-etapas">Trilha de IA e cronograma</a> ·
   <a href="#-progresso-da-etapa-2">Progresso</a> ·
   <a href="#-diário-de-bordo">Diário de bordo</a> ·
   <a href="#-estrutura-do-projeto">Estrutura</a> ·
   <a href="#-onde-me-encontrar">Contato</a>
 </p>
 
----
+
 
 ## 👋 Quem sou eu
 
@@ -30,7 +29,6 @@ Olá, me chamo **Fillip** e sou apaixonado por informática, em plena transiçã
 
 Este repositório é a prova viva desse caminho: cada erro, cada conceito que destravou e cada projeto entregue estão documentados aqui, à vista de todos.
 
----
 
 ## 🎯 O projeto
 
@@ -42,55 +40,44 @@ Transição de carreira em aproximadamente **6 meses**, com stack **JavaScript/T
 | ⏱️ **Ritmo** | ~45h/semana (seg–sex 8h–17h + fins de semana) |
 | 🧪 **Método** | Prática com testes desde o dia 1, portfólio público, commit diário |
 | 🤖 **IA** | Tutor no início → agente no fim |
+| | |
 
----
+## 🤖 Trilha de IA e Cronograma das etapas
 
-## 🤖 Trilha de IA
-
-Usar IA é habilidade de mercado — mas se constrói em camadas, porque quem não domina a base não consegue avaliar o que a IA produz. Cada fase acompanha uma etapa: sou revisor enquanto a Etapa 2 dura, então as duas barras andam iguais.
+Usar IA é habilidade de mercado — mas se constrói em camadas, porque quem não domina a base não consegue avaliar o que a IA produz. Cada fase acompanha uma etapa: **Etapa 2** do cronograma corresponde a etapa **Revisor** da IA (sem código pronto, IA explica o conceito e revisa depois).
 
 ```
 Tutor   · explica e revisa; nunca gera solução      ██████████████████████  100%  ✅ concluída
-Revisor · review depois que o meu código funciona   ████░░░░░░░░░░░░░░░░░░   20%  🔨 fase atual
+Revisor · review depois que o meu código funciona   ███████░░░░░░░░░░░░░░░   30%  🔨 fase atual
 Par     · trechos pequenos que eu entendo e testo   ░░░░░░░░░░░░░░░░░░░░░░    0%  🔒 bloqueada
 Agente  · implementa sob a minha especificação      ░░░░░░░░░░░░░░░░░░░░░░    0%  🔒 bloqueada
 Pauta   · a progressão vira resposta de entrevista  ░░░░░░░░░░░░░░░░░░░░░░    0%  🔒 bloqueada
 ```
 
-Na fase atual eu não peço código pronto: a IA explica conceito e revisa **depois** que o meu funciona. A habilidade em treino é ler código criticamente — inclusive o que veio de máquina.
-
-
-
----
-
-## 🗺️ Cronograma das etapas
-
-Progresso geral do plano de 6 meses. A única data fixa de cada etapa é a **avaliação** — dentro dela, o ritmo é livre.
+Cronograma de datas está dentro do `cronograma-etapas.md`, datas detalhadas nos planos das etapas.
 
 ```
 Etapa 0 · Rigor e Git                 ██████████████████████  100%  ✅ aprovada
 Etapa 1 · JS sólido + fundamentos web ██████████████████████  100%  ✅ aprovada
-Etapa 2 · Back-end: da API ao deploy  ████░░░░░░░░░░░░░░░░░░   20%  🔨 T3 de 10 em andamento
+Etapa 2 · Back-end: da API ao deploy  ███████░░░░░░░░░░░░░░░   30%  🔨 3 de 10 temas
 Etapa 3 · Front-end (React)           ░░░░░░░░░░░░░░░░░░░░░░    0%  🔒 bloqueada
 Etapa 4 · Capstone "reporte-aqui"     ░░░░░░░░░░░░░░░░░░░░░░    0%  🔒 bloqueada
 Etapa 5 · Portfólio e busca           ░░░░░░░░░░░░░░░░░░░░░░    0%  🔒 bloqueada
 ```
+> 🔓 Cada etapa só abre depois que a IA **avalia e aprova** a anterior — pendência bloqueia a próxima.
 
-> 🔓 Cada etapa só abre depois que eu **avalio e aprovo** a anterior — reprovação ou pendência bloqueia a próxima.
-
----
 
 ## 📊 Progresso da Etapa 2
 
-**Back-end: Node, Express, TypeScript e banco** · 🔄 **reiniciada em 21/07** · avaliação alvo **28/09** (antecipável).
+**Back-end completo** · 🔄 **reiniciada em 21/07** · avaliação alvo **30/07**.
 
-> Plano de 10 temas, exercício por tópico, com a API crescendo a cada tema.
+> Plano de 10 temas, questionário por tópico. A API cresce a cada tema.
 
 | Tema | Assunto | Status |
 |:---:|---|:---:|
 | **T1** | Node — HTTP, `node:http`, event loop, npm, ESM | ✅ |
 | **T2** | Express — rotas, middleware, validação, erro central, supertest | ✅ |
-| **T3** | TypeScript — strict, narrowing, generics, utility types, **API portada pra TS** | ⏳ |
+| **T3** | TypeScript — strict, narrowing, generics, utility types, **API portada para TS** | ✅ |
 | **T4** | PostgreSQL — SQL, `pg`, injection, transações | ⬜ |
 | **T5** | Testes a fundo — pirâmide, mocks, cobertura, TDD | ⬜ |
 | **T6** | Camadas + paginação, filtros, zod | ⬜ |
@@ -98,14 +85,13 @@ Etapa 5 · Portfólio e busca           ░░░░░░░░░░░░░�
 | **T8** | Auth + segurança de borda | ⬜ |
 | **T9** | Deploy — banco gerenciado, health, logs, auto-ataque | ⬜ |
 | **T10** | Docker + CI | ⬜ |
+| | | |
 
 **Legenda:** ✅ concluída · ⏳ em andamento · ⬜ a fazer
 
----
-
 ## 📅 Diário de bordo
 
-Catálogo dia a dia do que foi estudado.
+O que foi estudado dia a dia.
 
 ### Etapa 0 — Rigor e Git
 
@@ -114,6 +100,7 @@ Catálogo dia a dia do que foi estudado.
 | 06/07 | **Terminal** — navegação, arquivos, `nano` |
 | 07/07 | **Git** — `init`, `commit`, `push`, `.gitignore` |
 | 08/07 | **Rigor + Git avançado** — branches e merge · rigor e testes de fronteira |
+| | |
 
 ### Etapa 1 — Fundamentos JavaScript
 
@@ -128,19 +115,22 @@ Catálogo dia a dia do que foi estudado.
 | 14/07 | **T12–T14** — Orientação a objetos · HTML/CSS · DOM e eventos |
 | 15/07 | **T15–T16** — HTTP na prática · revisão espaçada |
 | 16/07 | **T17–T18 + avaliação** — Projeto: gerenciador de tarefas web · **avaliação da Etapa 1 (aprovada)** |
+| | |
 
 ### Etapa 2 — Back-end: Node, Express, TypeScript e banco
 
 | Data | Conteúdo estudado |
 |:---:|---|
-| 16–20/07 | **v1 da etapa (arquivada)** em [`arquivo-v1/`](etapas/etapa-2/arquivo-v1/) |
+| 16–20/07 | **v1 da etapa (arquivada)** em [`archive-stage-complete/`](etapas/etapa-2/archived/archive-stage-complete) |
 | 20/07 | **T1 — Node** — servidor, HTTP, `node:http` |
 | 21/07 | **T1 — Node** — streams, event loop, npm, testes · **T2 — Express** — rotas, middleware, validação |
 | 22/07 | **T2 — Express** — handler `async`, supertest · **T3 — TypeScript** — inferência, `any` × `unknown`, `interface` × `type`, narrowing, união literal, validação de borda |
+| 23/07 | **Alterado metodologia de estudo. v1 tema 3 (arquivada)** em [`archive-t03/`](etapas/etapa-2/archived/archive-t03). **T3 — TypeScript** — type predicates, discriminated unions, generics, utility types,`as` e `satisfies`, `tsconfig` |
+| 24/07 | **T3 — TypeScript** — API tipada |
+| | |
 
 > 💡 A matéria-prima detalhada de cada dia está no devlog de cada etapa, em [`etapas/`](etapas/).
 
----
 
 ## 📂 Estrutura do projeto
 
@@ -151,21 +141,19 @@ do-0-ao-emprego/
 ├── README.md                → você está aqui
 ├── docs/                    → cronograma das etapas, planejamento e marca pessoal
 ├── avaliacao-de-nivel/      → avaliação inicial e correção
-├── etapas/                  → uma pasta por etapa, autocontida
-│   ├── etapa-0/             → plano, devlog, avaliação e exercícios
-│   ├── etapa-1/             → idem + código por tema (t01/…t17/)
-│   └── etapa-2/             → plano, devlog, arquivo-v1/
-│       ├── api/             → A API — nasce no tema 3 e cresce até o 10.
-│       │
-│       └── t01-node/ …      → uma pasta de estudo por tema (playground,
-│                              respostas escritas, sub-projetos)
+└── etapas/                  → uma pasta por etapa, autocontida
+    ├── etapa-0/             → plano, devlog, avaliação e exercícios
+    ├── etapa-1/             → idem + código por tema (t01/…t17/)
+    └── etapa-2/             → plano.md, devlog-etapa-2.md + as pastas abaixo
+        ├── api/             → API — nasce no tema 3 e cresce até o 10
+        ├── archived/        → histórico de planos (v1 da etapa e v1 do tema 3)
+        └── studies/         → estudo por tema (t01/ e t02/ em pasta; t03+ em `studie-tNN-tema.md`)
 ```
 
 [`docs/cronograma-etapas.md`](docs/cronograma-etapas.md) — o plano de 6 meses inteiro ·
 [`etapas/etapa-2/plano.md`](etapas/etapa-2/plano.md) — a etapa em andamento ·
 [`etapas/etapa-2/devlog-etapa-2.md`](etapas/etapa-2/devlog-etapa-2.md) — o dia a dia com detalhe
 
----
 
 ## 🌟 Onde me encontrar
 
@@ -177,8 +165,6 @@ do-0-ao-emprego/
     <img alt="GitHub" src="https://img.shields.io/badge/GitHub-Fillip14-181717?style=for-the-badge&logo=github&logoColor=white">
   </a>
 </p>
-
----
 
 <p align="center">
   <sub>⭐ Acompanhe o repositório para ver a jornada do 0 ao emprego acontecendo em tempo real.</sub>
