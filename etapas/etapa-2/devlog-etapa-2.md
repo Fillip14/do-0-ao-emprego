@@ -76,3 +76,13 @@
 - O que aprendi: methods e tópicos sobre typescript.
 - Travei/faltou: são muitos metódos de tipagem, acredito que eu não tenha abordado todos na API mas tipei ela toda.
 - Amanhã: tema 4
+
+## 25/07
+
+- **🔨 Tema 4 (PostgreSQL)** — Iniciado
+
+**Anotações**
+
+- O que aprendi:
+- Travei/faltou:
+- Amanhã: continuação tema 4
