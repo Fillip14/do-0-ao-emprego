@@ -15,6 +15,10 @@ npm run build        # gera dist/
 node dist/server.js  # sobe o build (produção)
 ```
 
+## Testar à mão
+
+A collection do [Bruno](https://www.usebruno.com/) fica em **`bruno/`** — abra a pasta no Bruno e as requests das rotas abaixo já estão montadas, incluindo os casos de erro (id inválido, corpo inválido). Rota nova ou alterada entra aqui no mesmo tema.
+
 ## Rotas
 
 | Método | Rota | O que faz | Sucesso |
