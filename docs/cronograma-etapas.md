@@ -71,7 +71,7 @@ Desenvolvimento assistido por IA é habilidade de mercado e faz parte do plano �
 
 **Etapas 0–1 — IA como tutor.** Explica conceitos, tira dúvidas, revisa seu código *depois* de pronto. Nunca gera solução. Habilidade treinada: fazer boas perguntas técnicas e entender respostas — a base de todo o resto.
 
-**Etapa 2 — IA como revisor.** Após cada exercício/feature, peça um code review à IA: bugs, casos de borda, alternativas. Compare a solução dela com a sua e entenda os trade-offs. Habilidade treinada: ler código alheio criticamente — inclusive o gerado por máquina.
+**Etapa 2 — IA como revisor.** Ao fechar cada tema, peça um code review à IA: bugs, casos de borda, alternativas. Confronte o que ela aponta com as decisões que você tomou e entenda os trade-offs. Habilidade treinada: ler código criticamente e defender a própria escolha.
 
 **Etapa 3 — IA como par de programação.** Liberada a geração de trechos pequenos (uma função, um componente), com duas condições: você entende cada linha antes de commitar e escreve o teste que prova que funciona. Habilidade treinada: validar código que você não escreveu.
 
@@ -83,8 +83,7 @@ Desenvolvimento assistido por IA é habilidade de mercado e faz parte do plano �
 
 ## Trilha de Marca Pessoal — do perfil à audiência
 
-Presença pública é ativo de empregabilidade, construída em camadas: perfil → rede → conteúdo → colheita. Regra de proteção: roda FORA do horário de estudo (máx. 30–60 min/dia) — a âncora da etapa vale mais que qualquer post.
-
+Presença pública é ativo de empregabilidade, construída em camadas: perfil → rede → conteúdo → colheita. Regra de proteção: roda FORA do horário de estudo (máx. 30–60 min/dia).
 > O plano detalhado (camada por etapa, backlog de posts, formato, estado atual) vive em [`marca-pessoal.md`](marca-pessoal.md) — documento vivo e fonte única desta trilha.
 
 ---
