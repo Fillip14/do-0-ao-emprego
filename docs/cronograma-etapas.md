@@ -14,27 +14,29 @@ Node + Express + TypeScript no back, React no front, PostgreSQL no banco. Motivo
 
 ## Etapas
 
+> **Contagem das semanas:** a **semana 1 é 06–12/07/2026** — o início do projeto. Daí em diante as semanas correm de segunda a domingo, sem reset por etapa. Logo, **semana 20 = 16–22/11/2026**, o fim previsto da trilha.
+
 Regras transversais: commits diários no GitHub desde a Etapa 0 · uso de IA segue a Trilha de IA (abaixo) · ao final de cada etapa me avise, eu avalio e libero (ou não) a próxima.
 
-### Etapa 0 — Rigor e Git (semana 1: 08–14/07)
+### Etapa 0 — Rigor e Git (semana 1)
 
 - Refazer Ex 1, 3, 4, 5 e 7 cumprindo o enunciado exatamente; corrigir os bugs apontados no Ex 6 e Ex 8.
 - Git de verdade: instalar, criar repositório desta pasta, entender `init`, `add`, `commit`, `push`, `status`, `log`. Subir tudo para o GitHub.
 - **Avaliação:** exercícios refeitos + repositório público com histórico de commits.
 
-### Etapa 1 — JavaScript sólido + fundamentos web (semanas 2–5)
+### Etapa 1 — JavaScript sólido + fundamentos web (semanas 1-2)
 
 - JS moderno: `let`/`const`, template strings, `map`/`filter`/`reduce`, objetos, módulos, async/await, `this`/classes/protótipos.
 - HTML/CSS funcional (sem perfeccionismo visual) + HTTP na prática.
 - **Projeto:** gerenciador de tarefas (Ex 8) como página web — interface no navegador, lógica em JS.
 - **Avaliação:** projeto + exercícios de array methods que eu passar.
 
-### Etapa 2 — Back-end: Node, Express, TypeScript e banco (reiniciada 21/07 · 10 temas · avaliação alvo 28/09, antecipável)
+### Etapa 2 — Back-end: Node, Express, TypeScript e banco (semanas 3-4)
 
 > API funcional para servir a Etapa 3.
 
 - Fundamentos por dentro antes do atalho: HTTP cru e `node:http` → Express (rotas, middleware, validação, erro centralizado com formato único).
-- Testes automatizados desde a semana 1 (Vitest + supertest) + uma semana só de técnica: pirâmide, mocks, cobertura, TDD.
+- Testes automatizados desde o primeiro tema (Vitest + supertest) + um tema só de técnica: pirâmide, mocks, cobertura, TDD.
 - TypeScript `strict`: a API nasce em JS no Tema 2 e migra pra TS no Tema 3 — migrar código que já funciona é a experiência mais comum do mercado.
 - PostgreSQL de verdade: SQL puro, `pg` com pool e queries parametrizadas, SQL injection demonstrada, transações; schema versionado com migrations; ORM (Prisma) comparado ao SQL cru.
 - Arquitetura em camadas (rota/serviço/repositório), validação com zod, paginação, filtros e ordenação segura.
@@ -43,19 +45,19 @@ Regras transversais: commits diários no GitHub desde a Etapa 0 · uso de IA seg
 - Docker (imagem, compose com Postgres) + CI no GitHub Actions rodando a suíte a cada push.
 - **Avaliação:** API pública com banco funcionando + eu quebro sua API com requisições maliciosas + suíte verde na hora + oral sobre decisões e conceitos.
 
-### Etapa 3 — Front-end: React (semanas 11–15)
+### Etapa 3 — Front-end: React (semanas 5-10)
 
 - Componentes, props, estado, hooks básicos, consumo da sua própria API.
 - **Projeto:** front React conectado à API de tarefas da Etapa 2 → primeiro projeto full stack completo, com deploy.
 - **Avaliação:** projeto no ar, código revisado por mim.
 
-### Etapa 4 — Capstone: o "reporte-aqui" concluído (semanas 16–20)
+### Etapa 4 — Capstone: o "reporte-aqui" concluído (semanas 11-15)
 
 - Refazer do zero, agora sabendo o que faz: cadastro/login (auth), CRUD de reclamações, banco, front React, deploy.
 - README caprichado, testes básicos. Este é o projeto central do portfólio — e a resposta para "o site que não foi concluído".
 - **Avaliação:** simulo um code review de empresa.
 
-### Etapa 5 — Portfólio e busca (semanas 21–24)
+### Etapa 5 — Portfólio e busca (semanas 16-20)
 
 - GitHub organizado, LinkedIn, currículo, devlog do processo.
 - Algoritmos básicos de entrevista + entrevistas simuladas comigo.
@@ -81,7 +83,7 @@ Desenvolvimento assistido por IA é habilidade de mercado e faz parte do plano �
 
 ## Trilha de Marca Pessoal — do perfil à audiência
 
-Presença pública é ativo de empregabilidade, construída em camadas: perfil → rede → conteúdo → colheita. Regra de proteção: roda FORA do horário de estudo (máx. 30–60 min/dia) e é a PRIMEIRA coisa a pausar se o checkpoint semanal der amarelo ou vermelho — a âncora da etapa vale mais que qualquer post.
+Presença pública é ativo de empregabilidade, construída em camadas: perfil → rede → conteúdo → colheita. Regra de proteção: roda FORA do horário de estudo (máx. 30–60 min/dia) — a âncora da etapa vale mais que qualquer post.
 
 > O plano detalhado (camada por etapa, backlog de posts, formato, estado atual) vive em [`marca-pessoal.md`](marca-pessoal.md) — documento vivo e fonte única desta trilha.
 
