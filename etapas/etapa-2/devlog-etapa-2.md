@@ -1,38 +1,78 @@
 # Devlog — Etapa 2 (Back-end: Node, Express, TypeScript e banco)
 
-### 16/07 ao 20/07/2026
+## 16/07 ao 20/07/2026
 
-1. **v1 da etapa (arquivada)** — sob o plano antigo de 5 semanas com entregável semanal, 4 "semanas" fecharam em 5 dias: API Express em memória testada no Bruno (S1) · CRUD completo com validação, erro centralizado e 15 testes Vitest/supertest (S2) · PostgreSQL com queries parametrizadas, SQL injection demonstrada de verdade e banco de teste isolado (S3) · migração TypeScript `strict` com 16 testes verdes (S4). O código funcionou, mas velocidade não virou retenção — **etapa reiniciada em 21/07** com plano novo de 10 semanas; código e detalhes da v1 em [`etapas/etapa-2/arquivo-v1/`](etapas/etapa-2/arquivo-v1/)
+1. **v1 da etapa (arquivada)** e **v1 do tema 3 (arquivada)** — alterado metodologia de estudo para melhor compreensão e maior fluidez — arquivos em: [`etapas/etapa-2/archived/`](etapas/etapa-2/archived/)
 
+> Reinício da etapa · 21/07/2026
 
-# Reinício da etapa · 21/07/2026
+## 21/07
 
-### 21/07
+- **🔨 Tema 1 (Node)** — Iniciado, pasta `t01-node/`.
+- **✅ Tema 1 (Node)** — Fechado.
+- **🔨 Tema 2 (Express)** — Iniciado, pasta `t02-express/`.
 
-- **Tema 1 (Node) aberto e fechado** — 12/12 exercícios, pasta `t01-node/`, checkpoint 🟡 amarelo.
-- **Tema 2 (Express) aberto** — `exercicios.md` criado em `t02-express/` com os 13 tópicos do plano; Ex 01 a 11 feitos no mesmo dia.
+**Anotações**
 
-- O que aprendi: node · e no Express: a fila de rotas e o `finalhandler`, `express.json()` e as armadilhas do `req.body`, as três entradas (`params`/`query`/`body`), `Router` com prefixo, a tabela do CRUD e os porquês dos status, idempotência, `Location` e 405, middleware com `res.on('finish')`, tratador de erro central
-- Travei/faltou: o formato dos enunciados travou logo no começo — muita pergunta escrita pra responder. Pedi pra reescrever e agora é "Estudar (explicação + código) → o que fazer"
-- Amanhã: fechar o Tema 2
+1. Estudo, exercicios e respostas de perguntas nas pastas: [`etapas/etapa-2/studies/t01-node`](etapas/etapa-2/studies/t01-node); [`etapas/etapa-2/studies/t02-express`](etapas/etapa-2/studies/t02-express)
 
-### 22/07
+- Amanhã: continuar o Tema 2
 
-- **Tema 2 (Express) fechado** — 13/13 exercícios, pasta `t02-express/`, **checkpoint 🟢 verde**. API final em `t02-express/ex13/` com `app.js` separado do `server.js` e suíte em supertest.
+## 22/07
 
-- **Tema 3 (TypeScript) aberto** — `exercicios.md` em `t03-typescript/` com **14 exercícios**: os 13 tópicos do plano mais um Ex 14 de integração.
-- **Ex 01 a 06 feitos** — o Ex 01 virou análise da minha API do T2 em vez de arqueologia de bugs antigos (não lembrava de nenhum). Descoberta do dia: o TypeScript **não** teria pego o bug do `Content-Type`, porque `req.body` é `any`.
+- **✅ Tema 2 (Express)** — Fechado
+- **🔨 Tema 3 (TypeScript)** — Iniciado, pasta `t03-typescript/`
 
-**Decisões de estrutura da etapa (as três minhas):**
+**Anotações**
 
-1. **A API é progressiva.** Regra nova: tema que não muda a API não fechou. Antes dava pra terminar um tema com dez pastas de estudo e nenhuma API.
-2. **A API vive numa pasta só — `etapas/etapa-2/api/`.** A primeira ideia era copiar a pasta do tema anterior a cada tema. Troquei: copiar duplica a API dez vezes, arrasta o playground velho junto e **apaga a história dela no git** — cada cópia entra como arquivo novo. Com uma pasta só, `git log api/` conta a evolução: o dia em que virou TS, o dia em que ganhou banco, o dia em que ganhou auth. A `api/` nasce no Ex 14, copiada uma única vez do `t02-express/ex13/`, e daí só evolui por commit.
-3. **O contrato da API mora no `api/README.md`**, não no plano — rotas, status, formato de erro, arquitetura. Uma fonte de verdade só, e é a que quem visita o repo lê. Tirei a tabela de rotas do `plano.md` por isso.
+1. Estudo, exercicios e respostas de perguntas nas pastas: [`etapas/etapa-2/studies/t01-node`](etapas/etapa-2/studies/t01-node); [`etapas/etapa-2/studies/t02-express`](etapas/etapa-2/studies/t02-express)
 
-Consequência: as pastas `tNN-*` passam a guardar só estudo (playground, respostas escritas, sub-projetos). Nos temas 6, 8, 9 e 10 elas ficam quase vazias — o tema inteiro acontece dentro da `api/`.
+- Amanhã: continuar o Tema 3
 
-- O que aprendi: erro em handler `async` e por que o Express 4 penduraria o pedido onde o 5 devolve 500 · separar o `app` do `server` pra poder testar · que suíte verde não quer dizer API correta
-- Travei/faltou: nada no código. Revisando a primeira versão do enunciado do T3 achei 9 problemas — contradição entre exercícios, `rootDir` apontando pra uma pasta que nenhum exercício criava, um exemplo de `satisfies` errado, e o principal: 13 exercícios de playground sem nada que roda no fim, que é exatamente o que deixou o T1 amarelo. Enunciado refeito antes de começar.
-- Amanhã: Ex 07 do Tema 3
+## 23/07
 
-### 23/07
+- **🔨 Tema 3 (TypeScript)** — Continuação
+
+**Anotações**
+
+1. Dia finalizado com poucas alterações de tipagem, refeito metodologia de estudo.
+
+- O que aprendi: -
+- Travei/faltou: -
+- Amanhã: continuar o Tema 3
+
+## 24/07
+
+- **✅ Tema 3 (TypeScript)** — Fechado
+
+**Anotações**
+
+### T3
+1. A principal diferença é em relação ao tempo, no ts ele pega o erro em compilação mas não quebra, já no runtime ele quebra e pode demorar para chegar ao erro.
+2. Porque é feito uma build que converte tudo para .js, o TS é apenas para tipar durante a compilação.
+3. Deixa inferir quando há valor inicial; anota em 3 casos: parâmetro (o TS nunca infere), variável sem valor inicial, e retorno que quer travar. "Quanto mais anotado melhor" é mito — anotar o que já se infere é ruído.
+4. any determina que aquele tipo pode ser qualquer coisa, o código fica perigoso/quebravel, unknown é quando realmente não se sabe o dado a ser recebido, obriga a provar (narrowing) antes de usar.
+5. let infere string, const infere "todo"pois const não pode ser alterada e "todo" é o que a const é, já em let ela pode ser alterada para qualquer string.
+6. Quem faz extends e declaration merging é a interface (você usou isso no declare module do req.taskId!). type faz união/interseção. No hover, type expande a forma; interface mostra o nome.
+7. Excess property checking: objeto literal com campo a mais dá erro — mas não dispara se o objeto passar por uma variável antes de ser atribuído.
+8. Narrowing = estreitar o tipo com uma checagem, e o TS acompanha o fluxo. typeof não distingue objetos porque todos são "object".
+9. Enum deixa o ambiente de produção mais pesado, união literal não gera nada de código.
+10. Se todos os casos foram tratados, o default recebe never e compila; se falta um, o tipo restante não cabe em never e dá erro de compilação que nomeia o caso esquecido.
+11. as não checa nada — só manda o TS confiar. Como o dado vem de fora e pode ser qualquer coisa, essa confiança é uma promessa não verificada; daí "mentira".
+12. Ele garante que o valor repassado é do type que foi definido, sequencia de validações ficam true e determinam que é do type, ou false. O TS não confere se a tua checagem interna está certa — um predicate que faz return true sem validar nada compila do mesmo jeito.
+13. Discriminated union: união de objetos com um campo literal diferente em cada; comparar esse campo estreita o objeto inteiro, e o estado impossível não é representável.
+14. É pelo middleware que trata erro centralmente, assim o throw é enviado e capturado no middleware.
+15. strictNullChecks: find() devolve T | undefined, e te obriga a tratar antes de acessar. 3 formas: early return (a que você usou, com 404), ?., ?? default.
+16. Extends não adiciona campos — ele restringe o que T pode ser (um piso mínimo). Generic preserva o tipo que o any apagaria.
+17. Pois assim se o type principal sofrer alguma alteração todos os outros se atualizam em cascata.
+18. {} é TaskPatch válido porque Partial torna tudo opcional; a regra "pelo menos um campo" vive em runtime.
+19. Desliga a checagem (não converte); satisfies valida sem trocar o tipo inferido. as legítimo só em as const, as unknown as T em teste, ou estreitar após checagem que o TS não segue.
+20. Um é sobre a config utilizado em compilação, outro é para a hora de buildar.
+21. type:module e module:nodenext têm que concordar, senão ERR_MODULE_NOT_FOUND; o import leva .js porque, com nodenext, o especificador é o caminho em runtime (onde o arquivo é .js).
+22. tsc --noEmit vem antes porque o vitest não checa tipo — sem ele, um arquivo com erro de tipo passaria verde.
+23. Testa o que o tipo não garante (os validadores com lixo). A borda ganha do compilador porque é onde entra dado que ele não controla.
+24. Praticamente todo código tive que tipar mas as rotas, os middlewares e os erros. Não senti que nada ficou mal resolvido.
+
+- O que aprendi: methods e tópicos sobre typescript.
+- Travei/faltou: são muitos metódos de tipagem, acredito que eu não tenha abordado todos na API mas tipei ela toda.
+- Amanhã: tema 4
