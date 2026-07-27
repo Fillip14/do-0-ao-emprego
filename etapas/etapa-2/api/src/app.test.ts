@@ -1,13 +1,16 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import request, { type Response } from 'supertest';
 import app from './app.js';
-import { resetTasks } from './routes/tasks.routes.js';
 import { HttpStatus } from './constants/http-constants.js';
 import { isNewTask, parseTask } from './tasks.js';
 import { AppError } from './errors.js';
+import { queryDb } from './db.js';
 
-beforeEach(() => {
-  resetTasks();
+process.loadEnvFile('.env');
+process.env.PGDATABASE = 'tasks_test';
+
+beforeEach(async () => {
+  await queryDb('DELETE FROM tasks');
 });
 
 const TASKS_PREFIX = '/tasks';
@@ -118,13 +121,13 @@ describe('POST /tasks', () => {
       .post(TASKS_PREFIX)
       .send({ title: 'Teste', status: 'todo', term: null });
     expect(res.status).toBe(201);
-    expect(res.body).toEqual({
-      id: 3,
+    expect(res.body).toMatchObject({
       title: 'Teste',
       status: 'todo',
       term: null,
     });
-    expect(res.headers.location).toBe('/tasks/3');
+    expect(res.body.id).toEqual(expect.any(String));
+    expect(res.headers.location).toBe(`${TASKS_PREFIX}/${res.body.id}`);
   });
 
   it('responde 201 em post com term string e get provando', async () => {
@@ -132,18 +135,16 @@ describe('POST /tasks', () => {
       .post(TASKS_PREFIX)
       .send({ title: 'Teste', status: 'todo', term: 'Teste' });
     expect(res.status).toBe(201);
-    expect(res.body).toEqual({
-      id: 3,
+    expect(res.body).toMatchObject({
       title: 'Teste',
       status: 'todo',
       term: 'Teste',
     });
-    expect(res.headers.location).toBe('/tasks/3');
+    expect(res.headers.location).toBe(`${TASKS_PREFIX}/${res.body.id}`);
 
-    const resGet = await request(app).get(`${TASKS_PREFIX}/3`);
+    const resGet = await request(app).get(`${TASKS_PREFIX}/${res.body.id}`);
     expect(resGet.status).toBe(200);
-    expect(resGet.body).toEqual({
-      id: 3,
+    expect(resGet.body).toMatchObject({
       title: 'Teste',
       status: 'todo',
       term: 'Teste',
