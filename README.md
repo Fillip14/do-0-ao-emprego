@@ -34,7 +34,8 @@ Este repositório é a prova viva desse caminho: cada erro, cada conceito que de
 
 Transição de carreira em aproximadamente **6 meses**, com stack **JavaScript/TypeScript full stack**, baseada em prática e portfólio. A meta honesta ao fim do período é estar **pronto para aplicar** — o emprego em si pode levar mais tempo, e tudo bem.
 
-|---|---|
+| | |
+|:---:|---|
 | 🧭 **Stack** | Node + Express + TypeScript · React · PostgreSQL |
 | ⏱️ **Ritmo** | ~45h/semana (seg–sex 8h–17h + fins de semana) |
 | 🧪 **Método** | Prática com testes desde o dia 1, portfólio público, commit diário |
@@ -132,16 +133,16 @@ Onde procurar cada coisa — os links deste repositório moram todos aqui.
 
 ```
 do-0-ao-emprego/
-├── README.md                → você está aqui: progresso, diário de bordo e este mapa
-├── docs/                    → planejamento do projeto inteiro: cronograma das etapas, plano original, marca pessoal
-├── avaliacao-de-nivel/      → a avaliação de 06/07 e a correção que definiu o nível de partida
-└── etapas/                  → uma pasta por etapa, autocontida: plano + devlog + entregas
-    ├── etapa-0/             → Rigor e Git — plano, devlog, avaliação e exercícios refeitos
-    ├── etapa-1/             → JavaScript e web — idem + código por tema (t01/…t17/)
-    └── etapa-2/             → Back-end (ATUAL) — `plano.md` e `devlog-etapa-2.md` ficam na raiz da pasta
-        ├── api/             → a API viva, cresce a cada tema (+ `bruno/` com a collection) — contrato em `api/README.md`
-        ├── archived/        → planos e temas anulados (v1 da etapa, v1 do tema 3) — histórico, não vigente
-        └── studies/         → estudo por tema (t01/ e t02/ em pasta; t03+ em `studie-tNN-tema.md`)
+├── README.md
+├── docs/
+├── avaliacao-de-nivel/
+└── etapas/
+    ├── etapa-0/
+    ├── etapa-1/
+    └── etapa-2/
+        ├── api/
+        ├── archived/
+        └── studies/
 ```
 
 [`docs/cronograma-etapas.md`](docs/cronograma-etapas.md) — o plano de 6 meses inteiro ·

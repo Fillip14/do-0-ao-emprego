@@ -13,8 +13,8 @@ Construir o **lado do servidor**: uma API REST de tarefas completa — rotas com
 3. **Stack travada:** Ideias novas no meio do caminho → `ideias-depois.md`.
 4. Um tema só fecha quando os quatro estão feitos: (a) o que o tema entrega está na api/, rodando; (b) npm test verde; (c) revisão da Parte B feita e as correções aplicadas; (d) questionário da Parte C respondido no devlog e tudo commitado e no push.
 5. **O contrato da API mora no `api/README.md`** rotas, status, formato de erro, arquitetura, como rodar, URL de produção. Uma fonte de verdade só, e é a que quem visita o repositório lê.
-6. **`studie-tNN-tema.md` na abertura de cada tema:** dividido em três partes: **Parte A**: a IA detalha cada tópico de estudo sugerido na estrutura: 1- O que resolve? 2- Quando usar? 3- Exemplo pequeno. 4- Armadilhas. **Parte B**: alterações na API: 1- Preparação do ambiente. 2- O que do tema deve ser usado na API. 3- Critérios. 4- Aguardar execução. 5- Revisão do código (apontar de forma simples onde estão os erros e o que faltou para eu corrigir). **Parte C**: questionário enumerado sobre o tema, as respostas ficarão no devlog da etapa.
-7. Autonomia na aplicação. A Parte A é consulta e a Parte B é enunciado — não roteiro. Aberto o tema, eu aplico sozinho na api/: decido o desenho, erro, corrijo e commito sem pedir passo a passo. A IA só volta a falar na revisão (Parte B item 5) e no questionário (Parte C). Se eu travar, a pergunta é minha — a IA responde o conceito, não a implementação. Validado no Tema 3 (24/07): API inteira portada pra TS sem guia.
+6. **`studie-tNN-tema.md` na abertura de cada tema:** dividido em três partes: **Parte A**: a IA detalha cada tópico de estudo sugerido na estrutura: 1- O que resolve? 2- Quando usar? 3- Exemplo pequeno. 4- Armadilhas. **Parte B**: alterações na API: 1- Preparação do ambiente (setup de ferramenta — instalar/subir Postgres, criar base, variável de ambiente — é a única coisa que a IA entrega pronta; é atrito, não aprendizado). 2- O que do tema deve ser usado na API. 3- Critérios. 4- Aguardar execução. 5- Revisão do código (apontar de forma simples onde estão os erros e o que faltou para eu corrigir). **Parte C**: questionário enumerado sobre o tema, as respostas ficarão no devlog da etapa.
+7. Autonomia na aplicação. A Parte A é consulta e a Parte B é enunciado — não roteiro. Aberto o tema, eu aplico sozinho na api/: decido o desenho, erro, corrijo e commito sem pedir passo a passo. A IA só volta a falar na revisão (Parte B item 5) e no questionário (Parte C). Se eu travar, a pergunta é minha — a IA responde o conceito, não a implementação. Validado no Tema 3 (24/07): API inteira portada pra TS sem guia. 
 
 ## Estrutura de pastas
 
@@ -24,24 +24,11 @@ Construir o **lado do servidor**: uma API REST de tarefas completa — rotas com
 
 ```
 etapas/etapa-2/
-├── api/
-│   ├── src/
-│   ├── package.json
-│   └── README.md
-├── archived/              ← histórico
-├── studies/
-│   ├── t01-node/
-│   ├── t02-express/
-│   ├── studie-t03-typescript.md
-│   ├── studie-t04-postgres.md
-│   ├── studie-t05-testes.md
-│   ├── studie-t06-camadas.md
-│   ├── studie-t07-migrations-orm.md
-│   ├── studie-t08-auth.md
-│   ├── studie-t09-deploy.md
-│   └── studie-t10-docker.md
-├── devlog-etapa-2.md
-└── plano.md
+├── api/                ← API viva
+├── archived/           ← histórico
+├── studies/            ← tudo relacionado ao estudo do projeto que não vai na API
+├── devlog-etapa-2.md   ← devlog da etapa
+└── plano.md            ← plano da etapa
 ```
 
 ## Os temas
