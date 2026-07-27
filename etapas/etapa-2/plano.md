@@ -93,7 +93,7 @@ etapas/etapa-2/
 1. Servidor × cliente: o processo na 5432 e o `psql`.
 2. Como criar banco e tabela: tipos, `NOT NULL`, `DEFAULT`, `CHECK`, PK.
 3. Aspas simples × duplas; snake_case.
-4. SQL essencial com WHERE; `RETURNING`; `BEGIN`/`ROLLBACK`.
+4. O CRUD em SQL: `SELECT` (colunas, operadores do `WHERE`, `ORDER BY`, `LIMIT`/`OFFSET`, ordem das cláusulas), `INSERT`, `UPDATE`, `DELETE`; `RETURNING`; `BEGIN`/`ROLLBACK`.
 5. `NULL` de verdade.
 6. `LIKE`/`ILIKE`.
 7. Agregações.

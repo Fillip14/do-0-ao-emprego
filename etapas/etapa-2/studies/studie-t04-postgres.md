@@ -54,22 +54,68 @@ SELECT "createdAt" FROM tasks;                    -- identificador case-sensitiv
 
 **Armadilhas:** identificador **sem aspas é dobrado pra minúsculo**: `CREATE TABLE Tasks (createdAt ...)` cria `tasks(createdat)`. Se você criar `"createdAt"` com aspas, vai ser obrigado a usar aspas **pra sempre**, em toda query. Daí a convenção: `snake_case` no banco, `camelCase` no JS, e a tradução acontece numa camada só (`SELECT created_at AS "createdAt"` ou no mapeamento em código — decisão sua, mas **uma** só). Apóstrofo dentro de string se escapa dobrando (`'pão d''alho'`) — e isso é exatamente o que você **não** vai fazer na mão (tópico 11).
 
-## 4. SQL essencial: `WHERE`, `RETURNING`, `BEGIN`/`ROLLBACK`
+## 4. O CRUD em SQL: `SELECT`, `INSERT`, `UPDATE`, `DELETE`
 
-**O que resolve?** Os quatro verbos (`SELECT`/`INSERT`/`UPDATE`/`DELETE`) cobrem o CRUD inteiro. `RETURNING` te devolve a linha afetada **na mesma ida** ao banco. `BEGIN`/`ROLLBACK` te deixa testar um comando destrutivo sem medo.
-**Quando usar?** `RETURNING` em todo INSERT/UPDATE/DELETE cujo resultado você precisa responder ao cliente. `BEGIN` antes de rodar UPDATE/DELETE à mão no `psql`.
-**Exemplo:**
+**O que resolve?** Os quatro verbos cobrem o CRUD inteiro — são o equivalente exato do que hoje suas rotas fazem com `find`, `push`, atribuição e `splice`. `RETURNING` te devolve a linha afetada **na mesma ida** ao banco. `BEGIN`/`ROLLBACK` te deixa testar um comando destrutivo sem medo.
+**Quando usar?** Um verbo por rota: `GET` → `SELECT`, `POST` → `INSERT`, `PATCH` → `UPDATE`, `DELETE` → `DELETE`.
+
+### `SELECT` — ler
 
 ```sql
-INSERT INTO tasks (title, status) VALUES ('comprar pão', 'todo') RETURNING *;
-UPDATE tasks SET status = 'done' WHERE id = 1 RETURNING id, status;
-DELETE FROM tasks WHERE id = 1 RETURNING id;
+SELECT * FROM tasks;                          -- tudo
+SELECT id, title FROM tasks;                  -- só as colunas que você usa
+SELECT title AS titulo FROM tasks;            -- apelido na saída
+SELECT DISTINCT status FROM tasks;            -- valores sem repetir
 
-BEGIN;  UPDATE tasks SET status = 'done';  -- ops, sem WHERE
+SELECT * FROM tasks WHERE id = 1;
+SELECT * FROM tasks WHERE status <> 'done' AND term IS NOT NULL;
+SELECT * FROM tasks WHERE status IN ('todo','doing');
+SELECT * FROM tasks WHERE id BETWEEN 5 AND 10;
+
+SELECT * FROM tasks ORDER BY created_at DESC, id DESC;   -- desempate no fim
+SELECT * FROM tasks ORDER BY id LIMIT 20 OFFSET 40;      -- página 3, de 20 em 20
+```
+
+Operadores do `WHERE`: `=` `<>` `<` `>` `<=` `>=`, combinados com `AND` / `OR` / `NOT` (parênteses quando misturar os dois), mais `IN`, `BETWEEN`, `IS NULL`, `LIKE`/`ILIKE`.
+
+**Ordem das cláusulas** — escrever fora dela é erro de sintaxe:
+`SELECT` → `FROM` → `WHERE` → `GROUP BY` → `HAVING` → `ORDER BY` → `LIMIT`/`OFFSET`.
+**Ordem de execução** é outra: `FROM` → `WHERE` → `GROUP BY` → `HAVING` → `SELECT` → `ORDER BY` → `LIMIT`. É isso que explica por que um alias criado no `SELECT` funciona no `ORDER BY` (que roda depois) e **não** funciona no `WHERE` (que roda antes).
+
+### `INSERT` — criar
+
+```sql
+INSERT INTO tasks (title, status, term) VALUES ('comprar pão', 'todo', NULL);
+INSERT INTO tasks (title) VALUES ('sem status');            -- status vira o DEFAULT
+INSERT INTO tasks (title) VALUES ('a'), ('b'), ('c');       -- várias linhas de uma vez
+INSERT INTO tasks (title, status) VALUES ('x', 'todo') RETURNING *;
+```
+
+Você **não** cita `id` nem `created_at`: são gerados pelo banco. Com `GENERATED ALWAYS AS IDENTITY`, tentar informar o `id` dá erro — e é isso que mata o seu `nextId`.
+
+### `UPDATE` — alterar
+
+```sql
+UPDATE tasks SET status = 'done' WHERE id = 1 RETURNING *;
+UPDATE tasks SET title = 'novo', term = NULL WHERE id = 2 RETURNING id, title;  -- vírgula entre os campos
+```
+
+O `SET` lista **só** as colunas que mudam; as outras ficam como estavam. É exatamente o `PATCH` parcial — e é aí que nasce o problema de montar o `SET` dinamicamente (tópico 10).
+
+### `DELETE` — remover
+
+```sql
+DELETE FROM tasks WHERE id = 1 RETURNING id;
+```
+
+### `RETURNING` e o ensaio seguro
+
+```sql
+BEGIN;  UPDATE tasks SET status = 'done';  -- ops, esqueci o WHERE
 ROLLBACK;                                   -- nada aconteceu
 ```
 
-**Armadilhas:** `UPDATE`/`DELETE` **sem `WHERE` pegam a tabela inteira** e não pedem confirmação. Sem `RETURNING`, você não sabe se atingiu 0 ou 1 linha sem fazer um `SELECT` extra — e é justamente essa contagem que decide entre 200 e 404. `COUNT(*)` volta como **string** no `pg` (ver tópico 10). Em `psql`, esquecer o `;` deixa o prompt pendurado (`tasks-#`).
+**Armadilhas:** `UPDATE`/`DELETE` **sem `WHERE` pegam a tabela inteira**, sem pedir confirmação e sem desfazer. Sem `RETURNING`, você precisa de um `SELECT` extra pra saber se atingiu 0 ou 1 linha — e é justamente essa contagem que decide entre 200 e 404. **`SELECT` sem `ORDER BY` não tem ordem garantida**: o `GET /tasks` que hoje sai na ordem do array vai sair em ordem imprevisível e seu teste começa a piscar; `LIMIT` sem `ORDER BY` é sorteio. `SELECT *` acopla a resposta ao schema — o dia que você adicionar uma coluna, ela vaza pro cliente. `INSERT` sem a lista de colunas depende da ordem física da tabela e quebra em silêncio quando o schema muda. `<>` não pega `NULL` (tópico 5). No `psql`, esquecer o `;` deixa o prompt pendurado (`tasks-#`) e `\i arquivo.sql` roda um arquivo inteiro.
 
 ## 5. `NULL` de verdade
 
@@ -223,6 +269,10 @@ sudo -u postgres psql -c "CREATE DATABASE tasks_test OWNER fillip;"
 
 # conferir
 psql -h localhost -U fillip -d tasks_dev -c '\l'
+
+# rodar um arquivo .sql (é assim que seu schema entra nos dois bancos)
+psql -h localhost -U fillip -d tasks_dev  -f db/schema.sql
+psql -h localhost -U fillip -d tasks_test -f db/schema.sql
 ```
 
 `.env` na raiz da `api/` (o `pg` lê estas variáveis sozinho quando você faz `new Pool()` sem argumento):
@@ -287,21 +337,27 @@ Me chama no fim; eu leio a `api/` inteira e aponto de forma simples onde estão 
 8. `WHERE term = NULL` devolve zero linhas mesmo tendo linhas com `term` nulo. Por quê?
 9. Por que `NOT NULL` e `CHECK` juntos, se o `CHECK` já parece cobrir?
 10. Que bug o `WHERE status <> 'done'` esconde numa tabela com `NULL`?
-11. O que `RETURNING` te economizou nas rotas de escrita? Como o `rowCount` virou seu 404?
-12. Por que rodar um `UPDATE` à mão dentro de `BEGIN`/`ROLLBACK`?
-13. Por que `ILIKE '%termo%'` não usa índice? Onde entra o `%` — no SQL ou no parâmetro?
-14. Diferença entre `WHERE` e `HAVING` numa query com `GROUP BY`.
-15. Por que `COUNT(*)` e `COUNT(term)` podem dar números diferentes?
-16. O que um índice custa? Cite um caso em que criar índice é má ideia.
-17. `EXPLAIN` na sua tabela deu `Seq Scan`. Por que isso não é necessariamente um problema?
-18. `INNER JOIN` × `LEFT JOIN`: o que muda no resultado quando falta o par?
-19. O que o `ON DELETE CASCADE` faz e por que ele é conveniente e perigoso ao mesmo tempo?
-20. O que o pool resolve? O que acontece se você criar um `Pool` por request?
-21. Por que `pool.query<Task>(...)` é a mesma mentira que `req.body as Task` do Tema 3? O que você decidiu fazer a respeito?
-22. Cite duas coisas que o `pg` te devolve num tipo diferente do que você esperava, e o efeito disso na resposta JSON.
-23. `$1` serve pra valor mas não pra nome de coluna. Como você resolveu o `SET` dinâmico do PATCH?
-24. Por que validar o id como inteiro **não** substitui a query parametrizada?
-25. Por que transação exige `pool.connect()` e não dá pra fazer com `pool.query`?
-26. O que acontece se faltar o `client.release()` no `finally`? E se faltar o `ROLLBACK` no `catch`?
-27. Como você isolou o banco de teste, e o que garante que `npm test` roda duas vezes seguidas dando o mesmo resultado?
-28. **(fecho)** O que ficou pior na API depois de trocar o array pelo banco, e o que ficou mal resolvido pro Tema 5 ou 6 arrumar?
+11. Escreva de cabeça as quatro queries das suas rotas (listar, buscar por id, criar, alterar, apagar). Qual verbo corresponde a qual rota?
+12. Qual é a ordem obrigatória das cláusulas de um `SELECT`? Por que um alias criado no `SELECT` funciona no `ORDER BY` e não no `WHERE`?
+13. Por que `SELECT` sem `ORDER BY` é um problema no seu `GET /tasks`? O que isso fez (ou faria) com os testes?
+14. Por que não citar `id` no `INSERT`? O que isso significou pro seu `nextId`?
+15. No `UPDATE`, o que acontece com as colunas que você não citou no `SET`? Como isso se encaixa no `PATCH` parcial?
+16. Cite dois problemas de usar `SELECT *` na resposta da API.
+17. O que `RETURNING` te economizou nas rotas de escrita? Como o `rowCount` virou seu 404?
+18. Por que rodar um `UPDATE` à mão dentro de `BEGIN`/`ROLLBACK`?
+19. Por que `ILIKE '%termo%'` não usa índice? Onde entra o `%` — no SQL ou no parâmetro?
+20. Diferença entre `WHERE` e `HAVING` numa query com `GROUP BY`.
+21. Por que `COUNT(*)` e `COUNT(term)` podem dar números diferentes?
+22. O que um índice custa? Cite um caso em que criar índice é má ideia.
+23. `EXPLAIN` na sua tabela deu `Seq Scan`. Por que isso não é necessariamente um problema?
+24. `INNER JOIN` × `LEFT JOIN`: o que muda no resultado quando falta o par?
+25. O que o `ON DELETE CASCADE` faz e por que ele é conveniente e perigoso ao mesmo tempo?
+26. O que o pool resolve? O que acontece se você criar um `Pool` por request?
+27. Por que `pool.query<Task>(...)` é a mesma mentira que `req.body as Task` do Tema 3? O que você decidiu fazer a respeito?
+28. Cite duas coisas que o `pg` te devolve num tipo diferente do que você esperava, e o efeito disso na resposta JSON.
+29. `$1` serve pra valor mas não pra nome de coluna. Como você resolveu o `SET` dinâmico do PATCH?
+30. Por que validar o id como inteiro **não** substitui a query parametrizada?
+31. Por que transação exige `pool.connect()` e não dá pra fazer com `pool.query`?
+32. O que acontece se faltar o `client.release()` no `finally`? E se faltar o `ROLLBACK` no `catch`?
+33. Como você isolou o banco de teste, e o que garante que `npm test` roda duas vezes seguidas dando o mesmo resultado?
+34. **(fecho)** O que ficou pior na API depois de trocar o array pelo banco, e o que ficou mal resolvido pro Tema 5 ou 6 arrumar?
