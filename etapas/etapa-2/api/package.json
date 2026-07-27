@@ -7,7 +7,7 @@
   "type": "module",
   "main": "dist/server.js",
   "scripts": {
-    "dev": "tsx watch src/server.ts",
+    "dev": "PGDATABASE=tasks_dev tsx watch --env-file=.env src/server.ts",
     "typecheck": "tsc --noEmit",
     "test": "npm run typecheck && vitest",
     "build": "tsc -p tsconfig.build.json"

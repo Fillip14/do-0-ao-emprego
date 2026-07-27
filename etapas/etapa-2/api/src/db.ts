@@ -1,13 +1,13 @@
-import pg, { type QueryResult, type QueryResultRow } from '../node_modules/@types/pg/index.js';
+import pg, { type QueryResult, type QueryResultRow } from 'pg';
 const { Pool } = pg;
 
-const pool = new Pool(); // uma vez, no arquivo inteiro
+const pool = new Pool();
 
-export function query<T extends QueryResultRow>(
+export const queryDb = <T extends QueryResultRow>(
   text: string,
-  values?: Array<string>,
-): Promise<QueryResult<T>> {
+  values?: Array<string | null>,
+): Promise<QueryResult<T>> => {
   return pool.query<T>(text, values);
-}
+};
 
-export { pool }; // exportar o pool também: os testes vão precisar dele para fechar no final
+export { pool };
