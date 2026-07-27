@@ -1,25 +1,13 @@
-# Trilha de Marca Pessoal — controle vivo
+# Trilha de Marca Pessoal
 
-> Painel de acompanhamento da presença pública (GitHub, LinkedIn, Twitch, posts) e **fonte única** da trilha de marca pessoal — o [`cronograma-etapas.md`](cronograma-etapas.md) só aponta para cá.
-> **Atualizar a cada fechamento de dia/etapa.** Última atualização: **21/07/2026**.
-
-A lógica da trilha é em camadas: **perfil → rede → conteúdo → colheita**. Não se pula camada.
-
----
-
-## 🛡️ Regra de proteção (inegociável)
-
-- Roda **FORA do horário de estudo**: máx. **30–60 min/dia**.
-- Marca pessoal nunca justifica atrasar conteúdo.
-- Streaming liberado enquanto não comer horas do plano.
-
----
+> Painel de acompanhamento da presença pública (GitHub, LinkedIn, Twitch, posts) e **fonte única** da trilha de marca pessoal.
+> Última atualização: **27/07/2026**.
 
 ## 📊 Progresso das camadas
 
 ```
 Etapa 1 · Fundação (perfil + rede)    ██████████████████████  100%  ✅ concluída
-Etapa 2 · Conteúdo (posts + rede)     ██░░░░░░░░░░░░░░░░░░░░   10%  🔨 em andamento
+Etapa 2 · Conteúdo (posts + rede)     ████░░░░░░░░░░░░░░░░░░   20%  🔨 em andamento
 Etapa 3 · Demo (posts com demo)       ░░░░░░░░░░░░░░░░░░░░░░    0%  🔒 bloqueada
 Etapa 4 · Build in public (capstone)  ░░░░░░░░░░░░░░░░░░░░░░    0%  🔒 bloqueada
 Etapa 5 · Colheita (aplicações)       ░░░░░░░░░░░░░░░░░░░░░░    0%  🔒 bloqueada
@@ -33,32 +21,17 @@ Etapa 5 · Colheita (aplicações)       ░░░░░░░░░░░░░
 | **4** | Build in public | Capstone "reporte-aqui" vira série de posts | 🔒 Bloqueada |
 | **5** | Colheita | Perfil e rede já prontos → só currículo, aplicações, entrevistas | 🔒 Bloqueada |
 
-> 🔓 Cada camada se apoia na anterior: rede aquecida desde a Etapa 1 faz a Etapa 5 ser só colheita, não construção do zero.
-
----
-
-## 📍 Estado atual — Etapa 2 · camada CONTEÚDO (reiniciada 21/07 → 28/09)
-
-Fundação concluída (GitHub e LinkedIn prontos — só manutenção). **Rotina diária da etapa:** 10 min comentando posts de devs/recrutadores · 5–10 conexões/dia · stream dos estudos com VOD no Diário de bordo. **Posts:** 2–3/semana (nunca diário), matéria-prima = devlog · já publicado ✅ [Nº1 — a virada de carreira](https://www.linkedin.com/feed/update/urn:li:activity:7482621538416971776/) (13/07).
-
 ### 🗓️ Cronograma de posts da etapa
-
-Re-ancorado no reinício de 21/07 (10 semanas). Acervo das etapas 0–1 + matéria-prima da Etapa 2 — a ordem prioriza o que é **quente** (aconteceu naquela semana) e usa o acervo pra completar a cadência. Semanas 6–10: matéria-prima nova sai do devlog (camadas, auth, Docker rendem post).
 
 | Semana | Posts (2–3) |
 |:---:|---|
-| **S1** (21–27/07) | ✅ **Por que reiniciei a etapa** *(publicado 21/07)* · ⬜ Etapa 1 aprovada + o que vem na Etapa 2 · ⬜ Início do projeto e a ideia |
-| **S2** (28/07–03/08) | ⬜ Minha primeira API respondendo *(print do Bruno)* · ⬜ Por que Bruno e não Postman · ⬜ Etapa 0 — hábitos antes de conteúdo |
-| **S3** (04–10/08) | ⬜ Por que Vitest e não Jest · ⬜ Bugs e erros reais dos temas de JS *(história de bug > aula de método)* |
-| **S4** (11–17/08) | ⬜ SQL injection: quebrei minha própria API *(demo real)* · ⬜ Fundamentos web |
-| **S5** (18–24/08) | ⬜ O que o TS strict pegou que o JS deixava passar · ⬜ Projeto web da Etapa 1 *(com print/GIF)* |
-| **S6–S10** | ⬜ Matéria-prima do devlog conforme acontece · ⬜ Back-end no ar: primeira URL pública *(fecho, S9)* |
-
-> Cronograma é guia, não contrato: se a semana render história melhor (bug cabeludo, aprendizado real), ela fura a fila — o post planejado desliza. Post de matéria-prima técnica só sai **depois** que a coisa aconteceu de verdade.
-
-**Formato dos posts:** texto é o motor — hook nas 2 primeiras linhas (antes do "ver mais"). Imagem só quando mostra algo real (print da página, GIF de demo, código via Carbon/ray.so, gráfico de commits). Regra prática: bug/aprendizado → texto puro; projeto/demo → texto + print ou GIF. Carrossel só a partir da Etapa 3, se fizer sentido.
-
----
+| **S1** (21–27/07) | ✅ **Por que reiniciei a etapa** *(21/07)* · ✅ **Testes verdes ≠ API correta** *(27/07)* |
+| **S2** (28/07–03/08) | ⬜ **SQL injection: quebrei minha própria API** *(demo real — quente do T4)* · ⬜ Minha primeira API respondendo *(print do Bruno)* |
+| **S3** (04–10/08) | ⬜ O que o TS strict pegou que o JS deixava passar · ⬜ Por que Vitest e não Jest |
+| **S4** (11–17/08) | ⬜ Por que separar em camadas *(rota × serviço × repositório)* · ⬜ Migration vs CREATE TABLE: schema com histórico |
+| **S5** (18–24/08) | ⬜ Auth: por que hash não é reversível + timing attacks · ⬜ Por que Bruno e não Postman |
+| **S6** (25–31/08) | ⬜ **Back-end no ar: primeira URL pública** *(marco — print/GIF)* · ⬜ Docker + CI verde a cada push |
+| **S7+** (set) | ⬜ Acervo de manutenção: Etapa 0 *(hábitos antes de conteúdo)* · fundamentos web · projeto web da Etapa 1 *(print/GIF)* · retrospectiva da Etapa 2 → ponte pra Etapa 3 (React) |
 
 ## ➡️ Próximas camadas
 

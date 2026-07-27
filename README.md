@@ -122,7 +122,8 @@ O que foi estudado dia a dia.
 | 22/07 | **T2 — Express** — handler `async`, supertest · **T3 — TypeScript** — inferência, `any` × `unknown`, `interface` × `type`, narrowing, união literal, validação de borda |
 | 23/07 | **Alterado metodologia de estudo. v1 tema 3 (arquivada)** em [`archive-t03/`](etapas/etapa-2/archived/archive-t03). **T3 — TypeScript** — type predicates, discriminated unions, generics, utility types,`as` e `satisfies`, `tsconfig` |
 | 24/07 | **T3 — TypeScript** — API tipada |
-| 25/07 | **T4 — PostgreSQL** — Iniciado tema sobre postgreqsl |
+| 25/07 | **T4 — PostgreSQL** — Servidor x cliente, criar banco, tabelas e tipos, aspas simples × duplas, snake_case e CRUD em SQL |
+| 26/07 | **T4 — PostgreSQL** — null de verdade, LIKE/ILIKE, agregações, UNIQUE, índices, EXPLAIN, FK, JOIN, CASCADE, pg e SQL injection |
 
 > 💡 A matéria-prima detalhada de cada dia está no devlog de cada etapa, em [`etapas/`](etapas/).
 

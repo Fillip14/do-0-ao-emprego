@@ -85,7 +85,7 @@ etapas/etapa-2/
 12. O `tsconfig`.
 13. Testes em TS.
 
-### Tema 4 — Banco (PostgreSQL) · *dia sugerido 24/07*
+### Tema 4 — Banco (PostgreSQL) · *dia sugerido 24/07* · 🔨 iniciado 25/07
 **A API ganha:** tarefas persistidas em PostgreSQL via `pg`, com pool e queries parametrizadas — o array em memória morre.
 
 **Tópicos de estudo sugeridos**

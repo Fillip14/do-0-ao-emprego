@@ -81,7 +81,7 @@ Desenvolvimento assistido por IA é habilidade de mercado e faz parte do plano �
 
 ## Trilha de Marca Pessoal — do perfil à audiência
 
-Presença pública é ativo de empregabilidade, construída em camadas: perfil → rede → conteúdo → colheita. Regra de proteção: roda FORA do horário de estudo (máx. 30–60 min/dia).
+Presença pública é ativo de empregabilidade, construída em camadas: perfil → rede → conteúdo → colheita.
 > O plano detalhado (camada por etapa, backlog de posts, formato, estado atual) vive em [`marca-pessoal.md`](marca-pessoal.md) — documento vivo e fonte única desta trilha.
 
 
