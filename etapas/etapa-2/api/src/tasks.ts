@@ -2,7 +2,7 @@ import { HttpStatus } from './constants/http-constants.js';
 import { AppError } from './errors.js';
 
 export interface Task {
-  readonly id: number;
+  readonly id: string;
   title: string;
   status: 'todo' | 'doing' | 'done';
   term: string | null;

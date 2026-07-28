@@ -5,10 +5,10 @@ info:
 
 http:
   method: PATCH
-  url: http://localhost:3000/tasks/1
+  url: http://localhost:3000/tasks/75316765-6ebd-4de3-938f-3d4372f0b5db
   body:
     type: json
-    data: '{"title": "Novo titulo"}'
+    data: '{"title": "Novo titulo", "term": null}'
   auth: inherit
 
 settings:

@@ -9,8 +9,9 @@
   "scripts": {
     "dev": "PGDATABASE=tasks_dev tsx watch --env-file=.env src/server.ts",
     "typecheck": "tsc --noEmit",
-    "test": "npm run typecheck && vitest",
-    "build": "tsc -p tsconfig.build.json"
+    "test": "npm run typecheck && NODE_ENV=test PGDATABASE=tasks_test vitest",
+    "build": "tsc -p tsconfig.build.json",
+    "db:schema": "psql -h localhost -U fillip -d tasks_dev -f sql/schema.sql && psql -h localhost -U fillip -d tasks_test -f sql/schema.sql"
   },
   "dependencies": {
     "express": "^5.2.1",

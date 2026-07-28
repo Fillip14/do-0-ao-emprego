@@ -1,16 +1,19 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, afterAll } from 'vitest';
 import request, { type Response } from 'supertest';
 import app from './app.js';
 import { HttpStatus } from './constants/http-constants.js';
 import { isNewTask, parseTask } from './tasks.js';
 import { AppError } from './errors.js';
-import { queryDb } from './db.js';
+import { pool, queryDb } from './db.js';
 
 process.loadEnvFile('.env');
-process.env.PGDATABASE = 'tasks_test';
 
 beforeEach(async () => {
   await queryDb('DELETE FROM tasks');
+});
+
+afterAll(async () => {
+  await pool.end();
 });
 
 const TASKS_PREFIX = '/tasks';
@@ -18,6 +21,14 @@ const TASKS_PREFIX = '/tasks';
 const expectError = (res: Response, httpStatus: number, field: string, message: string) => {
   expect(res.status).toBe(httpStatus);
   expect(res.body.errors).toEqual([{ field, message }]);
+};
+
+const postTask = async () => {
+  const resPost = await request(app)
+    .post(TASKS_PREFIX)
+    .send({ title: 'Teste', status: 'todo', term: 'term test' });
+  expect(resPost.status).toBe(201);
+  return resPost;
 };
 
 describe('Routes errors', () => {
@@ -81,6 +92,8 @@ describe('tasks.ts', () => {
 
 describe('GET /tasks', () => {
   it('responde 200 quando get all', async () => {
+    await postTask();
+
     const res = await request(app).get(TASKS_PREFIX);
     expect(res.status).toBe(200);
     expect(Array.isArray(res.body)).toBe(true);
@@ -88,14 +101,15 @@ describe('GET /tasks', () => {
 });
 
 describe('GET /tasks/:id', () => {
-  it('responde 200 em get id', async () => {
-    const res = await request(app).get(`${TASKS_PREFIX}/2`);
-    expect(res.status).toBe(200);
-    expect(res.body).toEqual({
-      id: 2,
-      title: 'estudar express',
+  it('responde 200 em get id com post primeiro', async () => {
+    const resPost = await postTask();
+
+    const resGet = await request(app).get(`${TASKS_PREFIX}/${resPost.body.id}`);
+    expect(resGet.status).toBe(200);
+    expect(resGet.body).toMatchObject({
+      title: 'Teste',
       status: 'todo',
-      term: null,
+      term: 'term test',
     });
   });
 
@@ -105,7 +119,7 @@ describe('GET /tasks/:id', () => {
   });
 
   it('responde 404 em get id inexistente', async () => {
-    const res = await request(app).get(`${TASKS_PREFIX}/3`);
+    const res = await request(app).get(`${TASKS_PREFIX}/75316765-6ebd-4de3-938f-3d4372f0b5dc`);
     expectError(res, HttpStatus.NOT_FOUND, 'id', 'Not Found');
   });
 
@@ -189,12 +203,14 @@ describe('POST /tasks', () => {
 
 describe('PATCH /tasks', () => {
   it('responde 200 em patch com term null', async () => {
+    const resPost = await postTask();
+
     const res = await request(app)
-      .patch(`${TASKS_PREFIX}/1`)
+      .patch(`${TASKS_PREFIX}/${resPost.body.id}`)
       .send({ title: 'Novo titulo', term: null });
     expect(res.status).toBe(200);
     expect(res.body).toEqual({
-      id: 1,
+      id: resPost.body.id,
       title: 'Novo titulo',
       status: 'todo',
       term: null,
@@ -202,12 +218,14 @@ describe('PATCH /tasks', () => {
   });
 
   it('responde 200 em patch com term string', async () => {
+    const resPost = await postTask();
+
     const res = await request(app)
-      .patch(`${TASKS_PREFIX}/2`)
+      .patch(`${TASKS_PREFIX}/${resPost.body.id}`)
       .send({ title: 'Novo titulo', term: 'Teste' });
     expect(res.status).toBe(200);
     expect(res.body).toEqual({
-      id: 2,
+      id: resPost.body.id,
       title: 'Novo titulo',
       status: 'todo',
       term: 'Teste',
@@ -215,57 +233,86 @@ describe('PATCH /tasks', () => {
   });
 
   it('responde 400 em patch com id inválido', async () => {
-    const res = await request(app).patch(`${TASKS_PREFIX}/-2`).send({ title: 'Novo titulo' });
+    const res = await request(app)
+      .patch(`${TASKS_PREFIX}/75316765-6ebd-4de3-938f-3d4372f0b5d`)
+      .send({ title: 'Novo titulo' });
     expectError(res, HttpStatus.BAD_REQUEST, 'id', 'Invalid id');
   });
 
   it('responde 404 em patch com id inexistente', async () => {
-    const res = await request(app).patch(`${TASKS_PREFIX}/10`).send({ title: 'Novo titulo' });
+    const res = await request(app)
+      .patch(`${TASKS_PREFIX}/75316765-6ebd-4de3-938f-3d4372f0b5d3`)
+      .send({ title: 'Novo titulo' });
     expectError(res, HttpStatus.NOT_FOUND, 'id', 'Not Found');
   });
 
   it('responde 400 em patch sem body', async () => {
-    const res = await request(app).patch(`${TASKS_PREFIX}/2`).send();
+    const res = await request(app)
+      .patch(`${TASKS_PREFIX}/75316765-6ebd-4de3-938f-3d4372f0b5d3`)
+      .send();
     expectError(res, HttpStatus.BAD_REQUEST, 'task', 'Invalid Task');
   });
 
   it('responde 400 em patch com body vazio', async () => {
-    const res = await request(app).patch(`${TASKS_PREFIX}/2`).send({});
+    const res = await request(app)
+      .patch(`${TASKS_PREFIX}/75316765-6ebd-4de3-938f-3d4372f0b5d3`)
+      .send({});
     expectError(res, HttpStatus.BAD_REQUEST, 'task', 'Invalid Task');
   });
 
   it('responde 400 em patch com title vazio', async () => {
-    const res = await request(app).patch(`${TASKS_PREFIX}/2`).send({ title: '' });
+    const res = await request(app)
+      .patch(`${TASKS_PREFIX}/75316765-6ebd-4de3-938f-3d4372f0b5d3`)
+      .send({ title: '' });
     expectError(res, HttpStatus.BAD_REQUEST, 'task', 'Invalid Task');
   });
 
   it('responde 400 em patch com title não string', async () => {
-    const res = await request(app).patch(`${TASKS_PREFIX}/2`).send({ title: 42 });
+    const res = await request(app)
+      .patch(`${TASKS_PREFIX}/75316765-6ebd-4de3-938f-3d4372f0b5d3`)
+      .send({ title: 42 });
     expectError(res, HttpStatus.BAD_REQUEST, 'task', 'Invalid Task');
   });
 
   it('responde 400 em patch com chave inválida', async () => {
-    const res = await request(app).patch(`${TASKS_PREFIX}/2`).send({ banana: 'Teste' });
+    const res = await request(app)
+      .patch(`${TASKS_PREFIX}/75316765-6ebd-4de3-938f-3d4372f0b5d3`)
+      .send({ banana: 'Teste' });
     expectError(res, HttpStatus.BAD_REQUEST, 'task', 'Invalid Task');
   });
 
   it('responde 400 em patch com term inválido', async () => {
-    const res = await request(app).patch(`${TASKS_PREFIX}/2`).send({ term: '' });
+    const res = await request(app)
+      .patch(`${TASKS_PREFIX}/75316765-6ebd-4de3-938f-3d4372f0b5d3`)
+      .send({ term: '' });
     expectError(res, HttpStatus.BAD_REQUEST, 'task', 'Invalid Task');
   });
 
   it('responde 400 em patch com status inválido', async () => {
-    const res = await request(app).patch(`${TASKS_PREFIX}/2`).send({ status: 'Teste' });
+    const res = await request(app)
+      .patch(`${TASKS_PREFIX}/75316765-6ebd-4de3-938f-3d4372f0b5d3`)
+      .send({ status: 'Teste' });
     expectError(res, HttpStatus.BAD_REQUEST, 'task', 'Invalid Task');
   });
 });
 
 describe('DELETE /tasks', () => {
   it('responde 204 quando delete', async () => {
-    const res = await request(app).delete(`${TASKS_PREFIX}/2`);
+    const resPost = await request(app)
+      .post(TASKS_PREFIX)
+      .send({ title: 'Teste', status: 'todo', term: 'Teste' });
+    expect(resPost.status).toBe(201);
+    expect(resPost.body).toMatchObject({
+      title: 'Teste',
+      status: 'todo',
+      term: 'Teste',
+    });
+    expect(resPost.headers.location).toBe(`${TASKS_PREFIX}/${resPost.body.id}`);
+
+    const res = await request(app).delete(`${TASKS_PREFIX}/${resPost.body.id}`);
     expect(res.status).toBe(204);
 
-    const resSecond = await request(app).delete(`${TASKS_PREFIX}/2`);
+    const resSecond = await request(app).delete(`${TASKS_PREFIX}/${resPost.body.id}`);
     expectError(resSecond, HttpStatus.NOT_FOUND, 'id', 'Not Found');
   });
 
@@ -275,7 +322,7 @@ describe('DELETE /tasks', () => {
   });
 
   it('responde 404 quando id inexistente', async () => {
-    const res = await request(app).delete(`${TASKS_PREFIX}/10`);
+    const res = await request(app).delete(`${TASKS_PREFIX}/cd6c5dfe-d49a-455b-b56d-2d47eda36017`);
     expectError(res, HttpStatus.NOT_FOUND, 'id', 'Not Found');
   });
 });

@@ -1,17 +1,17 @@
 import { type Request, type Response, type NextFunction, Router } from 'express';
 import { AppError } from '../errors.js';
 import { HttpStatus } from '../constants/http-constants.js';
-import { parsePatchTask, parseTask, type NewTask, type Task } from '../tasks.js';
-import { pool, queryDb } from '../db.js';
+import { parsePatchTask, parseTask, type Task } from '../tasks.js';
+import { queryDb } from '../db.js';
 const tasksRoutes = Router();
 
-const validateId = (req: Request, _res: Response, next: NextFunction) => {
-  const id = Number(req.params.id);
+const validateId = (req: Request<{ id: string }>, _res: Response, next: NextFunction) => {
+  const id = req.params.id;
 
-  if (!Number.isInteger(id) || id <= 0) {
-    return next(new AppError('Invalid id', HttpStatus.BAD_REQUEST, 'id'));
-  }
-  req.taskId = id;
+  const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+  if (!UUID.test(id)) return next(new AppError('Invalid id', HttpStatus.BAD_REQUEST, 'id'));
+
   next();
 };
 
@@ -23,7 +23,9 @@ export const asyncHandler =
 tasksRoutes.get(
   '/',
   asyncHandler(async (_req: Request, res: Response) => {
-    const tasks = await queryDb('SELECT * FROM tasks');
+    const tasks = await queryDb<Task>(
+      'SELECT id, title, status, term FROM tasks ORDER BY created_at',
+    );
 
     res.json(tasks.rows);
   }),
@@ -47,48 +49,88 @@ tasksRoutes.post(
   }),
 );
 
-// tasksRoutes.get('/:id', validateId, (req: Request, res: Response, next: NextFunction) => {
-//   const task = tasks.find((task) => task.id === req.taskId);
+tasksRoutes.get(
+  '/:id',
+  validateId,
+  asyncHandler(async (req: Request, res: Response) => {
+    const id = req.params.id as string;
 
-//   if (!task) return next(new AppError('Not Found', HttpStatus.NOT_FOUND, 'id'));
+    const result = await queryDb<Task>('SELECT id, title, status, term FROM tasks WHERE id = $1', [
+      id,
+    ]);
+    if (!result.rows[0]) throw new AppError('Not Found', HttpStatus.NOT_FOUND, 'id');
 
-//   return res.json(task);
-// });
+    return res.json(result.rows[0]);
+  }),
+);
 
-// tasksRoutes.patch('/:id', validateId, (req: Request, res: Response, next: NextFunction) => {
-//   const patchTask = parsePatchTask(req.body);
+tasksRoutes.patch(
+  '/:id',
+  validateId,
+  asyncHandler(async (req: Request, res: Response) => {
+    const patchTask = parsePatchTask(req.body);
+    const id = req.params.id as string;
+    let stringPatch = 'UPDATE tasks SET';
+    let posArray = 1;
+    const arrayUpdate: Array<string | null> = [];
 
-//   const task = tasks.find((task) => task.id === req.taskId);
+    if (patchTask.title !== undefined) {
+      stringPatch = stringPatch + ` title = $${posArray++}`;
+      arrayUpdate.push(patchTask.title);
+    }
+    if (patchTask.status !== undefined) {
+      if (posArray > 1) stringPatch = stringPatch + ',';
+      stringPatch = stringPatch + ` status = $${posArray++}`;
+      arrayUpdate.push(patchTask.status);
+    }
+    if (patchTask.term !== undefined) {
+      if (posArray > 1) stringPatch = stringPatch + ',';
 
-//   if (!task) return next(new AppError('Not Found', HttpStatus.NOT_FOUND, 'id'));
+      stringPatch = stringPatch + ` term = $${posArray++}`;
+      arrayUpdate.push(patchTask.term);
+    }
 
-//   if (patchTask.title !== undefined) task.title = patchTask.title;
-//   if (patchTask.status !== undefined) task.status = patchTask.status;
-//   if (patchTask.term !== undefined) task.term = patchTask.term;
+    arrayUpdate.push(id);
 
-//   return res.json(task);
-// });
+    const result = await queryDb<Task>(
+      stringPatch + ` WHERE id = $${posArray++} RETURNING id, title, status, term`,
+      arrayUpdate,
+    );
 
-// tasksRoutes.delete('/:id', validateId, (req: Request, res: Response, next: NextFunction) => {
-//   const index = tasks.findIndex((task) => task.id === req.taskId);
+    const task = result.rows[0];
 
-//   if (index === -1) return next(new AppError('Not Found', HttpStatus.NOT_FOUND, 'id'));
+    if (!task) throw new AppError('Not Found', HttpStatus.NOT_FOUND, 'id');
 
-//   tasks.splice(index, 1);
+    return res.json(result.rows[0]);
+  }),
+);
 
-//   return res.status(204).send();
-// });
+tasksRoutes.delete(
+  '/:id',
+  validateId,
+  asyncHandler(async (req: Request, res: Response) => {
+    const id = req.params.id as string;
 
-// tasksRoutes.all('/', (_req: Request, res: Response, next: NextFunction) => {
-//   res.set('Allow', 'GET, POST');
-//   const err = new AppError('Method Not Allowed', HttpStatus.METHOD_NOT_ALLOWED, 'method');
-//   return next(err);
-// });
+    const result = await queryDb<Pick<Task, 'id'>>('DELETE FROM tasks WHERE id = $1 RETURNING id', [
+      id,
+    ]);
 
-// tasksRoutes.all('/:id', (_req: Request, res: Response, next: NextFunction) => {
-//   res.set('Allow', 'GET, PATCH, DELETE');
-//   const err = new AppError('Method Not Allowed', HttpStatus.METHOD_NOT_ALLOWED, 'method');
-//   return next(err);
-// });
+    if (!result.rows[0]) throw new AppError('Not Found', HttpStatus.NOT_FOUND, 'id');
+
+    return res.status(HttpStatus.NO_CONTENT).send();
+  }),
+);
+
+tasksRoutes.all('/', (_req: Request, res: Response, next: NextFunction) => {
+  res.set('Allow', 'GET, POST');
+  const err = new AppError('Method Not Allowed', HttpStatus.METHOD_NOT_ALLOWED, 'method');
+  return next(err);
+});
+
+tasksRoutes.all('/:id', (_req: Request, res: Response, next: NextFunction) => {
+  res.set('Allow', 'GET, PATCH, DELETE');
+  const err = new AppError('Method Not Allowed', HttpStatus.METHOD_NOT_ALLOWED, 'method');
+  return next(err);
+});
 
 export default tasksRoutes;

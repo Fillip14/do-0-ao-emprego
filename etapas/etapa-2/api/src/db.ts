@@ -5,7 +5,7 @@ const pool = new Pool();
 
 export const queryDb = <T extends QueryResultRow>(
   text: string,
-  values?: Array<string | null>,
+  values?: unknown[],
 ): Promise<QueryResult<T>> => {
   return pool.query<T>(text, values);
 };
