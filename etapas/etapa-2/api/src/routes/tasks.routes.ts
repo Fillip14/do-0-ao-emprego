@@ -16,8 +16,10 @@ const validateId = (req: Request<{ id: string }>, _res: Response, next: NextFunc
 };
 
 export const asyncHandler =
-  (fn: (req: Request, res: Response, next: NextFunction) => Promise<unknown>) =>
-  (req: Request, res: Response, next: NextFunction) =>
+  <P = Request['params']>(
+    fn: (req: Request<P>, res: Response, next: NextFunction) => Promise<unknown>,
+  ) =>
+  (req: Request<P>, res: Response, next: NextFunction) =>
     Promise.resolve(fn(req, res, next)).catch(next);
 
 tasksRoutes.get(
@@ -52,8 +54,8 @@ tasksRoutes.post(
 tasksRoutes.get(
   '/:id',
   validateId,
-  asyncHandler(async (req: Request, res: Response) => {
-    const id = req.params.id as string;
+  asyncHandler(async (req: Request<{ id: string }>, res: Response) => {
+    const id = req.params.id;
 
     const result = await queryDb<Task>('SELECT id, title, status, term FROM tasks WHERE id = $1', [
       id,
@@ -67,9 +69,9 @@ tasksRoutes.get(
 tasksRoutes.patch(
   '/:id',
   validateId,
-  asyncHandler(async (req: Request, res: Response) => {
+  asyncHandler(async (req: Request<{ id: string }>, res: Response) => {
     const patchTask = parsePatchTask(req.body);
-    const id = req.params.id as string;
+    const id = req.params.id;
     let stringPatch = 'UPDATE tasks SET';
     let posArray = 1;
     const arrayUpdate: Array<string | null> = [];
@@ -108,8 +110,8 @@ tasksRoutes.patch(
 tasksRoutes.delete(
   '/:id',
   validateId,
-  asyncHandler(async (req: Request, res: Response) => {
-    const id = req.params.id as string;
+  asyncHandler(async (req: Request<{ id: string }>, res: Response) => {
+    const id = req.params.id;
 
     const result = await queryDb<Pick<Task, 'id'>>('DELETE FROM tasks WHERE id = $1 RETURNING id', [
       id,
