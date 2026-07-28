@@ -47,7 +47,7 @@ Usar IA é habilidade de mercado — mas se constrói em camadas, porque quem n�
 
 ```
 Tutor   · explica e revisa; nunca gera solução      ██████████████████████  100%  ✅ concluída
-Revisor · review depois que o meu código funciona   ███████░░░░░░░░░░░░░░░   30%  🔨 fase atual
+Revisor · review depois que o meu código funciona   █████████░░░░░░░░░░░░░   40%  🔨 fase atual
 Par     · trechos pequenos que eu entendo e testo   ░░░░░░░░░░░░░░░░░░░░░░    0%  🔒 bloqueada
 Agente  · implementa sob a minha especificação      ░░░░░░░░░░░░░░░░░░░░░░    0%  🔒 bloqueada
 Pauta   · a progressão vira resposta de entrevista  ░░░░░░░░░░░░░░░░░░░░░░    0%  🔒 bloqueada
@@ -58,7 +58,7 @@ Cronograma de datas está dentro do `cronograma-etapas.md`, datas detalhadas nos
 ```
 Etapa 0 · Rigor e Git                 ██████████████████████  100%  ✅ aprovada
 Etapa 1 · JS sólido + fundamentos web ██████████████████████  100%  ✅ aprovada
-Etapa 2 · Back-end: da API ao deploy  ███████░░░░░░░░░░░░░░░   30%  🔨 3 de 10 temas
+Etapa 2 · Back-end: da API ao deploy  █████████░░░░░░░░░░░░░   40%  🔨 4 de 10 temas
 Etapa 3 · Front-end (React)           ░░░░░░░░░░░░░░░░░░░░░░    0%  🔒 bloqueada
 Etapa 4 · Capstone "reporte-aqui"     ░░░░░░░░░░░░░░░░░░░░░░    0%  🔒 bloqueada
 Etapa 5 · Portfólio e busca           ░░░░░░░░░░░░░░░░░░░░░░    0%  🔒 bloqueada
@@ -77,8 +77,8 @@ Etapa 5 · Portfólio e busca           ░░░░░░░░░░░░░�
 | **T1** | Node — HTTP, `node:http`, event loop, npm, ESM | ✅ |
 | **T2** | Express — rotas, middleware, validação, erro central, supertest | ✅ |
 | **T3** | TypeScript — strict, narrowing, generics, utility types, **API portada para TS** | ✅ |
-| **T4** | PostgreSQL — SQL, `pg`, injection, transações | ⏳ |
-| **T5** | Testes a fundo — pirâmide, mocks, cobertura, TDD | ⬜ |
+| **T4** | PostgreSQL — SQL, `pg`, injection, transações | ✅ |
+| **T5** | Testes a fundo — pirâmide, mocks, cobertura, TDD | ⏳ |
 | **T6** | Camadas + paginação, filtros, zod | ⬜ |
 | **T7** | Migrations + ORM | ⬜ |
 | **T8** | Auth + segurança de borda | ⬜ |
@@ -124,6 +124,8 @@ O que foi estudado dia a dia.
 | 24/07 | **T3 — TypeScript** — API tipada |
 | 25/07 | **T4 — PostgreSQL** — Servidor x cliente, criar banco, tabelas e tipos, aspas simples × duplas, snake_case e CRUD em SQL |
 | 26/07 | **T4 — PostgreSQL** — null de verdade, LIKE/ILIKE, agregações, UNIQUE, índices, EXPLAIN, FK, JOIN, CASCADE, pg e SQL injection |
+| 27–28/07 | **T4 — PostgreSQL** — API persistida: pool, queries parametrizadas, `RETURNING`, banco de teste |
+| 28/07 | **T5 — Testes a fundo** — pirâmide, AAA, hooks, fixtures e factories, `it.each`, dublês, cobertura, isolamento de banco |
 
 > 💡 A matéria-prima detalhada de cada dia está no devlog de cada etapa, em [`etapas/`](etapas/).
 

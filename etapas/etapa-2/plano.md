@@ -85,7 +85,7 @@ etapas/etapa-2/
 12. O `tsconfig`.
 13. Testes em TS.
 
-### Tema 4 — Banco (PostgreSQL) · *dia sugerido 24/07* · 🔨 iniciado 25/07
+### Tema 4 — Banco (PostgreSQL) · *dia sugerido 24/07* · ✅ Feito (28/07) · ⚠️ questionário da Parte C pendente
 **A API ganha:** tarefas persistidas em PostgreSQL via `pg`, com pool e queries parametrizadas — o array em memória morre.
 
 **Tópicos de estudo sugeridos**
@@ -103,7 +103,7 @@ etapas/etapa-2/
 11. SQL injection.
 12. Transação pelo Node.
 
-### Tema 5 — Testes a fundo · *dia sugerido 25/07*
+### Tema 5 — Testes a fundo · *dia sugerido 25/07* · 🔨 iniciado 28/07
 **A API ganha:** suíte reorganizada — banco de teste isolado, fixtures e factories no lugar do improviso do Tema 4, cobertura medida.
 
 **Tópicos de estudo sugeridos**
