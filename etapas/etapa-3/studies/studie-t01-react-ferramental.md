@@ -1,7 +1,5 @@
 # Estudo — React e ferramental (Tema 1)
 
-> Formato do plano (regra 6): **Parte A** = manual de consulta (por tópico: o que resolve · quando usar · exemplo · armadilhas) · **Parte B** = aplicação na `web/` · **Parte C** = questionário (respondido no devlog).
->
 > **O app ganha:** ele nasce aqui — projeto Vite com React + TypeScript rodando em `localhost:5173`, com a primeira árvore de componentes na tela.
 
 ---
@@ -241,9 +239,11 @@ Dois ajustes obrigatórios no `package.json` gerado, porque o Vite não checa ti
 
 ```jsonc
 "scripts": {
-  "typecheck": "tsc --noEmit"      // mesmo nome que na api/ — regra 4 do plano
+  "typecheck": "tsc -b --noEmit"   // mesmo nome que na api/ — regra 4 do plano
 }
 ```
+
+O `-b` não é detalhe: o `tsconfig.json` que o Vite gera na raiz é *solution-style* (`"files": []` + `references` para o `tsconfig.app.json` e o `.node.json`). Sem `-b`, o `tsc` lê esse arquivo, encontra zero arquivos e sai limpo **sempre**.
 
 E instale a extensão **React DevTools** no navegador antes de escrever a primeira linha.
 
@@ -256,7 +256,7 @@ Partindo da linha "O app ganha" e expandindo:
 - **O app nasce e sobe.** `etapas/etapa-3/web/` existe, `npm run dev` abre em `localhost:5173` e o boilerplate do Vite (contador, logos, CSS de demonstração) **morre** — não sobra nada que você não tenha escrito ou lido linha a linha.
 - **Uma árvore de componentes de verdade**, não tudo no `App.tsx`. O mínimo é um `App` com um cabeçalho e uma área de conteúdo em arquivos separados, e essa árvore tem que aparecer nomeada no DevTools. Nada de props e nada de estado ainda — isso é Tema 2 e Tema 4; aqui a lista, se existir, é JSX escrito na mão.
 - **Cada regra do JSX exercitada de propósito, não por acaso:** um fragmento, uma expressão entre chaves, um atributo que mudou de nome (`className`/`htmlFor`), um `style` como objeto.
-- **A cadeia de partida entendida.** Abra `index.html`, `main.tsx`, `App.tsx`, `vite.config.ts` e os `tsconfig`s e saiba dizer quem chama quem — o questionário vai perguntar.
+- **A cadeia de partida entendida.** Abra `index.html`, `main.tsx`, `App.tsx`, `vite.config.ts` e os `tsconfig`s e saiba dizer quem chama quem.
 - **`StrictMode` ligado e comprovado.** Escreva um `console.log` no corpo de um componente, veja aparecer duas vezes, entenda por quê, e **apague o log** antes do commit.
 - **Um asset importado** (o seu, não o do Vite) aparecendo na tela via `import`, e o CSS entrando por `import`.
 - **HMR observado:** altere um texto com a página aberta e note o que **não** aconteceu (a página não recarregou).
@@ -270,41 +270,11 @@ Partindo da linha "O app ganha" e expandindo:
 - Zero resquício do template: nenhum `useState` de contador, nenhum `react.svg`, nenhum `App.css` que você não escreveu.
 - A tela é montada por **mais de um componente seu**, e a hierarquia aparece nomeada na aba Components do DevTools.
 - Você consegue apontar, no seu próprio projeto, a linha em que o React encontra o `<div id="root">`.
-- `npm run typecheck` sai limpo. Provar que ele serve para algo: introduza um erro de tipo de propósito, veja o `dev` **continuar rodando** e o `typecheck` **falhar**, e registre isso no devlog — é a prova exigida pela regra 1.
+- `npm run typecheck` sai limpo — com o `-b`, senão ele está checando zero arquivo.
 - Um asset seu carregado por `import` continua aparecendo depois de `npm run build && npm run preview`.
 - `web/README.md` existe e responde: o que é, como rodar, qual a stack e o que ainda não funciona.
 - Nada de `document.querySelector` no código.
 
-### 4. Aguardar execução
-
-Você constrói, ponta a ponta. Eu fico quieto. Se travar, a pergunta é sua — e agora, na fase Par, a resposta pode vir com um trecho pequeno junto (uma função, um componente, um tipo), sujeito à regra 1: você entende cada linha antes de commitar, e existe prova de que funciona registrada no devlog.
-
-### 5. Revisão do código
+### 4. Revisão do código
 
 Me chama no fim; eu leio a `web/` inteira e aponto de forma simples onde estão os erros e o que faltou, pra você corrigir.
-
----
-
-# Parte C — Defesa oral
->
-> **Como:** eu respondo **falado e curto** (2–3 frases). A IA contra-argumenta em cima da minha resposta; se ela não se sustentar, eu volto na Parte A naquele tópico e refaço. **O objetivo não é acertar de primeira — é conseguir defender.**
->
-> **O que vai pro devlog:** uma linha por pergunta, só o que ficou de pé. O que caiu vai na versão corrigida, marcado com ⚠️ — é essa marca que vira revisão espaçada depois.
->
-> **Por que só oito:** as outras vinte e quatro que eu tinha aqui eram consulta, não defesa (`className` × `class`, `assets/` × `public/`, por que o CRA morreu, o que o DevTools mostra). Elas continuam na Parte A, para quando eu esbarrar nelas trabalhando. Aqui fica só o que eu não posso não saber numa entrevista.
-
-1. **JSX vira o quê depois de compilado?** Provar usando uma das regras "estranhas" para explicar o motivo dela. *(Se eu cair aqui, a gente para e volta pro tópico 4 da Parte A antes de seguir — nenhuma das outras respostas se sustenta sem esta.)*
-
-2. **Eu plantei um erro de tipo: o `dev` continuou rodando e o `typecheck` falhou.** Por que cada um se comportou assim, e o que isso significa para a regra 4(b) desta etapa.
-
-3. **Abrir o projeto e mostrar a linha em que o React encontra o `<div id="root">`.** Depois: quantas vezes cada trecho da cadeia `index.html → main.tsx → App.tsx` roda.
-
-4. **O `StrictMode` duplicou o meu `console.log`.** Por que isso é feature, que tipo de bug ele está tentando mostrar, e por que removê-lo para parar a duplicação seria a decisão errada.
-
-5. **Por que "re-renderizou" não é a mesma coisa que "ficou lento"?** Em que situação um re-render vira problema de verdade.
-
-6. **Os três custos de escolher uma SPA** — e, para cada um, em que tema desta etapa eu pago a conta.
-
-7. **O que acontece de fato se um componente meu começar com minúscula**, e por que declarar um componente dentro de outro é problema.
-
-8. **(fecho)** Qual decisão que eu tomei hoje eu teria dificuldade de defender numa entrevista — e o que ficou mal resolvido que o Tema 2 arruma.

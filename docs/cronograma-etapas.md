@@ -92,7 +92,7 @@ Desenvolvimento assistido por IA é habilidade de mercado e faz parte do plano �
 
 **Etapa 2 — IA como revisor.** Ao fechar cada tema, peça um code review à IA: bugs, casos de borda, alternativas. Confronte o que ela aponta com as decisões que você tomou e entenda os trade-offs. Habilidade treinada: ler código criticamente e defender a própria escolha.
 
-**Etapa 3 — IA como par de programação.** Liberada a geração de trechos pequenos (uma função, um componente), com duas condições: você entende cada linha antes de commitar e escreve o teste que prova que funciona. Habilidade treinada: validar código que você não escreveu.
+**Etapa 3 — IA como par de programação.** Liberada a geração de trechos pequenos (uma função, um componente), você entende cada linha antes de commita. Habilidade treinada: validar/entender código que você não escreveu.
 
 > Com a inversão de 28/07, a fase **Par** começa na Etapa 3 e **vale dali em diante — inclusive na retomada da Etapa 2**. A trilha de IA avança com o calendário, não volta atrás: o back-end retomado já é trabalhado em regime de par, não de revisor.
 

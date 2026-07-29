@@ -31,10 +31,11 @@ Construir o **lado do servidor**: uma API REST de tarefas completa — rotas com
 1. **Trilha de IA — fase REVISOR:** proibido pedir código pronto. A IA explica conceitos, escreve enunciados e faz **code review depois que o seu código funciona** (bugs, casos de borda, alternativas — em formato antes→depois). Quem digita é você.
 2. **Commits diários** no GitHub, push conferido.
 3. **Stack travada:** Ideias novas no meio do caminho → `ideias-depois.md`.
-4. Um tema só fecha quando os quatro estão feitos: (a) o que o tema entrega está na api/, rodando; (b) npm test verde; (c) revisão da Parte B feita e as correções aplicadas; (d) questionário da Parte C respondido no devlog e tudo commitado e no push.
+4. **Um tema só fecha quando os três estão feitos**: (a) o que o tema entrega está na api/, rodando; (b) npm test verde; (c) revisão da Parte B feita, correções aplicadas, tudo commitado e no push. **Pergunta nenhuma trava o fechamento de um tema** (ver regra 8).
 5. **O contrato da API mora no `api/README.md`** rotas, status, formato de erro, arquitetura, como rodar, URL de produção. Uma fonte de verdade só, e é a que quem visita o repositório lê.
-6. **`studie-tNN-tema.md` na abertura de cada tema:** dividido em três partes: **Parte A**: a IA detalha cada tópico de estudo sugerido na estrutura: 1- O que resolve? 2- Quando usar? 3- Exemplo pequeno. 4- Armadilhas. **Parte B**: alterações na API: 1- Preparação do ambiente (setup de ferramenta — instalar/subir Postgres, criar base, variável de ambiente — é a única coisa que a IA entrega pronta; é atrito, não aprendizado). 2- O que do tema deve ser usado na API. 3- Critérios. 4- Aguardar execução. 5- Revisão do código (apontar de forma simples onde estão os erros e o que faltou para eu corrigir). **Parte C**: questionário enumerado sobre o tema, as respostas ficarão no devlog da etapa.
-7. Autonomia na aplicação. A Parte A é consulta e a Parte B é enunciado — não roteiro. Aberto o tema, eu aplico sozinho na api/: decido o desenho, erro, corrijo e commito sem pedir passo a passo. A IA só volta a falar na revisão (Parte B item 5) e no questionário (Parte C). Se eu travar, a pergunta é minha — a IA responde o conceito, não a implementação. Validado no Tema 3 (24/07): API inteira portada pra TS sem guia. 
+6. **`studie-tNN-tema.md` na abertura de cada tema**, em duas partes. **Parte A:** a IA detalha cada tópico de estudo na estrutura *1- O que resolve? 2- Quando usar? 3- Exemplo pequeno. 4- Armadilhas.* **Parte B:** alterações no app — *1- Preparação do ambiente* (setup de ferramenta é a única coisa que a IA entrega pronta; é atrito, não aprendizado); *2- O que do tema deve aparecer na `api/`*; *3- Critérios*; *4- Revisão do código* (apontar de forma simples onde estão os erros e o que faltou, para eu corrigir). **Não existe Parte C** — a defesa foi para o fim da etapa (regra 8).
+7. **Autonomia na aplicação.** A Parte A é consulta, a Parte B é enunciado — não roteiro.
+8. **A defesa oral acontece uma vez, no fim: o simulado de entrevista**, depois do Tema 10 e imediatamente antes da avaliação da etapa — é o último bloco, não um extra opcional. São as perguntas da seção **Oral** da Avaliação, uma por tema, no formato de entrevista: eu respondo falado e curto (2–3 frases), a IA contra-argumenta em cima, e o que não se sustentar me manda de volta à Parte A daquele tema. Durante os temas **não há pergunta nenhuma** — perguntar no fim do dia, com o tema já entregue e a energia no fim, trava a evolução e vira burocracia abstrata (decidido em 29/07, depois do T1 da Etapa 3, e trazido para cá). O contrapeso é o ⚠️: o que cair **na revisão da Parte B** — que é trabalho, não prova — vira uma linha marcada no devlog, e essa lista é a ordem de ataque do simulado. **O questionário pendente do Tema 4 deixa de ser dívida e é absorvido pelo simulado.**
 
 ## Estrutura de pastas
 
@@ -105,7 +106,7 @@ etapas/etapa-2/
 12. O `tsconfig`.
 13. Testes em TS.
 
-### Tema 4 — Banco (PostgreSQL) · *dia sugerido 24/07* · ✅ Feito (28/07) · ⚠️ questionário da Parte C pendente
+### Tema 4 — Banco (PostgreSQL) · *dia sugerido 24/07* · ✅ Feito (28/07)
 **A API ganha:** tarefas persistidas em PostgreSQL via `pg`, com pool e queries parametrizadas — o array em memória morre.
 
 **Tópicos de estudo sugeridos**
@@ -239,6 +240,6 @@ Entregáveis: URL pública respondendo · api/README.md como contrato completo �
 
 Prova prática: eu ataco a API no ar — SQL injection, mass assignment, payload gigante, id inválido, token de outro usuário, rota sem auth. Suíte roda na hora, na sua máquina. Eu derrubo o processo e ele volta.
 
-Oral: uma pergunta por tema — event loop, middleware, o que o strict pegou, query parametrizada e pool, o que você não testa e por quê, por que camadas, por que migration e não CREATE TABLE, 401 × 403, o que muda de dev pra produção, o que o Docker resolveu.
+**Oral — uma pergunta por tema.** Esta lista é também o roteiro do **simulado de entrevista** que roda depois do Tema 10, logo antes da avaliação (regra 8), com prioridade para o que estiver marcado com ⚠️ no devlog: event loop · middleware · o que o strict pegou · query parametrizada e pool · o que você não testa e por quê · por que camadas · por que migration e não CREATE TABLE · 401 × 403 · o que muda de dev pra produção · o que o Docker resolveu.
 
 Reprova se: um ataque passa · a API cai e não volta · você não sabe defender uma decisão que você tomou.

@@ -18,3 +18,18 @@
 4. Custos assumidos da reordenação: estilizar lista estática no T3 gera retrabalho de CSS depois do CRUD, e os testes ficaram por último (T14) — mesmo padrão do questionário pendente do T4 da Etapa 2. A regra 1 segura até lá.
 
 - Amanhã: abrir o Tema 1 (React e ferramental).
+
+## 29/07
+
+### T1 · React e ferramental
+**O app ganhou** — a `web/` nasceu: projeto Vite com React + TypeScript rodando em
+`localhost:5173`. Primeira árvore de componentes minha (`App` → `Header` e `Content`),
+asset importado de `src/assets/`, favicon servido de `public/`, e o boilerplate do
+Vite apagado.
+
+**Pedra do tema** — o `npm run typecheck` que eu escrevi não checava nada. O `tsconfig.json`
+da raiz é solution-style (`"files": []` + `references`), e `tsc --noEmit` não segue
+`references` — lia zero arquivo e saía limpo sempre. Corrigido para `tsc -b --noEmit`.
+
+**⚠️** — re-render: eu achava que o React só re-renderiza quem mudou. É o contrário:
+o pai re-renderizando chama todos os descendentes. O seletivo é o commit no DOM.
