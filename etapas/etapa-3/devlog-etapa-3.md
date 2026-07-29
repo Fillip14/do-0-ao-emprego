@@ -8,6 +8,8 @@
 - **📄 Etapa 3** — plano detalhado escrito: 14 temas, app vivo em `web/`, avaliação alvo 12/08.
 - **🔀 Plano reordenado no mesmo dia**, depois do diagnóstico de perfil de programação: estilo subiu do T11 para o **T3**, entrou o tema novo de **Motion (T10)**, e o **deploy desceu do T13 para o T11** — link público com quatro temas ainda pela frente.
 
+- **🗣️ Parte C virou defesa oral** — 6 a 8 perguntas no meio do tema, faladas, com contra-argumento; no devlog fica uma linha por pergunta, só o que ficou de pé. O questionário escrito de 30+ perguntas no fim do dia não pegou (o do T4 da Etapa 2 ficou sem resposta). Aplicado no `studie-t01` e na regra 6 do plano.
+
 **Anotações**
 
 1. O front consome a API **local**, sem auth e sem URL pública — consequência escolhida da inversão. Login e deploy da API entram quando o back voltar.

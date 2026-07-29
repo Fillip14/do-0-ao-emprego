@@ -75,7 +75,7 @@ Etapa 5 · Portfólio e busca           ░░░░░░░░░░░░░�
 
 | Tema | Assunto | Status |
 |:---:|---|:---:|
-| **T1** | React e ferramental — JSX, Vite, TS, StrictMode | ⬜ |
+| **T1** | React e ferramental — JSX, Vite, TS, StrictMode | ⏳ |
 | **T2** | Props, composição e listas — `key`, estado vazio | ⬜ |
 | **T3** | Estilos, layout e acessibilidade — tokens, responsivo, teclado | ⬜ |
 | **T4** | Estado e eventos — `useState`, lifting, estado derivado | ⬜ |
@@ -152,6 +152,7 @@ O que foi estudado dia a dia.
 | Data | Conteúdo estudado |
 |:---:|---|
 | 28/07 | **Inversão do cronograma** — Etapa 2 pausada no T5, plano da Etapa 3 detalhado em 14 temas (estilo cedo, tema de motion, deploy no meio) |
+| 29/07 | **T1 — React e ferramental** — declarativo × imperativo, JSX, componentes, Vite e HMR, anatomia do projeto, `tsconfig` do front, `StrictMode`, ciclo de renderização |
 
 > 💡 A matéria-prima detalhada de cada dia está no devlog de cada etapa, em [`etapas/`](etapas/).
 
