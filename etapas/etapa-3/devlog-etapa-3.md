@@ -33,3 +33,44 @@ da raiz é solution-style (`"files": []` + `references`), e `tsc --noEmit` não 
 
 **⚠️** — re-render: eu achava que o React só re-renderiza quem mudou. É o contrário:
 o pai re-renderizando chama todos os descendentes. O seletivo é o commit no DOM.
+
+### T2 · Props, composição e listas — ✅ Feito (29/07)
+Estudo em [`studies/studie-t02-props-composicao-listas.md`](studies/studie-t02-props-composicao-listas.md).
+Sem preparação de ambiente: código meu do começo ao fim.
+
+**O app ganhou** — a lista de tarefas na tela a partir de `mockTasks`, com `TaskList` →
+`TaskItem` tipados e `key={task.id}` (uuid, o mesmo formato que virá do banco). `Content`
+decide vazio × lista com early return, `EmptyTask` diz o que fazer em vez de deixar a tela
+branca. `TaskSummary` calcula os contadores por status — o `{1 + 1}` chumbado do T1 morreu.
+`Section` com `children` e `AddTaskField` reaproveitado nos dois caminhos. A `Task` entrou
+como **cópia deliberada** do `api/README.md`, com o porquê registrado no `web/README.md`.
+
+**Pedra do tema** — o `0 &&`. Escrevi `{todo && <p>...}` com `todo` sendo `number`: quando
+zera, o JSX **renderiza o `0`** na tela, porque `a && b` devolve `a`, não `false`. As duas
+linhas vizinhas estavam com `> 0` e essa não. Não apareceu na hora só porque o mock tinha
+uma tarefa `todo`.
+
+**⚠️** — a `TaskSummary` nasceu como função auxiliar (`calculateTypeTasks`) que não
+retornava nada: copiei o JSX com as chaves junto, e `{...}` fora do JSX é **bloco**, não
+interpolação. Se recebe dado e devolve JSX, é componente — maiúscula, arquivo próprio,
+`<TaskSummary />`. Chamado como função comum ele nem aparece na árvore do DevTools.
+
+**Também caiu na revisão:** `;` solto dentro do JSX vira texto na tela · `type Text`
+sombreando o tipo global do DOM · ternário de 3 vias trocado por `Record<Status, string>`,
+que obriga o TS a cobrar o ícone quando um status novo entrar.
+
+**Dívida anotada:** `id="task"` fixo dentro do `AddTaskField`. Funciona hoje porque só um
+aparece por vez (o early return do `Content`); com os dois na mesma tela o `htmlFor` passa a
+apontar para o input errado. Resolve com `useId`, T12.
+
+**Decisão registrada:** organização **por tipo**, com subpasta por área em `components/`.
+Sem árvore de pastas no README — envelhece e vira mentira; ficou a decisão e a convenção.
+
+**Plano ajustado (29/07):** entraram tópicos de **componente de UI × componente de domínio**,
+quando encapsular a tag crua e quando o componente vira pasta (**T3, tópicos 13–15**), e
+**decomposição de tela + a pasta `pages/`** (**T9, tópicos 13–14**). Rejeitada a ideia de
+prescrever a árvore de pastas completa no T1: `hooks/`, `pages/`, `services/` e `utils/`
+seriam pastas vazias para problemas que não existem no dia 1, e eu teria posto o `TaskList`
+em `components/` por regra em vez de ter chegado no `components/tasks/` por necessidade.
+
+- Amanhã: T3 (Estilos, layout e acessibilidade) — a decisão do sistema de estilo é minha.
