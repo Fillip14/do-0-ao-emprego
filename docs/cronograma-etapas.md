@@ -17,6 +17,16 @@ Node + Express + TypeScript no back, React no front, PostgreSQL no banco. Motivo
 
 Regras transversais: commits diários no GitHub desde a Etapa 0 · uso de IA segue a Trilha de IA (abaixo) · ao final de cada etapa me avise, eu avalio e libero (ou não) a próxima.
 
+> ### 🔁 Inversão em 28/07/2026 — a Etapa 3 vem antes do fim da Etapa 2
+>
+> A ordem de execução passou a ser **Etapa 2 (parcial) → Etapa 3 → Etapa 2 (retomada) → Etapa 4 → Etapa 5**. A Etapa 2 foi pausada no meio do Tema 5 com os Temas 1–4 fechados (Node, Express, TypeScript, PostgreSQL) e retoma exatamente daí depois do front.
+>
+> **O que isso custa, dito com todas as letras:** o front da Etapa 3 consome a API **local**, sem autenticação e sem URL pública — porque auth (Tema 8) e deploy (Tema 9) ficaram do outro lado da pausa. Login, guarda de rota e front apontando para produção entram como emenda na retomada da Etapa 2.
+>
+> **O que isso preserva:** os Temas 1–4 entregaram uma API que já responde CRUD com banco de verdade — que é tudo que o front precisa para existir. A pausa é no meio de um tema, não no meio da API.
+>
+> Detalhes do estado congelado em [`../etapas/etapa-2/plano.md`](../etapas/etapa-2/plano.md) · plano do front em [`../etapas/etapa-3/plano.md`](../etapas/etapa-3/plano.md).
+
 ### Etapa 0 — Rigor e Git (semana 1)
 
 - Refazer Ex 1, 3, 4, 5 e 7 cumprindo o enunciado exatamente; corrigir os bugs apontados no Ex 6 e Ex 8.
@@ -30,9 +40,9 @@ Regras transversais: commits diários no GitHub desde a Etapa 0 · uso de IA seg
 - **Projeto:** gerenciador de tarefas (Ex 8) como página web — interface no navegador, lógica em JS.
 - **Avaliação:** projeto + exercícios de array methods que eu passar.
 
-### Etapa 2 — Back-end: Node, Express, TypeScript e banco (semanas 3-4)
+### Etapa 2 — Back-end: Node, Express, TypeScript e banco (semanas 3-4 · ⏸️ pausada 28/07, retoma após a Etapa 3)
 
-> API funcional para servir a Etapa 3.
+> API funcional para servir a Etapa 3. **Temas 1–4 fechados; pausada no meio do Tema 5.**
 
 - Fundamentos por dentro antes do atalho: HTTP cru e `node:http` → Express (rotas, middleware, validação, erro centralizado com formato único).
 - Testes automatizados desde o primeiro tema (Vitest + supertest) + um tema só de técnica: pirâmide, mocks, cobertura, TDD.
@@ -44,11 +54,21 @@ Regras transversais: commits diários no GitHub desde a Etapa 0 · uso de IA seg
 - Docker (imagem, compose com Postgres) + CI no GitHub Actions rodando a suíte a cada push.
 - **Avaliação:** API pública com banco funcionando + eu quebro sua API com requisições maliciosas + suíte verde na hora + oral sobre decisões e conceitos.
 
-### Etapa 3 — Front-end: React (semanas 5-10)
+### Etapa 3 — Front-end: React (🔨 antecipada — 29/07 a ~12/08/2026)
 
-- Componentes, props, estado, hooks básicos, consumo da sua própria API.
-- **Projeto:** front React conectado à API de tarefas da Etapa 2 → primeiro projeto full stack completo, com deploy.
-- **Avaliação:** projeto no ar, código revisado por mim.
+> Detalhada tema a tema em [`../etapas/etapa-3/plano.md`](../etapas/etapa-3/plano.md) — 14 temas, app vivo em `web/`.
+
+- React + TypeScript + Vite: JSX, props e composição, estado, formulários controlados, efeitos e o que **não** é efeito.
+- **Estilo cedo (T3), não no fim:** tokens, layout responsivo, estados visuais e acessibilidade de teclado — o app é apresentável antes de ser complexo.
+- Consumo da própria API: camada de requisição tipada, os quatro estados de tela (carregando, erro, vazio, sucesso), CORS pelo lado de quem apanha, CRUD completo com atualização otimista.
+- Rotas com React Router — a URL é estado.
+- **Motion (T10):** `transition` e `transform`, o que anima de graça e o que trava, entrada e saída de item da lista, transição de rota, gesto de arrastar, `prefers-reduced-motion` e medição de frame rate. Uma lib entra aqui — Framer Motion ou GSAP.
+- **Deploy no T11, não no fim:** a partir dele existe URL pública e todo tema fechado redeploya.
+- Hooks a fundo (`useReducer`, `useRef`) e custom hooks, com performance medida no Profiler antes de memoizar; Context como transporte, não como gerenciador de estado.
+- Testes de componente com Vitest + Testing Library + MSW.
+- **Projeto:** front React conectado à API de tarefas da Etapa 2 → primeiro sistema completo rodando de ponta a ponta.
+- **Limitação assumida da inversão:** sem login e contra API local — os dois entram na retomada da Etapa 2 (Temas 8 e 9).
+- **Avaliação:** front no ar + eu quebro a UI (API fora do ar, link público sem API, 400 do servidor, lista vazia, duplo submit, animação derrubando o frame rate, navegação só por teclado) + oral, uma pergunta por tema.
 
 ### Etapa 4 — Capstone: o "reporte-aqui" concluído (semanas 11-15)
 
@@ -73,6 +93,8 @@ Desenvolvimento assistido por IA é habilidade de mercado e faz parte do plano �
 **Etapa 2 — IA como revisor.** Ao fechar cada tema, peça um code review à IA: bugs, casos de borda, alternativas. Confronte o que ela aponta com as decisões que você tomou e entenda os trade-offs. Habilidade treinada: ler código criticamente e defender a própria escolha.
 
 **Etapa 3 — IA como par de programação.** Liberada a geração de trechos pequenos (uma função, um componente), com duas condições: você entende cada linha antes de commitar e escreve o teste que prova que funciona. Habilidade treinada: validar código que você não escreveu.
+
+> Com a inversão de 28/07, a fase **Par** começa na Etapa 3 e **vale dali em diante — inclusive na retomada da Etapa 2**. A trilha de IA avança com o calendário, não volta atrás: o back-end retomado já é trabalhado em regime de par, não de revisor.
 
 **Etapa 4 — IA como agente.** No capstone, partes do projeto são construídas com um agente de código (Claude Code ou similar): você especifica, o agente implementa, você revisa e testa. O README documenta o que foi assistido e como foi validado — isso vira *diferencial* de portfólio, não algo a esconder. Habilidade treinada: especificação, revisão e orquestração — o trabalho real de dev assistido por IA.
 

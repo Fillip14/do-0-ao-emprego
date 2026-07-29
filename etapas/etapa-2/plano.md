@@ -1,6 +1,26 @@
 # Etapa 2 — Back-end completo
 
-> **Históricos** · `archived/archive-stage-complete/`, `archived/archive-t03/` · **23/07/2026** alterado metodologia de estudo · **Avaliação alvo: 30/07/2026**
+> ⏸️ **PAUSADA EM 28/07/2026, no meio do Tema 5.** O cronograma foi invertido: a Etapa 3 (front-end React) entra na frente e esta etapa **retoma do Tema 5**, do ponto exato onde parou — nada foi descartado, nada será refeito. Plano do front: [`../etapa-3/plano.md`](../etapa-3/plano.md).
+>
+> **Históricos** · `archived/archive-stage-complete/`, `archived/archive-t03/` · **23/07/2026** alterado metodologia de estudo · ~~Avaliação alvo: 30/07/2026~~ → **a redefinir na retomada**
+
+## Estado no momento da pausa
+
+**Fechados:** Temas 1 a 4 — a API roda em TypeScript strict, com Express, erro central e tarefas persistidas em PostgreSQL via `pg`.
+
+**Em aberto:**
+
+- **Tema 5 (Testes a fundo)** — iniciado em 28/07, congelado no meio. Retomar por aqui.
+- **Tema 4** — questionário da Parte C pendente no devlog.
+- **Temas 6 a 10** — não iniciados. Os *dias sugeridos* deles caducaram com a pausa; a sequência dos temas continua valendo, as datas não.
+
+**A API está congelada durante a Etapa 3.** Ela é o servidor que o front vai consumir, exatamente com o contrato que está no [`api/README.md`](api/README.md). **Exceção única:** habilitar CORS para `http://localhost:5173`, no Tema 7 da Etapa 3 — sem isso o navegador bloqueia tudo. O assunto *CORS a fundo* continua sendo do Tema 8 desta etapa.
+
+Qualquer outra necessidade que o front levantar (paginação, filtro no servidor, campo novo, rota nova) vai para o `ideias-depois.md` e é resolvida na retomada.
+
+**Na retomada:** ao fechar o Tema 8 (auth), o front ganha login e guarda de rota; ao fechar o Tema 9 (deploy), o front passa a apontar para a URL pública. Só aí o sistema fica completo de ponta a ponta.
+
+**Profundidade dos temas 5 a 10 — decidido em 28/07:** um diagnóstico de perfil recomendou rebaixar PostgreSQL, Docker e CI a "nível de sobrevivência de entrevista". **Recusado.** Os temas 7 (migrations + ORM) e 10 (Docker + CI) continuam com o escopo que está escrito abaixo, sem corte. A etapa volta inteira.
 
 ## Objetivo
 
@@ -103,7 +123,7 @@ etapas/etapa-2/
 11. SQL injection.
 12. Transação pelo Node.
 
-### Tema 5 — Testes a fundo · *dia sugerido 25/07* · 🔨 iniciado 28/07
+### Tema 5 — Testes a fundo · *dia sugerido 25/07* · 🔨 iniciado 28/07 · ⏸️ **congelado no meio — ponto de retomada da etapa**
 **A API ganha:** suíte reorganizada — banco de teste isolado, fixtures e factories no lugar do improviso do Tema 4, cobertura medida.
 
 **Tópicos de estudo sugeridos**

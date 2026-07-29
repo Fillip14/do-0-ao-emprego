@@ -6,7 +6,7 @@
 
 <p align="center">
   <img alt="Stack" src="https://img.shields.io/badge/stack-JS%2FTS%20full%20stack-f7df1e?style=for-the-badge&logo=javascript&logoColor=black">
-  <img alt="Etapa atual" src="https://img.shields.io/badge/etapa%20atual-2%20de%205-3178c6?style=for-the-badge">
+  <img alt="Etapa atual" src="https://img.shields.io/badge/etapa%20atual-3%20de%205-61dafb?style=for-the-badge">
   <img alt="Status" src="https://img.shields.io/badge/status-em%20andamento-2ea44f?style=for-the-badge">
   <img alt="Meta" src="https://img.shields.io/badge/meta-pronto%20para%20aplicar-8a2be2?style=for-the-badge">
 </p>
@@ -15,7 +15,7 @@
   <a href="#-quem-sou-eu">Quem sou eu</a> ·
   <a href="#-o-projeto">O projeto</a> ·
   <a href="#-trilha-de-ia-e-cronograma-das-etapas">Trilha de IA e cronograma</a> ·
-  <a href="#-progresso-da-etapa-2">Progresso</a> ·
+  <a href="#-progresso">Progresso</a> ·
   <a href="#-diário-de-bordo">Diário de bordo</a> ·
   <a href="#-estrutura-do-projeto">Estrutura</a> ·
   <a href="#-onde-me-encontrar">Contato</a>
@@ -43,12 +43,12 @@ Transição de carreira em aproximadamente **6 meses**, com stack **JavaScript/T
 
 ## 🤖 Trilha de IA e Cronograma das etapas
 
-Usar IA é habilidade de mercado — mas se constrói em camadas, porque quem não domina a base não consegue avaliar o que a IA produz. Cada fase acompanha uma etapa: **Etapa 2** do cronograma corresponde a etapa **Revisor** da IA (sem código pronto, IA explica o conceito e revisa depois).
+Usar IA é habilidade de mercado — mas se constrói em camadas, porque quem não domina a base não consegue avaliar o que a IA produz. A fase atual é **Par de programação**: liberada a geração de trechos pequenos, com duas condições — entender cada linha antes de commitar e ter prova de que funciona.
 
 ```
 Tutor   · explica e revisa; nunca gera solução      ██████████████████████  100%  ✅ concluída
-Revisor · review depois que o meu código funciona   █████████░░░░░░░░░░░░░   40%  🔨 fase atual
-Par     · trechos pequenos que eu entendo e testo   ░░░░░░░░░░░░░░░░░░░░░░    0%  🔒 bloqueada
+Revisor · review depois que o meu código funciona   ██████████████████████  100%  ✅ concluída
+Par     · trechos pequenos que eu entendo e testo   █░░░░░░░░░░░░░░░░░░░░░    5%  🔨 fase atual
 Agente  · implementa sob a minha especificação      ░░░░░░░░░░░░░░░░░░░░░░    0%  🔒 bloqueada
 Pauta   · a progressão vira resposta de entrevista  ░░░░░░░░░░░░░░░░░░░░░░    0%  🔒 bloqueada
 ```
@@ -58,19 +58,39 @@ Cronograma de datas está dentro do `cronograma-etapas.md`, datas detalhadas nos
 ```
 Etapa 0 · Rigor e Git                 ██████████████████████  100%  ✅ aprovada
 Etapa 1 · JS sólido + fundamentos web ██████████████████████  100%  ✅ aprovada
-Etapa 2 · Back-end: da API ao deploy  █████████░░░░░░░░░░░░░   40%  🔨 4 de 10 temas
-Etapa 3 · Front-end (React)           ░░░░░░░░░░░░░░░░░░░░░░    0%  🔒 bloqueada
+Etapa 2 · Back-end: da API ao deploy  █████████░░░░░░░░░░░░░   40%  ⏸️ 4 de 10 temas — pausada
+Etapa 3 · Front-end (React)           ░░░░░░░░░░░░░░░░░░░░░░    0%  🔨 antecipada, 0 de 14 temas
 Etapa 4 · Capstone "reporte-aqui"     ░░░░░░░░░░░░░░░░░░░░░░    0%  🔒 bloqueada
 Etapa 5 · Portfólio e busca           ░░░░░░░░░░░░░░░░░░░░░░    0%  🔒 bloqueada
 ```
+> 🔁 **Inversão em 28/07:** a Etapa 2 foi pausada no meio do Tema 5 e o front entrou na frente. O back-end retoma do ponto exato onde parou. Consequência assumida: o front consome a API **local, sem login** — auth e deploy ficaram do outro lado da pausa e entram na retomada.
 > 🔓 Cada etapa só abre depois que a IA **avalia e aprova** a anterior — pendência bloqueia a próxima.
 
 
-## 📊 Progresso da Etapa 2
+## 📊 Progresso
 
-**Back-end completo** · 🔄 **reiniciada em 21/07** · avaliação alvo **30/07**.
+### 🔨 Etapa 3 — Front-end: React · em andamento
 
-> Plano de 10 temas, questionário por temas. A API cresce a cada tema.
+**Início 29/07** · avaliação alvo **12/08** · 14 temas, app vivo em `web/`.
+
+| Tema | Assunto | Status |
+|:---:|---|:---:|
+| **T1** | React e ferramental — JSX, Vite, TS, StrictMode | ⬜ |
+| **T2** | Props, composição e listas — `key`, estado vazio | ⬜ |
+| **T3** | Estilos, layout e acessibilidade — tokens, responsivo, teclado | ⬜ |
+| **T4** | Estado e eventos — `useState`, lifting, estado derivado | ⬜ |
+| **T5** | Formulários controlados — validação, erro por campo | ⬜ |
+| **T6** | Efeitos — `useEffect`, limpeza, quando **não** usar | ⬜ |
+| **T7** | Falando com a API — fetch tipado, 4 estados de tela, CORS | ⬜ |
+| **T8** | CRUD na tela — mutações, atualização otimista | ⬜ |
+| **T9** | Rotas — React Router, a URL como estado | ⬜ |
+| **T10** | **Motion e interação** — transition, gesto, lib de motion, 60fps | ⬜ |
+| **T11** | **Build e deploy** — 🌐 URL pública a partir daqui | ⬜ |
+| **T12** | Hooks a fundo, custom hooks e performance medida | ⬜ |
+| **T13** | Context — estado global sem biblioteca, e o custo dele | ⬜ |
+| **T14** | Testes de front — Vitest, Testing Library, MSW | ⬜ |
+
+### ⏸️ Etapa 2 — Back-end · pausada em 28/07, no meio do T5
 
 | Tema | Assunto | Status |
 |:---:|---|:---:|
@@ -78,14 +98,14 @@ Etapa 5 · Portfólio e busca           ░░░░░░░░░░░░░�
 | **T2** | Express — rotas, middleware, validação, erro central, supertest | ✅ |
 | **T3** | TypeScript — strict, narrowing, generics, utility types, **API portada para TS** | ✅ |
 | **T4** | PostgreSQL — SQL, `pg`, injection, transações | ✅ |
-| **T5** | Testes a fundo — pirâmide, mocks, cobertura, TDD | ⏳ |
+| **T5** | Testes a fundo — pirâmide, mocks, cobertura, TDD | ⏸️ |
 | **T6** | Camadas + paginação, filtros, zod | ⬜ |
 | **T7** | Migrations + ORM | ⬜ |
 | **T8** | Auth + segurança de borda | ⬜ |
 | **T9** | Deploy — banco gerenciado, health, logs, auto-ataque | ⬜ |
 | **T10** | Docker + CI | ⬜ |
 
-**Legenda:** ✅ concluída · ⏳ em andamento · ⬜ a fazer
+**Legenda:** ✅ concluída · ⏳ em andamento · ⏸️ congelada · ⬜ a fazer
 
 ## 📅 Diário de bordo
 
@@ -125,7 +145,13 @@ O que foi estudado dia a dia.
 | 25/07 | **T4 — PostgreSQL** — Servidor x cliente, criar banco, tabelas e tipos, aspas simples × duplas, snake_case e CRUD em SQL |
 | 26/07 | **T4 — PostgreSQL** — null de verdade, LIKE/ILIKE, agregações, UNIQUE, índices, EXPLAIN, FK, JOIN, CASCADE, pg e SQL injection |
 | 27–28/07 | **T4 — PostgreSQL** — API persistida: pool, queries parametrizadas, `RETURNING`, banco de teste |
-| 28/07 | **T5 — Testes a fundo** — pirâmide, AAA, hooks, fixtures e factories, `it.each`, dublês, cobertura, isolamento de banco |
+| 28/07 | **T5 — Testes a fundo** — pirâmide, AAA, hooks, fixtures e factories, `it.each`, dublês, cobertura, isolamento de banco · **etapa pausada aqui** |
+
+### Etapa 3 — Front-end: React
+
+| Data | Conteúdo estudado |
+|:---:|---|
+| 28/07 | **Inversão do cronograma** — Etapa 2 pausada no T5, plano da Etapa 3 detalhado em 14 temas (estilo cedo, tema de motion, deploy no meio) |
 
 > 💡 A matéria-prima detalhada de cada dia está no devlog de cada etapa, em [`etapas/`](etapas/).
 
@@ -142,15 +168,20 @@ do-0-ao-emprego/
 └── etapas/
     ├── etapa-0/
     ├── etapa-1/
-    └── etapa-2/
-        ├── api/
-        ├── archived/
+    ├── etapa-2/          ⏸️ pausada
+    │   ├── api/          ← a API, congelada e servindo o front
+    │   ├── archived/
+    │   └── studies/
+    └── etapa-3/          🔨 em andamento
+        ├── web/          ← o app React
         └── studies/
 ```
 
 [`docs/cronograma-etapas.md`](docs/cronograma-etapas.md) — o plano de 6 meses inteiro ·
-[`etapas/etapa-2/plano.md`](etapas/etapa-2/plano.md) — a etapa em andamento ·
-[`etapas/etapa-2/devlog-etapa-2.md`](etapas/etapa-2/devlog-etapa-2.md) — o dia a dia com detalhe
+[`etapas/etapa-3/plano.md`](etapas/etapa-3/plano.md) — a etapa em andamento ·
+[`etapas/etapa-3/devlog-etapa-3.md`](etapas/etapa-3/devlog-etapa-3.md) — o dia a dia com detalhe ·
+[`etapas/etapa-2/plano.md`](etapas/etapa-2/plano.md) — a etapa pausada ·
+[`etapas/etapa-2/api/README.md`](etapas/etapa-2/api/README.md) — o contrato da API
 
 
 ## 🌟 Onde me encontrar

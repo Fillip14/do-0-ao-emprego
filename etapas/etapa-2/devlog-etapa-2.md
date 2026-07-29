@@ -77,12 +77,13 @@
 - Travei/faltou: são muitos metódos de tipagem, acredito que eu não tenha abordado todos na API mas tipei ela toda.
 - Amanhã: tema 4
 
-## 25/07
+## 25/07 - 28/07
 
 - **🔨 Tema 4 (PostgreSQL)** — Iniciado
+- **✅ Tema 4 (PostgreSQL)** — Fechado
 
 **Anotações**
 
 - O que aprendi:
 - Travei/faltou:
-- Amanhã: continuação tema 4
+- Amanhã: iniciar tema 5
