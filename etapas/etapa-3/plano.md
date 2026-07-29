@@ -58,7 +58,7 @@ Quatorze temas, um por dia sugerido. **O dia é guia, não contrato** — na Eta
 
 **A ordem tem lógica:** os temas 1–3 põem algo apresentável na tela rápido; 4–8 constroem o comportamento e a conversa com o banco; 9–11 transformam isso num produto com rotas, movimento e URL pública; 12–14 são o rigor por baixo — arquitetura de estado, performance medida e testes.
 
-### Tema 1 — React e ferramental · *dia sugerido 29/07*
+### Tema 1 — React e ferramental · *dia sugerido 29/07* · ✅ Feito (29/07)
 **O app ganha:** ele nasce aqui — projeto Vite com React + TypeScript rodando em `localhost:5173`, com a primeira árvore de componentes na tela.
 
 **Tópicos de estudo sugeridos**
@@ -76,7 +76,7 @@ Quatorze temas, um por dia sugerido. **O dia é guia, não contrato** — na Eta
 11. React DevTools: instalar e olhar a árvore desde o primeiro dia.
 12. Import de asset e CSS no Vite.
 
-### Tema 2 — Props, composição e listas · *dia sugerido 30/07*
+### Tema 2 — Props, composição e listas · *dia sugerido 30/07* · ✅ Feito (29/07)
 **O app ganha:** a lista de tarefas na tela a partir de um array fixo em código — `TaskList` e `TaskItem` tipados, sem API ainda.
 
 **Tópicos de estudo sugeridos**
@@ -94,7 +94,7 @@ Quatorze temas, um por dia sugerido. **O dia é guia, não contrato** — na Eta
 11. Tipos compartilhados com a API: onde mora a `interface Task` no front e por que ela é uma **cópia deliberada** do contrato, não um import de dentro da `api/`.
 
 ### Tema 3 — Estilos, layout e acessibilidade · *dia sugerido 31/07*
-**O app ganha:** deixa de ser HTML cru — sistema de estilo escolhido, tokens definidos, layout responsivo e a lista apresentável. **É o tema que paga o combustível da etapa inteira.**
+**O app ganha:** deixa de ser HTML cru — sistema de estilo escolhido, tokens definidos, layout responsivo e a lista apresentável, com os primeiros componentes de UI (`ui/`) separados do domínio. **É o tema que paga o combustível da etapa inteira.**
 
 > **Por que aqui e não no fim:** estilizar uma lista estática significa voltar ao CSS depois do CRUD. É retrabalho de propósito — pago em motivação, e a decisão está registrada.
 
@@ -112,6 +112,9 @@ Quatorze temas, um por dia sugerido. **O dia é guia, não contrato** — na Eta
 10. `aria-live` para avisar a mudança que aconteceu sem clique.
 11. Contraste e tamanho de alvo — dois testes rápidos que pegam a maior parte dos problemas.
 12. **Acessibilidade é comportamento, não enfeite:** o que o leitor de tela acha é o que o Testing Library acha (Tema 14) e é o que o teclado alcança na avaliação.
+13. **Componente de UI × componente de domínio.** O critério: componente reutilizável **não sabe nada do domínio** — `Button` não sabe o que é uma tarefa, `TaskItem` sabe. Teste prático: se o arquivo fosse copiado para outro projeto, funcionaria sem alteração? Consequência na pasta: `components/ui/` × `components/tasks/`. Auditar o que já existe da `web/` — `Section` e `AddTaskField` não importam `Task` e estão do lado errado.
+14. **Quando encapsular a tag crua e quando não.** Embrulhar `<button>` num `Button` que não acrescenta nada é custo puro (mais um arquivo, mais um import, zero ganho). Vale quando há **decisão repetida** para encapsular: estilo, estado visual (`:hover`/`:disabled`/carregando), acessibilidade. É por isso que este tópico é do Tema 3 e não do Tema 2 — antes de existir estilo não há decisão nenhuma a encapsular. Os habitantes típicos de `ui/`: `Button`, `TextField` (label + input + erro juntos), `Select`, `Modal`, `Card`, `Badge`, `Spinner`, `Alert`.
+15. **Quando o componente vira pasta.** `Button.tsx` solto × `Button/` com `Button.tsx` + `Button.module.css` + (no Tema 14) `Button.test.tsx`. O gatilho é o arquivo irmão — enquanto o componente é um arquivo só, pasta é cerimônia.
 
 ### Tema 4 — Estado e eventos · *dia sugerido 01/08*
 **O app ganha:** interação real — marcar tarefa como feita, filtrar por status na memória, tudo com `useState`.
@@ -222,6 +225,8 @@ Quatorze temas, um por dia sugerido. **O dia é guia, não contrato** — na Eta
 10. Buscar dado ao trocar de rota: a race condition do Tema 6 volta, agora entre rotas.
 11. Rota protegida: o desenho do componente-guarda — montado agora, ativado quando o login existir (Tema 8 da Etapa 2).
 12. Deploy de SPA e a rota que dá 404 ao recarregar: por que acontece, o que é o fallback para o `index.html` (resolvido no Tema 11).
+13. **Decompor uma tela antes de escrever código.** Desenhar a árvore primeiro — `TaskPage` → `Header` · `Filters` · `TaskForm` · `TaskList` → `TaskItem`. A mecânica é trivial; o difícil é **onde parar**: dividir demais gera prop drilling (Tema 13), dividir de menos gera o arquivo de 300 linhas. Aqui a hierarquia deixa de ser exercício porque a página passa a existir de verdade.
+14. **`pages/` (ou `routes/`) nasce aqui, e só aqui.** O componente de página é o que casa com uma rota, orquestra os componentes de domínio e é dono da busca de dado. Por que ele não podia existir no Tema 1: sem rota, "página" e "componente raiz" são a mesma coisa — a pasta seria nome sem conteúdo.
 
 ### Tema 10 — Motion e interação · *dia sugerido 07/08*
 **O app ganha:** movimento — item que entra e sai da lista com transição, troca de rota animada, resposta tátil no clique e no arrasto. É o tema que traduz "segurar carrega, soltar arremessa" para vocabulário React.

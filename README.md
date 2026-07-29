@@ -59,7 +59,7 @@ Cronograma de datas está dentro do `cronograma-etapas.md`, datas detalhadas nos
 Etapa 0 · Rigor e Git                 ██████████████████████  100%  ✅ aprovada
 Etapa 1 · JS sólido + fundamentos web ██████████████████████  100%  ✅ aprovada
 Etapa 2 · Back-end: da API ao deploy  █████████░░░░░░░░░░░░░   40%  ⏸️ 4 de 10 temas — pausada
-Etapa 3 · Front-end (React)           ░░░░░░░░░░░░░░░░░░░░░░    0%  🔨 antecipada, 0 de 14 temas
+Etapa 3 · Front-end (React)           ██░░░░░░░░░░░░░░░░░░░░    7%  🔨 antecipada, 1 de 14 temas
 Etapa 4 · Capstone "reporte-aqui"     ░░░░░░░░░░░░░░░░░░░░░░    0%  🔒 bloqueada
 Etapa 5 · Portfólio e busca           ░░░░░░░░░░░░░░░░░░░░░░    0%  🔒 bloqueada
 ```
@@ -75,7 +75,7 @@ Etapa 5 · Portfólio e busca           ░░░░░░░░░░░░░�
 
 | Tema | Assunto | Status |
 |:---:|---|:---:|
-| **T1** | React e ferramental — JSX, Vite, TS, StrictMode | ⏳ |
+| **T1** | React e ferramental — JSX, Vite, TS, StrictMode | ✅ |
 | **T2** | Props, composição e listas — `key`, estado vazio | ⬜ |
 | **T3** | Estilos, layout e acessibilidade — tokens, responsivo, teclado | ⬜ |
 | **T4** | Estado e eventos — `useState`, lifting, estado derivado | ⬜ |
