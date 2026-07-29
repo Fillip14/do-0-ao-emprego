@@ -1,12 +1,12 @@
-const Content = () => {
-  return (
-    <div className="body">
-      <label htmlFor="task" style={{ color: 'gray' }}>
-        Nova tarefa:
-      </label>
-      <input id="task" />
-    </div>
-  );
+import { TaskList } from './tasks/TaskList';
+import { EmptyTask } from './tasks/EmptyTask';
+import { type Task } from '../types/task';
+
+export type ContentProps = {
+  tasks: Task[];
 };
 
-export default Content;
+export const Content = ({ tasks }: ContentProps) => {
+  if (tasks.length === 0) return <EmptyTask />;
+  return <TaskList tasks={tasks} />;
+};
