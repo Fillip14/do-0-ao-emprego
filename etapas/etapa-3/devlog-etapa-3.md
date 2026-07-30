@@ -73,4 +73,20 @@ prescrever a árvore de pastas completa no T1: `hooks/`, `pages/`, `services/` e
 seriam pastas vazias para problemas que não existem no dia 1, e eu teria posto o `TaskList`
 em `components/` por regra em vez de ter chegado no `components/tasks/` por necessidade.
 
-- Amanhã: T3 (Estilos, layout e acessibilidade) — a decisão do sistema de estilo é minha.
+### T3 · Estilos, layout e acessibilidade — ⏳ aberto (29/07)
+Estudo em [`studies/studie-t03-estilos-layout-acessibilidade.md`](studies/studie-t03-estilos-layout-acessibilidade.md).
+
+**Decisão pendente, e é minha:** qual sistema de estilo — CSS global, CSS Modules, CSS-in-JS
+ou Tailwind. Vai para o `web/README.md` com o porquê. Preparação de ambiente só existe se eu
+escolher Tailwind ou CSS-in-JS.
+
+**O que a Parte B pediu além do estilo em si:** `components/ui/` nasce com a auditoria do
+critério UI × domínio (`Section` e o campo de texto saem de onde estão, `Content` vai para
+`tasks/` porque importa `Task`), a grade de colunas fixas em px vira flexível, e a linha
+`li.task-header` tem que ser resolvida — ou vira `<table>` de verdade, ou a linha de cabeçalho
+morre. Deixar como está é a única opção que não vale.
+
+**Dívidas do T2 que este tema toca:** o `style={{ color: 'gray' }}` do `AddTaskField` e o
+`p { color: gray }` global morrem (os dois reprovam no contraste); o `#f5ead8` duplicado vira
+token único. O `id="task"` chumbado **não** se resolve com CSS Modules — `id` é global em
+qualquer sistema de estilo, continua sendo `useId` no T12.
