@@ -1,15 +1,28 @@
 import { type Task, type Status } from '../../types/task';
+import styles from './TaskItem.module.css';
 
-type TasksItemProps = { task: Task; showTerm?: boolean };
+type TasksItemProps = { task: Task };
 const statusIcon: Record<Status, string> = { todo: '⬜', doing: '🔨', done: '✅' };
+const statusLabel: Record<Status, string> = {
+  todo: 'A fazer',
+  doing: 'Em andamento',
+  done: 'Concluída',
+};
 
-export const TaskItem = ({ task, showTerm = true }: TasksItemProps) => {
+export const TaskItem = ({ task }: TasksItemProps) => {
   return (
-    <li className="task-item">
-      <span className={`task-${task.status}`}>{statusIcon[task.status]}</span>
-      <span className="task-title">{task.title}</span>
-      {showTerm && <span className="task-term">{task.term ?? 'Sem prazo'}</span>}
-      <button className="change-status">Change</button>
+    <li className={styles.li}>
+      <span role="img" aria-label={statusLabel[task.status]}>
+        {statusIcon[task.status]}
+      </span>
+      <span className={styles.title}>{task.title}</span>
+      <span>
+        <span role="img" aria-label="Prazo">
+          📅
+        </span>{' '}
+        {task.term ?? 'Sem prazo'}
+      </span>
+      <button>Change</button>
     </li>
   );
 };

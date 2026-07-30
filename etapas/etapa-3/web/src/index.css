@@ -1,7 +1,32 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 :root {
-  --bg: #f5ead8;
+  --bg-color: #f5ead8;
+  --color-text: #6b5e4a;
+
+  --color-done: #2f6f4f;
+  --color-doing: #8a5000;
+  --color-todo: firebrick;
+
+  --font-size-1: 1rem;
+  --font-size-2: 2rem;
+  --font-size-3: 3rem;
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 2rem;
 }
 
 body {
-  background-color: var(--bg);
+  background-color: var(--bg-color);
+  color: var(--color-text);
+}
+
+main {
+  max-width: 40rem;
+  margin: 0 auto;
+  padding-inline: var(--space-2);
 }

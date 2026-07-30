@@ -1,23 +1,5 @@
-p {
-  color: gray;
-}
-
-.task-header,
-.task-item {
-  display: grid;
-  grid-template-columns: 40px 200px 100px 120px;
-  align-items: center;
-}
-
-.task-header {
-  text-align: center;
-  font-family: 'Comic Sans MS', cursive;
-}
-
-.task-item .change-status {
-  background-color: #f5ead8;
-  color: black;
-  border: 0;
-  font-weight: bold;
-  cursor: pointer;
+img {
+  max-width: 100%;
+  /* height: auto; */
+  /* display: block; */
 }
