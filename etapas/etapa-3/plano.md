@@ -35,7 +35,7 @@ Qualquer outra vontade de mexer na API durante esta etapa (paginação, filtro, 
 
 **`web/` — o app vivo.** Mesmo papel que a `api/` teve na Etapa 2: nasce no Tema 1 e cresce a cada tema. Nada de recomeçar do zero por tema.
 
-**`studies/` — a pasta de estudo dos temas.** Guarda tudo que **não** é o app: os `studie-tNN-tema.md` e os exercícios soltos.
+**`studies/` — a pasta de estudo dos temas.** Guarda tudo que **não** é o app: os `studie-tNN-tema.md`, o **Tema 0** em `base-html.md` + `base-css.md`.
 
 ```
 etapas/etapa-3/
@@ -44,6 +44,9 @@ etapas/etapa-3/
 │   ├── public/
 │   └── README.md       ← contrato do front
 ├── studies/            ← estudo dos temas, o que não vai no app
+│   ├── base-html.md        ← Tema 0, parte 1 — a base que faltou, fechada
+│   ├── base-css.md         ← Tema 0, parte 2 — idem
+│   └── studie-tNN-*.md     ← as decisões de cada tema
 ├── devlog-etapa-3.md   ← devlog da etapa
 └── plano.md            ← este arquivo
 ```
@@ -57,6 +60,13 @@ Rodar os dois ao mesmo tempo é parte da etapa: um terminal com `npm run dev` na
 Quatorze temas, um por dia sugerido. **O dia é guia, não contrato** — na Etapa 2 o ritmo real foi de ~1,3 dia por tema, e tema que rende aprendizado de verdade pode furar a fila. O que não desliza é a regra 4: tema só fecha completo.
 
 **A ordem tem lógica:** os temas 1–3 põem algo apresentável na tela rápido; 4–8 constroem o comportamento e a conversa com o banco; 9–11 transformam isso num produto com rotas, movimento e URL pública; 12–14 são o rigor por baixo — arquitetura de estado, performance medida e testes.
+
+### Tema 0 — Base css e base html · ✅ Tema fechado
+
+**Tópicos de estudo sugeridos**
+
+1. A base de css e html sobre o que foi estudado na etapa 1.
+2. É um complemento para relembrar a base de front-end.
 
 ### Tema 1 — React e ferramental · *dia sugerido 29/07* · ✅ Feito (29/07)
 **O app ganha:** ele nasce aqui — projeto Vite com React + TypeScript rodando em `localhost:5173`, com a primeira árvore de componentes na tela.
