@@ -1,5 +1,5 @@
 .field {
   display: flex;
   align-items: center;
-  gap: var(--space-1);
+  gap: 1rem;
 }

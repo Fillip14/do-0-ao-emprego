@@ -1,4 +1,11 @@
 .title {
-  font-size: var(--font-size-3);
-  margin: 0;
+  font-size: 3rem;
+  align-items: left;
+  margin: 0 auto;
+  padding-inline: 1rem;
+  color: var(--color-ambar-950);
+}
+
+.header {
+  display: flex;
 }

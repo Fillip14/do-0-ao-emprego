@@ -1,4 +1,4 @@
 .title {
-  font-size: var(--font-size-2);
-  margin: 0;
+  font-size: 2rem;
+  text-wrap: balance;
 }

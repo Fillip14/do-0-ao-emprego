@@ -1,0 +1,36 @@
+.button {
+  cursor: pointer;
+  border: 1px solid var(--color-neutral-300);
+  border-radius: 0.25rem;
+  padding: 0.25rem 0.5rem 0.25rem 0.5rem;
+  height: 2rem;
+
+  background-color: var(--color-neutral-50);
+  color: var(--color-neutral-950);
+  font-family: inherit;
+}
+
+.button:focus-visible,
+.button:hover {
+  background-color: var(--color-neutral-100);
+}
+
+.button:active {
+  background-color: var(--color-neutral-200);
+}
+
+/* 
+altura:
+grande 40px
+medio 36px
+pequeno 32px
+mini 24px
+
+padding 2:1
+border-radius
+cor da borda
+sombreamento
+feedback mouse hover
+feedback mouse press
+
+*/

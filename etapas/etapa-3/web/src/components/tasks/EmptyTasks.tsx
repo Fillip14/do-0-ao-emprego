@@ -7,7 +7,7 @@ export const EmptyTasks = () => {
   return (
     <section className={styles.content}>
       <Heading text={text} />
-      <TextField id="new-task" label="Adiciona uma tarefa preguiçoso" />
+      <TextField id="new-task" label="Adiciona uma tarefa preguiçoso" textButton="Adicionar" />
     </section>
   );
 };

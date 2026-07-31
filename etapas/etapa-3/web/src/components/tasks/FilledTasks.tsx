@@ -10,17 +10,25 @@ export type FilledTasksProps = {
 };
 
 export const FilledTasks = ({ tasks }: FilledTasksProps) => {
-  const text = 'Essas são as suas tarefas, vamos completar, hein!?';
+  const description = 'Essas são as suas tarefas, vamos completar, hein!?';
+
   return (
     <section className={styles.content}>
-      <Heading text={text} />
-      <ul className={styles.listTasks}>
+      <header className={styles.header}>
+        <Heading text="Tarefas" />
+        <p className={styles.description}>{description}</p>
+      </header>
+      <ul className={styles.listTasks} role="list">
         {tasks.map((task) => (
           <TaskItem key={task.id} task={task} />
         ))}
       </ul>
       <TaskSummary tasks={tasks} />
-      <TextField id="new-task" label="Adicionar mais uma tarefa nessa tua lista gigante?" />
+      <TextField
+        id="new-task"
+        label="Adicionar mais uma tarefa nessa tua lista gigante?"
+        textButton="Adicionar"
+      />
     </section>
   );
 };

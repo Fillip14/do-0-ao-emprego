@@ -3,7 +3,8 @@ import { type Task } from '../types/task';
 export const mockTasks: Task[] = [
   {
     id: '75316765-6ebd-4de3-938f-3d4372f0b5d1',
-    title: 'Comprar uma lampada',
+    title:
+      'Comprar uma lampadaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa lampadaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa lampadaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
     status: 'done',
     term: 'Dia 27/07',
   },
