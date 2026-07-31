@@ -25,11 +25,9 @@ Qualquer outra vontade de mexer na API durante esta etapa (paginação, filtro, 
 3. **Stack travada:** React + TypeScript + Vite. Ideia nova no meio do caminho → `ideias-depois.md`.
 4. **Um tema só fecha quando os três estão feitos:** (a) o que o tema entrega está na `web/`, rodando no navegador; (b) `npm run typecheck` limpo e — a partir do T14 — `npm test` verde; (c) revisão da Parte B feita, correções aplicadas, tudo commitado e no push.
 5. **O contrato do front mora no `web/README.md`:** o que o app faz, como rodar, variáveis de ambiente, mapa de rotas, estrutura de pastas e decisões tomadas. Uma fonte de verdade só — é a que quem visita o repositório lê.
-6. **`studie-tNN-tema.md` na abertura de cada tema**, em duas partes. **Parte A:** a IA detalha cada tópico de estudo na estrutura *1- O que resolve? 2- Quando usar? 3- Exemplo pequeno. 4- Armadilhas.* **Parte B:** alterações no app — *1- Preparação do ambiente* (setup de ferramenta é a única coisa que a IA entrega pronta; é atrito, não aprendizado); *2- O que do tema deve aparecer na `web/`*; *3- Critérios*; *4- Revisão do código* (apontar de forma simples onde estão os erros e o que faltou, para eu corrigir).
-7. **Autonomia na aplicação.** A Parte A é consulta, a Parte B é enunciado — não roteiro.
-8. **Função antes de beleza — mas não feiúra.** Pixel perfect não é avaliado; comportamento é. O que conta é o que a tela **faz** quando a rede cai, quando a lista está vazia, quando o servidor devolve 400. A partir do Tema 3 o app é apresentável, e a partir do Tema 10 ele tem movimento — porque essa é a matéria-prima que sustenta o resto da etapa.
-9. **A partir do Tema 11, o que está na `main` está no ar.** Tema fechado sem redeploy é tema não fechado. Sem link público, não conta como terminado.
-10. **A defesa oral acontece uma vez, no fim: o simulado de entrevista**, depois do Tema 14 e imediatamente antes da avaliação de 12/08 — é o último bloco da etapa, não um extra opcional. São as 14 perguntas da Avaliação, uma por tema, no formato de entrevista — eu respondo falado e curto (2–3 frases), a IA contra-argumenta em cima, e o que não se sustentar me manda de volta à Parte A daquele tema.
+6. **`studie-tNN-tema.md` na abertura de cada tema**, em duas partes. **Parte A:** a IA detalha cada tópico de estudo na estrutura *1- O que resolve? 2- Quando usar? 3- Exemplo pequeno. 4- Armadilhas.* **Parte B:** alterações no app — *1- Preparação do ambiente* (setup de ferramenta é a única coisa que a IA entrega pronta; é atrito, não aprendizado); *2- Os blocos*: Três ou quatro blocos por tema, cada um com: um **nome que diz o que o app ganha**, uma ou duas linhas de **por que ele vem aqui**, e um **Pronto quando** — a lista de critérios de aceite, **a ordem de leitura é a ordem de execução, é a dependência**; *3- Revisão de código*. O último bloco é sempre o fechamento do tema. Não tem lista de prova separada da lista de entrega: medir contraste e testar o teclado são bolinhas do mesmo `Pronto quando`, não uma segunda cerimônia.
+7. **A partir do Tema 11, o que está na `main` está no ar.** Tema fechado sem redeploy é tema não fechado. Sem link público, não conta como terminado.
+8. **A defesa oral acontece uma vez, no fim: o simulado de entrevista**, depois do Tema 14 e imediatamente antes da avaliação de 12/08 — é o último bloco da etapa, não um extra opcional. São as 14 perguntas da Avaliação, uma por tema, no formato de entrevista — eu respondo falado e curto (2–3 frases), a IA contra-argumenta em cima, e o que não se sustentar me manda de volta à Parte A daquele tema.
 
 ## Estrutura de pastas
 
@@ -103,7 +101,7 @@ Quatorze temas, um por dia sugerido. **O dia é guia, não contrato** — na Eta
 10. Colocação de arquivos: um componente por arquivo, pasta por feature × pasta por tipo.
 11. Tipos compartilhados com a API: onde mora a `interface Task` no front e por que ela é uma **cópia deliberada** do contrato, não um import de dentro da `api/`.
 
-### Tema 3 — Estilos, layout e acessibilidade · *dia sugerido 31/07* · ⏳ Aberto (29/07) — [estudo](studies/studie-t03-estilos-layout-acessibilidade.md)
+### Tema 3 — Estilos, layout e acessibilidade · *dia sugerido 31/07* · ⏳ (31/07)
 **O app ganha:** deixa de ser HTML cru — sistema de estilo escolhido, tokens definidos, layout responsivo e a lista apresentável, com os primeiros componentes de UI (`ui/`) separados do domínio. **É o tema que paga o combustível da etapa inteira.**
 
 > **Por que aqui e não no fim:** estilizar uma lista estática significa voltar ao CSS depois do CRUD. É retrabalho de propósito — pago em motivação, e a decisão está registrada.
@@ -262,7 +260,7 @@ Quatorze temas, um por dia sugerido. **O dia é guia, não contrato** — na Eta
 15. Medir de novo depois de tudo pronto — animação é a primeira coisa a derrubar o frame rate no celular.
 
 ### Tema 11 — Build e deploy · *dia sugerido 08/08*
-**O app ganha:** **URL pública.** A partir daqui, tema fechado sem redeploy é tema não fechado (regra 9).
+**O app ganha:** **URL pública.** A partir daqui, tema fechado sem redeploy é tema não fechado (regra 7).
 
 **Tópicos de estudo sugeridos**
 
@@ -363,7 +361,7 @@ Quatorze temas, um por dia sugerido. **O dia é guia, não contrato** — na Eta
 - crio e apago cinco tarefas seguidas com a aba Performance aberta: a animação não pode derrubar o frame rate;
 - navego só pelo teclado: dá para criar e apagar uma tarefa sem mouse.
 
-**Oral — uma pergunta por tema.** Esta lista é também o roteiro do **simulado de entrevista** que roda logo antes da avaliação (regra 10), com prioridade para o que estiver marcado com ⚠️ no devlog: por que JSX e o que ele vira · o que `key` resolve de verdade · por que você escolheu esse sistema de estilo · o que é estado derivado e por que ele não vira estado · controlado × não controlado · quando **não** usar `useEffect` · o que é CORS e por que o servidor não apanha · atualização otimista e o rollback · por que a URL é estado · por que `transform` anima e `top` trava · o que o build revelou sobre o tamanho do seu bundle · o que você mediu antes de memoizar · o custo do Context · por que `getByRole` vem antes de `getByTestId`.
+**Oral — uma pergunta por tema.** Esta lista é também o roteiro do **simulado de entrevista** que roda logo antes da avaliação (regra 8), com prioridade para o que estiver marcado com ⚠️ no devlog: por que JSX e o que ele vira · o que `key` resolve de verdade · por que você escolheu esse sistema de estilo · o que é estado derivado e por que ele não vira estado · controlado × não controlado · quando **não** usar `useEffect` · o que é CORS e por que o servidor não apanha · atualização otimista e o rollback · por que a URL é estado · por que `transform` anima e `top` trava · o que o build revelou sobre o tamanho do seu bundle · o que você mediu antes de memoizar · o custo do Context · por que `getByRole` vem antes de `getByTestId`.
 
 **Reprova se:** a tela fica branca em erro de rede · o link público está quebrado ou desatualizado · o estado da UI mente sobre o que está no banco · você usou um trecho gerado pela IA que não sabe explicar linha a linha · você não sabe defender uma decisão que você tomou.
 

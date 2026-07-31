@@ -412,11 +412,42 @@ components/ui/Button/
 
 **Armadilhas:** não converta tudo em pasta de uma vez "para ficar uniforme" — uniformidade que custa 8 pastas vazias de conteúdo não é organização. `index.ts` em toda pasta, encadeado, dificulta rastrear de onde a coisa vem (e atrapalha o *tree-shaking* do Tema 11, quando o `index` reexporta o que ninguém usa). E co-locar CSS ao lado do componente é justamente o argumento a favor da pasta: o estilo daquele componente é dele, e sumir junto quando ele sumir é a propriedade que você quer.
 
+## 16. Tailwind — o modelo, para a migração que vem depois do tema
+
+**O que resolve?** O mesmo problema do tópico 2 (escopo), por outro caminho: em vez de escopar os **seus** nomes, ele acaba com a ideia de você ter nomes. Você compõe utilitários prontos direto no JSX. Colisão de classe deixa de existir porque não há classe sua.
+
+**Quando usar?** Aqui: migrando um app que já funciona, para resolver os mesmos problemas duas vezes e poder comparar.
+
+**As cinco coisas que você precisa saber para migrar:**
+
+**1 · Utilitário é uma propriedade, uma classe.** `flex` é `display: flex`. `gap-4` é `gap: 1rem`. Os números são passos de uma escala, não rem — `4` = `1rem`, `2` = `0.5rem`.
+
+**2 · `@theme` é onde os seus tokens continuam morando** — e passam a **gerar** utilitários. `--color-done` no `@theme` cria `text-done`, `bg-done`, `border-done` de graça. O trabalho de token que você fez não é jogado fora; ele muda de bloco.
+
+**3 · Estado e responsivo são prefixos.** `hover:`, `focus-visible:`, `disabled:`, `active:` — e `sm:`, `md:`, que são `min-width`, mobile-first igual ao que você já escreveu. Detalhe feliz: o `sm` padrão do Tailwind é **40rem**, exatamente o breakpoint que você escolheu.
+
+**4 · Valor arbitrário entre colchetes**, para o que não tem utilitário: `grid-cols-[2rem_1fr_6rem_5rem]`, `w-[37px]`. Underscore no lugar do espaço.
+
+**5 · `@apply` existe e é armadilha.** Ele deixa você juntar utilitários num nome — ou seja, reinventar CSS Modules por dentro do Tailwind, ficando com as desvantagens dos dois. Se você sentir vontade de usar, o que você quer é um componente, não uma classe.
+
+**O mapa do seu CSS de hoje**, que é o roteiro da migração:
+
+```
+.li           grid items-center gap-4  +  sm:grid-cols-[2rem_1fr_6rem_5rem]
+.title        min-w-0 break-words
+.card         shadow-sm m-4 p-4
+.content      flex flex-col gap-4
+.listTasks    list-none m-0 p-0
+.field        flex items-center gap-2
+```
+
+**Armadilhas:** `className` fica quilométrico, e é o custo real — releia o seu JSX depois e veja se ainda dá para achar a estrutura no meio das classes. Classe condicional fica **pior** que em CSS Modules, e é exatamente aí que `clsx` e `cva` passam a se pagar (no tópico 4 eu disse que não valiam; com Tailwind muda). E nem tudo tem utilitário — quando não tiver, é `@theme` ou CSS normal, não gambiarra com colchetes.
+
 ---
 
 # Parte B — Aplicação na `web/`
 
-### 0. Antes de qualquer código — o Tema 0
+### 1. Antes de começar
 
 Leia [`base-html.md`](base-html.md) e [`base-css.md`](base-css.md), nessa ordem, e faça **duas** coisas lá que não são leitura (as duas no DevTools, `F12`):
 
@@ -429,9 +460,7 @@ Uma linha que vai no `index.css` antes de tudo, e que resolve um problema histó
 *, *::before, *::after { box-sizing: border-box; }
 ```
 
-### 1. Preparação do ambiente
-
-**Depende da sua escolha no tópico 1, e é só isso que eu entrego pronto:**
+**Preparação do ambiente — depende da sua escolha no tópico 1, e é só isso que eu entrego pronto:**
 
 - **CSS Modules ou CSS global:** nada a instalar. O Vite reconhece `*.module.css` nativamente. Zero configuração — comece a escrever.
 - **Tailwind:** `npm install tailwindcss @tailwindcss/vite`, plugin no `vite.config.ts`, `@import "tailwindcss";` no `index.css`. Me chame quando tiver escolhido e eu deixo isso rodando — instalação é atrito, não aprendizado.
@@ -439,46 +468,143 @@ Uma linha que vai no `index.css` antes de tudo, e que resolve um problema histó
 
 Uma conferência antes de começar, valendo para qualquer escolha: `<meta name="viewport">` no `index.html` (tópico 6). Sem ele o responsivo é decorativo.
 
-### 2. O que do tema deve aparecer na `web/`
+### 2. Os blocos
 
-- **A escolha do sistema de estilo feita, aplicada em todo componente que você tocar, e registrada no `web/README.md`** com o porquê em três ou quatro linhas. É a entrega mais importante do dia, e a que vira pergunta de entrevista.
-- **`box-sizing: border-box` no reset**, e você sabendo dizer o que muda sem ele.
-- **Tokens em `:root`**, cobrindo no mínimo cor, espaçamento e raio, usados **em vez de literal** no CSS novo. Inclua `--duration-*` e uma curva, já pensando no Tema 10.
-- **O `#f5ead8` deixa de existir duas vezes.** Hoje ele está no `--bg` e chumbado no `.change-status`. Um valor, um nome, um lugar.
-- **`style={{ color: 'gray' }}` do `AddTaskField` morre**, e o `p { color: gray }` global do `App.css` morre com ele — os dois reprovam no contraste (tópico 11) e o segundo pinta parágrafo que ainda não foi escrito.
-- **`components/ui/` nasce**, com a auditoria do tópico 13 aplicada: `Section` sai de `components/`, `AddTaskField` sai de `components/tasks/` e vira um campo genérico com nome honesto, e `Content` — que importa `Task` — vai para `components/tasks/`. Se você discordar de algum dos três movimentos, o critério é o do tópico 13 e eu quero ouvir o argumento.
-- **Um `Button` de verdade em `ui/`**, com `hover`, `:focus-visible`, `:disabled` e `:active`, usado no `change-status`. Se você escrever a assinatura com `React.ComponentProps<'button'>`, tem que saber explicar as três linhas (regra 1).
-- **A grade da lista sobrevive a título longo:** `1fr` no lugar do `200px`, e um teste real — ponha um `title` de umas 300 letras no `mockTasks`, veja o que acontece, corrija (dica: `min-width: 0`, seção 6 do `base-css.md`), e **deixe a tarefa longa no mock** (a avaliação vai fazer isso com 5.000).
-- **Responsivo com um breakpoint só**, mobile-first. Estreite a janela até 360px: nada pode vazar, nada pode virar coluna de 40px ilegível. Decida o que acontece com a linha de cabeçalho no estreito.
-- **A decisão semântica do `li.task-header` tomada** (tópico 8): ou vira `<table>` de verdade, ou a linha de cabeçalho sai e cada item rotula o próprio dado. **Escolha uma e escreva o motivo no README.** Deixar como está é a única opção que não vale.
-- **Uma região `aria-live="polite"`** no `TaskSummary` — hoje o conteúdo é estático, e é de propósito: você monta o vaso agora para o Tema 7 pôr a flor (tópico 10, a regra do container que precisa preexistir).
-- **A variação visual por status** feita pelo caminho do tópico 4 — mapa ou `data-status` — e não por ternário aninhado. Se você for de `data-status`, diga no README por que.
-- **O teste de teclado feito, de verdade:** `Tab` do início ao fim da página. Você vê onde está em todos os passos? Se não, falta `:focus-visible` em algum lugar. Anote no devlog o que você encontrou — esse achado é matéria-prima de post.
-- **O teste de contraste feito** no DevTools, nos textos secundários. Registre no devlog a razão de contraste do `gray` antigo e do token novo.
-- **Componente vira pasta só onde tem irmão** (tópico 15). Nenhuma pasta com um arquivo só dentro.
-- **`npm run typecheck` limpo** (`tsc -b --noEmit`), console do navegador sem aviso, e nenhum `class="undefined"` na tela — abra o inspetor e confira, é o bug clássico de CSS Modules.
-- **`web/README.md` atualizado:** o sistema de estilo escolhido e por quê, onde moram os tokens, o critério `ui/` × domínio, a decisão do cabeçalho da lista, e a seção "Sem biblioteca de estilo ainda" substituída.
-- **Commits `t03: ...`** e push conferido (`.git/refs/remotes/origin/main`).
+Quatro blocos, e **a ordem em que eles estão é a ordem em que se faz** — não tem grafo de dependência para montar na cabeça. Cada um diz o que o app ganha e quando está pronto; como você chega lá é seu. Sem coluna de status: o estado vive no devlog e nos commits, e commit é livre dentro do bloco.
 
-### 3. Critérios
+---
 
-- Existe **um** sistema de estilo no projeto, e ele está escrito no README com justificativa que não seja "é popular".
-- Nenhum `style={{ }}` inline no código, nenhum hexadecimal repetido, nenhum `#f5ead8` fora do token.
-- Nenhum seletor de tag nua (`p`, `div`, `button`) pintando componente — só reset e tokens no global.
-- Todo elemento interativo tem `:hover`, `:focus-visible` e `:disabled` visíveis. Nenhum `outline: none` sem substituto.
-- `Tab` percorre a página inteira com foco sempre visível, e a ordem bate com a ordem visual.
-- Título de 300 caracteres não vaza o container nem esmaga as outras colunas.
-- Em 360px de largura a tela continua legível e nada sai da viewport na horizontal.
-- Texto secundário passa de 4.5:1 de contraste, medido no DevTools (não estimado no olho).
-- `components/ui/` só contém arquivos que **não** importam `Task` e não falam de tarefa; `components/tasks/` contém todos os que falam.
-- O `li.task-header` foi resolvido de uma das duas formas, com o motivo escrito.
-- `npm run typecheck` limpo; nenhum `undefined` em atributo `class`.
-- Você consegue defender, falando: por que esse sistema de estilo e não os outros três; por que `Section` e o campo de texto são `ui/`; por que `:focus-visible` em vez de `:focus`; e a diferença entre `padding` e `margin` quando o assunto é botão pequeno.
+#### Bloco 1 — As decisões que travam o resto
+
+**O app ganha** um sistema de estilo escolhido e registrado, um vocabulário visual num lugar só, e uma lista cuja estrutura é o que ela diz ser.
+
+Os três andam juntos e vêm primeiro porque cada um decide a marcação dos outros. Pintar antes de saber se a lista é `<table>` ou `<ul>` é refazer componente e CSS depois — a estrutura decide se o alinhamento de coluna é nativo ou é `grid`.
+
+**Pronto quando:**
+- o projeto tem **um** sistema de estilo, aplicado em todo componente que você tocar — nenhuma mistura de dois;
+- o `web/README.md` tem o porquê da escolha em três ou quatro linhas, e a justificativa não é "é popular" nem "vi num vídeo"; a seção "Sem biblioteca de estilo ainda" foi substituída;
+- você consegue dizer, falando, o que cada uma das outras três opções resolvia e por que você recusou;
+- `*, *::before, *::after { box-sizing: border-box; }` está no `index.css`, e você sabe dizer o que muda sem ele;
+- `:root` tem tokens de cor, espaçamento e raio, mais `--duration-*` e uma curva (o T10 vai usar);
+- o CSS novo usa `var()` em vez de literal, e `#f5ead8` existe **uma vez só** — hoje está no `--bg` e chumbado no `.change-status`;
+- o `li.task-header` foi resolvido de uma das duas formas: virou `<table>` com `<th scope="col">`, **ou** a linha de cabeçalho morreu e cada item rotula o próprio dado — com o motivo no README;
+- você conferiu no painel **Accessibility** do DevTools que o `role` e o `name` do que sobrou fazem sentido;
+- existe uma região `aria-live="polite"` no `TaskSummary`, **preexistindo na tela** (o conteúdo é estático hoje, e é de propósito — o T7 põe a flor no vaso).
+
+Deixar o `li.task-header` como está é a única opção que não vale.
+
+**O que decide entre tabela e lista, e não é semântica:** `<table>` é a escolha semanticamente mais correta e dá `<th scope="col">` de graça. Ela cobra caro nos dois temas seguintes. `<tr>` tem `display: table-row`, não vira flex, `transform` nela é inconsistente entre navegadores e altura não anima direito — ou seja, o **T10** (item entrando e saindo da lista, animação de layout ao filtrar, arrastar para reordenar) briga com tabela do começo ao fim. E no responsivo, tabela de 4 colunas em 360px ou rola na horizontal ou vira o truque de `display: block` + `::before` com `data-label`. Lista com `grid` não tem nenhum desses dois problemas. O custo da lista é resolver, sem linha de cabeçalho, como se sabe que o ícone é status e a data é previsão — rótulo visível no estreito, `aria-label` no ícone, ou os dois.
+
+---
+
+#### Bloco 2 — A tela fica apresentável
+
+**O app ganha** estilo próprio no lugar do CSS herdado do T2, texto legível, e um layout que não arrebenta com conteúdo real nem em celular.
+
+Agora a estrutura já está decidida, então o CSS que você escrever aqui é o CSS que fica.
+
+**Pronto quando:**
+- o `style={{ color: 'gray' }}` do `AddTaskField` não existe mais;
+- o `p { color: gray }` do `App.css` não existe mais — nenhum seletor de tag nua pinta componente, só reset e tokens no global;
+- o texto secundário passa de **4.5:1** de contraste, medido no seletor de cor do DevTools e **anotado no devlog** (o valor antigo e o novo);
+- a variação visual por status vem de mapa ou de `data-status` (tópico 4), não de ternário aninhado — e se você foi de `data-status`, o README diz por quê;
+- a coluna do título é `1fr` e não `200px`;
+- existe um `title` de umas 300 letras no `mockTasks`, ele **fica lá**, e não vaza o container nem esmaga as outras colunas (dica: `min-width: 0`, seção 6 do `base-css.md`);
+- um breakpoint só, mobile-first, e em 360px de largura nada sai da viewport na horizontal nem fica ilegível;
+- está decidido — e implementado — o que acontece com a linha de cabeçalho no estreito.
+
+---
+
+#### Bloco 3 — A tela responde
+
+**O app ganha** resposta a mouse, teclado e estado desabilitado; e as pastas passam a separar o que sabe do domínio do que não sabe, com a decisão de botão guardada num lugar só.
+
+A ordem interna aqui tem lógica: primeiro os estados visuais existem soltos, depois eles têm onde morar. Encapsular antes de existir decisão é encapsular o vazio (tópico 14).
+
+**Pronto quando:**
+- o botão de status tem `:hover`, `:focus-visible`, `:disabled` e `:active` visíveis;
+- não existe `outline: none` sem substituto em lugar nenhum;
+- `Tab` percorre a página do topo ao fim com o foco **sempre visível**, e a ordem bate com a ordem visual — feito de verdade, e o que você encontrou está no devlog;
+- alvo clicável de no mínimo 24px, crescido com `padding` (não com `margin`);
+- `Section` saiu de `components/` para `ui/`; `AddTaskField` virou campo genérico com nome honesto e foi para `ui/`; `Content` foi para `components/tasks/`, porque importa `Task`;
+- nada em `ui/` importa `Task` nem fala de tarefa, e tudo que fala está em `tasks/`;
+- componente virou pasta **só** onde tem arquivo irmão — nenhuma pasta com um arquivo só dentro;
+- o critério `ui/` × domínio está escrito no README;
+- existe `ui/Button` com os quatro estados dentro dele, usado no `change-status`;
+- `variant` é união (`primary`/`ghost`/`danger`), não uma pilha de booleanos;
+- ele **não esconde** a tag: `onClick`, `type`, `disabled` e `aria-label` continuam funcionando de fora;
+- se você usou `React.ComponentProps<'button'>`, sabe explicar as três linhas (regra 1).
+
+Se você discordar de algum dos três movimentos de pasta, o critério é o do tópico 13 e eu quero ouvir o argumento.
+
+---
+
+#### Bloco 4 — O tema fecha
+
+**O app ganha** o que a regra 4 exige para o tema poder ser chamado de fechado.
+
+**Pronto quando:**
+- `npm run typecheck` limpo (`tsc -b --noEmit`);
+- console do navegador sem aviso, e nenhum `class="undefined"` na tela — abra o inspetor e confira, é o bug clássico de CSS Modules;
+- `web/README.md` atualizado: sistema de estilo e porquê, onde moram os tokens, critério `ui/` × domínio, decisão do cabeçalho;
+- devlog do dia escrito, com o contraste medido e o achado do teste de teclado;
+- revisão da Parte B feita comigo, correções aplicadas;
+- tudo commitado e push conferido em `.git/refs/remotes/origin/main`.
+
+---
+
+### 3. Depois do tema — a migração para Tailwind
+
+Isto **não é um bloco do T3**: o tema fecha no Bloco 4 e esta é a migração que vem em seguida. O mesmo app, mesma tela, mesmo comportamento — com Tailwind no lugar de CSS Modules. Estudo no tópico 16.
+
+**Por que existe:** escolha sua, para aprender Tailwind. E a migração ensina mais que ter começado nele: você resolve os mesmos problemas duas vezes com ferramentas diferentes, e a pergunta *"por que você escolheu esse sistema de estilo"* passa a ter resposta de quem usou os dois.
+
+> **Meia jornada.** Se passar disso, para e me chama — sete componentes e seis módulos triviais não justificam mais que isso, e passar do tempo é sinal de que algo está sendo feito do jeito difícil.
+
+**Preparação do ambiente — você mesmo instala:**
+
+```bash
+npm install tailwindcss @tailwindcss/vite
+```
+
+```ts
+// vite.config.ts
+import tailwindcss from '@tailwindcss/vite';
+
+export default defineConfig({
+  plugins: [react(), tailwindcss()],
+});
+```
+
+```css
+/* index.css — o import substitui tudo que havia antes */
+@import 'tailwindcss';
+
+@theme {
+  --color-bg: #f5ead8;
+  --color-text: #6b5e4a;
+  --color-done: #2f6f4f;
+  --color-doing: #8a5000;
+  --color-todo: firebrick;
+}
+```
+
+Três notas: o Tailwind 4 **não usa `tailwind.config.js`** — a configuração é o `@theme`, dentro do CSS. O reset de `box-sizing` e a normalização de margem já vêm no `@import`, então as suas linhas de reset saem. E os `--space-*` e `--font-size-*` podem sair também: a escala de espaçamento e a tipográfica já existem como utilitários (`gap-4`, `text-2xl`).
+
+**Pronto quando:**
+- não existe nenhum arquivo `.module.css` no projeto;
+- as cores vivem no `@theme` e não há hexadecimal solto no JSX;
+- a tela é a mesma: confira em 360px e em desktop, lado a lado com um print de antes;
+- o contraste foi **medido de novo** — token migrado errado é a falha mais provável aqui;
+- o **teste de teclado dá o mesmo resultado de antes** do Bloco 3. Se mudou, a migração quebrou algo, e é o tipo de quebra que não aparece na tela;
+- `npm run typecheck` limpo e console sem aviso;
+- o README ganhou a **história**: a decisão de CSS Modules fica, com o porquê, seguida da de Tailwind e do que a migração te mostrou na prática;
+- o devlog registra as duas ou três coisas que doeram — é a matéria-prima da resposta de entrevista e de um post.
+
+---
 
 ### 4. Revisão do código
 
-Me chama no fim. Eu leio a `web/` inteira — incluindo o CSS, que é o material novo — e aponto de forma simples onde estão os erros e o que faltou, pra você corrigir antes de fechar o tema.
+Me chama no Bloco 4. Eu leio a `web/` inteira, incluindo o CSS, que é o material novo, e aponto de forma simples onde estão os erros e o que faltou, pra você corrigir antes de fechar o tema.
 
-### 5. Defesa oral (6 a 8 perguntas, no meio do tema)
-
-Depois de a lista estar apresentável e antes de você mexer em acessibilidade. Falado, curto, eu contra-argumento em cima; no devlog fica uma linha por pergunta, só o que ficou de pé.
+Se quiser revisão parcial no meio do caminho, o corte natural é no fim do **Bloco 3**: aí o estilo e os componentes de UI já existem e ainda dá tempo de mudar de rumo.
