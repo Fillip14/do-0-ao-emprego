@@ -152,7 +152,8 @@ O que foi estudado dia a dia.
 | Data | Conteúdo estudado |
 |:---:|---|
 | 28/07 | **Inversão do cronograma** — Etapa 2 pausada no T5, plano da Etapa 3 detalhado em 14 temas (estilo cedo, tema de motion, deploy no meio) |
-| 29/07 | **T1 — React e ferramental** — declarativo × imperativo, JSX, componentes, Vite e HMR, anatomia do projeto, `tsconfig` do front, `StrictMode`, ciclo de renderização · **T2 — Props, composição e listas** — props tipadas, `children`, `map` e `key`, condicionais e a armadilha do `0 &&`, estado vazio, `Task` como cópia do contrato · **T3 — Estilos, layout e acessibilidade** — aberto |
+| 29/07 | **T1 — React e ferramental** — declarativo × imperativo, JSX, componentes, Vite e HMR, anatomia do projeto, `tsconfig` do front, `StrictMode`, ciclo de renderização · **T2 — Props, composição e listas** — props tipadas, `children`, `map` e `key`, condicionais e a armadilha do `0 &&`, estado vazio, `Task` como cópia do contrato |
+| 29–31/07 | **Tema 0 (a base que faltou)** — anatomia do HTML e do CSS, unidades, box model, `display`, especificidade, `@` e `:` · **T3 — Estilos, layout e acessibilidade** — CSS Modules, design tokens, flexbox e eixo principal, responsivo mobile-first, contraste medido, semântica e `aria-label`, `ui/` × domínio |
 
 > 💡 A matéria-prima detalhada de cada dia está no devlog de cada etapa, em [`etapas/`](etapas/).
 
