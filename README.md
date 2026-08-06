@@ -59,7 +59,7 @@ Cronograma de datas está dentro do `cronograma-etapas.md`, datas detalhadas nos
 Etapa 0 · Rigor e Git                 ██████████████████████  100%  ✅ aprovada
 Etapa 1 · JS sólido + fundamentos web ██████████████████████  100%  ✅ aprovada
 Etapa 2 · Back-end: da API ao deploy  █████████░░░░░░░░░░░░░   40%  ⏸️ 4 de 10 temas — pausada
-Etapa 3 · Front-end (React)           ███░░░░░░░░░░░░░░░░░░░   14%  🔨 antecipada, 2 de 14 temas
+Etapa 3 · Front-end (React)           █████░░░░░░░░░░░░░░░░░   21%  🔨 antecipada, 3 de 14 temas
 Etapa 4 · Capstone "reporte-aqui"     ░░░░░░░░░░░░░░░░░░░░░░    0%  🔒 bloqueada
 Etapa 5 · Portfólio e busca           ░░░░░░░░░░░░░░░░░░░░░░    0%  🔒 bloqueada
 ```
@@ -77,7 +77,7 @@ Etapa 5 · Portfólio e busca           ░░░░░░░░░░░░░�
 |:---:|---|:---:|
 | **T1** | React e ferramental — JSX, Vite, TS, StrictMode | ✅ |
 | **T2** | Props, composição e listas — `key`, estado vazio | ✅ |
-| **T3** | Estilos, layout e acessibilidade — tokens, responsivo, teclado | ⏳ |
+| **T3** | Estilos, layout e acessibilidade — tokens, responsivo, teclado | ✅ |
 | **T4** | Estado e eventos — `useState`, lifting, estado derivado | ⬜ |
 | **T5** | Formulários controlados — validação, erro por campo | ⬜ |
 | **T6** | Efeitos — `useEffect`, limpeza, quando **não** usar | ⬜ |
@@ -154,6 +154,8 @@ O que foi estudado dia a dia.
 | 28/07 | **Inversão do cronograma** — Etapa 2 pausada no T5, plano da Etapa 3 detalhado em 14 temas (estilo cedo, tema de motion, deploy no meio) |
 | 29/07 | **T1 — React e ferramental** — declarativo × imperativo, JSX, componentes, Vite e HMR, anatomia do projeto, `tsconfig` do front, `StrictMode`, ciclo de renderização · **T2 — Props, composição e listas** — props tipadas, `children`, `map` e `key`, condicionais e a armadilha do `0 &&`, estado vazio, `Task` como cópia do contrato |
 | 29–31/07 | **Tema 0 (a base que faltou)** — anatomia do HTML e do CSS, unidades, box model, `display`, especificidade, `@` e `:` · **T3 — Estilos, layout e acessibilidade** — CSS Modules, design tokens, flexbox e eixo principal, responsivo mobile-first, contraste medido, semântica e `aria-label`, `ui/` × domínio |
+| 01–05/08 | **Projeto pessoal** — cópia da home de uma rede social, para praticar HTML, CSS e Tailwind fora do cronograma |
+| 06/08 | **T3 — migração para Tailwind** — utilitário × classe nomeada, `@theme`, variantes por mapa, utilitários em conflito, scrollbar (`gutter`, overlay × clássica), `aria-hidden` × `role="img"` · **T3 fechado** |
 
 > 💡 A matéria-prima detalhada de cada dia está no devlog de cada etapa, em [`etapas/`](etapas/).
 

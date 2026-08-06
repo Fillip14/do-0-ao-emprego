@@ -103,7 +103,7 @@ Quatorze temas, um por dia sugerido. **O dia é guia, não contrato** — na Eta
 10. Colocação de arquivos: um componente por arquivo, pasta por feature × pasta por tipo.
 11. Tipos compartilhados com a API: onde mora a `interface Task` no front e por que ela é uma **cópia deliberada** do contrato, não um import de dentro da `api/`.
 
-### Tema 3 — Estilos, layout e acessibilidade · _dia sugerido 31/07_ · ⏳ (31/07)
+### Tema 3 — Estilos, layout e acessibilidade · _dia sugerido 31/07_ · ✅ Feito (06/08)
 
 **O app ganha:** deixa de ser HTML cru — sistema de estilo escolhido, tokens definidos, layout responsivo e a lista apresentável, com os primeiros componentes de UI (`ui/`) separados do domínio. **É o tema que paga o combustível da etapa inteira.**
 
