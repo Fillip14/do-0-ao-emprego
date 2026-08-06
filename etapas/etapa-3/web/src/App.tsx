@@ -1,18 +1,7 @@
-import { Header } from './components/Header';
-import { TaskSection } from './components/tasks/TaskSection';
-import { mockTasks } from './data/mockTasks';
-// import { emptyTask } from './data/mockTasks'; para testar com array vazio
+import { HomePage } from './pages/home/HomePage';
 
 function App() {
-  return (
-    <>
-      <Header />
-      <main className="flex w-screen justify-evenly">
-        <TaskSection tasks={mockTasks} />
-      </main>
-      <footer></footer>
-    </>
-  );
+  return <HomePage />;
 }
 
 export default App;

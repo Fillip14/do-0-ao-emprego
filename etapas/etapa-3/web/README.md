@@ -4,7 +4,7 @@ Front-end do gerenciador de tarefas: SPA em React + TypeScript que vai consumir 
 
 ## O que faz hoje
 
-Lista de tarefas a partir de um array fixo (`src/data/mockTasks.ts`), com estado vazio próprio e layout responsivo — item empilhado no celular, em linha a partir de 40rem. Sem interação ainda: os botões e o campo existem como estrutura (estado entra no Tema 4).
+Lista de tarefas a partir de um array fixo (`src/data/mockTasks.ts`), com estado vazio próprio e layout responsivo para mobile e desktop. Sem interação ainda: os botões e o campo existem como estrutura (estado entra no Tema 4).
 
 ## Como rodar
 
@@ -14,43 +14,37 @@ npm run dev        # http://localhost:5173
 npm run typecheck  # tsc -b --noEmit
 ```
 
-O `-b` é obrigatório: o `tsconfig.json` da raiz é *solution-style*, e sem ele o `tsc` lê zero arquivo e sai limpo sempre.
+O `-b` é obrigatório: o `tsconfig.json` da raiz é _solution-style_, e sem ele o `tsc` lê zero arquivo e sai limpo sempre.
 
 ## Stack
 
-React 19.2.7 · TypeScript 6.0.2 · Vite 8.1.1 · CSS Modules. Fonte da verdade é o `package.json`.
+React 19.2.7 · TypeScript 6.0.2 · Vite 8.1.1 · Tailwind CSS 4.3.3 · lucide-react 1.28. Fonte da verdade é o `package.json`.
 
 ## Estrutura
 
-| Pasta | O que mora |
-|---|---|
-| `components/` | casca do app (`Header`) |
-| `components/ui/` | não sabem nada do domínio: `Card`, `Heading`, `TextField`, `CustomButton` |
-| `components/tasks/` | domínio: `TaskSection`, `FilledTasks`, `EmptyTasks`, `TaskItem`, `TaskSummary` |
-| `types/` · `data/` | `Task` e `Status` · array fixo, some no Tema 7 |
-| `reset.css` · `index.css` | os dois únicos CSS globais: reset de terceiro · `box-sizing` e a paleta em `:root` |
-
-Um componente por arquivo, export nomeado (exceto `App`). Componente e módulo CSS lado a lado, sem pasta.
+| Pasta         | O que mora                                                                                  |
+| ------------- | ------------------------------------------------------------------------------------------- |
+| `assets/`     | Imagens a serem utilizadas no app                                                           |
+| `components/` | Componentes reutilizáveis no app: `Card`, `Button`, `Typography`                            |
+| `data/`       | Dados mocados para simulação do back-end                                                    |
+| `layout/`     | Layouts genéricos que são utilizados em mais de um página ou estado: `header/`, `InputTask` |
+| `pages/`      | `home/` onde ficam as páginas do app                                                        |
+| `types/`      | Types do typescript utilizados no app `task`                                                |
+| `utils/`      | Utilitários para o app                                                                      |
 
 ## Decisões
 
-**CSS Modules.** Nome de classe em CSS é global — o `p { color: gray }` que existia aqui pintava todo parágrafo do app, inclusive os não escritos. Tailwind seria uma segunda linguagem por cima de um CSS recém-aprendido; CSS-in-JS custa runtime, e o Tema 11 mede bundle.
+**Tailwind** Usar tailwind para estilização do app. Mais rápido de visualizar as alterações de estilização, não precisa ficar viajando entre arquivos.
 
-**`ui/` não importa `Task`.** O teste é copiar o arquivo para outro projeto: se funciona sem alteração, é `ui/`. Nome conta — `Card` e `TextField` nasceram como `TaskHeader` e `TaskField`, resíduo de onde vieram.
+**Começou em CSS Modules e migrou para Tailwind — de propósito.** O app foi todo estilizado em CSS Modules primeiro e depois migrado, para resolver os mesmos problemas duas vezes e poder comparar em vez de escolher por indicação. O que a migração mostrou na prática:
 
-**Sem pasta por componente.** Com CSS Modules todo componente ganha um irmão no dia 1, então "tem irmão" não serve de gatilho. Vira pasta no terceiro arquivo — o teste, no Tema 14.
+- **Ganhou:** estilo e marcação no mesmo lugar, sem pular de arquivo, e o resultado aparece no mesmo movimento da edição.
+- **Perdeu:** o nome do elemento. `.item`, `.title` diziam o que a coisa era; a lista de utilitários não diz nada, e em alguns componentes ela ficou longa o suficiente para esconder a estrutura do JSX.
+- **A armadilha:** utilitário inválido ou em conflito não dá erro — só não faz nada, e quando dois conflitam (`truncate` com `text-wrap`, `overflow-hidden` com `overflow-y-auto`) quem vence é a ordem do CSS gerado, não a ordem escrita. É o mesmo modo de falhar do CSS puro, com um vocabulário maior para errar.
+- **Consequência assumida:** a paleta própria em `:root` saiu e o app passou a usar as escalas do Tailwind.
 
-**`<ul>`, não `<table>`.** Tabela era semanticamente mais correta e daria `<th scope="col">` de graça. Recusada pelo que cobra depois: `<tr>` não vira flex, `transform` nela é inconsistente e altura não anima — briga de frente com o Tema 10 (entrada, saída e arrasto de item). Custo assumido: sem cabeçalho, cada item rotula o próprio dado.
-
-**Status pelo ícone, sem cor de linha.** O `aria-label` leva "Em andamento" a quem não vê o emoji — sem ele o leitor de tela diria "hammer". Cor nunca é o único portador de significado.
-
-**`Task` é cópia do contrato, não import da `api/`.** O contrato entre front e back é HTTP, não TypeScript, e o front precisa buildar sozinho (Tema 11). Custo: mudança de contrato não avisa, e o front descobre em runtime — fechar isso é zod ou OpenAPI, depois.
-
-**`term` é `string | null`, não opcional.** JSON não tem `undefined`, e `exactOptionalPropertyTypes` trata os dois como coisas diferentes.
-
-**Nada instalado.** `clsx` seriam três linhas já escritas à mão; primitivo de layout foi adiado porque só existe um lugar que empilha.
+**Sem biblioteca de classe condicional.** `utils/classNames` junta as classes à mão. `clsx` (filtrar valor falso, aceitar objeto) e `tailwind-merge` (resolver utilitário em conflito) resolvem problemas reais e entram quando aparecerem — hoje todas as listas de classe são fixas. `lucide-react` é a única dependência de UI instalada, pelos ícones.
 
 ## Limitações
 
 - Dados fixos, nada persiste. Sem interação, rotas, testes ou deploy.
-- `id` do `TextField` vem por prop; dois campos na mesma tela exigiriam ids diferentes à mão. Resolve com `useId`, Tema 12.

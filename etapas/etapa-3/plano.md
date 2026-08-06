@@ -25,7 +25,7 @@ Qualquer outra vontade de mexer na API durante esta etapa (paginação, filtro, 
 3. **Stack travada:** React + TypeScript + Vite. Ideia nova no meio do caminho → `ideias-depois.md`.
 4. **Um tema só fecha quando os três estão feitos:** (a) o que o tema entrega está na `web/`, rodando no navegador; (b) `npm run typecheck` limpo e — a partir do T14 — `npm test` verde; (c) revisão da Parte B feita, correções aplicadas, tudo commitado e no push.
 5. **O contrato do front mora no `web/README.md`:** o que o app faz, como rodar, variáveis de ambiente, mapa de rotas, estrutura de pastas e decisões tomadas. Uma fonte de verdade só — é a que quem visita o repositório lê.
-6. **`studie-tNN-tema.md` na abertura de cada tema**, em duas partes. **Parte A:** a IA detalha cada tópico de estudo na estrutura *1- O que resolve? 2- Quando usar? 3- Exemplo pequeno. 4- Armadilhas.* **Parte B:** alterações no app — *1- Preparação do ambiente* (setup de ferramenta é a única coisa que a IA entrega pronta; é atrito, não aprendizado); *2- Os blocos*: Três ou quatro blocos por tema, cada um com: um **nome que diz o que o app ganha**, uma ou duas linhas de **por que ele vem aqui**, e um **Pronto quando** — a lista de critérios de aceite, **a ordem de leitura é a ordem de execução, é a dependência**; *3- Revisão de código*. O último bloco é sempre o fechamento do tema. Não tem lista de prova separada da lista de entrega: medir contraste e testar o teclado são bolinhas do mesmo `Pronto quando`, não uma segunda cerimônia.
+6. **`studie-tNN-tema.md` na abertura de cada tema**, em duas partes. **Parte A:** a IA detalha cada tópico de estudo na estrutura _1- O que resolve? 2- Quando usar? 3- Exemplo pequeno. 4- Armadilhas._ **Parte B:** alterações no app — _1- Preparação do ambiente_ (setup de ferramenta é a única coisa que a IA entrega pronta; é atrito, não aprendizado); _2- Os blocos_: Três ou quatro blocos por tema, cada um com: um **nome que diz o que o app ganha**, uma ou duas linhas de **por que ele vem aqui**, e um **Pronto quando** — a lista de critérios de aceite, **a ordem de leitura é a ordem de execução, é a dependência**; _3- Revisão de código_. O último bloco é sempre o fechamento do tema. Não tem lista de prova separada da lista de entrega: medir contraste e testar o teclado são bolinhas do mesmo `Pronto quando`, não uma segunda cerimônia.
 7. **A partir do Tema 11, o que está na `main` está no ar.** Tema fechado sem redeploy é tema não fechado. Sem link público, não conta como terminado.
 8. **A defesa oral acontece uma vez, no fim: o simulado de entrevista**, depois do Tema 14 e imediatamente antes da avaliação de 12/08 — é o último bloco da etapa, não um extra opcional. São as 14 perguntas da Avaliação, uma por tema, no formato de entrevista — eu respondo falado e curto (2–3 frases), a IA contra-argumenta em cima, e o que não se sustentar me manda de volta à Parte A daquele tema.
 
@@ -66,7 +66,8 @@ Quatorze temas, um por dia sugerido. **O dia é guia, não contrato** — na Eta
 1. A base de css e html sobre o que foi estudado na etapa 1.
 2. É um complemento para relembrar a base de front-end.
 
-### Tema 1 — React e ferramental · *dia sugerido 29/07* · ✅ Feito (29/07)
+### Tema 1 — React e ferramental · _dia sugerido 29/07_ · ✅ Feito (29/07)
+
 **O app ganha:** ele nasce aqui — projeto Vite com React + TypeScript rodando em `localhost:5173`, com a primeira árvore de componentes na tela.
 
 **Tópicos de estudo sugeridos**
@@ -84,7 +85,8 @@ Quatorze temas, um por dia sugerido. **O dia é guia, não contrato** — na Eta
 11. React DevTools: instalar e olhar a árvore desde o primeiro dia.
 12. Import de asset e CSS no Vite.
 
-### Tema 2 — Props, composição e listas · *dia sugerido 30/07* · ✅ Feito (29/07)
+### Tema 2 — Props, composição e listas · _dia sugerido 30/07_ · ✅ Feito (29/07)
+
 **O app ganha:** a lista de tarefas na tela a partir de um array fixo em código — `TaskList` e `TaskItem` tipados, sem API ainda.
 
 **Tópicos de estudo sugeridos**
@@ -101,7 +103,8 @@ Quatorze temas, um por dia sugerido. **O dia é guia, não contrato** — na Eta
 10. Colocação de arquivos: um componente por arquivo, pasta por feature × pasta por tipo.
 11. Tipos compartilhados com a API: onde mora a `interface Task` no front e por que ela é uma **cópia deliberada** do contrato, não um import de dentro da `api/`.
 
-### Tema 3 — Estilos, layout e acessibilidade · *dia sugerido 31/07* · ⏳ (31/07)
+### Tema 3 — Estilos, layout e acessibilidade · _dia sugerido 31/07_ · ⏳ (31/07)
+
 **O app ganha:** deixa de ser HTML cru — sistema de estilo escolhido, tokens definidos, layout responsivo e a lista apresentável, com os primeiros componentes de UI (`ui/`) separados do domínio. **É o tema que paga o combustível da etapa inteira.**
 
 > **Por que aqui e não no fim:** estilizar uma lista estática significa voltar ao CSS depois do CRUD. É retrabalho de propósito — pago em motivação, e a decisão está registrada.
@@ -124,7 +127,8 @@ Quatorze temas, um por dia sugerido. **O dia é guia, não contrato** — na Eta
 14. **Quando encapsular a tag crua e quando não.** Embrulhar `<button>` num `Button` que não acrescenta nada é custo puro (mais um arquivo, mais um import, zero ganho). Vale quando há **decisão repetida** para encapsular: estilo, estado visual (`:hover`/`:disabled`/carregando), acessibilidade. É por isso que este tópico é do Tema 3 e não do Tema 2 — antes de existir estilo não há decisão nenhuma a encapsular. Os habitantes típicos de `ui/`: `Button`, `TextField` (label + input + erro juntos), `Select`, `Modal`, `Card`, `Badge`, `Spinner`, `Alert`.
 15. **Quando o componente vira pasta.** `Button.tsx` solto × `Button/` com `Button.tsx` + `Button.module.css` + (no Tema 14) `Button.test.tsx`. O gatilho é o arquivo irmão — enquanto o componente é um arquivo só, pasta é cerimônia.
 
-### Tema 4 — Estado e eventos · *dia sugerido 01/08*
+### Tema 4 — Estado e eventos · _dia sugerido 07/08_
+
 **O app ganha:** interação real — marcar tarefa como feita, filtrar por status na memória, tudo com `useState`.
 
 **Tópicos de estudo sugeridos**
@@ -142,7 +146,8 @@ Quatorze temas, um por dia sugerido. **O dia é guia, não contrato** — na Eta
 11. Estado local × estado que sobe: o critério prático.
 12. Ler o estado no DevTools para conferir o que você acha que está acontecendo.
 
-### Tema 5 — Formulários controlados · *dia sugerido 02/08*
+### Tema 5 — Formulários controlados · _dia sugerido 08/08_
+
 **O app ganha:** formulário de criar tarefa (título, status, prazo) com validação no cliente, e edição inline do título — tudo ainda em memória.
 
 **Tópicos de estudo sugeridos**
@@ -160,7 +165,8 @@ Quatorze temas, um por dia sugerido. **O dia é guia, não contrato** — na Eta
 11. Formulário grande: quando `useState` por campo deixa de servir (gancho para o `useReducer` do Tema 12).
 12. Bibliotecas de formulário existem — por que não usar nenhuma agora.
 
-### Tema 6 — Efeitos e ciclo de vida · *dia sugerido 03/08*
+### Tema 6 — Efeitos e ciclo de vida · _dia sugerido 09/08_
+
 **O app ganha:** o primeiro efeito honesto do app (sincronizar título da aba, ou persistir o filtro) e a base para o Tema 7.
 
 **Tópicos de estudo sugeridos**
@@ -178,7 +184,8 @@ Quatorze temas, um por dia sugerido. **O dia é guia, não contrato** — na Eta
 11. `useEffect` × `useLayoutEffect` — saber que existe e quando importa (volta no Tema 10, medindo elemento para animar).
 12. Efeito em componente pai × filho: ordem de execução.
 
-### Tema 7 — Falando com a API · *dia sugerido 04/08*
+### Tema 7 — Falando com a API · _dia sugerido 10/08_
+
 **O app ganha:** a lista de tarefas vem do **PostgreSQL via sua API** — o array fixo em código morre. Estados de carregando, erro e vazio na tela.
 
 > **Preparação do ambiente (a IA entrega):** habilitar CORS na `api/` para `http://localhost:5173` — a exceção única ao congelamento do back-end.
@@ -198,7 +205,8 @@ Quatorze temas, um por dia sugerido. **O dia é guia, não contrato** — na Eta
 11. Timeout e a tela que fica girando para sempre.
 12. Por que existe TanStack Query e por que você vai passar sem ele agora — saber o problema antes da solução.
 
-### Tema 8 — Escrita: o CRUD completo na tela · *dia sugerido 05/08*
+### Tema 8 — Escrita: o CRUD completo na tela · _dia sugerido 11/08_
+
 **O app ganha:** criar, editar e apagar tarefa indo até o banco. O front vira, de fato, o cliente da sua API.
 
 **Tópicos de estudo sugeridos**
@@ -216,7 +224,8 @@ Quatorze temas, um por dia sugerido. **O dia é guia, não contrato** — na Eta
 11. O que fazer quando o `PATCH` responde 404: o item sumiu debaixo dos seus pés.
 12. Erro que aparece e some: onde vive a mensagem de erro e quem a limpa.
 
-### Tema 9 — Rotas · *dia sugerido 06/08*
+### Tema 9 — Rotas · _dia sugerido 12/08_
+
 **O app ganha:** navegação de verdade — lista em `/tasks`, detalhe em `/tasks/:id`, 404, layout compartilhado, URL que funciona no F5 e no botão voltar.
 
 **Tópicos de estudo sugeridos**
@@ -236,7 +245,8 @@ Quatorze temas, um por dia sugerido. **O dia é guia, não contrato** — na Eta
 13. **Decompor uma tela antes de escrever código.** Desenhar a árvore primeiro — `TaskPage` → `Header` · `Filters` · `TaskForm` · `TaskList` → `TaskItem`. A mecânica é trivial; o difícil é **onde parar**: dividir demais gera prop drilling (Tema 13), dividir de menos gera o arquivo de 300 linhas. Aqui a hierarquia deixa de ser exercício porque a página passa a existir de verdade.
 14. **`pages/` (ou `routes/`) nasce aqui, e só aqui.** O componente de página é o que casa com uma rota, orquestra os componentes de domínio e é dono da busca de dado. Por que ele não podia existir no Tema 1: sem rota, "página" e "componente raiz" são a mesma coisa — a pasta seria nome sem conteúdo.
 
-### Tema 10 — Motion e interação · *dia sugerido 07/08*
+### Tema 10 — Motion e interação · _dia sugerido 13/08_
+
 **O app ganha:** movimento — item que entra e sai da lista com transição, troca de rota animada, resposta tátil no clique e no arrasto. É o tema que traduz "segurar carrega, soltar arremessa" para vocabulário React.
 
 > **Por que só agora:** animação precisa de material. Item entrando e saindo veio no Tema 8, troca de rota veio no Tema 9. Antes disso seria enfeite sem comportamento.
@@ -259,7 +269,8 @@ Quatorze temas, um por dia sugerido. **O dia é guia, não contrato** — na Eta
 14. Onde a animação atrapalha: carregando que dança, erro que desliza devagar demais para ser lido, lista que anima a cada tecla digitada.
 15. Medir de novo depois de tudo pronto — animação é a primeira coisa a derrubar o frame rate no celular.
 
-### Tema 11 — Build e deploy · *dia sugerido 08/08*
+### Tema 11 — Build e deploy · _dia sugerido 14/08_
+
 **O app ganha:** **URL pública.** A partir daqui, tema fechado sem redeploy é tema não fechado (regra 7).
 
 **Tópicos de estudo sugeridos**
@@ -277,7 +288,8 @@ Quatorze temas, um por dia sugerido. **O dia é guia, não contrato** — na Eta
 11. Lighthouse: rodar, ler as quatro notas, corrigir o que é barato.
 12. O `web/README.md` com link no topo, print/GIF do app, e a limitação da API local escrita com todas as letras.
 
-### Tema 12 — Hooks a fundo, custom hooks e performance · *dia sugerido 09/08*
+### Tema 12 — Hooks a fundo, custom hooks e performance · _dia sugerido 15/08_
+
 **O app ganha:** a lógica de dados sai dos componentes e vira `useTasks`; o que re-renderiza demais é medido e corrigido.
 
 **Tópicos de estudo sugeridos**
@@ -298,7 +310,8 @@ Quatorze temas, um por dia sugerido. **O dia é guia, não contrato** — na Eta
 14. Lista grande: paginar, limitar, virtualizar — e o custo de cada saída.
 15. Memoização também custa. **Medir depois, para provar que resolveu.**
 
-### Tema 13 — Estado global: Context · *dia sugerido 10/08*
+### Tema 13 — Estado global: Context · _dia sugerido 16/08_
+
 **O app ganha:** um `Provider` para o que é realmente global (tema, notificações/toast, ou a coleção de tarefas) — sem prop drilling e sem biblioteca.
 
 **Tópicos de estudo sugeridos**
@@ -316,7 +329,8 @@ Quatorze temas, um por dia sugerido. **O dia é guia, não contrato** — na Eta
 11. Redux, Zustand, Jotai existem — que problema cada um resolve e por que nenhum entra aqui.
 12. Critério final: quando o Context é resposta certa e quando é canhão em mosquito.
 
-### Tema 14 — Testes de front · *dia sugerido 11/08*
+### Tema 14 — Testes de front · _dia sugerido 17/08_
+
 **O app ganha:** suíte de testes de componente com Vitest + Testing Library e a API mockada por MSW — `npm test` verde vira condição de fechamento a partir daqui.
 
 > **Risco declarado:** deixar os testes por último é o mesmo padrão do questionário que ficou pendente no Tema 4 da Etapa 2. O que segura até aqui é a regra 1 — todo trecho gerado precisa de prova de que funciona, registrada no devlog.
