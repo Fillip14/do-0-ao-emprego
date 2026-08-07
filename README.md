@@ -59,7 +59,7 @@ Cronograma de datas está dentro do `cronograma-etapas.md`, datas detalhadas nos
 Etapa 0 · Rigor e Git                 ██████████████████████  100%  ✅ aprovada
 Etapa 1 · JS sólido + fundamentos web ██████████████████████  100%  ✅ aprovada
 Etapa 2 · Back-end: da API ao deploy  █████████░░░░░░░░░░░░░   40%  ⏸️ 4 de 10 temas — pausada
-Etapa 3 · Front-end (React)           █████░░░░░░░░░░░░░░░░░   21%  🔨 antecipada, 3 de 14 temas
+Etapa 3 · Front-end (React)           ██████░░░░░░░░░░░░░░░░   29%  🔨 antecipada, 4 de 14 temas
 Etapa 4 · Capstone "reporte-aqui"     ░░░░░░░░░░░░░░░░░░░░░░    0%  🔒 bloqueada
 Etapa 5 · Portfólio e busca           ░░░░░░░░░░░░░░░░░░░░░░    0%  🔒 bloqueada
 ```
@@ -78,8 +78,8 @@ Etapa 5 · Portfólio e busca           ░░░░░░░░░░░░░�
 | **T1** | React e ferramental — JSX, Vite, TS, StrictMode | ✅ |
 | **T2** | Props, composição e listas — `key`, estado vazio | ✅ |
 | **T3** | Estilos, layout e acessibilidade — tokens, responsivo, teclado | ✅ |
-| **T4** | Estado e eventos — `useState`, lifting, estado derivado | ⬜ |
-| **T5** | Formulários controlados — validação, erro por campo | ⬜ |
+| **T4** | Estado e eventos — `useState`, lifting, estado derivado | ✅ |
+| **T5** | Formulários controlados — validação, erro por campo | ⏳ |
 | **T6** | Efeitos — `useEffect`, limpeza, quando **não** usar | ⬜ |
 | **T7** | Falando com a API — fetch tipado, 4 estados de tela, CORS | ⬜ |
 | **T8** | CRUD na tela — mutações, atualização otimista | ⬜ |
@@ -156,6 +156,7 @@ O que foi estudado dia a dia.
 | 29–31/07 | **Tema 0 (a base que faltou)** — anatomia do HTML e do CSS, unidades, box model, `display`, especificidade, `@` e `:` · **T3 — Estilos, layout e acessibilidade** — CSS Modules, design tokens, flexbox e eixo principal, responsivo mobile-first, contraste medido, semântica e `aria-label`, `ui/` × domínio |
 | 01–05/08 | **Projeto pessoal** — cópia da home de uma rede social, para praticar HTML, CSS e Tailwind fora do cronograma |
 | 06/08 | **T3 — migração para Tailwind** — utilitário × classe nomeada, `@theme`, variantes por mapa, utilitários em conflito, scrollbar (`gutter`, overlay × clássica), `aria-hidden` × `role="img"` · **T3 fechado** |
+| 07/08 | **T4 — Estado e eventos** — `useState`, o setter que agenda, imutabilidade e `Object.is`, atualização funcional, evento no filho → callback no pai, lifting state up, estado derivado, estado impossível e tabela de transição (`Record<Status, Status>`) · **T4 fechado** |
 
 > 💡 A matéria-prima detalhada de cada dia está no devlog de cada etapa, em [`etapas/`](etapas/).
 

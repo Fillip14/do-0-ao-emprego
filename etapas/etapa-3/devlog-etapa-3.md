@@ -63,3 +63,22 @@ Realizado projeto pessoal para estudar HTML/CSS/Tailwind. Fiz uma cópia da home
 ### T3 · Estilos, layout e acessibilidade — ✅ Feito (06/08)
 
 Projeto completamente reestruturado e migrado para Tailwind. Novo designe, responsivo para mobile e desktop.
+
+### T4 · Estado e eventos — ⏳ aberto (06/08)
+
+Estudo em [`studies/studie-t04-estado-eventos.md`](studies/studie-t04-estado-eventos.md). **Sem preparação de ambiente** — `useState` já vem no React instalado; é o primeiro tema com atrito zero.
+
+**O que o tema entrega:** o `const tasks = mockTasks` do `Content` vira `useState`, o botão **Alterar** passa a mudar o status de verdade (evento no filho → callback → atualização imutável no pai), e entra um filtro derivado. Tudo em memória.
+
+## 📅 07/08
+
+### T4 · Estado e eventos — ✅ Feito (07/08)
+
+**O app ganhou** — interação de verdade, a primeira da etapa. `const tasks = mockTasks` virou `useState` no `Content`, e a partir daí três handlers: **alterar** o status pelo botão da tarefa (ciclo `todo → doing → done → todo`, com a tarefa trocando de coluna na hora), **criar** pelo campo do rodapé, e **apagar** pelo botão do item. Os três usam a forma funcional (`setTasks(prev => ...)`) e atualização imutável — `map` com spread, `filter`, spread de array. Coluna sem tarefa ganhou mensagem própria, que antes era título com espaço branco embaixo.
+
+**Decisões minhas, registradas no `web/README.md`:**
+
+1. **"Alterar" cicla o status** em vez de `<select>` ou de "marcar como feita". O critério foi o botão nunca ficar clicável e morto — na primeira versão o `done` não tinha transição e o botão não fazia nada, sem avisar ninguém.
+2. **A transição virou `Record<Status, Status>`**, não escada de `if`. O ganho é exaustividade: faltar um caso é erro de compilação. Fez a decisão do item 1 aparecer — o `if` escondia que `done` não ia para lugar nenhum.
+
+- Próximo: T5 — Formulários controlados, que encontra o `InputTask` já de pé.

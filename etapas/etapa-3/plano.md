@@ -22,10 +22,10 @@ Qualquer outra vontade de mexer na API durante esta etapa (paginação, filtro, 
 
 1. **Trilha de IA — fase PAR DE PROGRAMAÇÃO.** Liberada a geração de **trechos pequenos** (uma função, um componente, um tipo), com **uma condição: você entende cada linha antes de commitar** — se não entende, pergunta ou reescreve. Habilidade treinada: validar e entender código que você não escreveu. Continua **proibido**: pedir "monta a tela pra mim", pedir o arquivo inteiro, colar sem ler.
 2. **Commits diários** no GitHub, push conferido.
-3. **Stack travada:** React + TypeScript + Vite. Ideia nova no meio do caminho → `ideias-depois.md`.
-4. **Um tema só fecha quando os três estão feitos:** (a) o que o tema entrega está na `web/`, rodando no navegador; (b) `npm run typecheck` limpo e — a partir do T14 — `npm test` verde; (c) revisão da Parte B feita, correções aplicadas, tudo commitado e no push.
-5. **O contrato do front mora no `web/README.md`:** o que o app faz, como rodar, variáveis de ambiente, mapa de rotas, estrutura de pastas e decisões tomadas. Uma fonte de verdade só — é a que quem visita o repositório lê.
-6. **`studie-tNN-tema.md` na abertura de cada tema**, em duas partes. **Parte A:** a IA detalha cada tópico de estudo na estrutura _1- O que resolve? 2- Quando usar? 3- Exemplo pequeno. 4- Armadilhas._ **Parte B:** alterações no app — _1- Preparação do ambiente_ (setup de ferramenta é a única coisa que a IA entrega pronta; é atrito, não aprendizado); _2- Os blocos_: Três ou quatro blocos por tema, cada um com: um **nome que diz o que o app ganha**, uma ou duas linhas de **por que ele vem aqui**, e um **Pronto quando** — a lista de critérios de aceite, **a ordem de leitura é a ordem de execução, é a dependência**; _3- Revisão de código_. O último bloco é sempre o fechamento do tema. Não tem lista de prova separada da lista de entrega: medir contraste e testar o teclado são bolinhas do mesmo `Pronto quando`, não uma segunda cerimônia.
+3. **Stack travada:** React + TypeScript + Vite e outros frameworks se necessário.
+4. **O contrato do front mora no `web/README.md`:** O que é o app. Como rodar (variáveis de ambiente). Mapa de rotas atualizado. Frameworks utilizados atualizado. Estrutura de pastas simples. O que o app faz atualizado.
+5. **`studie-tNN-tema.md` na abertura de cada tema** feito pela IA em três partes. **Parte A:** _1- O que é (descrever funções/metódos do tópico). 2- Para que serve, o que substitui, diminui algo do código, refatora, facilita, etc? 3- Exemplo pequeno. **Parte B:** alterações no app — \_1- Preparação do ambiente_ (setup de ferramenta se tiver); _2- Os blocos_: Bloco 1: o que é para o app fazer/ter agora. Bloco 2: Bloco 3: sugestões de alterações no desgin (alterou que eu não vi, ficou algo em branco, ficou feio). Toda a Parte B em tópicos, simples, breve, com um [] para eu dar check. **Parte C:** revisão do código. Verificar se o app foi migrado para o assunto do tema (as alterações obrigatórias do tema), se ele está tipado e se os testes estão verdes (caso já tenha testes). Verificar se há mais alguma sugestão para melhorar design/acessibilidade/responsividade/sugestões de alterações médio/avançado/melhor interação com o usuário.
+6. **Um tema só fecha quando a parte C estiver concluida**
 7. **A partir do Tema 11, o que está na `main` está no ar.** Tema fechado sem redeploy é tema não fechado. Sem link público, não conta como terminado.
 8. **A defesa oral acontece uma vez, no fim: o simulado de entrevista**, depois do Tema 14 e imediatamente antes da avaliação de 12/08 — é o último bloco da etapa, não um extra opcional. São as 14 perguntas da Avaliação, uma por tema, no formato de entrevista — eu respondo falado e curto (2–3 frases), a IA contra-argumenta em cima, e o que não se sustentar me manda de volta à Parte A daquele tema.
 
@@ -55,7 +55,7 @@ Rodar os dois ao mesmo tempo é parte da etapa: um terminal com `npm run dev` na
 
 ## Os temas
 
-Quatorze temas, um por dia sugerido. **O dia é guia, não contrato** — na Etapa 2 o ritmo real foi de ~1,3 dia por tema, e tema que rende aprendizado de verdade pode furar a fila. O que não desliza é a regra 4: tema só fecha completo.
+Quatorze temas, um por dia sugerido. **O dia é guia, não contrato** — na Etapa 2 o ritmo real foi de ~1,3 dia por tema, e tema que rende aprendizado de verdade pode furar a fila. O que não desliza é a regra 6: tema só fecha com a Parte C concluída.
 
 **A ordem tem lógica:** os temas 1–3 põem algo apresentável na tela rápido; 4–8 constroem o comportamento e a conversa com o banco; 9–11 transformam isso num produto com rotas, movimento e URL pública; 12–14 são o rigor por baixo — arquitetura de estado, performance medida e testes.
 
@@ -127,7 +127,7 @@ Quatorze temas, um por dia sugerido. **O dia é guia, não contrato** — na Eta
 14. **Quando encapsular a tag crua e quando não.** Embrulhar `<button>` num `Button` que não acrescenta nada é custo puro (mais um arquivo, mais um import, zero ganho). Vale quando há **decisão repetida** para encapsular: estilo, estado visual (`:hover`/`:disabled`/carregando), acessibilidade. É por isso que este tópico é do Tema 3 e não do Tema 2 — antes de existir estilo não há decisão nenhuma a encapsular. Os habitantes típicos de `ui/`: `Button`, `TextField` (label + input + erro juntos), `Select`, `Modal`, `Card`, `Badge`, `Spinner`, `Alert`.
 15. **Quando o componente vira pasta.** `Button.tsx` solto × `Button/` com `Button.tsx` + `Button.module.css` + (no Tema 14) `Button.test.tsx`. O gatilho é o arquivo irmão — enquanto o componente é um arquivo só, pasta é cerimônia.
 
-### Tema 4 — Estado e eventos · _dia sugerido 07/08_
+### Tema 4 — Estado e eventos · _dia sugerido 07/08_ · ✅ Feito (07/08)
 
 **O app ganha:** interação real — marcar tarefa como feita, filtrar por status na memória, tudo com `useState`.
 
