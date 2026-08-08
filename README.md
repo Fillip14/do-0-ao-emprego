@@ -80,7 +80,7 @@ Etapa 5 · Portfólio e busca           ░░░░░░░░░░░░░�
 | **T3** | Estilos, layout e acessibilidade — tokens, responsivo, teclado | ✅ |
 | **T4** | Estado e eventos — `useState`, lifting, estado derivado | ✅ |
 | **T5** | Formulários controlados — validação, erro por campo | ⏳ |
-| **T6** | Efeitos — `useEffect`, limpeza, quando **não** usar | ⬜ |
+| **T6** | Efeitos — `useEffect`, limpeza, quando **não** usar · _mesclado com o T5_ | ⏳ |
 | **T7** | Falando com a API — fetch tipado, 4 estados de tela, CORS | ⬜ |
 | **T8** | CRUD na tela — mutações, atualização otimista | ⬜ |
 | **T9** | Rotas — React Router, a URL como estado | ⬜ |
@@ -156,7 +156,7 @@ O que foi estudado dia a dia.
 | 29–31/07 | **Tema 0 (a base que faltou)** — anatomia do HTML e do CSS, unidades, box model, `display`, especificidade, `@` e `:` · **T3 — Estilos, layout e acessibilidade** — CSS Modules, design tokens, flexbox e eixo principal, responsivo mobile-first, contraste medido, semântica e `aria-label`, `ui/` × domínio |
 | 01–05/08 | **Projeto pessoal** — cópia da home de uma rede social, para praticar HTML, CSS e Tailwind fora do cronograma |
 | 06/08 | **T3 — migração para Tailwind** — utilitário × classe nomeada, `@theme`, variantes por mapa, utilitários em conflito, scrollbar (`gutter`, overlay × clássica), `aria-hidden` × `role="img"` · **T3 fechado** |
-| 07/08 | **T4 — Estado e eventos** — `useState`, o setter que agenda, imutabilidade e `Object.is`, atualização funcional, evento no filho → callback no pai, lifting state up, estado derivado, estado impossível e tabela de transição (`Record<Status, Status>`) · **T4 fechado** |
+| 07/08 | **T4 — Estado e eventos** — `useState`, o setter que agenda, imutabilidade e `Object.is`, atualização funcional, evento no filho → callback no pai, lifting state up, estado derivado, estado impossível e tabela de transição (`Record<Status, Status>`) · **T4 fechado** · **T5 + T6 abertos, mesclados** — formulários controlados e efeitos num estudo só, porque o efeito escolhido (persistir no `localStorage`) só tem material depois que o formulário existir |
 
 > 💡 A matéria-prima detalhada de cada dia está no devlog de cada etapa, em [`etapas/`](etapas/).
 

@@ -9,6 +9,7 @@ const variants = {
     tag: 'p',
   },
   termTask: { class: 'text-xs sm:text-sm text-black font-normal  text-nowrap', tag: 'p' },
+  mediumText: { class: 'text-base sm:text-lg text-black font-semibold text-center', tag: 'span' },
 } as const;
 
 export type TypographyProps = { variant: keyof typeof variants; children: ReactNode };
