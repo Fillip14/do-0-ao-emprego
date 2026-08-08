@@ -1,5 +1,5 @@
 import { Header } from '../../layout/header/Header';
-import { Content } from './content';
+import { Content } from './content/Content';
 
 export const HomePage = () => {
   return (

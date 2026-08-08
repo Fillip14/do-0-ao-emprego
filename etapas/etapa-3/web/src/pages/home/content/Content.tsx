@@ -1,32 +1,25 @@
 import { FilledTasks } from './FilledTasks';
 import { EmptyTasks } from './EmptyTasks';
 import { useEffect, useState } from 'react';
-import { type Status, type Task, type TaskForm } from '../../../types/task';
+import { type Task, type TaskForm } from '../../../types/task';
 import { InputTask } from './InputTask';
-
-const STORAGE_KEY = 'do-0-ao-emprego:tasks';
-
-const loadTasks = (): Task[] => {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? (JSON.parse(raw) as Task[]) : [];
-  } catch {
-    return [];
-  }
-};
-
-const nextStatus: Record<Status, Status> = {
-  todo: 'doing',
-  doing: 'done',
-  done: 'todo',
-};
+import { loadTasks, saveTasks } from '../../../utils/taskStorage';
+import { nextStatus } from '../../../utils/taskRules';
 
 export const Content = () => {
   const [tasks, setTasks] = useState<Task[]>(loadTasks);
+  const [editingId, setEditingId] = useState<string | null>(null);
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+    saveTasks(tasks);
   }, [tasks]);
+
+  const handleEditTask = (id: string, title: string) => {
+    const trimmed = title.trim();
+    if (!trimmed) return;
+    setTasks((prev) => prev.map((task) => (task.id === id ? { ...task, title: trimmed } : task)));
+    setEditingId(null);
+  };
 
   const handleChangeTask = (id: string) => {
     setTasks((prev) =>
@@ -53,6 +46,9 @@ export const Content = () => {
         ) : (
           <FilledTasks
             tasks={tasks}
+            editingId={editingId}
+            onEditingChange={setEditingId}
+            onEditTask={handleEditTask}
             onChangeTask={handleChangeTask}
             onDeleteTask={handleDeleteTask}
           />
