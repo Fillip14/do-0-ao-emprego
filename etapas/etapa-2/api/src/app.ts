@@ -6,6 +6,25 @@ import { HttpStatus } from './constants/http-constants.js';
 
 const app = express();
 const TASKS_PREFIX = '/tasks';
+const WEB_ORIGIN = 'http://localhost:5173';
+
+// Middleware - CORS para o front da Etapa 3.
+// Exceção única ao congelamento da API. Vem antes de tudo para que a resposta de
+// erro também carregue o header — senão o navegador esconde o 400 atrás do CORS.
+app.use((req: Request, res: Response, next: NextFunction) => {
+  res.setHeader('Access-Control-Allow-Origin', WEB_ORIGIN);
+  res.setHeader('Vary', 'Origin');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  // Preflight: responde e encerra, sem passar pelas rotas.
+  if (req.method === 'OPTIONS') {
+    res.sendStatus(HttpStatus.NO_CONTENT);
+    return;
+  }
+
+  next();
+});
 
 app.use(express.json());
 if (process.env.NODE_ENV !== 'test') app.use(morgan('dev'));

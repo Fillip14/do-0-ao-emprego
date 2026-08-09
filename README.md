@@ -43,12 +43,12 @@ Transição de carreira em aproximadamente **6 meses**, com stack **JavaScript/T
 
 ## 🤖 Trilha de IA e Cronograma das etapas
 
-Usar IA é habilidade de mercado — mas se constrói em camadas, porque quem não domina a base não consegue avaliar o que a IA produz. A fase atual é **Par de programação**: liberada a geração de trechos pequenos, com duas condições — entender cada linha antes de commitar e ter prova de que funciona.
+Liberada a geração de **trechos pequenos** (uma função, um componente, um tipo), com **uma condição: você entende cada linha antes de commitar** — se não entende, pergunta ou reescreve. Habilidade treinada: validar e entender código que você não escreveu.
 
 ```
 Tutor   · explica e revisa; nunca gera solução      ██████████████████████  100%  ✅ concluída
 Revisor · review depois que o meu código funciona   ██████████████████████  100%  ✅ concluída
-Par     · trechos pequenos que eu entendo e testo   █░░░░░░░░░░░░░░░░░░░░░    5%  🔨 fase atual
+Par     · trechos pequenos que eu entendo e testo   ███████░░░░░░░░░░░░░░░   30%  🔨 fase atual
 Agente  · implementa sob a minha especificação      ░░░░░░░░░░░░░░░░░░░░░░    0%  🔒 bloqueada
 Pauta   · a progressão vira resposta de entrevista  ░░░░░░░░░░░░░░░░░░░░░░    0%  🔒 bloqueada
 ```
@@ -59,7 +59,7 @@ Cronograma de datas está dentro do `cronograma-etapas.md`, datas detalhadas nos
 Etapa 0 · Rigor e Git                 ██████████████████████  100%  ✅ aprovada
 Etapa 1 · JS sólido + fundamentos web ██████████████████████  100%  ✅ aprovada
 Etapa 2 · Back-end: da API ao deploy  █████████░░░░░░░░░░░░░   40%  ⏸️ 4 de 10 temas — pausada
-Etapa 3 · Front-end (React)           ██████░░░░░░░░░░░░░░░░   29%  🔨 antecipada, 4 de 14 temas
+Etapa 3 · Front-end (React)           █████████░░░░░░░░░░░░░   43%  🔨 antecipada, 6 de 14 temas
 Etapa 4 · Capstone "reporte-aqui"     ░░░░░░░░░░░░░░░░░░░░░░    0%  🔒 bloqueada
 Etapa 5 · Portfólio e busca           ░░░░░░░░░░░░░░░░░░░░░░    0%  🔒 bloqueada
 ```
@@ -79,10 +79,10 @@ Etapa 5 · Portfólio e busca           ░░░░░░░░░░░░░�
 | **T2** | Props, composição e listas — `key`, estado vazio | ✅ |
 | **T3** | Estilos, layout e acessibilidade — tokens, responsivo, teclado | ✅ |
 | **T4** | Estado e eventos — `useState`, lifting, estado derivado | ✅ |
-| **T5** | Formulários controlados — validação, erro por campo | ⏳ |
-| **T6** | Efeitos — `useEffect`, limpeza, quando **não** usar · _mesclado com o T5_ | ⏳ |
-| **T7** | Falando com a API — fetch tipado, 4 estados de tela, CORS | ⬜ |
-| **T8** | CRUD na tela — mutações, atualização otimista | ⬜ |
+| **T5** | Formulários controlados — validação, erro por campo | ✅ |
+| **T6** | Efeitos — `useEffect`, limpeza, quando **não** usar · _mesclado com o T5_ | ✅ |
+| **T7** | Falando com a API — fetch tipado, 4 estados de tela, CORS | ⏳ |
+| **T8** | CRUD na tela — mutações, atualização otimista · _mesclado com o T7_ | ⏳ |
 | **T9** | Rotas — React Router, a URL como estado | ⬜ |
 | **T10** | **Motion e interação** — transition, gesto, lib de motion, 60fps | ⬜ |
 | **T11** | **Build e deploy** — 🌐 URL pública a partir daqui | ⬜ |
@@ -155,8 +155,10 @@ O que foi estudado dia a dia.
 | 29/07 | **T1 — React e ferramental** — declarativo × imperativo, JSX, componentes, Vite e HMR, anatomia do projeto, `tsconfig` do front, `StrictMode`, ciclo de renderização · **T2 — Props, composição e listas** — props tipadas, `children`, `map` e `key`, condicionais e a armadilha do `0 &&`, estado vazio, `Task` como cópia do contrato |
 | 29–31/07 | **Tema 0 (a base que faltou)** — anatomia do HTML e do CSS, unidades, box model, `display`, especificidade, `@` e `:` · **T3 — Estilos, layout e acessibilidade** — CSS Modules, design tokens, flexbox e eixo principal, responsivo mobile-first, contraste medido, semântica e `aria-label`, `ui/` × domínio |
 | 01–05/08 | **Projeto pessoal** — cópia da home de uma rede social, para praticar HTML, CSS e Tailwind fora do cronograma |
-| 06/08 | **T3 — migração para Tailwind** — utilitário × classe nomeada, `@theme`, variantes por mapa, utilitários em conflito, scrollbar (`gutter`, overlay × clássica), `aria-hidden` × `role="img"` · **T3 fechado** |
-| 07/08 | **T4 — Estado e eventos** — `useState`, o setter que agenda, imutabilidade e `Object.is`, atualização funcional, evento no filho → callback no pai, lifting state up, estado derivado, estado impossível e tabela de transição (`Record<Status, Status>`) · **T4 fechado** · **T5 + T6 abertos, mesclados** — formulários controlados e efeitos num estudo só, porque o efeito escolhido (persistir no `localStorage`) só tem material depois que o formulário existir |
+| 06/08 | **T3 — migração para Tailwind** |
+| 07/08 | **T4 — Estado e eventos** — `useState`, `Record<Status, Status>` · **T5 + T6 abertos** — formulários controlados e efeitos, persistir no `localStorage` |
+| 08/08 | **T5 + T6 — Formulários controlados e efeitos**  |
+| 09/08 | **T7 + T8 abertos** — falando com a API e o CRUD completo (mesclados) · CORS habilitado na `api/`, a exceção única ao congelamento |
 
 > 💡 A matéria-prima detalhada de cada dia está no devlog de cada etapa, em [`etapas/`](etapas/).
 

@@ -102,3 +102,20 @@ Estudo em [`studies/studie-t05-t06-formularios-e-efeitos.md`](studies/studie-t05
 **O app ganhou** — o campo único do rodapé virou **formulário de três campos** (`title`, `status`, `term`), controlado, com validação e mensagem de erro no campo certo. O rodapé começa como campo rápido e **expande ao receber foco**; fecha ao enviar. O título passou a ser **editável na linha** — clicar troca por um input, Enter salva, Esc cancela. E as tarefas **sobrevivem ao F5**: `localStorage` lido por inicializador do `useState` e gravado por `useEffect`.
 
 **Refatoração não planejada, e foi a melhor coisa do dia.** O `ListTasks` foi eliminado e os três `<Card>` idênticos viraram um `map` sobre um array de dados. Nasceu do incômodo real de estar passando seis props por três andares — resolveu a duplicação tripla **e** apagou um andar inteiro de prop drilling. Junto saíram `utils/taskStorage` (com `loadTasks`/`saveTasks` simétricos) e `utils/taskRules` (`nextStatus` + `validateTaskForm`), e o `Content` foi renomeado de `index.tsx`.
+
+## 📅 09/08
+
+### T7 + T8 · Falando com a API e o CRUD completo — ⏳ abertos (09/08)
+
+Estudo em [`studies/studie-t07-t08-api-e-crud.md`](studies/studie-t07-t08-api-e-crud.md). **Segunda mescla da etapa**, e por conteúdo: os dois temas montam a mesma camada (`src/api/`), e metade dos tópicos do T8 (erro no campo certo, refetch × estado local, salvando por item) só faz sentido depois que os quatro estados de tela do T7 existirem. Numeração preservada (A1 = T7, A2 = T8) e continuam valendo como **dois temas** na avaliação e na oral.
+
+**Preparação do ambiente entregue:** CORS na `api/`, middleware na mão em `app.ts` — a exceção única ao congelamento do back-end. Ficou como o **primeiro** middleware da cadeia de propósito: assim a resposta de **erro** também carrega o header, senão o 400 chega ao navegador sem permissão de leitura e um erro de validação vira erro de CORS na tela.
+
+**O que o tema entrega:** a lista vem do Postgres via `GET /tasks`, e criar/editar/apagar vão até o banco. O app deixa de ser dono do dado e vira cliente de quem é.
+
+**Decisões da abertura:**
+
+1. **O `localStorage` morre.** A API vira fonte única da verdade — `utils/taskStorage.ts` sai do app junto com o `useEffect([tasks])` que gravava. As alternativas eram mantê-lo como cache de leitura ou como fallback. Foram recusadas pelo mesmo motivo: com dado velho pintado por baixo, o **estado de erro nunca aparece de verdade**, e os quatro estados do T7 só são honestos sem rede de segurança. O preço — o app para de funcionar sem a API de pé — é a dívida que o **T11, tópico 7** existe para pagar, agora explícita em vez de acidental.
+2. **CORS na mão, sem o pacote `cors`.** Cinco linhas contra uma dependência nova numa API congelada — e o header que resolve o problema fica visível, que é exatamente o tópico 8 do A1.
+3. **Atualizar o estado com a resposta, não refetch.** O `POST` e o `PATCH` da API devolvem a entidade inteira (`RETURNING`), é um usuário só e a lista é pequena. O gatilho para mudar de ideia fica escrito: no dia em que houver mais de um cliente escrevendo, vira refetch/invalidação.
+4. **Otimista só onde o servidor não decide nada.** Ciclar status é otimista com rollback (o clique tem que responder na hora, e o T10 vai animar essa troca de coluna); criar e editar título são pessimistas — o `POST` depende do id do banco, e id que muda no meio do caminho quebra a `key` e, com ela, a animação de saída do T10.

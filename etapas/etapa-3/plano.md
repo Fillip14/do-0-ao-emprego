@@ -20,7 +20,7 @@ Qualquer outra vontade de mexer na API durante esta etapa (paginação, filtro, 
 
 ## Regras da etapa
 
-1. **Trilha de IA — fase PAR DE PROGRAMAÇÃO.** Liberada a geração de **trechos pequenos** (uma função, um componente, um tipo), com **uma condição: você entende cada linha antes de commitar** — se não entende, pergunta ou reescreve. Habilidade treinada: validar e entender código que você não escreveu. Continua **proibido**: pedir "monta a tela pra mim", pedir o arquivo inteiro, colar sem ler.
+1. **Trilha de IA — fase PAR DE PROGRAMAÇÃO.** Liberada a geração de **trechos pequenos** (uma função, um componente, um tipo), com **uma condição: você entende cada linha antes de commitar** — se não entende, pergunta ou reescreve. Habilidade treinada: validar e entender código que você não escreveu.
 2. **Commits diários** no GitHub, push conferido.
 3. **Stack travada:** React + TypeScript + Vite e outros frameworks se necessário.
 4. **O contrato do front mora no `web/README.md`:** O que é o app. Como rodar (variáveis de ambiente). Mapa de rotas atualizado. Frameworks utilizados atualizado. Estrutura de pastas simples. O que o app faz atualizado.
@@ -154,7 +154,7 @@ Quatorze temas, um por dia sugerido. **O dia é guia, não contrato** — na Eta
 >
 > **Duas decisões tomadas na abertura:** o efeito do T6 é a persistência no `localStorage` (as alternativas eram título da aba e simular `fetch` com `setTimeout`), e o T5 entrega o **formulário completo mais a edição inline**, como o plano já previa. A escolha efeito × handler para gravar no storage fica registrada no `web/README.md`.
 
-#### Tema 5 — Formulários controlados
+#### Tema 5 — Formulários controlados · ✅ Feito (08/08)
 
 **O app ganha:** formulário de criar tarefa (descrição, status, prazo) com validação no cliente, e edição inline da descrição — tudo ainda em memória.
 
@@ -173,7 +173,7 @@ Quatorze temas, um por dia sugerido. **O dia é guia, não contrato** — na Eta
 11. Formulário grande: quando `useState` por campo deixa de servir (gancho para o `useReducer` do Tema 12).
 12. Bibliotecas de formulário existem — por que não usar nenhuma agora.
 
-#### Tema 6 — Efeitos e ciclo de vida
+#### Tema 6 — Efeitos e ciclo de vida · ✅ Feito (08/08)
 
 **O app ganha:** o primeiro efeito honesto do app (sincronizar título da aba, ou persistir o filtro) e a base para o Tema 7.
 
@@ -192,11 +192,19 @@ Quatorze temas, um por dia sugerido. **O dia é guia, não contrato** — na Eta
 11. `useEffect` × `useLayoutEffect` — saber que existe e quando importa (volta no Tema 10, medindo elemento para animar).
 12. Efeito em componente pai × filho: ordem de execução.
 
-### Tema 7 — Falando com a API · _dia sugerido 10/08_
+### Temas 7 + 8 — Falando com a API e o CRUD completo · _dias sugeridos 10/08–11/08_ · ⏳ abertos (09/08)
+
+> **Mesclados em 09/08.** Estudo único em [`studies/studie-t07-t08-api-e-crud.md`](studies/studie-t07-t08-api-e-crud.md), com a numeração dos tópicos preservada (A1 = T7, A2 = T8) porque é ela que o simulado da regra 8 usa. Continuam contando como **dois temas** para efeito de avaliação e de oral — duas perguntas, não uma.
+>
+> **O motivo é de conteúdo.** Os dois montam a **mesma camada** (`src/api/`): separá-los significa escrever `request`, tradução de erro e tipagem de resposta no T7 e voltar aos mesmos arquivos no dia seguinte. Metade dos tópicos do T8 (erro no campo certo, refetch × estado local, salvando por item) só tem sentido depois que os quatro estados de tela do T7 existirem, e a lição central do T7 — erro HTTP não rejeita a Promise — só dói quando existe um `POST` que pode voltar 400.
+>
+> **Três decisões tomadas na abertura:** o `localStorage` **morre** (a API vira fonte única da verdade, e o preço — app não funciona sem API de pé — é a dívida que o T11 tópico 7 paga); a tela atualiza com a **resposta** da escrita, não com refetch; e a atualização otimista fica só no ciclo de status, porque criar depende do id do banco e id que muda quebra a `key`. Todas vão para o `web/README.md`.
+
+#### Tema 7 — Falando com a API · ⏳ aberto (09/08)
 
 **O app ganha:** a lista de tarefas vem do **PostgreSQL via sua API** — o array fixo em código morre. Estados de carregando, erro e vazio na tela.
 
-> **Preparação do ambiente (a IA entrega):** habilitar CORS na `api/` para `http://localhost:5173` — a exceção única ao congelamento do back-end.
+> **Preparação do ambiente — ✅ entregue (09/08):** CORS habilitado na `api/` para `http://localhost:5173`, middleware na mão em `app.ts`, primeiro da cadeia. É a exceção única ao congelamento do back-end.
 
 **Tópicos de estudo sugeridos**
 
@@ -213,7 +221,7 @@ Quatorze temas, um por dia sugerido. **O dia é guia, não contrato** — na Eta
 11. Timeout e a tela que fica girando para sempre.
 12. Por que existe TanStack Query e por que você vai passar sem ele agora — saber o problema antes da solução.
 
-### Tema 8 — Escrita: o CRUD completo na tela · _dia sugerido 11/08_
+#### Tema 8 — Escrita: o CRUD completo na tela · ⏳ aberto (09/08)
 
 **O app ganha:** criar, editar e apagar tarefa indo até o banco. O front vira, de fato, o cliente da sua API.
 
