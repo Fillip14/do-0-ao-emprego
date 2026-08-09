@@ -81,4 +81,24 @@ Estudo em [`studies/studie-t04-estado-eventos.md`](studies/studie-t04-estado-eve
 1. **"Alterar" cicla o status** em vez de `<select>` ou de "marcar como feita". O critério foi o botão nunca ficar clicável e morto — na primeira versão o `done` não tinha transição e o botão não fazia nada, sem avisar ninguém.
 2. **A transição virou `Record<Status, Status>`**, não escada de `if`. O ganho é exaustividade: faltar um caso é erro de compilação. Fez a decisão do item 1 aparecer — o `if` escondia que `done` não ia para lugar nenhum.
 
-- Próximo: T5 — Formulários controlados, que encontra o `InputTask` já de pé.
+### T5 + T6 · Formulários controlados e efeitos — ⏳ aberto (07/08)
+
+Estudo em [`studies/studie-t05-t06-formularios-e-efeitos.md`](studies/studie-t05-t06-formularios-e-efeitos.md). **Sem preparação de ambiente** — `useEffect` vem no React e `localStorage` é do navegador; segundo tema seguido com atrito zero.
+
+**Os dois temas foram mesclados**, por conteúdo e não por pressa: o efeito escolhido para o T6 é persistir as tarefas, e ele só tem material depois que o formulário do T5 existir. A numeração dos tópicos foi preservada (A1 = T5, A2 = T6) e eles continuam valendo como **dois temas** na avaliação e na oral.
+
+**O que o tema entrega:** o `InputTask` de um campo vira formulário de três (`description`, `status`, `term`) com validação e erro por campo; a descrição ganha edição inline com Enter/Esc/blur; e as tarefas passam a **sobreviver ao F5** via `localStorage`. Tudo ainda sem API.
+
+**Decisões da abertura:**
+
+1. **O efeito do T6 é a persistência no `localStorage`.** As alternativas eram título da aba (barato demais) e simular `fetch` com `setTimeout` (código descartável). A persistência mata a limitação nº 1 do `web/README.md` e, melhor, **morre no T7** quando a API chegar — dá para ver o efeito ser substituído em vez de só ler sobre isso.
+2. **Ler o storage é inicializador preguiçoso, escrever é efeito.** A assimetria é o tópico 2 do A2 aplicado no próprio tema: com efeito na leitura, o primeiro render pinta vazio e o segundo pinta as tarefas — pisca.
+3. **O formulário de criar tarefa expande ao focar.** O rodapé `sticky` continua sendo o campo rápido de hoje; ao focar o título, `status` e `term` aparecem abaixo. Alternativas descartadas: três campos sempre visíveis (com erro por campo, a barra come metade da tela no celular) e botão abrindo modal (exige um `Modal` com foco preso, Esc e scroll travado — trabalho de T3 pago no meio do T5). O `status` é escolha do usuário: dá para criar tarefa já em `doing` ou `done`, com padrão `todo`. **Fica em aberto de propósito, para eu resolver:** quando o rodapé fecha.
+
+## 📅 08/08
+
+### T5 + T6 · Formulários controlados e efeitos — ✅ Feitos (08/08)
+
+**O app ganhou** — o campo único do rodapé virou **formulário de três campos** (`title`, `status`, `term`), controlado, com validação e mensagem de erro no campo certo. O rodapé começa como campo rápido e **expande ao receber foco**; fecha ao enviar. O título passou a ser **editável na linha** — clicar troca por um input, Enter salva, Esc cancela. E as tarefas **sobrevivem ao F5**: `localStorage` lido por inicializador do `useState` e gravado por `useEffect`.
+
+**Refatoração não planejada, e foi a melhor coisa do dia.** O `ListTasks` foi eliminado e os três `<Card>` idênticos viraram um `map` sobre um array de dados. Nasceu do incômodo real de estar passando seis props por três andares — resolveu a duplicação tripla **e** apagou um andar inteiro de prop drilling. Junto saíram `utils/taskStorage` (com `loadTasks`/`saveTasks` simétricos) e `utils/taskRules` (`nextStatus` + `validateTaskForm`), e o `Content` foi renomeado de `index.tsx`.

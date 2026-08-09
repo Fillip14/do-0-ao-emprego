@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { Button } from '../../../components/Button';
-import type { Status, TaskForm } from '../../../types/task';
+import type { FieldErrors, Status, TaskForm } from '../../../types/task';
 import { Typography } from '../../../components/Typography';
 import { TaskField } from '../../../components/TaskField';
+import { validateTaskForm } from '../../../utils/taskRules';
 
 type InputTaskProps = { onAddTask: (form: TaskForm) => void };
 const emptyForm: TaskForm = { title: '', status: 'todo', term: '' };
@@ -10,14 +11,20 @@ const emptyForm: TaskForm = { title: '', status: 'todo', term: '' };
 export const InputTask = ({ onAddTask }: InputTaskProps) => {
   const [form, setForm] = useState<TaskForm>(emptyForm);
   const [isOpen, setIsOpen] = useState(false);
+  const [errors, setErrors] = useState<FieldErrors>({});
 
   const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const errorInput = validateTaskForm(form);
+    if (Object.keys(errorInput).length > 0) {
+      setErrors(errorInput);
+      return;
+    }
     const trimmed = form.title.trim();
-    if (!trimmed) return;
     onAddTask({ ...form, title: trimmed });
     setForm(emptyForm);
     setIsOpen(false);
+    setErrors({});
   };
 
   return (
@@ -31,6 +38,7 @@ export const InputTask = ({ onAddTask }: InputTaskProps) => {
           id="title"
           label="Tarefa"
           placeholder="Titulo da tarefa"
+          error={errors.title}
           value={form.title}
           onChange={(value) => setForm((prev) => ({ ...prev, title: value }))}
         />

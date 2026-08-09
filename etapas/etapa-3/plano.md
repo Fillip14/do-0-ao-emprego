@@ -20,16 +20,14 @@ Qualquer outra vontade de mexer na API durante esta etapa (paginação, filtro, 
 
 ## Regras da etapa
 
-> **Numeração restaurada em 07/08.** A lista tinha só quatro itens, mas o resto do arquivo cita "regra 5", "regra 6", "regra 7" e "regra 8" — as regras 3 a 7 tinham sumido numa edição e as referências ficaram apontando para o vazio. Reconstruídas a partir do que o próprio plano, o devlog e os `studie-*.md` já afirmam sobre elas, mais o `plano.md` da Etapa 2, de onde este veio. **A regra 3 é a de reconstrução mais frouxa** — conferir se era isso mesmo.
-
-1. **Trilha de IA — fase PAR DE PROGRAMAÇÃO.** Trecho pequeno gerado é permitido (uma função, um componente, um tipo), com duas condições: eu entendo cada linha e existe prova de que funciona. Continua proibido montar tela ou arquivo inteiro por ele.
-2. **Commits diários** no GitHub, push conferido em `.git/refs/remotes/origin/main`.
-3. **Stack travada.** Ideia nova no meio do caminho → `ideias-depois.md`. Vale também para a API: qualquer vontade de mexer no back durante esta etapa vai para lá.
-4. **O contrato do front mora no `web/README.md`:** o que é o app, como rodar (variáveis de ambiente), mapa de rotas, frameworks, estrutura de pastas, o que o app faz — tudo atualizado. Uma fonte de verdade só, e é a que quem visita o repositório lê.
-5. **`studie-tNN-tema.md` na abertura de cada tema**, em três partes. **Parte A:** a IA detalha cada tópico na estrutura _o que é_ / _para que serve_ / _exemplo_. **Parte B:** alterações no app — preparação do ambiente (setup de ferramenta é a única coisa que a IA entrega pronta; é atrito, não aprendizado) e os blocos, na ordem em que se faz, com o obrigatório separado das sugestões. **Parte C:** revisão do código depois de executado — o que ficou, o que faltou, o que corrigir. A Parte A é consulta e a Parte B é enunciado: nenhuma das duas é roteiro.
-6. **Um tema só fecha com a Parte C concluída** — correções aplicadas, typecheck limpo, `web/README.md` e devlog atualizados, commit no push. **Pergunta nenhuma trava o fechamento de um tema** (ver regra 8).
-7. **A partir do Tema 11, tema fechado sem redeploy é tema não fechado.** O link público passa a ser parte do critério de fechamento, não um extra.
-8. **A defesa oral acontece uma vez, no fim: o simulado de entrevista**, depois do Tema 14 e imediatamente antes da avaliação — é o último bloco da etapa, não um extra opcional. São as perguntas da Avaliação, uma por tema, no formato de entrevista: eu respondo falado e curto (2–3 frases), a IA contra-argumenta em cima, e o que não se sustentar me manda de volta à Parte A daquele tema. Durante os temas **não há pergunta nenhuma**. O contrapeso é o ⚠️ no devlog: o que cair na revisão da Parte C vira uma linha marcada, e essa lista é a ordem de ataque do simulado.
+1. **Trilha de IA — fase PAR DE PROGRAMAÇÃO.** Liberada a geração de **trechos pequenos** (uma função, um componente, um tipo), com **uma condição: você entende cada linha antes de commitar** — se não entende, pergunta ou reescreve. Habilidade treinada: validar e entender código que você não escreveu. Continua **proibido**: pedir "monta a tela pra mim", pedir o arquivo inteiro, colar sem ler.
+2. **Commits diários** no GitHub, push conferido.
+3. **Stack travada:** React + TypeScript + Vite e outros frameworks se necessário.
+4. **O contrato do front mora no `web/README.md`:** O que é o app. Como rodar (variáveis de ambiente). Mapa de rotas atualizado. Frameworks utilizados atualizado. Estrutura de pastas simples. O que o app faz atualizado.
+5. **`studie-tNN-tema.md` na abertura de cada tema**, feito pela IA em três partes. **Parte A:** _1- O que é (descrever funções/metódos do tópico). 2- Para que serve, o que substitui, diminui algo do código, refatora, facilita, etc? 3- Exemplo pequeno. **Parte B:** alterações no app — \_1- Preparação do ambiente_ (setup de ferramenta se tiver); _2- Os blocos_: Bloco 1: o que é para o app fazer/ter agora. Bloco 2: sugestões de alterações médio/avançado para colocar no app. Toda a Parte B em tópicos, simples, breve. **Parte C:** revisão do código. Verificar se o app foi migrado para o assunto do tema (as alterações obrigatórias do tema), se ele está typecheck ok e se os testes estão verdes (caso já tenha testes).
+6. **Um tema só fecha quando a parte C estiver concluida**
+7. **A partir do Tema 11, o que está na `main` está no ar.** Tema fechado sem redeploy é tema não fechado. Sem link público, não conta como terminado.
+8. **A defesa oral acontece uma vez, no fim: o simulado de entrevista**, depois do Tema 14 e imediatamente antes da avaliação de 12/08 — é o último bloco da etapa, não um extra opcional. São as 14 perguntas da Avaliação, uma por tema, no formato de entrevista — eu respondo falado e curto (2–3 frases), a IA contra-argumenta em cima, e o que não se sustentar me manda de volta à Parte A daquele tema.
 
 ## Estrutura de pastas
 
@@ -148,7 +146,7 @@ Quatorze temas, um por dia sugerido. **O dia é guia, não contrato** — na Eta
 11. Estado local × estado que sobe: o critério prático.
 12. Ler o estado no DevTools para conferir o que você acha que está acontecendo.
 
-### Temas 5 + 6 — Formulários controlados e efeitos · _dias sugeridos 08/08–09/08_ · ⏳ aberto (07/08)
+### Temas 5 + 6 — Formulários controlados e efeitos · _dias sugeridos 08/08–09/08_ · ✅ Feitos (08/08)
 
 > **Mesclados em 07/08.** Estudo único em [`studies/studie-t05-t06-formularios-e-efeitos.md`](studies/studie-t05-t06-formularios-e-efeitos.md), com a numeração dos tópicos preservada (A1 = T5, A2 = T6) porque é ela que o simulado da regra 8 usa. Continuam contando como **dois temas** para efeito de avaliação e de oral — duas perguntas, não uma.
 >
@@ -177,7 +175,7 @@ Quatorze temas, um por dia sugerido. **O dia é guia, não contrato** — na Eta
 
 #### Tema 6 — Efeitos e ciclo de vida
 
-**O app ganha:** o primeiro efeito honesto do app — **as tarefas passam a sobreviver ao F5**, persistidas no `localStorage` — e a base para o Tema 7. A leitura na montagem entra por inicializador preguiçoso do `useState`, **não** por efeito: é o tópico 2 deste tema aplicado no próprio tema.
+**O app ganha:** o primeiro efeito honesto do app (sincronizar título da aba, ou persistir o filtro) e a base para o Tema 7.
 
 **Tópicos de estudo sugeridos**
 

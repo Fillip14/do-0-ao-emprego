@@ -8,3 +8,5 @@ export interface Task {
 }
 
 export type TaskForm = { title: string; status: Status; term: string };
+
+export type FieldErrors = Partial<Record<keyof TaskForm, string>>;

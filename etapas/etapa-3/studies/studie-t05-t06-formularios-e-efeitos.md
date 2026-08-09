@@ -79,14 +79,14 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
 
 **Para que serve.** É a lista que evita meia hora de tentativa e erro:
 
-| Campo               | Prop de valor              | O que se lê                     | Pegadinha                                                       |
-| ------------------- | -------------------------- | ------------------------------- | --------------------------------------------------------------- |
-| `input type="text"` | `value`                    | `e.target.value`                | `null`/`undefined` torna não controlado                          |
-| `textarea`          | `value` (não `children`)   | `e.target.value`                | no HTML o valor fica dentro da tag; no JSX, não                  |
-| `select`            | `value` no `<select>`      | `e.target.value`                | `selected` na `<option>` é ignorado pelo React                   |
-| `select multiple`   | `value` é **array**        | percorrer `selectedOptions`     | esquecer o array quebra em silêncio                              |
-| `checkbox`          | **`checked`**, não `value` | `e.target.checked` (boolean)    | usar `value` faz o campo não responder                           |
-| `radio`             | `checked` por opção        | `e.target.value` do selecionado | o grupo é o mesmo `name`; o estado é um só                       |
+| Campo               | Prop de valor              | O que se lê                     | Pegadinha                                                         |
+| ------------------- | -------------------------- | ------------------------------- | ----------------------------------------------------------------- |
+| `input type="text"` | `value`                    | `e.target.value`                | `null`/`undefined` torna não controlado                           |
+| `textarea`          | `value` (não `children`)   | `e.target.value`                | no HTML o valor fica dentro da tag; no JSX, não                   |
+| `select`            | `value` no `<select>`      | `e.target.value`                | `selected` na `<option>` é ignorado pelo React                    |
+| `select multiple`   | `value` é **array**        | percorrer `selectedOptions`     | esquecer o array quebra em silêncio                               |
+| `checkbox`          | **`checked`**, não `value` | `e.target.checked` (boolean)    | usar `value` faz o campo não responder                            |
+| `radio`             | `checked` por opção        | `e.target.value` do selecionado | o grupo é o mesmo `name`; o estado é um só                        |
 | `input type="date"` | `value`                    | `e.target.value`                | string **`'YYYY-MM-DD'`**, sempre; vazio é `''`, e `null` estoura |
 
 **Para o app.** `term` é `string \| null` no contrato, e o `<input type="date">` não sabe o que fazer com `null`. Então o formulário guarda `''` e a conversão acontece na saída: `term: form.term || null`. É uma tradução de fronteira, e o lugar dela é a borda — não o estado.
@@ -315,11 +315,11 @@ O linter (`eslint-plugin-react-hooks`) cobra isso, e **omitir uma dependência p
 
 **O que é.**
 
-| Formato       | Quando roda                       | Leitura honesta                                        |
-| ------------- | --------------------------------- | ------------------------------------------------------- |
-| sem array     | depois de **todo** render         | "não pensei nas dependências" — quase sempre engano      |
-| `[]`          | uma vez na montagem               | "isto não depende de nada que muda"                      |
-| `[a, b]`      | na montagem e quando `a`/`b` mudam | "isto precisa ficar em dia com `a` e `b`"                |
+| Formato   | Quando roda                        | Leitura honesta                                     |
+| --------- | ---------------------------------- | --------------------------------------------------- |
+| sem array | depois de **todo** render          | "não pensei nas dependências" — quase sempre engano |
+| `[]`      | uma vez na montagem                | "isto não depende de nada que muda"                 |
+| `[a, b]`  | na montagem e quando `a`/`b` mudam | "isto precisa ficar em dia com `a` e `b`"           |
 
 **Para que serve.** Ler o array como **afirmação sobre o mundo**, não como controle de frequência. `[]` diz "nada aqui dentro muda". Se for mentira, o efeito trabalha com valor de museu.
 
@@ -521,127 +521,74 @@ Persistir o que está sendo digitado é tentador e é outro tema: exige debounce
 
 ### 1. Preparação do ambiente
 
-Nenhuma. `useEffect` vem no React; `localStorage` é API do navegador. Segundo tema seguido com atrito zero.
-
-Deixar abertos o tema inteiro: **React DevTools → Components** e o **DevTools → Application → Local Storage** lado a lado. Ver a chave mudando enquanto se clica é metade do aprendizado do A2.
+Nenhuma. `useEffect` vem no React, `localStorage` é do navegador. Deixar abertos o **React DevTools → Components** e o **DevTools → Application → Local Storage**.
 
 ### 2. Os blocos
 
-#### Bloco 1 — O formulário de criar tarefa (obrigatório · T5)
+#### Bloco 1 — o que o app tem que fazer agora
 
-> **Desenho escolhido (07/08): o rodapé expande ao focar.** A barra `sticky` continua sendo o campo rápido de hoje; ao focar o `title`, os campos de `status` e `term` aparecem abaixo. As alternativas foram os três campos sempre visíveis (rejeitada: com uma linha de erro por campo, a barra come metade da tela no celular — e come justamente a lista) e um botão abrindo modal (rejeitada: exige construir um `Modal` com foco preso, Esc, scroll travado e devolução de foco — trabalho de T3 pago no meio do T5).
->
-> **O `status` é escolha do usuário**, não decoração: dá para criar tarefa já em `doing` ou `done`. O padrão do campo continua `todo`.
->
-> **A pergunta que o desenho abre, e que é sua:** _quando o rodapé fecha?_ Fechar no `blur` do título está errado — o usuário está indo para o `select`. Pense em `onSubmit`, `Esc`, clique fora, ou não fechar nunca depois de aberto. Escolha uma e registre o porquê; é a decisão que dá liga entre o tópico 5 do A1 (o formulário como unidade) e a gestão de foco do tópico 9.
+**Formulário de criar (T5)**
 
-- [X] **`description` → `title`** (A1, tópico 7), feito em 07/08 antes do formulário existir. O front volta a usar o nome do contrato e nenhuma tabela de tradução precisa nascer
-- [ ] `InputTask` vira formulário de três campos: `title` (text), `status` (`select`), `term` (`date`) — todos controlados
-- [ ] O `status` e o `term` só aparecem quando o formulário está aberto; o `title` está sempre visível
-- [ ] Um estado só para "aberto", no `InputTask` — ninguém mais precisa saber (T4, tópico 11)
-- [ ] Campo escondido é campo **removido da árvore ou `hidden`**, nunca só invisível: input escondido com `opacity` continua no `Tab` e no leitor de tela
-- [ ] Estado do formulário num objeto `TaskForm`, não em três `useState` soltos
-- [ ] `<label htmlFor>` ↔ `id` em cada campo; `aria-label` só onde não houver rótulo visível
-- [ ] `onSubmit` no `<form>` com `e.preventDefault()` na primeira linha; botão `type="submit"`
-- [ ] `term: ''` no estado, `term: form.term || null` na saída — a tradução mora na borda
-- [ ] Validação no cliente: `title` não vazio depois do `trim()`. Nada além disso
-- [ ] `FieldErrors` (`Partial<Record<keyof TaskForm, string>>`) + um `formError` para o erro sem `field`
-- [ ] Erro renderizado **abaixo do campo**, com `aria-describedby` e `aria-invalid` no input
-- [ ] Sucesso limpa o formulário e devolve o foco ao primeiro campo; erro preserva tudo
-- [ ] `handleAddTask` no `Content` passa a receber o objeto, não a string
-- [ ] `npm run typecheck` limpo
+- [x] `description` → `title`, alinhado ao contrato da API
+- [x] Três campos controlados: `title` (text), `status` (`select`), `term` (`date`)
+- [x] Estado num objeto `TaskForm`, não em três `useState`
+- [x] O rodapé expande ao focar; `status` e `term` saem da árvore quando fechado (`{isOpen && ...}`, não CSS)
+- [x] `label htmlFor` ↔ `id` em cada campo
+- [x] `onSubmit` no `<form>`, `preventDefault` na primeira linha, botão `type="submit"`
+- [x] `term: ''` no estado, `|| null` na saída
+- [x] Validação: `title` não vazio depois do `trim()`
+- [x] `FieldErrors` + mensagem abaixo do campo, com `aria-invalid` e `aria-describedby`
+- [x] Sucesso limpa o formulário; erro preserva o que foi digitado
+- [x] `handleAddTask` recebe o objeto, não a string
 
-#### Bloco 2 — Edição inline do título (obrigatório · T5)
+**Edição do título na linha (T5)**
 
-- [ ] Clicar no título do `ItemTask` troca o texto por um input controlado com o valor atual
-- [ ] Qual estado e **onde**: o `id` em edição sobe para o `Content` (só um item edita por vez); o texto sendo digitado é rascunho e fica no item (T4, tópico 11)
-- [ ] Confirmar com **Enter** ou blur; cancelar com **Esc** restaurando o valor original
-- [ ] Título vazio não confirma — mesma regra do bloco 1, na mesma função
-- [ ] `handleEditTask(id, title)` no `Content`, imutável e funcional
-- [ ] O elemento clicável é `<button>` ou o input, nunca `<div onClick>` (T3, tópico 8)
-- [ ] Foco entra no input ao abrir a edição e volta para o gatilho ao fechar
+- [x] Clicar no título troca por input; Enter salva, Esc cancela
+- [x] `editingId` no `Content`; o rascunho fica num componente que monta ao abrir
+- [x] O gatilho é `<button>`, nunca `<div onClick>`
 
-#### Bloco 3 — Persistência com efeito (obrigatório · T6)
+**Persistência (T6)**
 
-- [ ] `loadTasks()` com `try/catch`, chave em constante, fallback para `mockTasks`
-- [ ] `useState<Task[]>(loadTasks)` — **a função, não a chamada**
-- [ ] `useEffect(..., [tasks])` gravando; sem função de limpeza, e saber dizer por quê
-- [ ] Provar no DevTools → Application: criar tarefa, ver a chave mudar, F5, tarefa continua lá
-- [ ] Provar o `StrictMode`: o efeito roda duas vezes em dev e nada quebra — explicar por quê
-- [ ] Registrar no `web/README.md`: efeito × handler (A3, tópico 2) e o `as Task[]` como dívida
-- [ ] Atualizar a seção **Limitações** — "recarregar desfaz tudo" deixou de ser verdade
+- [x] `loadTasks()` com `try/catch`
+- [x] `useState(loadTasks)` — a função, não a chamada
+- [x] `useEffect(..., [tasks])` gravando; sem limpeza, e saber dizer por quê
+- [x] Provar: criar, F5, continua lá; storage limpo abre vazio
+- [ ] Provar o `StrictMode`: o efeito roda duas vezes em dev e nada quebra
 
-#### Bloco 4 — Médio / avançado (sugestões)
+#### Bloco 2 — sugestões, médio/avançado
 
-- [ ] **Um efeito de verdade com limpeza:** `Esc` global fechando a edição inline, com `removeEventListener` no `return`. O bloco 3 não tem limpeza; sem isto o tópico 5 do A2 fica só teoria
-- [ ] **`document.title` refletindo o número de tarefas pendentes** — efeito de duas linhas, sincronização honesta com algo fora do React
-- [ ] **Ensaiar a race condition** com `setTimeout` de atraso aleatório simulando busca, e corrigir com a flag `ignore`. É o único jeito de o tópico 10 do A2 sair do papel antes do T7
-- [ ] **Extrair `useLocalStorage`** — tentador, mas é T12 (custom hooks). Se fizer, registrar que antecipou
-- [ ] **Provar o loop infinito de propósito** (deps com objeto recriado), ver no DevTools, corrigir. Cinco minutos que valem por uma explicação
-- [ ] **Migrar `nextStatus` e a validação para `types/task.ts` ou `utils/`** — dívida herdada da Parte C do T4, e agora a validação é a segunda regra de domínio morando dentro de componente
-- [ ] **Tirar a duplicação do card vazio** no `FilledTasks` — o mesmo bloco de "Sem tarefas para exibir aqui" aparece três vezes
-- [ ] **Renomear as variantes do `Typography`** — depois do `description` → `title`, `titleTask` é o título da **coluna** e `descriptionTask` é o título da **tarefa**. Nomes de estilo, mas mentem
-- [ ] **Comentar o `type="button"` antes do `{...rest}`** no `Button` (A1, tópico 5): inverter a ordem quebra o formulário sem quebrar o typecheck
-
-#### Bloco 5 — Design e acessibilidade (sugestões)
-
-- [ ] **A transição de abrir o rodapé** — hoje seria um corte seco. `transition` em `grid-template-rows: 0fr → 1fr` é o truque que anima altura automática sem travar layout. **Guardar para o T10** e só anotar aqui se incomodar
-- [ ] **Mensagem de erro precisa ser lida:** `role="alert"` ou `aria-live="polite"` no container do erro
-- [ ] **Erro não pode depender só de cor** — texto ao lado, não só borda vermelha
-- [ ] **`aria-live` na região das listas** (dívida do T4) — anunciar que a tarefa mudou de coluna
-- [ ] **Estado de foco visível em todos os campos novos**, não só nos botões (`focus-visible:border-black` já é o padrão do app)
-- [ ] **Edição inline no teclado:** `Tab` até a descrição, `Enter` abre, digita, `Enter` confirma, `Esc` cancela — sem mouse em nenhum passo
-- [ ] **Alvo de toque** do `<select>` e do `<input type="date">` no celular
-- [ ] **Botão X sobreposto** (`absolute top-0 right-0`) — dívida do T4, e agora tem mais coisa no item para ele cobrir
+- Efeito com limpeza de verdade: `Esc` global, com `removeEventListener` no `return` — sem isto o tópico 5 do A2 fica só teoria
+- `document.title` com o número de tarefas pendentes
+- Ensaiar a race condition com `setTimeout` e corrigir com a flag `ignore` — único jeito de o tópico 10 do A2 sair do papel antes do T7
+- Provar o loop infinito de propósito (objeto recriado nas deps), ver e corrigir
+- Devolver o foco ao primeiro campo depois do sucesso
+- Título vazio na edição na linha também avisar — hoje só o formulário de criar avisa
+- Guarda contra duplo submit — hoje o envio é síncrono; volta no T8
+- Erro não depender só de cor
+- Extrair `useLocalStorage` — é T12; se fizer, registrar que antecipou
+- Animar a abertura do rodapé com `grid-template-rows: 0fr → 1fr` — é T10
 
 ---
 
 # Parte C — Revisão do código
 
-> Preencher **depois** de executar a Parte B, antes de fechar o tema.
+> Revisão de 08/08.
 
 ## O app foi migrado para o assunto do tema?
 
-| Item                                                             | Estado |
-| ---------------------------------------------------------------- | ------ |
-| Três campos controlados, estado num objeto                       |        |
-| `onSubmit` no `<form>`, `preventDefault` na primeira linha        |        |
-| `label` ↔ `id` em todos os campos                                 |        |
-| Erro por campo no formato `field` + `message`                     |        |
-| Limpa no sucesso / preserva no erro / foco devolvido              |        |
-| Guarda contra duplo submit                                        |        |
-| Edição inline com Enter, Esc e blur                               |        |
-| Leitura do storage por inicializador preguiçoso, **não** por efeito |        |
-| Escrita por efeito com deps corretas                              |        |
-| Nenhum `useEffect` que seja estado derivado disfarçado            |        |
-| Todo efeito que cria algo tem limpeza                             |        |
-| Sobrevive ao `StrictMode` sem duplicar nada                       |        |
-| Regra de domínio fora do componente                               |        |
+**Sim.** As duas cadeias obrigatórias existem e estão corretas: formulário controlado de ponta a ponta, com validação e erro amarrado ao campo; e o par ler-por-inicializador / gravar-por-efeito.
 
-## Typecheck e testes
+Duas coisas ficaram de fora **de propósito**, por não serem assunto do tema:
 
-- `npm run typecheck` —
-- Testes — não existem ainda (T14). Nada a verificar.
+- **Devolver o foco depois do sucesso.** O tópico 9 do T5 pede limpar no sucesso e preservar no erro — os dois estão feitos. Foco não está no tópico.
+- **A edição na linha avisar quando o título é vazio.** O tópico 7 pede erro por campo no formato da API, e isso existe no formulário de criar. Repetir na edição é consistência de app.
 
-## Correções pendentes
+Ambas foram para o Bloco 2.
 
-1.
+## Typecheck
 
-## Fechamento do tema (regra 6)
+`npm run typecheck` — limpo.
 
-- [ ] Correções da Parte C aplicadas
-- [ ] `npm run typecheck` limpo
-- [ ] Console do navegador sem aviso (inclusive o de input controlado × não controlado)
-- [ ] F5 mantém as tarefas; storage limpo volta ao `mockTasks` sem quebrar
-- [ ] Teclado: criar, editar e apagar sem mouse
-- [ ] `web/README.md` atualizado — "O que faz hoje", **Limitações**, Estrutura e as decisões do tema
-- [ ] Devlog do dia escrito, com o sintoma do tópico 11 do A1 anotado para o T12
-- [ ] `plano.md` e README da raiz com T5+T6 ✅
-- [ ] Commit e push conferido em `.git/refs/remotes/origin/main`
+## Testes
 
----
-
-## As duas perguntas da oral (uma por tema)
-
-1. **Controlado × não controlado** — quem é a fonte da verdade, e qual você escolheu no formulário de criar tarefa? Por quê?
-2. **Quando não usar `useEffect`** — por que ler o `localStorage` na montagem **não** é efeito, e escrever nele é?
+Não existem ainda (T14). Nada a verificar.

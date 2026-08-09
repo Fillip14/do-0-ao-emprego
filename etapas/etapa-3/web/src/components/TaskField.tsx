@@ -7,12 +7,22 @@ type TaskFieldProps = {
   id: string;
   label: string;
   value: string;
+  error?: string | undefined;
   onChange: (value: string) => void;
   type?: string;
   placeholder?: string;
 };
 
-export const TaskField = ({ id, label, value, onChange, type, placeholder }: TaskFieldProps) => {
+export const TaskField = ({
+  id,
+  label,
+  value,
+  error,
+  onChange,
+  type,
+  placeholder,
+}: TaskFieldProps) => {
+  const errorId = `task-${id}-error`;
   return (
     <>
       <label htmlFor={`task-${id}`}>
@@ -24,8 +34,15 @@ export const TaskField = ({ id, label, value, onChange, type, placeholder }: Tas
         className={fieldClass}
         type={type}
         value={value}
+        aria-invalid={!!error}
+        aria-describedby={error ? errorId : undefined}
         onChange={(e) => onChange(e.target.value)}
       />
+      {error && (
+        <p id={errorId} role="alert">
+          {error}
+        </p>
+      )}
     </>
   );
 };
