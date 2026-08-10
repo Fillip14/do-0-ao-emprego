@@ -8,6 +8,9 @@ import { createTask, deleteTask, getTasks, updateTask } from '../../../api/tasks
 import { ApiError } from '../../../api/http';
 import { ErrorTasks } from './ErrorTasks';
 import { LoadingTasks } from './LoadingTasks';
+import { AlertCircle } from 'lucide-react';
+import { Typography } from '../../../components/Typography';
+import { Button } from '../../../components/Button';
 
 type TasksState =
   | { status: 'loading' }
@@ -19,6 +22,7 @@ export const Content = () => {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [reloadKey, setReloadKey] = useState(0);
   const [pendingIds, setPendingIds] = useState<Set<string>>(new Set());
+  const [notice, setNotice] = useState<string | null>(null);
 
   useEffect(() => {
     const ac = new AbortController();
@@ -45,6 +49,17 @@ export const Content = () => {
       prev.status === 'success' ? { status: 'success', tasks: fn(prev.tasks) } : prev,
     );
 
+  const handleWriteError = (err: unknown, id: string) => {
+    if (err instanceof ApiError && err.status === 404) {
+      updateTasks((prev) => prev.filter((task) => task.id !== id));
+      setNotice('Esta tarefa não existe mais.');
+      return;
+    }
+
+    console.error(err);
+    setNotice('Não foi possível salvar. Tente de novo.');
+  };
+
   const handleAddTask = async (form: TaskForm) => {
     const created = await createTask({
       title: form.title,
@@ -59,13 +74,20 @@ export const Content = () => {
     const trimmed = title.trim();
     if (!trimmed) return;
 
-    const updated = await updateTask(id, { title: trimmed });
-    updateTasks((prev) => prev.map((task) => (task.id === id ? updated : task)));
-    setEditingId(null);
+    setNotice(null);
+
+    try {
+      const updated = await updateTask(id, { title: trimmed });
+      updateTasks((prev) => prev.map((task) => (task.id === id ? updated : task)));
+      setEditingId(null);
+    } catch (err) {
+      handleWriteError(err, id);
+    }
   };
 
   const handleChangeTask = async (id: string) => {
     if (pendingIds.has(id)) return; // ← a guarda
+    setNotice(null);
 
     const previous = state;
     const task = state.status === 'success' ? state.tasks.find((t) => t.id === id) : undefined;
@@ -78,8 +100,9 @@ export const Content = () => {
 
     try {
       await updateTask(id, { status: next });
-    } catch {
+    } catch (err) {
       setState(previous);
+      handleWriteError(err, id);
     } finally {
       setPendingIds((prev) => {
         const copy = new Set(prev);
@@ -92,12 +115,15 @@ export const Content = () => {
   const handleDeleteTask = async (id: string) => {
     if (pendingIds.has(id)) return;
     if (!window.confirm('Apagar esta tarefa?')) return;
+    setNotice(null);
 
     setPendingIds((prev) => new Set(prev).add(id));
 
     try {
       await deleteTask(id);
       updateTasks((prev) => prev.filter((task) => task.id !== id));
+    } catch (err) {
+      handleWriteError(err, id);
     } finally {
       setPendingIds((prev) => {
         const copy = new Set(prev);
@@ -109,6 +135,17 @@ export const Content = () => {
 
   return (
     <>
+      {notice && (
+        <div
+          role="status"
+          aria-live="polite"
+          className="flex items-center gap-2 justify-center mb-2"
+        >
+          <AlertCircle aria-hidden />
+          <Typography variant="mediumText">{notice}</Typography>
+          <Button onClick={() => setNotice(null)}>Fechar</Button>
+        </div>
+      )}
       <main className="flex flex-wrap justify-center gap-1">
         {state.status === 'loading' && <LoadingTasks />}
 
