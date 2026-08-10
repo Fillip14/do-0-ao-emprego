@@ -4,27 +4,41 @@ import type { FieldErrors, Status, TaskForm } from '../../../types/task';
 import { Typography } from '../../../components/Typography';
 import { TaskField } from '../../../components/TaskField';
 import { validateTaskForm } from '../../../utils/taskRules';
+import { ApiError } from '../../../api/http';
 
-type InputTaskProps = { onAddTask: (form: TaskForm) => void };
+type InputTaskProps = { onAddTask: (form: TaskForm) => Promise<void> };
 const emptyForm: TaskForm = { title: '', status: 'todo', term: '' };
 
 export const InputTask = ({ onAddTask }: InputTaskProps) => {
   const [form, setForm] = useState<TaskForm>(emptyForm);
   const [isOpen, setIsOpen] = useState(false);
   const [errors, setErrors] = useState<FieldErrors>({});
+  const [formError, setFormError] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (isSubmitting) return;
+
     const errorInput = validateTaskForm(form);
     if (Object.keys(errorInput).length > 0) {
       setErrors(errorInput);
       return;
     }
-    const trimmed = form.title.trim();
-    onAddTask({ ...form, title: trimmed });
-    setForm(emptyForm);
-    setIsOpen(false);
+
     setErrors({});
+    setFormError(null);
+
+    setIsSubmitting(true);
+    try {
+      await onAddTask({ ...form, title: form.title.trim() });
+      setForm(emptyForm);
+      setIsOpen(false);
+    } catch (err) {
+      setFormError(err instanceof ApiError ? err.message : 'Não conseguimos falar com o servidor.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -67,8 +81,14 @@ export const InputTask = ({ onAddTask }: InputTaskProps) => {
             />
           </>
         )}
-
-        <Button type="submit">Adicionar</Button>
+        {formError && (
+          <Typography variant="mediumText" aria-live="polite">
+            {formError}
+          </Typography>
+        )}
+        <Button type="submit" disabled={isSubmitting}>
+          {isSubmitting ? 'Adicionando…' : 'Adicionar'}
+        </Button>
       </div>
     </form>
   );

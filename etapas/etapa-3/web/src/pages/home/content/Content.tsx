@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { type Task, type TaskForm } from '../../../types/task';
 import { InputTask } from './InputTask';
 import { nextStatus } from '../../../utils/taskRules';
-import { getTasks } from '../../../api/tasks';
+import { createTask, deleteTask, getTasks, updateTask } from '../../../api/tasks';
 import { ApiError } from '../../../api/http';
 import { ErrorTasks } from './ErrorTasks';
 import { LoadingTasks } from './LoadingTasks';
@@ -18,6 +18,7 @@ export const Content = () => {
   const [state, setState] = useState<TasksState>({ status: 'loading' });
   const [editingId, setEditingId] = useState<string | null>(null);
   const [reloadKey, setReloadKey] = useState(0);
+  const [pendingIds, setPendingIds] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     const ac = new AbortController();
@@ -44,30 +45,66 @@ export const Content = () => {
       prev.status === 'success' ? { status: 'success', tasks: fn(prev.tasks) } : prev,
     );
 
-  const handleEditTask = (id: string, title: string) => {
+  const handleAddTask = async (form: TaskForm) => {
+    const created = await createTask({
+      title: form.title,
+      status: form.status,
+      term: form.term || null,
+    });
+
+    updateTasks((prev) => [...prev, created]);
+  };
+
+  const handleEditTask = async (id: string, title: string) => {
     const trimmed = title.trim();
     if (!trimmed) return;
-    updateTasks((prev) =>
-      prev.map((task) => (task.id === id ? { ...task, title: trimmed } : task)),
-    );
+
+    const updated = await updateTask(id, { title: trimmed });
+    updateTasks((prev) => prev.map((task) => (task.id === id ? updated : task)));
     setEditingId(null);
   };
 
-  const handleChangeTask = (id: string) => {
-    updateTasks((prev) =>
-      prev.map((task) => (task.id === id ? { ...task, status: nextStatus[task.status] } : task)),
-    );
+  const handleChangeTask = async (id: string) => {
+    if (pendingIds.has(id)) return; // ← a guarda
+
+    const previous = state;
+    const task = state.status === 'success' ? state.tasks.find((t) => t.id === id) : undefined;
+    if (!task) return;
+
+    const next = nextStatus[task.status];
+
+    setPendingIds((prev) => new Set(prev).add(id));
+    updateTasks((prev) => prev.map((t) => (t.id === id ? { ...t, status: next } : t)));
+
+    try {
+      await updateTask(id, { status: next });
+    } catch {
+      setState(previous);
+    } finally {
+      setPendingIds((prev) => {
+        const copy = new Set(prev);
+        copy.delete(id);
+        return copy;
+      });
+    }
   };
 
-  const handleDeleteTask = (id: string) => {
-    updateTasks((prev) => prev.filter((task) => task.id !== id));
-  };
+  const handleDeleteTask = async (id: string) => {
+    if (pendingIds.has(id)) return;
+    if (!window.confirm('Apagar esta tarefa?')) return;
 
-  const handleAddTask = (form: TaskForm) => {
-    updateTasks((prev) => [
-      ...prev,
-      { id: crypto.randomUUID(), title: form.title, status: form.status, term: form.term || null },
-    ]);
+    setPendingIds((prev) => new Set(prev).add(id));
+
+    try {
+      await deleteTask(id);
+      updateTasks((prev) => prev.filter((task) => task.id !== id));
+    } finally {
+      setPendingIds((prev) => {
+        const copy = new Set(prev);
+        copy.delete(id);
+        return copy;
+      });
+    }
   };
 
   return (
