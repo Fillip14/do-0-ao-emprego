@@ -126,4 +126,10 @@ Estudo em [`studies/studie-t07-t08-api-e-crud.md`](studies/studie-t07-t08-api-e-
 
 **O app ganhou** — deixou de ser dono dos dados e virou **cliente**. Nasceu `src/api/` com `http.ts` (o `request<T>` genérico: URL base do `.env`, `Content-Type`, checagem de `res.ok`, ramo do `204`, `signal`, timeout) e `tasks.ts` (as quatro funções tipadas). A lista vem do `GET /tasks`, e criar, editar título, ciclar status e apagar vão até o Postgres. O `localStorage` morreu junto com o `useEffect([tasks])` que gravava. Os quatro estados de tela ganharam componentes próprios (`LoadingTasks`, `ErrorTasks` com "Tentar de novo", `EmptyTasks`, lista), modelados como **união discriminada** — três booleanos dariam 8 combinações para 4 estados válidos.
 
-- Próximo: **T9 — Rotas.**
+### T9 + T10 · Rotas e Build/Deploy — ⏳ abertos (10/08)
+
+Estudo em [`studies/studie-t09-t10-rotas-e-deploy.md`](studies/studie-t09-t10-rotas-e-deploy.md). **Terceira mescla da etapa**, e a mais óbvia das três: o T9 tópico 12 deixa a dívida do 404 no F5 escrita **para o T10 tópico 5 pagar**, e o T10 tópico 2 (medir o bundle) e tópico 3 (`lazy` por rota) não têm material sem rotas. Foi por isso que o deploy subiu de 11 para 10 na reordenação de 10/08 — a mescla é a consequência dela, não uma decisão nova. Numeração preservada (A1 = T9, A2 = T10) e continuam valendo como **dois temas** na avaliação e na oral.
+
+**Primeira preparação de ambiente com dependência nova desde o T1:** `react-router-dom` e `rollup-plugin-visualizer` (esta só de desenvolvimento), mais a conta na Vercel com `Root Directory` apontado para `etapas/etapa-3/web` — o repositório é um monorepo de estudo e sem isso a build nem começa.
+
+**O que o tema entrega:** cada tela do app ganha endereço (`/tasks`, `/tasks/:id`, `*`, layout compartilhado, busca e filtro na query string) e o app inteiro ganha o dele — **URL pública**. A partir daqui vale a regra 7: tema fechado sem redeploy é tema não fechado.

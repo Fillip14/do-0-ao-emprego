@@ -242,7 +242,17 @@ Quatorze temas, um por dia sugerido. **O dia é guia, não contrato** — na Eta
 11. O que fazer quando o `PATCH` responde 404: o item sumiu debaixo dos seus pés.
 12. Erro que aparece e some: onde vive a mensagem de erro e quem a limpa.
 
-### Tema 9 — Rotas · _dia sugerido 12/08_
+### Temas 9 + 10 — Rotas e Build/Deploy · _dias sugeridos 12/08–13/08_ · ⏳ Abertos (10/08)
+
+> **Mesclados em 10/08.** Estudo único em [`studies/studie-t09-t10-rotas-e-deploy.md`](studies/studie-t09-t10-rotas-e-deploy.md), com a numeração dos tópicos preservada (A1 = T9, A2 = T10) porque é ela que o simulado da regra 8 usa. Continuam contando como **dois temas** para efeito de avaliação e de oral — duas perguntas, não uma.
+>
+> **O motivo é de conteúdo, e já estava escrito no plano.** O T9 tópico 12 deixa a dívida do 404 no F5 explicitamente para o T10 tópico 5; e o T10 tópico 2 (medir o bundle) e tópico 3 (`lazy` por rota) **não têm material sem rotas**. Foi exatamente por isso que o deploy subiu de 11 para 10 na reordenação de 10/08 — a mescla é a consequência dela.
+>
+> **Quatro decisões tomadas na abertura:** hospedagem na **Vercel** (Hobby aceita até 200 projetos, então o site que já existe lá não atrapalha); **os dois** — busca (`q`) e filtro de status — vão para a query string; `pages/home/` vira `pages/tasks/`, e o que nasce no T9 não é a pasta (ela chegou adiantada no T3) mas o conteúdo dela; e o tópico 7 do T10 é **mensagem honesta**, sem modo de demonstração — dado de demonstração é a segunda fonte da verdade que o T7 acabou de enterrar.
+>
+> **A descoberta que reescreve o T10 tópico 6:** o link público **não vai alcançar a API local — nem na sua própria máquina**. Página `https` chamando `http://localhost` é mixed content, e site público pedindo algo para a máquina do usuário é bloqueio de rede local (preflight com permissão explícita, que a `api/` congelada não manda). O desenvolvimento continua em `localhost:5173`; o link público é vitrine até a API subir no T9 da Etapa 2.
+
+#### Tema 9 — Rotas
 
 **O app ganha:** navegação de verdade — lista em `/tasks`, detalhe em `/tasks/:id`, 404, layout compartilhado, URL que funciona no F5 e no botão voltar.
 
@@ -263,7 +273,7 @@ Quatorze temas, um por dia sugerido. **O dia é guia, não contrato** — na Eta
 13. **Decompor uma tela antes de escrever código.** Desenhar a árvore primeiro — `TaskPage` → `Header` · `Filters` · `TaskForm` · `TaskList` → `TaskItem`. A mecânica é trivial; o difícil é **onde parar**: dividir demais gera prop drilling (Tema 12), dividir de menos gera o arquivo de 300 linhas. Aqui a hierarquia deixa de ser exercício porque a página passa a existir de verdade.
 14. **`pages/` (ou `routes/`) nasce aqui, e só aqui.** O componente de página é o que casa com uma rota, orquestra os componentes de domínio e é dono da busca de dado. Por que ele não podia existir no Tema 1: sem rota, "página" e "componente raiz" são a mesma coisa — a pasta seria nome sem conteúdo.
 
-### Tema 10 — Build e deploy · _dia sugerido 13/08_
+#### Tema 10 — Build e deploy
 
 **O app ganha:** **URL pública.** A partir daqui, tema fechado sem redeploy é tema não fechado (regra 7).
 

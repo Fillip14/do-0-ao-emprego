@@ -83,8 +83,8 @@ Etapa 5 · Portfólio e busca           ░░░░░░░░░░░░░�
 | **T6** | Efeitos — `useEffect`, limpeza, quando **não** usar · _mesclado com o T5_ | ✅ |
 | **T7** | Falando com a API — fetch tipado, 4 estados de tela, CORS | ✅ |
 | **T8** | CRUD na tela — mutações, atualização otimista · _mesclado com o T7_ | ✅ |
-| **T9** | Rotas — React Router, a URL como estado | ⬜ |
-| **T10** | **Build e deploy** — 🌐 URL pública a partir daqui | ⬜ |
+| **T9** | Rotas — React Router, a URL como estado | ⏳ |
+| **T10** | **Build e deploy** — 🌐 URL pública a partir daqui · _mesclado com o T9_ | ⏳ |
 | **T11** | Hooks a fundo, custom hooks e performance medida | ⬜ |
 | **T12** | Context — estado global sem biblioteca, e o custo dele | ⬜ |
 | **T13** | Testes de front — Vitest, Testing Library, MSW | ⬜ |
@@ -159,6 +159,7 @@ O que foi estudado dia a dia.
 | 07/08 | **T4 — Estado e eventos** — `useState`, `Record<Status, Status>` · **T5 + T6 abertos** — formulários controlados e efeitos, persistir no `localStorage` |
 | 08/08 | **T5 + T6 — Formulários controlados e efeitos**  |
 | 09/08 | **T7 + T8 abertos** — falando com a API e o CRUD completo (mesclados) · CORS habilitado na `api/`, a exceção única ao congelamento |
+| 10/08 | **T7 + T8 — Falando com a API e o CRUD completo** — camada `src/api/`, `request<T>` genérico, os quatro estados de tela como união discriminada, CRUD indo até o Postgres, o `localStorage` morto · **T9 + T10 abertos** — rotas e build/deploy (mesclados), Vercel escolhida, a URL como estado |
 
 > 💡 A matéria-prima detalhada de cada dia está no devlog de cada etapa, em [`etapas/`](etapas/).
 
