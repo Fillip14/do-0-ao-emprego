@@ -119,3 +119,11 @@ Estudo em [`studies/studie-t07-t08-api-e-crud.md`](studies/studie-t07-t08-api-e-
 2. **CORS na mão, sem o pacote `cors`.** Cinco linhas contra uma dependência nova numa API congelada — e o header que resolve o problema fica visível, que é exatamente o tópico 8 do A1.
 3. **Atualizar o estado com a resposta, não refetch.** O `POST` e o `PATCH` da API devolvem a entidade inteira (`RETURNING`), é um usuário só e a lista é pequena. O gatilho para mudar de ideia fica escrito: no dia em que houver mais de um cliente escrevendo, vira refetch/invalidação.
 4. **Otimista só onde o servidor não decide nada.** Ciclar status é otimista com rollback (o clique tem que responder na hora, e o T10 vai animar essa troca de coluna); criar e editar título são pessimistas — o `POST` depende do id do banco, e id que muda no meio do caminho quebra a `key` e, com ela, a animação de saída do T10.
+
+## 📅 10/08
+
+### T7 + T8 · Falando com a API e o CRUD completo — ✅ Feitos (10/08)
+
+**O app ganhou** — deixou de ser dono dos dados e virou **cliente**. Nasceu `src/api/` com `http.ts` (o `request<T>` genérico: URL base do `.env`, `Content-Type`, checagem de `res.ok`, ramo do `204`, `signal`, timeout) e `tasks.ts` (as quatro funções tipadas). A lista vem do `GET /tasks`, e criar, editar título, ciclar status e apagar vão até o Postgres. O `localStorage` morreu junto com o `useEffect([tasks])` que gravava. Os quatro estados de tela ganharam componentes próprios (`LoadingTasks`, `ErrorTasks` com "Tentar de novo", `EmptyTasks`, lista), modelados como **união discriminada** — três booleanos dariam 8 combinações para 4 estados válidos.
+
+- Próximo: **T9 — Rotas.**

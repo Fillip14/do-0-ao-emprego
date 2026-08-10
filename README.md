@@ -59,7 +59,7 @@ Cronograma de datas está dentro do `cronograma-etapas.md`, datas detalhadas nos
 Etapa 0 · Rigor e Git                 ██████████████████████  100%  ✅ aprovada
 Etapa 1 · JS sólido + fundamentos web ██████████████████████  100%  ✅ aprovada
 Etapa 2 · Back-end: da API ao deploy  █████████░░░░░░░░░░░░░   40%  ⏸️ 4 de 10 temas — pausada
-Etapa 3 · Front-end (React)           █████████░░░░░░░░░░░░░   43%  🔨 antecipada, 6 de 14 temas
+Etapa 3 · Front-end (React)           █████████████░░░░░░░░░   57%  🔨 antecipada, 8 de 14 temas
 Etapa 4 · Capstone "reporte-aqui"     ░░░░░░░░░░░░░░░░░░░░░░    0%  🔒 bloqueada
 Etapa 5 · Portfólio e busca           ░░░░░░░░░░░░░░░░░░░░░░    0%  🔒 bloqueada
 ```
@@ -81,8 +81,8 @@ Etapa 5 · Portfólio e busca           ░░░░░░░░░░░░░�
 | **T4** | Estado e eventos — `useState`, lifting, estado derivado | ✅ |
 | **T5** | Formulários controlados — validação, erro por campo | ✅ |
 | **T6** | Efeitos — `useEffect`, limpeza, quando **não** usar · _mesclado com o T5_ | ✅ |
-| **T7** | Falando com a API — fetch tipado, 4 estados de tela, CORS | ⏳ |
-| **T8** | CRUD na tela — mutações, atualização otimista · _mesclado com o T7_ | ⏳ |
+| **T7** | Falando com a API — fetch tipado, 4 estados de tela, CORS | ✅ |
+| **T8** | CRUD na tela — mutações, atualização otimista · _mesclado com o T7_ | ✅ |
 | **T9** | Rotas — React Router, a URL como estado | ⬜ |
 | **T10** | **Motion e interação** — transition, gesto, lib de motion, 60fps | ⬜ |
 | **T11** | **Build e deploy** — 🌐 URL pública a partir daqui | ⬜ |
@@ -159,6 +159,7 @@ O que foi estudado dia a dia.
 | 07/08 | **T4 — Estado e eventos** — `useState`, `Record<Status, Status>` · **T5 + T6 abertos** — formulários controlados e efeitos, persistir no `localStorage` |
 | 08/08 | **T5 + T6 — Formulários controlados e efeitos**  |
 | 09/08 | **T7 + T8 abertos** — falando com a API e o CRUD completo (mesclados) · CORS habilitado na `api/`, a exceção única ao congelamento |
+| 10/08 | **T7 + T8 — Falando com a API e o CRUD completo** — camada `src/api/`, `ApiError`, os quatro estados como união discriminada, `AbortController` e timeout, CRUD indo ao Postgres, otimista com rollback, `pendingIds`, guarda de duplo submit, 404 na escrita · o `localStorage` morreu |
 
 > 💡 A matéria-prima detalhada de cada dia está no devlog de cada etapa, em [`etapas/`](etapas/).
 

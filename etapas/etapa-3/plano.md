@@ -192,7 +192,7 @@ Quatorze temas, um por dia sugerido. **O dia é guia, não contrato** — na Eta
 11. `useEffect` × `useLayoutEffect` — saber que existe e quando importa (volta no Tema 10, medindo elemento para animar).
 12. Efeito em componente pai × filho: ordem de execução.
 
-### Temas 7 + 8 — Falando com a API e o CRUD completo · _dias sugeridos 10/08–11/08_ · ⏳ abertos (09/08)
+### Temas 7 + 8 — Falando com a API e o CRUD completo · _dias sugeridos 10/08–11/08_ · ✅ Feitos (10/08)
 
 > **Mesclados em 09/08.** Estudo único em [`studies/studie-t07-t08-api-e-crud.md`](studies/studie-t07-t08-api-e-crud.md), com a numeração dos tópicos preservada (A1 = T7, A2 = T8) porque é ela que o simulado da regra 8 usa. Continuam contando como **dois temas** para efeito de avaliação e de oral — duas perguntas, não uma.
 >
@@ -200,7 +200,7 @@ Quatorze temas, um por dia sugerido. **O dia é guia, não contrato** — na Eta
 >
 > **Três decisões tomadas na abertura:** o `localStorage` **morre** (a API vira fonte única da verdade, e o preço — app não funciona sem API de pé — é a dívida que o T11 tópico 7 paga); a tela atualiza com a **resposta** da escrita, não com refetch; e a atualização otimista fica só no ciclo de status, porque criar depende do id do banco e id que muda quebra a `key`. Todas vão para o `web/README.md`.
 
-#### Tema 7 — Falando com a API · ⏳ aberto (09/08)
+#### Tema 7 — Falando com a API · ✅ Feito (10/08)
 
 **O app ganha:** a lista de tarefas vem do **PostgreSQL via sua API** — o array fixo em código morre. Estados de carregando, erro e vazio na tela.
 
@@ -221,7 +221,7 @@ Quatorze temas, um por dia sugerido. **O dia é guia, não contrato** — na Eta
 11. Timeout e a tela que fica girando para sempre.
 12. Por que existe TanStack Query e por que você vai passar sem ele agora — saber o problema antes da solução.
 
-#### Tema 8 — Escrita: o CRUD completo na tela · ⏳ aberto (09/08)
+#### Tema 8 — Escrita: o CRUD completo na tela · ✅ Feito (10/08)
 
 **O app ganha:** criar, editar e apagar tarefa indo até o banco. O front vira, de fato, o cliente da sua API.
 

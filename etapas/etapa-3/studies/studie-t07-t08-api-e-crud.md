@@ -600,10 +600,28 @@ O que **não** é aceitável é o componente ficar grande **e** confuso: cada ha
 
 # Parte C — Revisão do código
 
-> A preencher no fechamento do tema (regra 6).
-
 ## O app foi migrado para o assunto do tema?
+
+Sim, e nos dois sentidos.
+
+**Leitura.** Não existe mais array em memória como origem: `data/mockTasks.ts` saiu do caminho, `utils/taskStorage.ts` saiu do app junto com o `useEffect([tasks])` que gravava, e a lista vem do `GET /tasks`. O estado da tela é união discriminada (`loading | error | success`), com componente próprio para cada um — e "vazio" mora dentro do sucesso. A busca acontece no `useEffect` com `AbortController` na limpeza, `AbortError` ignorado no `catch`, timeout de 8s por `AbortSignal.any([signal, AbortSignal.timeout(8000)])`, e erro de rede separado de erro de aplicação por `instanceof ApiError`.
+
+**Escrita.** Os quatro handlers viraram `async` e vão até o banco: `POST` com id gerado pelo Postgres (`crypto.randomUUID()` saiu do `handleAddTask`), `PATCH` mandando **só** o campo que mudou, `DELETE` com `204` tratado. `onAddTask` virou `(form) => Promise<void>` — "sucesso limpa, erro preserva" agora depende da resposta do servidor, não de um `if` local. `pendingIds` marca o item que grava, guarda de duplo submit no handler e no botão, e `404` na escrita tira o item da tela com aviso em `aria-live`.
+
+**O que ficou fora e por quê:** o `ApiError.fieldErrors` existe sem cliente, porque a API devolve `field: 'task'` para qualquer dado inválido — divergência de contrato encontrada durante o tema, com a `api/` congelada. O `Content` ficou grande de propósito (material do T12). Bloco 2 inteiro não foi feito.
 
 ## Typecheck
 
+`npm run typecheck` (`tsc -b --noEmit`) — **rodar e colar o resultado antes de considerar o tema fechado.**
+
+Dois atritos do TS 7 apareceram e estão resolvidos no código: `erasableSyntaxOnly` proibindo parameter properties no construtor do `ApiError` (campos declarados e atribuídos à mão) e `exactOptionalPropertyTypes` recusando `{ signal: undefined }` — no `fetch`, curado com `?? null`; no `RequestOptions` próprio, com `signal?: AbortSignal | undefined` explícito.
+
 ## Testes
+
+Nenhum, por plano: testes de front são o **Tema 14** (Vitest + Testing Library + MSW), e o MSW vai interceptar exatamente na borda que este tema criou — `src/api/`. A verificação deste tema foi manual, pelas cinco provas do Bloco 1, todas passando:
+
+1. API derrubada com a tela aberta: sem tela branca, sem giro eterno.
+2. `POST` inválido: mensagem no formulário (não no campo — ver divergência acima).
+3. Tarefa apagada pelo `psql` e editada na tela: vira "Esta tarefa não existe mais" e o item some.
+4. Duplo clique em "Adicionar": uma tarefa no banco.
+5. Preflight `OPTIONS` na Network antes do primeiro `PATCH`.
