@@ -1,0 +1,15 @@
+info:
+  name: delete-task
+  type: http
+  seq: 7
+
+http:
+  method: DELETE
+  url: http://localhost:3000/tasks/459cf904-2830-4dcf-933b-706504341190
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
