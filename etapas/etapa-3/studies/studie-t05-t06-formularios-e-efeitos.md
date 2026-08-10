@@ -97,7 +97,7 @@ O formato `'YYYY-MM-DD'` do input casa por sorte com o `term` da API ser `text`,
 
 **O que é.** O formulário submete de três jeitos: clique no botão `type="submit"`, **Enter** num campo de texto, ou `form.requestSubmit()`. Pendurar a lógica no `onClick` do botão cobre só o primeiro.
 
-**Para que serve.** É a resposta certa por quatro motivos ao mesmo tempo: Enter funciona de graça; leitor de tela anuncia "formulário"; o navegador dá validação nativa (`required`, `type="email"`); e o Testing Library do T14 procura `getByRole('form')` e dispara submit — teste que clica no botão testa o botão, não o formulário.
+**Para que serve.** É a resposta certa por quatro motivos ao mesmo tempo: Enter funciona de graça; leitor de tela anuncia "formulário"; o navegador dá validação nativa (`required`, `type="email"`); e o Testing Library do T13 procura `getByRole('form')` e dispara submit — teste que clica no botão testa o botão, não o formulário.
 
 **Exemplo.**
 
@@ -146,7 +146,7 @@ Sobra uma inconsistência de nome só de estilo: o `Typography` tem `titleTask` 
 
 **O que é.** `<label htmlFor="term">` apontando para `<input id="term">`. Ou o input dentro do label, sem `id` — funciona, mas atrapalha o layout.
 
-**Para que serve.** Três coisas de uma vez: clicar no rótulo foca o campo (alvo de toque maior); leitor de tela anuncia o rótulo junto do campo, em vez de "campo de edição, em branco"; e `getByLabelText` do T14 passa a funcionar. É o tópico 4 do T3 pagando dividendo — e a razão de "acessibilidade é comportamento, não enfeite".
+**Para que serve.** Três coisas de uma vez: clicar no rótulo foca o campo (alvo de toque maior); leitor de tela anuncia o rótulo junto do campo, em vez de "campo de edição, em branco"; e `getByLabelText` do T13 passa a funcionar. É o tópico 4 do T3 pagando dividendo — e a razão de "acessibilidade é comportamento, não enfeite".
 
 **Exemplo.**
 
@@ -204,7 +204,7 @@ const [status, setStatus] = useState<FormStatus>('idle');
 
 **O que é.** O ponto em que espalhar `useState` vira ruído: muitos campos, ou — mais importante — quando um evento precisa mudar **vários pedaços do estado de uma vez** de forma coordenada.
 
-**Para que serve.** É o gancho do `useReducer` (T12). O sintoma não é a quantidade de `useState`; é o handler que chama três setters seguidos e cujo nome é uma transição ("enviou", "servidor respondeu", "cancelou"). Quando o evento é uma transição, o modelo é máquina de estados.
+**Para que serve.** É o gancho do `useReducer` (T11). O sintoma não é a quantidade de `useState`; é o handler que chama três setters seguidos e cujo nome é uma transição ("enviou", "servidor respondeu", "cancelou"). Quando o evento é uma transição, o modelo é máquina de estados.
 
 **Exemplo.**
 
@@ -214,7 +214,7 @@ setErrors({});
 setFormError(null); // três setters, um evento → cheiro de reducer
 ```
 
-Neste tema você **não** troca por `useReducer` — escreve o sintoma no devlog para o T12 encontrar. Trocar agora é otimizar antes de doer.
+Neste tema você **não** troca por `useReducer` — escreve o sintoma no devlog para o T11 encontrar. Trocar agora é otimizar antes de doer.
 
 ### 12. Bibliotecas de formulário existem — por que nenhuma agora
 
@@ -354,7 +354,7 @@ Regra prática: se dentro do efeito aparece um verbo de criar (`add`, `create`, 
 
 **O que é.** O React chama a função do componente (render, puro, sem tocar no DOM), aplica as diferenças no DOM (commit), o navegador pinta, e **depois** o efeito roda.
 
-**Para que serve.** Explica por que medir elemento (`getBoundingClientRect`, `offsetHeight`) durante o render é errado: o nó ainda não está lá, ou é o do render anterior. Medição é dentro do efeito, com `ref`. É o que o T10 vai precisar para animar, e o T12 formaliza no `useRef` para nó do DOM.
+**Para que serve.** Explica por que medir elemento (`getBoundingClientRect`, `offsetHeight`) durante o render é errado: o nó ainda não está lá, ou é o do render anterior. Medição é dentro do efeito, com `ref`. É o que o T14 vai precisar para animar, e o T11 formaliza no `useRef` para nó do DOM.
 
 **Exemplo.**
 
@@ -385,7 +385,7 @@ O T1 já registrou o dobro de montagem como feature. Aqui ela ganha o uso práti
 2. **Objeto ou array recriado no render** dentro das deps: `{}` !== `{}` por `Object.is`, sempre.
 3. **Função recriada no render** dentro das deps — o caso 2 com outra cara, e o mais comum.
 
-**Para que serve.** Reconhecer a causa em vez de apagar o array de dependências. As curas, na ordem: mover o valor para dentro do efeito; `useMemo`/`useCallback` (T12); tirar o valor do componente (constante de módulo); ou usar a forma funcional do setter para não depender do estado.
+**Para que serve.** Reconhecer a causa em vez de apagar o array de dependências. As curas, na ordem: mover o valor para dentro do efeito; `useMemo`/`useCallback` (T11); tirar o valor do componente (constante de módulo); ou usar a forma funcional do setter para não depender do estado.
 
 **Exemplo.**
 
@@ -462,7 +462,7 @@ useEffect(() => {
 
 **Para que serve.** 99% dos casos são `useEffect`. `useLayoutEffect` só quando o usuário veria um estado intermediário errado: medir um elemento e reposicionar (tooltip, popover), restaurar scroll, fixar a posição inicial de uma animação. Fora disso, ele atrasa a tela.
 
-**Exemplo mental.** Se você mede e move no `useEffect`, o usuário vê o elemento no lugar errado por um quadro. Com `useLayoutEffect`, nunca vê. **Volta no T10**, medindo elemento para animar.
+**Exemplo mental.** Se você mede e move no `useEffect`, o usuário vê o elemento no lugar errado por um quadro. Com `useLayoutEffect`, nunca vê. **Volta no T14**, medindo elemento para animar.
 
 ### 12. Ordem de execução: pai × filho
 
@@ -565,8 +565,8 @@ Nenhuma. `useEffect` vem no React, `localStorage` é do navegador. Deixar aberto
 - Título vazio na edição na linha também avisar — hoje só o formulário de criar avisa
 - Guarda contra duplo submit — hoje o envio é síncrono; volta no T8
 - Erro não depender só de cor
-- Extrair `useLocalStorage` — é T12; se fizer, registrar que antecipou
-- Animar a abertura do rodapé com `grid-template-rows: 0fr → 1fr` — é T10
+- Extrair `useLocalStorage` — é T11; se fizer, registrar que antecipou
+- Animar a abertura do rodapé com `grid-template-rows: 0fr → 1fr` — é T14
 
 ---
 
@@ -591,4 +591,4 @@ Ambas foram para o Bloco 2.
 
 ## Testes
 
-Não existem ainda (T14). Nada a verificar.
+Não existem ainda (T13). Nada a verificar.

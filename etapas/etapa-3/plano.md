@@ -2,7 +2,9 @@
 
 > **Inversão do cronograma (28/07/2026):** a Etapa 2 foi **pausada no meio do Tema 5** e o front entra no lugar. O back-end volta depois, do ponto onde parou — nada foi descartado. · **Início: 29/07/2026** · **Avaliação alvo: 12/08/2026**
 >
-> **Reordenado em 28/07** para casar com o perfil de programação (front de movimento e interação): estilo saiu do fim para o **Tema 3**, entrou um tema novo de **Motion** (T10), e o **deploy foi adiantado para o T11** — link público com quatro temas ainda pela frente.
+> **Reordenado em 28/07** para casar com o perfil de programação (front de movimento e interação): estilo saiu do fim para o **Tema 3**, entrou um tema novo de **Motion**, e o **deploy foi adiantado** — link público com temas ainda pela frente.
+>
+> **Reordenado de novo em 10/08**, nos temas 10–14: **T10 deploy · T11 hooks · T12 Context · T13 testes · T14 motion** (antes era motion, deploy, hooks, Context, testes). Deploy colou em rotas para pagar o 404 no F5 no tema seguinte e adiantar a regra 7; motion foi para o fim, com bundle e suíte já de pé para cobrá-lo. Detalhe e custos no devlog.
 
 ## Objetivo
 
@@ -26,7 +28,7 @@ Qualquer outra vontade de mexer na API durante esta etapa (paginação, filtro, 
 4. **O contrato do front mora no `web/README.md`:** O que é o app. Como rodar (variáveis de ambiente). Mapa de rotas atualizado. Frameworks utilizados atualizado. Estrutura de pastas simples. O que o app faz atualizado.
 5. **`studie-tNN-tema.md` na abertura de cada tema**, feito pela IA em três partes. **Parte A:** _1- O que é (descrever funções/metódos do tópico). 2- Para que serve, o que substitui, diminui algo do código, refatora, facilita, etc? 3- Exemplo pequeno. **Parte B:** alterações no app — \_1- Preparação do ambiente_ (setup de ferramenta se tiver); _2- Os blocos_: Bloco 1: o que é para o app fazer/ter agora. Bloco 2: sugestões de alterações médio/avançado para colocar no app. Toda a Parte B em tópicos, simples, breve. **Parte C:** revisão do código. Verificar se o app foi migrado para o assunto do tema (as alterações obrigatórias do tema), se ele está typecheck ok e se os testes estão verdes (caso já tenha testes).
 6. **Um tema só fecha quando a parte C estiver concluida**
-7. **A partir do Tema 11, o que está na `main` está no ar.** Tema fechado sem redeploy é tema não fechado. Sem link público, não conta como terminado.
+7. **A partir do Tema 10, o que está na `main` está no ar.** Tema fechado sem redeploy é tema não fechado. Sem link público, não conta como terminado.
 8. **A defesa oral acontece uma vez, no fim: o simulado de entrevista**, depois do Tema 14 e imediatamente antes da avaliação de 12/08 — é o último bloco da etapa, não um extra opcional. São as 14 perguntas da Avaliação, uma por tema, no formato de entrevista — eu respondo falado e curto (2–3 frases), a IA contra-argumenta em cima, e o que não se sustentar me manda de volta à Parte A daquele tema.
 
 ## Estrutura de pastas
@@ -113,7 +115,7 @@ Quatorze temas, um por dia sugerido. **O dia é guia, não contrato** — na Eta
 
 1. As opções: CSS global, CSS Modules, CSS-in-JS, Tailwind — o que cada uma resolve. Escolher **uma** e registrar a decisão no `web/README.md`.
 2. O problema que CSS Modules resolve: escopo e colisão de nome.
-3. Variáveis CSS como design tokens: cor, espaçamento, raio, tipografia num lugar só. É delas que o Tema 10 vai tirar duração e curva de animação.
+3. Variáveis CSS como design tokens: cor, espaçamento, raio, tipografia num lugar só. É delas que o Tema 14 vai tirar duração e curva de animação.
 4. Classe condicional por prop, sem virar sopa de ternário (estado vem no Tema 4 e usa o mesmo caminho).
 5. Layout com Flexbox e Grid — o suficiente para uma lista, um formulário e um cabeçalho.
 6. Responsivo com mobile-first e media query.
@@ -122,10 +124,10 @@ Quatorze temas, um por dia sugerido. **O dia é guia, não contrato** — na Eta
 9. Foco: ordem de tabulação, foco visível, para onde o foco vai depois de apagar um item ou fechar um modal.
 10. `aria-live` para avisar a mudança que aconteceu sem clique.
 11. Contraste e tamanho de alvo — dois testes rápidos que pegam a maior parte dos problemas.
-12. **Acessibilidade é comportamento, não enfeite:** o que o leitor de tela acha é o que o Testing Library acha (Tema 14) e é o que o teclado alcança na avaliação.
+12. **Acessibilidade é comportamento, não enfeite:** o que o leitor de tela acha é o que o Testing Library acha (Tema 13) e é o que o teclado alcança na avaliação.
 13. **Componente de UI × componente de domínio.** O critério: componente reutilizável **não sabe nada do domínio** — `Button` não sabe o que é uma tarefa, `TaskItem` sabe. Teste prático: se o arquivo fosse copiado para outro projeto, funcionaria sem alteração? Consequência na pasta: `components/ui/` × `components/tasks/`. Auditar o que já existe da `web/` — `Section` e `AddTaskField` não importam `Task` e estão do lado errado.
 14. **Quando encapsular a tag crua e quando não.** Embrulhar `<button>` num `Button` que não acrescenta nada é custo puro (mais um arquivo, mais um import, zero ganho). Vale quando há **decisão repetida** para encapsular: estilo, estado visual (`:hover`/`:disabled`/carregando), acessibilidade. É por isso que este tópico é do Tema 3 e não do Tema 2 — antes de existir estilo não há decisão nenhuma a encapsular. Os habitantes típicos de `ui/`: `Button`, `TextField` (label + input + erro juntos), `Select`, `Modal`, `Card`, `Badge`, `Spinner`, `Alert`.
-15. **Quando o componente vira pasta.** `Button.tsx` solto × `Button/` com `Button.tsx` + `Button.module.css` + (no Tema 14) `Button.test.tsx`. O gatilho é o arquivo irmão — enquanto o componente é um arquivo só, pasta é cerimônia.
+15. **Quando o componente vira pasta.** `Button.tsx` solto × `Button/` com `Button.tsx` + `Button.module.css` + (no Tema 13) `Button.test.tsx`. O gatilho é o arquivo irmão — enquanto o componente é um arquivo só, pasta é cerimônia.
 
 ### Tema 4 — Estado e eventos · _dia sugerido 07/08_ · ✅ Feito (07/08)
 
@@ -170,7 +172,7 @@ Quatorze temas, um por dia sugerido. **O dia é guia, não contrato** — na Eta
 8. `label` ligado ao input (`htmlFor`/`id`): acessibilidade e por que isso também facilita teste.
 9. Limpar formulário depois do sucesso; manter o que foi digitado depois do erro.
 10. Botão desabilitado durante o envio e o problema do duplo submit.
-11. Formulário grande: quando `useState` por campo deixa de servir (gancho para o `useReducer` do Tema 12).
+11. Formulário grande: quando `useState` por campo deixa de servir (gancho para o `useReducer` do Tema 11).
 12. Bibliotecas de formulário existem — por que não usar nenhuma agora.
 
 #### Tema 6 — Efeitos e ciclo de vida · ✅ Feito (08/08)
@@ -189,7 +191,7 @@ Quatorze temas, um por dia sugerido. **O dia é guia, não contrato** — na Eta
 8. Loop infinito: as três causas clássicas (setar estado sem deps, objeto/array recriado nas deps, função recriada nas deps).
 9. Efeito com `async`: por que a função do efeito não pode ser `async` e o que se faz em vez disso.
 10. **Race condition:** a resposta antiga chegando depois da nova. `AbortController` e a flag `ignore`.
-11. `useEffect` × `useLayoutEffect` — saber que existe e quando importa (volta no Tema 10, medindo elemento para animar).
+11. `useEffect` × `useLayoutEffect` — saber que existe e quando importa (volta no Tema 14, medindo elemento para animar).
 12. Efeito em componente pai × filho: ordem de execução.
 
 ### Temas 7 + 8 — Falando com a API e o CRUD completo · _dias sugeridos 10/08–11/08_ · ✅ Feitos (10/08)
@@ -198,7 +200,7 @@ Quatorze temas, um por dia sugerido. **O dia é guia, não contrato** — na Eta
 >
 > **O motivo é de conteúdo.** Os dois montam a **mesma camada** (`src/api/`): separá-los significa escrever `request`, tradução de erro e tipagem de resposta no T7 e voltar aos mesmos arquivos no dia seguinte. Metade dos tópicos do T8 (erro no campo certo, refetch × estado local, salvando por item) só tem sentido depois que os quatro estados de tela do T7 existirem, e a lição central do T7 — erro HTTP não rejeita a Promise — só dói quando existe um `POST` que pode voltar 400.
 >
-> **Três decisões tomadas na abertura:** o `localStorage` **morre** (a API vira fonte única da verdade, e o preço — app não funciona sem API de pé — é a dívida que o T11 tópico 7 paga); a tela atualiza com a **resposta** da escrita, não com refetch; e a atualização otimista fica só no ciclo de status, porque criar depende do id do banco e id que muda quebra a `key`. Todas vão para o `web/README.md`.
+> **Três decisões tomadas na abertura:** o `localStorage` **morre** (a API vira fonte única da verdade, e o preço — app não funciona sem API de pé — é a dívida que o T10 tópico 7 paga); a tela atualiza com a **resposta** da escrita, não com refetch; e a atualização otimista fica só no ciclo de status, porque criar depende do id do banco e id que muda quebra a `key`. Todas vão para o `web/README.md`.
 
 #### Tema 7 — Falando com a API · ✅ Feito (10/08)
 
@@ -236,7 +238,7 @@ Quatorze temas, um por dia sugerido. **O dia é guia, não contrato** — na Eta
 7. Erro de validação do servidor caindo no campo certo do formulário.
 8. Confirmação antes de apagar; desfazer como alternativa.
 9. Duplo clique, clique durante o envio, e a requisição repetida — idempotência vista do lado do cliente.
-10. Chave de identidade nas listas quando o item ainda não tem id do banco (item otimista) — e por que isso decide se a animação do Tema 10 vai funcionar.
+10. Chave de identidade nas listas quando o item ainda não tem id do banco (item otimista) — e por que isso decide se a animação do Tema 14 vai funcionar.
 11. O que fazer quando o `PATCH` responde 404: o item sumiu debaixo dos seus pés.
 12. Erro que aparece e some: onde vive a mensagem de erro e quem a limpa.
 
@@ -257,42 +259,18 @@ Quatorze temas, um por dia sugerido. **O dia é guia, não contrato** — na Eta
 9. `useLocation` e voltar para onde o usuário estava.
 10. Buscar dado ao trocar de rota: a race condition do Tema 6 volta, agora entre rotas.
 11. Rota protegida: o desenho do componente-guarda — montado agora, ativado quando o login existir (Tema 8 da Etapa 2).
-12. Deploy de SPA e a rota que dá 404 ao recarregar: por que acontece, o que é o fallback para o `index.html` (resolvido no Tema 11).
-13. **Decompor uma tela antes de escrever código.** Desenhar a árvore primeiro — `TaskPage` → `Header` · `Filters` · `TaskForm` · `TaskList` → `TaskItem`. A mecânica é trivial; o difícil é **onde parar**: dividir demais gera prop drilling (Tema 13), dividir de menos gera o arquivo de 300 linhas. Aqui a hierarquia deixa de ser exercício porque a página passa a existir de verdade.
+12. Deploy de SPA e a rota que dá 404 ao recarregar: por que acontece, o que é o fallback para o `index.html` (resolvido no Tema 10).
+13. **Decompor uma tela antes de escrever código.** Desenhar a árvore primeiro — `TaskPage` → `Header` · `Filters` · `TaskForm` · `TaskList` → `TaskItem`. A mecânica é trivial; o difícil é **onde parar**: dividir demais gera prop drilling (Tema 12), dividir de menos gera o arquivo de 300 linhas. Aqui a hierarquia deixa de ser exercício porque a página passa a existir de verdade.
 14. **`pages/` (ou `routes/`) nasce aqui, e só aqui.** O componente de página é o que casa com uma rota, orquestra os componentes de domínio e é dono da busca de dado. Por que ele não podia existir no Tema 1: sem rota, "página" e "componente raiz" são a mesma coisa — a pasta seria nome sem conteúdo.
 
-### Tema 10 — Motion e interação · _dia sugerido 13/08_
-
-**O app ganha:** movimento — item que entra e sai da lista com transição, troca de rota animada, resposta tátil no clique e no arrasto. É o tema que traduz "segurar carrega, soltar arremessa" para vocabulário React.
-
-> **Por que só agora:** animação precisa de material. Item entrando e saindo veio no Tema 8, troca de rota veio no Tema 9. Antes disso seria enfeite sem comportamento.
-
-**Tópicos de estudo sugeridos**
-
-1. `transition` no CSS: propriedade, duração, `delay` e o que a curva (`ease`, `cubic-bezier`) comunica. Duração e curva saem dos tokens do Tema 3, não do chute.
-2. `transform` e `opacity` animam de graça; `top`, `left`, `width`, `height` e `box-shadow` travam. **O porquê:** compositor × layout × paint.
-3. `@keyframes` e `animation`: quando ela é a resposta e a `transition` não é.
-4. Medir: aba Performance do DevTools, o que é uma queda de frame, e por que "parece suave" não é medição.
-5. Animar o que **não** existe mais: o problema de animar a saída de um elemento que o React já desmontou — a razão de existir de uma lib de motion.
-6. **Escolher a lib e registrar no `web/README.md`: Framer Motion ou GSAP.** Framer Motion é React-nativo, declarativo, entrada/saída resolvida; GSAP é mais poderoso, agnóstico de framework, timeline de verdade. Vaga de produto React puxa para o primeiro; trabalho de agência criativa puxa para o segundo.
-7. Entrada e saída de item da lista (`AnimatePresence` ou equivalente) — e por que a `key` do Tema 2 decide se isso funciona.
-8. Animação de layout: o item que muda de posição quando a lista é filtrada ou reordenada.
-9. Transição entre rotas, ligada ao Tema 9.
-10. Gesto: arrastar para reordenar ou para apagar, com `pointerdown`/`pointermove`/`pointerup`. `mousedown` × `pointerdown` e por que o segundo cobre o dedo.
-11. Interação com fases (pressionar → carregar → soltar → travar): modelar como **máquina de estados**, não como pilha de booleanos — a mesma lição do "estado impossível" do Tema 4.
-12. Feedback tátil sem animação: `:active`, `transform: scale` no clique, e por que 100ms de resposta valem mais que 600ms de firula.
-13. `prefers-reduced-motion`: gente que passa mal com movimento. Como respeitar sem matar a interface.
-14. Onde a animação atrapalha: carregando que dança, erro que desliza devagar demais para ser lido, lista que anima a cada tecla digitada.
-15. Medir de novo depois de tudo pronto — animação é a primeira coisa a derrubar o frame rate no celular.
-
-### Tema 11 — Build e deploy · _dia sugerido 14/08_
+### Tema 10 — Build e deploy · _dia sugerido 13/08_
 
 **O app ganha:** **URL pública.** A partir daqui, tema fechado sem redeploy é tema não fechado (regra 7).
 
 **Tópicos de estudo sugeridos**
 
 1. `dev` × `preview` × `build`: três coisas diferentes, e por que medir performance em modo de desenvolvimento não vale nada.
-2. Ler o resultado do `vite build`: tamanho do bundle, o que entrou nele, `rollup-plugin-visualizer`. A lib de motion do Tema 10 aparece aqui — e é para vê-la.
+2. Ler o resultado do `vite build`: tamanho do bundle, o que entrou nele, `rollup-plugin-visualizer`. O React Router do Tema 9 aparece aqui — e é para vê-lo. Esta medição é a **linha de base**: você repete depois do Tema 14 para ver o que a lib de motion custou.
 3. `lazy` + `Suspense`: dividir o bundle por rota, aproveitando as rotas do Tema 9.
 4. Deploy de estático (Vercel/Netlify/Pages): o que sobe é a pasta `dist/`.
 5. **Fallback de SPA:** a regra de rewrite que faz `/tasks/:id` funcionar no F5 — a dívida deixada no Tema 9.
@@ -304,20 +282,20 @@ Quatorze temas, um por dia sugerido. **O dia é guia, não contrato** — na Eta
 11. Lighthouse: rodar, ler as quatro notas, corrigir o que é barato.
 12. O `web/README.md` com link no topo, print/GIF do app, e a limitação da API local escrita com todas as letras.
 
-### Tema 12 — Hooks a fundo, custom hooks e performance · _dia sugerido 15/08_
+### Tema 11 — Hooks a fundo, custom hooks e performance · _dia sugerido 14/08_
 
 **O app ganha:** a lógica de dados sai dos componentes e vira `useTasks`; o que re-renderiza demais é medido e corrigido.
 
 **Tópicos de estudo sugeridos**
 
 1. As regras dos hooks: topo do componente, sempre na mesma ordem, nunca dentro de `if`/loop. **Por quê** — o React identifica o hook pela posição na chamada.
-2. `useReducer`: quando o estado tem transições, não só valores. `action`, `reducer`, `dispatch` — e a máquina de estados do Tema 10 achando sua casa definitiva.
+2. `useReducer`: quando o estado tem transições, não só valores. `action`, `reducer`, `dispatch` — a ferramenta que a interação com fases do Tema 14 vai usar para não virar pilha de booleanos.
 3. Modelar carregando/erro/dado como uma **união discriminada** em vez de três booleanos soltos — o TypeScript do Tema 3 da Etapa 2 pagando dividendo.
 4. `useRef` para valor mutável que não dispara render.
 5. `useRef` para nó do DOM: foco, scroll, medir — e o elemento que a animação precisa medir.
 6. `useId` para acessibilidade em componente reutilizado.
 7. **Custom hook:** função que começa com `use` e chama outros hooks. Extrair `useTasks` — o que ele expõe e o que ele esconde.
-8. Custom hook compartilha **lógica**, não **estado**: dois componentes usando o mesmo hook têm dois estados separados. Consequência prática — e a ponte para o Tema 13.
+8. Custom hook compartilha **lógica**, não **estado**: dois componentes usando o mesmo hook têm dois estados separados. Consequência prática — e a ponte para o Tema 12.
 9. **React DevTools Profiler: medir antes de otimizar qualquer coisa.**
 10. Por que um componente re-renderiza: mudou estado, mudou prop, o pai renderizou, mudou contexto.
 11. `useMemo` e `useCallback`: o que resolvem, a identidade da função entre renders, e por que quase todo `useMemo` que você quer escrever no começo é desnecessário.
@@ -326,7 +304,7 @@ Quatorze temas, um por dia sugerido. **O dia é guia, não contrato** — na Eta
 14. Lista grande: paginar, limitar, virtualizar — e o custo de cada saída.
 15. Memoização também custa. **Medir depois, para provar que resolveu.**
 
-### Tema 13 — Estado global: Context · _dia sugerido 16/08_
+### Tema 12 — Estado global: Context · _dia sugerido 15/08_
 
 **O app ganha:** um `Provider` para o que é realmente global (tema, notificações/toast, ou a coleção de tarefas) — sem prop drilling e sem biblioteca.
 
@@ -337,7 +315,7 @@ Quatorze temas, um por dia sugerido. **O dia é guia, não contrato** — na Eta
 3. `createContext`, `Provider`, `useContext`: as três peças.
 4. Tipar o contexto e o problema do valor padrão; o hook guardião que estoura se usado fora do Provider.
 5. Onde o Provider entra na árvore e o que isso decide.
-6. **O custo:** todo consumidor re-renderiza quando o valor do contexto muda — inclusive quem só usa uma parte dele. Agora você tem o Profiler do Tema 12 para ver isso acontecendo.
+6. **O custo:** todo consumidor re-renderiza quando o valor do contexto muda — inclusive quem só usa uma parte dele. Agora você tem o Profiler do Tema 11 para ver isso acontecendo.
 7. Valor de contexto recriado a cada render: o bug silencioso de performance e como evitar.
 8. Separar contexto de **estado** e contexto de **dispatch**.
 9. Context não é gerenciador de estado — é transporte. A diferença importa.
@@ -345,11 +323,11 @@ Quatorze temas, um por dia sugerido. **O dia é guia, não contrato** — na Eta
 11. Redux, Zustand, Jotai existem — que problema cada um resolve e por que nenhum entra aqui.
 12. Critério final: quando o Context é resposta certa e quando é canhão em mosquito.
 
-### Tema 14 — Testes de front · _dia sugerido 17/08_
+### Tema 13 — Testes de front · _dia sugerido 16/08_
 
 **O app ganha:** suíte de testes de componente com Vitest + Testing Library e a API mockada por MSW — `npm test` verde vira condição de fechamento a partir daqui.
 
-> **Risco declarado:** deixar os testes por último é o mesmo padrão do questionário que ficou pendente no Tema 4 da Etapa 2. O que segura até aqui é a regra 1 — todo trecho gerado precisa de prova de que funciona, registrada no devlog.
+> **Risco declarado:** deixar os testes para o penúltimo tema é o mesmo padrão do questionário que ficou pendente no Tema 4 da Etapa 2. O que segura até aqui é a regra 1 — todo trecho gerado precisa de prova de que funciona, registrada no devlog.
 
 **Tópicos de estudo sugeridos**
 
@@ -363,11 +341,35 @@ Quatorze temas, um por dia sugerido. **O dia é guia, não contrato** — na Eta
 8. **MSW:** interceptar a requisição na borda da rede em vez de mockar `fetch`. Handlers de sucesso, de erro e de lentidão.
 9. Testar os quatro estados de tela do Tema 7 — inclusive o de erro, que é o que ninguém testa.
 10. Testar formulário de ponta a ponta: digitar, enviar, ver a mensagem.
-11. Testar componente que anima: o que fazer com o tempo e por que a animação não pode ser condição para o teste passar.
+11. Testar componente que anima: o que fazer com o tempo e por que a animação não pode ser condição para o teste passar. Nada anima ainda — a regra nasce aqui e é cobrada no Tema 14.
 12. Testar custom hook isoladamente — quando vale e quando é melhor testar pelo componente.
 13. O que **não** testar no front: cor, classe de CSS, ordem de chamada interna, biblioteca de terceiro.
 14. Cobertura no front: por que o número mente mais aqui do que no back.
 15. A pirâmide vista do front: componente × integração × e2e (Playwright existe — fica anotado, não entra agora).
+
+### Tema 14 — Motion e interação · _dia sugerido 17/08_
+
+**O app ganha:** movimento — item que entra e sai da lista com transição, troca de rota animada, resposta tátil no clique e no arrasto. É o tema que traduz "segurar carrega, soltar arremessa" para vocabulário React.
+
+> **Por que só agora:** animação precisa de material. Item entrando e saindo veio no Tema 8, troca de rota veio no Tema 9. Antes disso seria enfeite sem comportamento. E, por ser o último, ele herda duas exigências: a regra 7 — o que fecha vai para o ar, e o bundle é medido de novo contra a linha de base do Tema 10 — e a suíte do Tema 13, que precisa continuar verde depois do movimento.
+
+**Tópicos de estudo sugeridos**
+
+1. `transition` no CSS: propriedade, duração, `delay` e o que a curva (`ease`, `cubic-bezier`) comunica. Duração e curva saem dos tokens do Tema 3, não do chute.
+2. `transform` e `opacity` animam de graça; `top`, `left`, `width`, `height` e `box-shadow` travam. **O porquê:** compositor × layout × paint.
+3. `@keyframes` e `animation`: quando ela é a resposta e a `transition` não é.
+4. Medir: aba Performance do DevTools, o que é uma queda de frame, e por que "parece suave" não é medição.
+5. Animar o que **não** existe mais: o problema de animar a saída de um elemento que o React já desmontou — a razão de existir de uma lib de motion.
+6. **Escolher a lib e registrar no `web/README.md`: Framer Motion ou GSAP.** Framer Motion é React-nativo, declarativo, entrada/saída resolvida; GSAP é mais poderoso, agnóstico de framework, timeline de verdade. Vaga de produto React puxa para o primeiro; trabalho de agência criativa puxa para o segundo.
+7. Entrada e saída de item da lista (`AnimatePresence` ou equivalente) — e por que a `key` do Tema 2 decide se isso funciona.
+8. Animação de layout: o item que muda de posição quando a lista é filtrada ou reordenada.
+9. Transição entre rotas, ligada ao Tema 9.
+10. Gesto: arrastar para reordenar ou para apagar, com `pointerdown`/`pointermove`/`pointerup`. `mousedown` × `pointerdown` e por que o segundo cobre o dedo.
+11. Interação com fases (pressionar → carregar → soltar → travar): modelar como **máquina de estados**, não como pilha de booleanos — a mesma lição do "estado impossível" do Tema 4, agora com o `useReducer` do Tema 11 na mão.
+12. Feedback tátil sem animação: `:active`, `transform: scale` no clique, e por que 100ms de resposta valem mais que 600ms de firula.
+13. `prefers-reduced-motion`: gente que passa mal com movimento. Como respeitar sem matar a interface.
+14. Onde a animação atrapalha: carregando que dança, erro que desliza devagar demais para ser lido, lista que anima a cada tecla digitada.
+15. Medir de novo depois de tudo pronto — animação é a primeira coisa a derrubar o frame rate no celular.
 
 ---
 
@@ -391,7 +393,7 @@ Quatorze temas, um por dia sugerido. **O dia é guia, não contrato** — na Eta
 - crio e apago cinco tarefas seguidas com a aba Performance aberta: a animação não pode derrubar o frame rate;
 - navego só pelo teclado: dá para criar e apagar uma tarefa sem mouse.
 
-**Oral — uma pergunta por tema.** Esta lista é também o roteiro do **simulado de entrevista** que roda logo antes da avaliação (regra 8), com prioridade para o que estiver marcado com ⚠️ no devlog: por que JSX e o que ele vira · o que `key` resolve de verdade · por que você escolheu esse sistema de estilo · o que é estado derivado e por que ele não vira estado · controlado × não controlado · quando **não** usar `useEffect` · o que é CORS e por que o servidor não apanha · atualização otimista e o rollback · por que a URL é estado · por que `transform` anima e `top` trava · o que o build revelou sobre o tamanho do seu bundle · o que você mediu antes de memoizar · o custo do Context · por que `getByRole` vem antes de `getByTestId`.
+**Oral — uma pergunta por tema.** Esta lista é também o roteiro do **simulado de entrevista** que roda logo antes da avaliação (regra 8), com prioridade para o que estiver marcado com ⚠️ no devlog: por que JSX e o que ele vira · o que `key` resolve de verdade · por que você escolheu esse sistema de estilo · o que é estado derivado e por que ele não vira estado · controlado × não controlado · quando **não** usar `useEffect` · o que é CORS e por que o servidor não apanha · atualização otimista e o rollback · por que a URL é estado · o que o build revelou sobre o tamanho do seu bundle · o que você mediu antes de memoizar · o custo do Context · por que `getByRole` vem antes de `getByTestId` · por que `transform` anima e `top` trava.
 
 **Reprova se:** a tela fica branca em erro de rede · o link público está quebrado ou desatualizado · o estado da UI mente sobre o que está no banco · você usou um trecho gerado pela IA que não sabe explicar linha a linha · você não sabe defender uma decisão que você tomou.
 

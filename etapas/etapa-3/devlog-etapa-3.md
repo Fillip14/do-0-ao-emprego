@@ -115,10 +115,10 @@ Estudo em [`studies/studie-t07-t08-api-e-crud.md`](studies/studie-t07-t08-api-e-
 
 **Decisões da abertura:**
 
-1. **O `localStorage` morre.** A API vira fonte única da verdade — `utils/taskStorage.ts` sai do app junto com o `useEffect([tasks])` que gravava. As alternativas eram mantê-lo como cache de leitura ou como fallback. Foram recusadas pelo mesmo motivo: com dado velho pintado por baixo, o **estado de erro nunca aparece de verdade**, e os quatro estados do T7 só são honestos sem rede de segurança. O preço — o app para de funcionar sem a API de pé — é a dívida que o **T11, tópico 7** existe para pagar, agora explícita em vez de acidental.
+1. **O `localStorage` morre.** A API vira fonte única da verdade — `utils/taskStorage.ts` sai do app junto com o `useEffect([tasks])` que gravava. As alternativas eram mantê-lo como cache de leitura ou como fallback. Foram recusadas pelo mesmo motivo: com dado velho pintado por baixo, o **estado de erro nunca aparece de verdade**, e os quatro estados do T7 só são honestos sem rede de segurança. O preço — o app para de funcionar sem a API de pé — é a dívida que o **T10, tópico 7** existe para pagar, agora explícita em vez de acidental.
 2. **CORS na mão, sem o pacote `cors`.** Cinco linhas contra uma dependência nova numa API congelada — e o header que resolve o problema fica visível, que é exatamente o tópico 8 do A1.
 3. **Atualizar o estado com a resposta, não refetch.** O `POST` e o `PATCH` da API devolvem a entidade inteira (`RETURNING`), é um usuário só e a lista é pequena. O gatilho para mudar de ideia fica escrito: no dia em que houver mais de um cliente escrevendo, vira refetch/invalidação.
-4. **Otimista só onde o servidor não decide nada.** Ciclar status é otimista com rollback (o clique tem que responder na hora, e o T10 vai animar essa troca de coluna); criar e editar título são pessimistas — o `POST` depende do id do banco, e id que muda no meio do caminho quebra a `key` e, com ela, a animação de saída do T10.
+4. **Otimista só onde o servidor não decide nada.** Ciclar status é otimista com rollback (o clique tem que responder na hora, e o T14 vai animar essa troca de coluna); criar e editar título são pessimistas — o `POST` depende do id do banco, e id que muda no meio do caminho quebra a `key` e, com ela, a animação de saída do T14.
 
 ## 📅 10/08
 

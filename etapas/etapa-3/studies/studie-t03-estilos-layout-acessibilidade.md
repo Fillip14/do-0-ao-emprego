@@ -26,11 +26,11 @@
 
 **O critério para o seu caso, não para o caso genérico.** Três perguntas suas:
 
-1. **O Tema 10 é Motion.** Duração e curva de animação vêm de tokens CSS. Todas as quatro convivem com variáveis CSS — nenhuma te bloqueia, mas em CSS Modules e CSS global os tokens ficam onde você já sabe olhar; em Tailwind eles moram na config dele.
-2. **O Tema 14 é Testing Library**, que consulta por papel e rótulo, **nunca por classe**. A escolha é neutra aqui — nenhum teste seu vai olhar `className`. Isso é bom: significa que errar essa decisão não contamina os testes.
+1. **O Tema 14 é Motion.** Duração e curva de animação vêm de tokens CSS. Todas as quatro convivem com variáveis CSS — nenhuma te bloqueia, mas em CSS Modules e CSS global os tokens ficam onde você já sabe olhar; em Tailwind eles moram na config dele.
+2. **O Tema 13 é Testing Library**, que consulta por papel e rótulo, **nunca por classe**. A escolha é neutra aqui — nenhum teste seu vai olhar `className`. Isso é bom: significa que errar essa decisão não contamina os testes.
 3. **Você quer aprender CSS ou entregar tela rápido?** Você está numa etapa de formação e o CSS é conhecimento vitalício, portável entre framework. Tailwind é conhecimento de ferramenta, muito empregável e substituível. **E, dado que o vocabulário de CSS acabou de nascer no `base-css.md`, aprender uma abstração por cima de uma base fresca tem um custo real** — não é argumento definitivo, é um peso a considerar.
 
-**Armadilhas:** não misture duas. "CSS Modules para componente e um global para reset" é misturar do jeito certo (o global fica só para reset e tokens); "CSS Modules aqui, Tailwind ali" é dívida imediata. Escolher por popularidade sem saber o que a alternativa resolvia é exatamente o que a avaliação pergunta (*"por que você escolheu esse sistema de estilo"*) — e "vi num vídeo" reprova. E, escolha o que escolher, **`style={{ }}` inline não é sistema de estilo**: ele é o último recurso, cabe em valor calculado em runtime (uma altura medida no Tema 10) e em nada mais. O `style={{ color: 'gray' }}` do seu `AddTaskField` morre hoje.
+**Armadilhas:** não misture duas. "CSS Modules para componente e um global para reset" é misturar do jeito certo (o global fica só para reset e tokens); "CSS Modules aqui, Tailwind ali" é dívida imediata. Escolher por popularidade sem saber o que a alternativa resolvia é exatamente o que a avaliação pergunta (*"por que você escolheu esse sistema de estilo"*) — e "vi num vídeo" reprova. E, escolha o que escolher, **`style={{ }}` inline não é sistema de estilo**: ele é o último recurso, cabe em valor calculado em runtime (uma altura medida no Tema 14) e em nada mais. O `style={{ color: 'gray' }}` do seu `AddTaskField` morre hoje.
 
 ## 2. O problema que o escopo resolve — mecanicamente
 
@@ -57,7 +57,7 @@ import styles from './TaskItem.module.css';
 .title { font-weight: 600; }   /* vira .TaskItem_title_a3f9x no build */
 ```
 
-**O que continua global mesmo com Modules** — e isso é a parte que quase todo mundo erra: apenas o **nome da classe** é escopado. Continuam globais: `id` de elemento, seletor de tag (`p { }` dentro de um module ainda pinta todo `<p>` que casar), `@keyframes` (o Vite escopa, mas a referência precisa bater), variáveis CSS em `:root`, e o próprio cascade — herança de `color` e `font` atravessa escopo alegremente. **É por isso que a dívida do `id="task"` do Tema 2 não é resolvida por CSS Modules**: `id` é global em qualquer sistema de estilo, e a resposta continua sendo `useId` no Tema 12.
+**O que continua global mesmo com Modules** — e isso é a parte que quase todo mundo erra: apenas o **nome da classe** é escopado. Continuam globais: `id` de elemento, seletor de tag (`p { }` dentro de um module ainda pinta todo `<p>` que casar), `@keyframes` (o Vite escopa, mas a referência precisa bater), variáveis CSS em `:root`, e o próprio cascade — herança de `color` e `font` atravessa escopo alegremente. **É por isso que a dívida do `id="task"` do Tema 2 não é resolvida por CSS Modules**: `id` é global em qualquer sistema de estilo, e a resposta continua sendo `useId` no Tema 11.
 
 **Armadilhas:** `styles.taskTitle` com hífen no CSS (`.task-title`) não funciona direto — `styles['task-title']` funciona, e a convenção é **camelCase no arquivo `.module.css`** para evitar a feiura. Classe escrita errada vira `undefined`, que o React renderiza como `class="undefined"` — silenciosamente sem estilo, e é o bug número um de quem começa com Modules. E `:global(.algo)` existe como escapatória: se você precisou dele duas vezes, a decisão do tópico 1 está sendo contornada.
 
@@ -65,7 +65,7 @@ import styles from './TaskItem.module.css';
 
 **O que resolve?** O `#f5ead8` está hoje em **dois lugares** no seu código: no `--bg` do `index.css` e chumbado no `background-color` do `.change-status`. Isso já é a duplicação começando. Token é a resposta: um nome (`--color-surface`), um valor, um lugar. Trocar a paleta do app inteiro passa a ser editar cinco linhas em vez de caçar hexadecimal com `Ctrl+F`.
 
-**Quando usar?** Para tudo que se repete e tem significado: cor, espaçamento, raio, peso e tamanho de fonte, sombra, e — a partir do Tema 10 — **duração e curva de animação**. Valor que aparece uma vez só e não significa nada não precisa de token.
+**Quando usar?** Para tudo que se repete e tem significado: cor, espaçamento, raio, peso e tamanho de fonte, sombra, e — a partir do Tema 14 — **duração e curva de animação**. Valor que aparece uma vez só e não significa nada não precisa de token.
 
 **Exemplo:** um conjunto pequeno e suficiente para hoje.
 
@@ -89,7 +89,7 @@ import styles from './TaskItem.module.css';
   --radius: 8px;
   --font-size-sm: 0.875rem;
 
-  /* já plantado para o Tema 10 */
+  /* já plantado para o Tema 14 */
   --duration-fast: 120ms;
   --ease-out: cubic-bezier(0.2, 0, 0, 1);
 }
@@ -138,7 +138,7 @@ const cls = [styles.item, isSelected && styles.selected, isSaving && styles.savi
 
 **Tailwind é o mesmo raciocínio** com strings de utilitário no lugar de `styles.x` — e é onde a biblioteca `clsx`/`cva` ganha sentido de verdade. Sem Tailwind, `clsx` é três linhas que você acabou de escrever à mão; não instale por hábito.
 
-**Armadilhas:** o padrão preferível é **`data-*` atributo em vez de classe** quando o estado é do domínio: `<li data-status={task.status}>` e no CSS `[data-status='done'] { }`. Ganho duplo — o CSS fica declarativo e o **Testing Library consegue afirmar sobre o estado sem olhar classe** (Tema 14). Considere seriamente. Fora isso: `styles.naoExiste` é `undefined` e vira `"undefined"` na classe; e `className` construída por concatenação sem espaço (`${a}${b}`) cola dois nomes num só, que é um bug invisível — só falta estilo, nada avisa.
+**Armadilhas:** o padrão preferível é **`data-*` atributo em vez de classe** quando o estado é do domínio: `<li data-status={task.status}>` e no CSS `[data-status='done'] { }`. Ganho duplo — o CSS fica declarativo e o **Testing Library consegue afirmar sobre o estado sem olhar classe** (Tema 13). Considere seriamente. Fora isso: `styles.naoExiste` é `undefined` e vira `"undefined"` na classe; e `className` construída por concatenação sem espaço (`${a}${b}`) cola dois nomes num só, que é um bug invisível — só falta estilo, nada avisa.
 
 ## 5. Flexbox e Grid — o suficiente para esta tela
 
@@ -236,7 +236,7 @@ const cls = [styles.item, isSelected && styles.selected, isSaving && styles.savi
   cursor: not-allowed;
 }
 
-.button:active { transform: scale(0.97); }   /* resposta tátil, Tema 10 */
+.button:active { transform: scale(0.97); }   /* resposta tátil, Tema 14 */
 ```
 
 **`:focus` × `:focus-visible`.** `:focus` pega também o clique de mouse, o que deixa um anel sobrando no botão depois de clicar — e é a razão pela qual meio mundo escreveu `outline: none` e destruiu a navegação por teclado do próprio site. `:focus-visible` é o navegador te dizendo "esta pessoa está usando teclado": use ele e o problema não existe.
@@ -245,7 +245,7 @@ const cls = [styles.item, isSelected && styles.selected, isSaving && styles.savi
 
 ## 8. HTML semântico: `div` clicável é dívida
 
-**O que resolve?** A tag certa te dá de graça, e correto, o que você teria que reimplementar mal: `<button>` é focável por `Tab`, dispara em `Enter` e `Espaço`, se anuncia como botão para o leitor de tela e aparece no `getByRole('button')` do Tema 14. Uma `<div onClick>` não tem nada disso, e cada item da lista é uma reimplementação a mais.
+**O que resolve?** A tag certa te dá de graça, e correto, o que você teria que reimplementar mal: `<button>` é focável por `Tab`, dispara em `Enter` e `Espaço`, se anuncia como botão para o leitor de tela e aparece no `getByRole('button')` do Tema 13. Uma `<div onClick>` não tem nada disso, e cada item da lista é uma reimplementação a mais.
 
 **Quando usar?** Sempre. É de graça — o custo é escolher a tag no momento em que você já ia escrever uma.
 
@@ -262,7 +262,7 @@ const cls = [styles.item, isSelected && styles.selected, isSaving && styles.savi
 
 **O que está errado, e é o achado semântico do tema:** o `<li className="task-header">` com `<span>Status</span><span>Tarefa</span>...`. Isso não é um item da lista — é a **linha de cabeçalho de uma tabela**. Para o leitor de tela, a sua lista tem 6 itens e o primeiro se chama "Status Tarefa Previsão Alterar status". Duas saídas honestas, e escolher é seu: **assumir que é tabela** (`<table>` com `<thead>`/`<th scope="col">`, que dá associação cabeçalho-célula de graça) ou **assumir que é lista** e matar a linha de cabeçalho, deixando cada item rotular o próprio dado. Grade de 4 colunas com cabeçalho é tabela; se você quer tabela, use tabela — `<table>` não é "coisa velha de layout", o pecado dos anos 2000 era usar tabela **para layout**, e dado tabular é exatamente o uso correto dela.
 
-**Armadilhas:** `<div>` e `<span>` não são proibidos — são o certo quando o papel é só agrupar ou estilizar. O erro é `<div>` **interativa**. `<a>` navega, `<button>` age: link que não leva a lugar nenhum e botão que troca de página são os dois lados do mesmo erro (e no Tema 9 isso vira decisão de rota). Landmark repetida sem nome (`<nav>` duas vezes) confunde em vez de ajudar. E semântica **não é enfeite**: é literalmente o que o Tema 14 vai consultar — `getByRole('button', { name: /change/i })` só existe porque a tag é `<button>` e tem nome.
+**Armadilhas:** `<div>` e `<span>` não são proibidos — são o certo quando o papel é só agrupar ou estilizar. O erro é `<div>` **interativa**. `<a>` navega, `<button>` age: link que não leva a lugar nenhum e botão que troca de página são os dois lados do mesmo erro (e no Tema 9 isso vira decisão de rota). Landmark repetida sem nome (`<nav>` duas vezes) confunde em vez de ajudar. E semântica **não é enfeite**: é literalmente o que o Tema 13 vai consultar — `getByRole('button', { name: /change/i })` só existe porque a tag é `<button>` e tem nome.
 
 ## 9. Foco: para onde ele vai, e quando isso é problema seu
 
@@ -303,7 +303,7 @@ const cls = [styles.item, isSelected && styles.selected, isSaving && styles.savi
 
 **A regra que faz funcionar:** o elemento com `aria-live` precisa **existir na tela antes** da mudança. Se ele nasce junto com o texto (`{error && <p aria-live="polite">{error}</p>}`), o leitor de tela frequentemente não anuncia — ele observa a região, e a região acabou de aparecer. O padrão é o container vazio fixo, com o conteúdo entrando dentro.
 
-**Armadilhas:** `assertive` interrompe a pessoa no meio da frase — usar em contador é grosseria técnica. Múltiplas regiões live competindo viram ruído e as pessoas desligam. `aria-live` numa lista inteira anuncia a lista toda a cada mudança. E a regra de ouro do ARIA: **nenhum ARIA é melhor que ARIA errado** — `aria-label` num `<button>` que já tem texto visível *substitui* o texto para o leitor de tela e, se divergirem, você criou uma interface que diz duas coisas diferentes (e quebra o `getByRole` do Tema 14).
+**Armadilhas:** `assertive` interrompe a pessoa no meio da frase — usar em contador é grosseria técnica. Múltiplas regiões live competindo viram ruído e as pessoas desligam. `aria-live` numa lista inteira anuncia a lista toda a cada mudança. E a regra de ouro do ARIA: **nenhum ARIA é melhor que ARIA errado** — `aria-label` num `<button>` que já tem texto visível *substitui* o texto para o leitor de tela e, se divergirem, você criou uma interface que diz duas coisas diferentes (e quebra o `getByRole` do Tema 13).
 
 ## 11. Contraste e tamanho de alvo — os dois testes de 30 segundos
 
@@ -317,7 +317,7 @@ O seu `p { color: gray }` sobre `#f5ead8`: `gray` é `#808080`, e essa combinaç
 
 **Exemplo — alvo.** Elemento clicável com pelo menos **24×24px** (o mínimo da WCAG 2.2), e 44×44 é o conforto real no dedo. `padding` é o jeito certo de crescer o alvo sem crescer o texto (seção 5 do `base-css.md`: `padding` aumenta a área clicável, `margin` não). Seu `.change-status` é `border: 0` com texto pequeno e nenhum padding — é um alvo de uns 16px de altura.
 
-**Armadilhas:** contraste vale para **texto sobre o fundo real**, então texto sobre imagem ou gradiente tem que ser testado no pior ponto. Placeholder e texto desabilitado costumam reprovar (`opacity: 0.5` no `:disabled` derruba o contraste — e é aceito, porque o estado comunica indisponibilidade). Ícone sozinho sem texto precisa de `aria-label`, senão o botão não tem nome. E o Lighthouse do Tema 11 vai medir isso automaticamente: o que você arrumar hoje é nota que você não vai ter que caçar depois.
+**Armadilhas:** contraste vale para **texto sobre o fundo real**, então texto sobre imagem ou gradiente tem que ser testado no pior ponto. Placeholder e texto desabilitado costumam reprovar (`opacity: 0.5` no `:disabled` derruba o contraste — e é aceito, porque o estado comunica indisponibilidade). Ícone sozinho sem texto precisa de `aria-label`, senão o botão não tem nome. E o Lighthouse do Tema 10 vai medir isso automaticamente: o que você arrumar hoje é nota que você não vai ter que caçar depois.
 
 ## 12. Acessibilidade é comportamento, não enfeite
 
@@ -328,13 +328,13 @@ O seu `p { color: gray }` sobre `#f5ead8`: `gray` é `#808080`, e essa combinaç
 **A cadeia que fecha o argumento**, e é o motivo real de este tópico estar no Tema 3:
 
 ```
-<button> semântico  →  getByRole('button') funciona    (Tema 14)
-<label htmlFor>     →  getByLabelText funciona          (Tema 14)
+<button> semântico  →  getByRole('button') funciona    (Tema 13)
+<label htmlFor>     →  getByLabelText funciona          (Tema 13)
 :focus-visible      →  navegar só por teclado funciona  (avaliação)
 aria-live           →  o erro é percebido               (Temas 7 e 8)
 ```
 
-Os três itens da avaliação — *"navego só pelo teclado"*, *"ligo `prefers-reduced-motion`"*, *"o erro tem que chegar no campo certo"* — são todos comportamento, e todos nascem aqui. Testing Library **não tem** query por classe de CSS de propósito: a filosofia dela é consultar como o usuário consulta. Se a sua tela é inacessível, ela é **intestável** pelo caminho bom, e você vai acabar em `getByTestId` com culpa, exatamente como o Tema 14 avisa.
+Os três itens da avaliação — *"navego só pelo teclado"*, *"ligo `prefers-reduced-motion`"*, *"o erro tem que chegar no campo certo"* — são todos comportamento, e todos nascem aqui. Testing Library **não tem** query por classe de CSS de propósito: a filosofia dela é consultar como o usuário consulta. Se a sua tela é inacessível, ela é **intestável** pelo caminho bom, e você vai acabar em `getByTestId` com culpa, exatamente como o Tema 13 avisa.
 
 **Armadilhas:** a11y não é passar num checador automático — `axe` e Lighthouse pegam contraste e atributo faltando, não pegam "o foco foi para o lugar errado" nem "a ordem do Tab não faz sentido". O teste de teclado é manual e leva um minuto. E não caia no oposto: encher o JSX de ARIA para se sentir cumpridor é pior que não ter ARIA nenhum (tópico 10).
 
@@ -360,7 +360,7 @@ Dois casos merecem parada:
 
 **`Section`** é um invólucro genérico (`<section>` + `children`) que não tem a menor ideia do que carrega. É `ui/` de manual — e provavelmente quer se chamar `Card` ou `Panel` quando ganhar estilo, porque "Section" descreve a tag, não o papel.
 
-**`AddTaskField`** é o caso interessante. Olhe o que ele **é**: um `<label>` + `<input>` ligados por `htmlFor`/`id`, recebendo o texto do rótulo por prop. Isso é um **`TextField` genérico** com nome de domínio colado por acidente — e o nome mentiroso é o que fez ele aterrissar na pasta errada. Ele vira `ui/TextField` (label + input + espaço para mensagem de erro, que o Tema 5 vai preencher), e quem sabe de tarefa é quem o **usa**, passando o rótulo. Note que isso resolve metade da dívida do `id="task"`: um `TextField` genérico não pode ter id chumbado — ou o id vem por prop hoje, ou vem do `useId` no Tema 12. Escolha e anote.
+**`AddTaskField`** é o caso interessante. Olhe o que ele **é**: um `<label>` + `<input>` ligados por `htmlFor`/`id`, recebendo o texto do rótulo por prop. Isso é um **`TextField` genérico** com nome de domínio colado por acidente — e o nome mentiroso é o que fez ele aterrissar na pasta errada. Ele vira `ui/TextField` (label + input + espaço para mensagem de erro, que o Tema 5 vai preencher), e quem sabe de tarefa é quem o **usa**, passando o rótulo. Note que isso resolve metade da dívida do `id="task"`: um `TextField` genérico não pode ter id chumbado — ou o id vem por prop hoje, ou vem do `useId` no Tema 11. Escolha e anote.
 
 **Armadilhas:** não crie `ui/` com dez arquivos hoje — ela nasce com o que **já existe** e o que a tela **de hoje** pede. Componente que importa `Task` "só para tipar uma prop" não é genérico: é domínio com disfarce. E o inverso do erro também existe: mover `TaskItem` para `ui/` porque "é reutilizável" é fingir reuso que não existe.
 
@@ -391,9 +391,9 @@ Três coisas para entender linha a linha antes de usar (regra 1 da etapa): `Reac
 
 ## 15. Quando o componente vira pasta
 
-**O que resolve?** `Button.tsx` solto × `Button/` com `Button.tsx` + `Button.module.css` + (no Tema 14) `Button.test.tsx`. O gatilho é objetivo: **o arquivo irmão**. Enquanto o componente é um arquivo só, pasta é cerimônia — um nível de profundidade a mais para navegar, sem nada dentro além do que já estava.
+**O que resolve?** `Button.tsx` solto × `Button/` com `Button.tsx` + `Button.module.css` + (no Tema 13) `Button.test.tsx`. O gatilho é objetivo: **o arquivo irmão**. Enquanto o componente é um arquivo só, pasta é cerimônia — um nível de profundidade a mais para navegar, sem nada dentro além do que já estava.
 
-**Quando usar?** Quando o segundo arquivo daquele componente nasce. Se você escolheu CSS Modules no tópico 1, isso acontece hoje para vários componentes — o `.module.css` é o irmão. Se você escolheu Tailwind, não acontece hoje e vai acontecer no Tema 14 com o teste.
+**Quando usar?** Quando o segundo arquivo daquele componente nasce. Se você escolheu CSS Modules no tópico 1, isso acontece hoje para vários componentes — o `.module.css` é o irmão. Se você escolheu Tailwind, não acontece hoje e vai acontecer no Tema 13 com o teste.
 
 **Exemplo:**
 
@@ -410,7 +410,7 @@ components/ui/Button/
 
 **O `index.ts` é opcional e tem um custo:** ele deixa o import limpo (`from '../ui/Button'`), e em troca cria um arquivo de uma linha por componente e um lugar a mais onde o nome pode divergir. Muita gente boa não usa. Escolha e seja consistente — é a mesma disciplina do "export nomeado em todos" que você já registrou no README.
 
-**Armadilhas:** não converta tudo em pasta de uma vez "para ficar uniforme" — uniformidade que custa 8 pastas vazias de conteúdo não é organização. `index.ts` em toda pasta, encadeado, dificulta rastrear de onde a coisa vem (e atrapalha o *tree-shaking* do Tema 11, quando o `index` reexporta o que ninguém usa). E co-locar CSS ao lado do componente é justamente o argumento a favor da pasta: o estilo daquele componente é dele, e sumir junto quando ele sumir é a propriedade que você quer.
+**Armadilhas:** não converta tudo em pasta de uma vez "para ficar uniforme" — uniformidade que custa 8 pastas vazias de conteúdo não é organização. `index.ts` em toda pasta, encadeado, dificulta rastrear de onde a coisa vem (e atrapalha o *tree-shaking* do Tema 10, quando o `index` reexporta o que ninguém usa). E co-locar CSS ao lado do componente é justamente o argumento a favor da pasta: o estilo daquele componente é dele, e sumir junto quando ele sumir é a propriedade que você quer.
 
 ## 16. Tailwind — o modelo, para a migração que vem depois do tema
 
@@ -451,7 +451,7 @@ components/ui/Button/
 
 Leia [`base-html.md`](base-html.md) e [`base-css.md`](base-css.md), nessa ordem, e faça **duas** coisas lá que não são leitura (as duas no DevTools, `F12`):
 
-1. **Aba Elements → seu `<button>` → painel Accessibility.** Leia o **role** e o **name** dele. É literalmente o que o `getByRole` do T14 vai procurar e o que o leitor de tela vai falar. Faça o mesmo no `<li class="task-header">` e você vê o problema do tópico 8 com os próprios olhos, antes de eu argumentar nada.
+1. **Aba Elements → seu `<button>` → painel Accessibility.** Leia o **role** e o **name** dele. É literalmente o que o `getByRole` do T13 vai procurar e o que o leitor de tela vai falar. Faça o mesmo no `<li class="task-header">` e você vê o problema do tópico 8 com os próprios olhos, antes de eu argumentar nada.
 2. **Aba Elements → seu `.task-item` → painel Styles.** Mexa nos valores até a linha ficar do jeito que você quer. Recarregar desfaz tudo. Cinco minutos ali valem mais que cinquenta linhas de explicação minha — é o mesmo caminho que funcionou no T1 quando você olhou a aba Network em vez de deduzir.
 
 Uma linha que vai no `index.css` antes de tudo, e que resolve um problema histórico de uma vez (seção 5 do `base-css.md`):
@@ -464,7 +464,7 @@ Uma linha que vai no `index.css` antes de tudo, e que resolve um problema histó
 
 - **CSS Modules ou CSS global:** nada a instalar. O Vite reconhece `*.module.css` nativamente. Zero configuração — comece a escrever.
 - **Tailwind:** `npm install tailwindcss @tailwindcss/vite`, plugin no `vite.config.ts`, `@import "tailwindcss";` no `index.css`. Me chame quando tiver escolhido e eu deixo isso rodando — instalação é atrito, não aprendizado.
-- **CSS-in-JS:** se for esse o caminho, me chame e a gente conversa antes de instalar, porque a decisão tem consequência no Tema 11 (bundle) e no Tema 10 (runtime).
+- **CSS-in-JS:** se for esse o caminho, me chame e a gente conversa antes de instalar, porque a decisão tem consequência no Tema 10 (bundle) e no Tema 14 (runtime).
 
 Uma conferência antes de começar, valendo para qualquer escolha: `<meta name="viewport">` no `index.html` (tópico 6). Sem ele o responsivo é decorativo.
 
@@ -485,7 +485,7 @@ Os três andam juntos e vêm primeiro porque cada um decide a marcação dos out
 - o `web/README.md` tem o porquê da escolha em três ou quatro linhas, e a justificativa não é "é popular" nem "vi num vídeo"; a seção "Sem biblioteca de estilo ainda" foi substituída;
 - você consegue dizer, falando, o que cada uma das outras três opções resolvia e por que você recusou;
 - `*, *::before, *::after { box-sizing: border-box; }` está no `index.css`, e você sabe dizer o que muda sem ele;
-- `:root` tem tokens de cor, espaçamento e raio, mais `--duration-*` e uma curva (o T10 vai usar);
+- `:root` tem tokens de cor, espaçamento e raio, mais `--duration-*` e uma curva (o T14 vai usar);
 - o CSS novo usa `var()` em vez de literal, e `#f5ead8` existe **uma vez só** — hoje está no `--bg` e chumbado no `.change-status`;
 - o `li.task-header` foi resolvido de uma das duas formas: virou `<table>` com `<th scope="col">`, **ou** a linha de cabeçalho morreu e cada item rotula o próprio dado — com o motivo no README;
 - você conferiu no painel **Accessibility** do DevTools que o `role` e o `name` do que sobrou fazem sentido;
@@ -493,7 +493,7 @@ Os três andam juntos e vêm primeiro porque cada um decide a marcação dos out
 
 Deixar o `li.task-header` como está é a única opção que não vale.
 
-**O que decide entre tabela e lista, e não é semântica:** `<table>` é a escolha semanticamente mais correta e dá `<th scope="col">` de graça. Ela cobra caro nos dois temas seguintes. `<tr>` tem `display: table-row`, não vira flex, `transform` nela é inconsistente entre navegadores e altura não anima direito — ou seja, o **T10** (item entrando e saindo da lista, animação de layout ao filtrar, arrastar para reordenar) briga com tabela do começo ao fim. E no responsivo, tabela de 4 colunas em 360px ou rola na horizontal ou vira o truque de `display: block` + `::before` com `data-label`. Lista com `grid` não tem nenhum desses dois problemas. O custo da lista é resolver, sem linha de cabeçalho, como se sabe que o ícone é status e a data é previsão — rótulo visível no estreito, `aria-label` no ícone, ou os dois.
+**O que decide entre tabela e lista, e não é semântica:** `<table>` é a escolha semanticamente mais correta e dá `<th scope="col">` de graça. Ela cobra caro nos dois temas seguintes. `<tr>` tem `display: table-row`, não vira flex, `transform` nela é inconsistente entre navegadores e altura não anima direito — ou seja, o **T14** (item entrando e saindo da lista, animação de layout ao filtrar, arrastar para reordenar) briga com tabela do começo ao fim. E no responsivo, tabela de 4 colunas em 360px ou rola na horizontal ou vira o truque de `display: block` + `::before` com `data-label`. Lista com `grid` não tem nenhum desses dois problemas. O custo da lista é resolver, sem linha de cabeçalho, como se sabe que o ícone é status e a data é previsão — rótulo visível no estreito, `aria-label` no ícone, ou os dois.
 
 ---
 

@@ -65,7 +65,7 @@ function TaskItem({ task }: TaskItemProps) {
 }
 ```
 
-**Dois desenhos possíveis, e o critério.** Ou o componente recebe **o objeto inteiro** (`task: Task`) ou recebe **campos soltos** (`title: string; status: Status`). Objeto inteiro é mais curto de escrever e acopla o componente à forma da entidade; campos soltos deixam o componente reutilizável fora do contexto de tarefa e são muito mais fáceis de testar (Tema 14). Para `TaskItem`, receber a `Task` é honesto — ele existe para exibir uma tarefa. Para um `Badge` que pinta o status, receber `status: Status` é melhor que receber a tarefa toda. **Escolha por componente e saiba defender.**
+**Dois desenhos possíveis, e o critério.** Ou o componente recebe **o objeto inteiro** (`task: Task`) ou recebe **campos soltos** (`title: string; status: Status`). Objeto inteiro é mais curto de escrever e acopla o componente à forma da entidade; campos soltos deixam o componente reutilizável fora do contexto de tarefa e são muito mais fáceis de testar (Tema 13). Para `TaskItem`, receber a `Task` é honesto — ele existe para exibir uma tarefa. Para um `Badge` que pinta o status, receber `status: Status` é melhor que receber a tarefa toda. **Escolha por componente e saiba defender.**
 
 **Armadilhas:** `React.FC` você vai ver em tutorial — não use; ele não acrescenta nada em 2026, e nas versões antigas embutia `children` implicitamente, que era exatamente o problema. `verbatimModuleSyntax` está ligado: importar um tipo exige `import { type Task } from './types'` ou `import type { Task } from './types'`; sem isso o build reclama. E tipo de prop **não valida runtime** — é a mesma lição do `queryDb<T>` do Tema 4 da Etapa 2: o compilador acredita em você. Com array fixo em código isso não te morde; no Tema 7, quando o dado vier de `res.json()`, morde.
 
@@ -115,7 +115,7 @@ function EmptyState({ message = 'Nenhuma tarefa por aqui ainda.' }: EmptyStatePr
 }
 ```
 
-**Armadilhas:** `defaultProps` **está removido** para componentes função no React 19 — se você achar em tutorial, o tutorial é velho. O default só dispara quando o valor é `undefined`: passar `null`, `0` ou `''` **não** aciona o default (e aí `0` vira zero mesmo, `''` vira string vazia; é o comportamento correto, mas surpreende). E cuidado com default de objeto ou array (`items = []`): ele é **recriado a cada render**, criando uma identidade nova toda vez — inofensivo hoje, mas é exatamente a causa de `React.memo` não funcionar e de `useEffect` entrar em loop, no Tema 12.
+**Armadilhas:** `defaultProps` **está removido** para componentes função no React 19 — se você achar em tutorial, o tutorial é velho. O default só dispara quando o valor é `undefined`: passar `null`, `0` ou `''` **não** aciona o default (e aí `0` vira zero mesmo, `''` vira string vazia; é o comportamento correto, mas surpreende). E cuidado com default de objeto ou array (`items = []`): ele é **recriado a cada render**, criando uma identidade nova toda vez — inofensivo hoje, mas é exatamente a causa de `React.memo` não funcionar e de `useEffect` entrar em loop, no Tema 11.
 
 ## 5. `children`: composição × configuração
 
@@ -167,7 +167,7 @@ function Card({ children }: CardProps) {
 </ul>
 ```
 
-**O que quebra com `key={index}`.** Imagine a lista `[A, B, C]` com `key` sendo 0, 1, 2. Você apaga o **A**. Agora a lista é `[B, C]`, com `key` 0 e 1. O React compara: a `key` 0 antes era A e agora é B — para ele, **o item 0 não sumiu, ele mudou de conteúdo**. Ele mantém o mesmo nó do DOM e o mesmo estado interno, e só troca o texto. Consequências reais: o `<input>` que você digitou fica com o valor do item errado, o checkbox marcado se cola no item de baixo, o item que estava com foco continua focado no lugar errado. E, no Tema 10, a animação de saída anima o item errado — porque, do ponto de vista do React, ninguém saiu.
+**O que quebra com `key={index}`.** Imagine a lista `[A, B, C]` com `key` sendo 0, 1, 2. Você apaga o **A**. Agora a lista é `[B, C]`, com `key` 0 e 1. O React compara: a `key` 0 antes era A e agora é B — para ele, **o item 0 não sumiu, ele mudou de conteúdo**. Ele mantém o mesmo nó do DOM e o mesmo estado interno, e só troca o texto. Consequências reais: o `<input>` que você digitou fica com o valor do item errado, o checkbox marcado se cola no item de baixo, o item que estava com foco continua focado no lugar errado. E, no Tema 14, a animação de saída anima o item errado — porque, do ponto de vista do React, ninguém saiu.
 
 **Por que o id do banco é a boa chave aqui.** Sua `Task` tem `id` uuid gerado pelo Postgres: único, estável, e o mesmo antes e depois de qualquer reordenação ou filtro. É exatamente o que a `key` pede.
 
@@ -246,7 +246,7 @@ TaskItem   ← recebe UMA task, decide como uma tarefa se parece
 
 Duas responsabilidades diferentes: uma é sobre a **coleção**, a outra é sobre o **item**. É por isso que este recorte é certo, não porque "list e item é o padrão".
 
-**Armadilhas:** o custo de quebrar cedo é **prop drilling** — dado atravessando componentes que não o usam, só repassando (o sintoma que abre o Tema 13). Abstração criada antes do segundo caso de uso quase sempre é a abstração errada, e desfazê-la custa mais que ter esperado. E não confunda **arquivo** com **componente**: separar em arquivos é organização; separar em componentes é desenho.
+**Armadilhas:** o custo de quebrar cedo é **prop drilling** — dado atravessando componentes que não o usam, só repassando (o sintoma que abre o Tema 12). Abstração criada antes do segundo caso de uso quase sempre é a abstração errada, e desfazê-la custa mais que ter esperado. E não confunda **arquivo** com **componente**: separar em arquivos é organização; separar em componentes é desenho.
 
 ## 10. Colocação de arquivos
 
@@ -282,7 +282,7 @@ src/
 **Por quê?** Três razões, e as três são resposta de entrevista:
 
 1. **O contrato entre front e back é HTTP e JSON, não TypeScript.** O tipo da API descreve a entidade **de dentro** — inclui coisas que o front nunca vê (a coluna `created_at` existe na tabela e **não é exposta em resposta nenhuma**). Copiar o tipo interno traria mentiras para o front.
-2. **Acoplamento de build.** Importar de `../etapa-2/api/src` faria a `web/` depender do código-fonte da API para compilar — as duas passam a subir juntas, e o front deixa de poder ser publicado sozinho, que é exatamente o que o Tema 11 vai fazer.
+2. **Acoplamento de build.** Importar de `../etapa-2/api/src` faria a `web/` depender do código-fonte da API para compilar — as duas passam a subir juntas, e o front deixa de poder ser publicado sozinho, que é exatamente o que o Tema 10 vai fazer.
 3. **Independência de deploy é o ponto.** Front e back mudam em ritmos diferentes. A cópia deliberada é o que permite a API mudar por dentro sem quebrar o build do front — e o que faz uma mudança de contrato **doer visivelmente** em vez de passar despercebida.
 
 **Exemplo:** o tipo do front, escrito a partir do contrato.

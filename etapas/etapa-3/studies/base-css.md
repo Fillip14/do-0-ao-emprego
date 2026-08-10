@@ -57,7 +57,7 @@ import './App.css';                       // CSS global
 import styles from './Item.module.css';   // CSS Modules (tópico 2 do T3)
 ```
 
-O `style={{ color: 'gray' }}` que você escreveu no `AddTaskField` é a primeira forma, em versão React (objeto JavaScript em vez de string). Funciona, e é por isso que é tentador. É o último recurso: cabe em valor **calculado em runtime** (uma altura medida, no T10) e em nada mais.
+O `style={{ color: 'gray' }}` que você escreveu no `AddTaskField` é a primeira forma, em versão React (objeto JavaScript em vez de string). Funciona, e é por isso que é tentador. É o último recurso: cabe em valor **calculado em runtime** (uma altura medida, no T14) e em nada mais.
 
 ---
 
@@ -258,11 +258,11 @@ Isso explica o seu `p { color: gray }`: seletor de tag, o mais fraco que existe,
 }
 
 /* @media também consulta preferências do sistema, não só tamanho */
-@media (prefers-reduced-motion: reduce) { /* T10 */
+@media (prefers-reduced-motion: reduce) { /* T14 */
   * { transition-duration: 0.01ms; }
 }
 
-/* @keyframes — guarda uma receita de animação com nome (T10) */
+/* @keyframes — guarda uma receita de animação com nome (T14) */
 @keyframes spin {
   from { transform: rotate(0deg); }
   to   { transform: rotate(360deg); }
@@ -283,7 +283,7 @@ Isso explica o seu `p { color: gray }`: seletor de tag, o mais fraco que existe,
 | `@media` | condição de tela, de dispositivo ou de **preferência do sistema** |
 | `@import` | puxa outro arquivo CSS (é o que o Tailwind usa) |
 | `@font-face` | registra uma fonte própria |
-| `@keyframes` | guarda uma receita de animação com nome (T10) |
+| `@keyframes` | guarda uma receita de animação com nome (T14) |
 
 **Sabe que existem, e três delas você vai querer:**
 
@@ -292,8 +292,8 @@ Isso explica o seu `p { color: gray }`: seletor de tag, o mais fraco que existe,
 | `@supports` | condição de **suporte do navegador**: "se o navegador entende esta propriedade, use isto". É como se escreve CSS novo sem quebrar navegador velho |
 | `@container` | condição pelo tamanho **do elemento pai**, não da tela. É o que `@media` sempre quis ser: um card que se reorganiza porque *ele* está estreito, não porque a janela está |
 | `@layer` | camadas de cascade — decide qual **grupo** de regras vence, independente de especificidade. É a resposta profissional ao problema do `!important` (seção 7) |
-| `@property` | registra uma variável CSS **com tipo**, o que a torna animável. Volta no T10 |
-| `@starting-style` | o estado inicial de um elemento que acabou de aparecer, para ele poder animar a entrada. Também T10 |
+| `@property` | registra uma variável CSS **com tipo**, o que a torna animável. Volta no T14 |
+| `@starting-style` | o estado inicial de um elemento que acabou de aparecer, para ele poder animar a entrada. Também T14 |
 | `@scope` | limita as regras a um pedaço da árvore. A mais nova das citadas aqui — confira suporte antes de usar |
 
 **Existem e você provavelmente nunca vai tocar:** `@page` (impressão), `@counter-style` (marcador de lista customizado), `@charset` (codificação da folha — hoje se resolve no HTTP e no `<meta>`), `@namespace` (XML), `@font-feature-values` e `@font-palette-values` (detalhe tipográfico), `@view-transition` e `@position-try` (as mais recentes).
@@ -316,7 +316,7 @@ O seletor `.button` diz *qual* elemento. O que ele não diz é **em que situaç�
 .button:focus-visible { outline: 2px solid; }       /* focado por teclado      */
 ```
 
-Leia `.button:hover` como frase: *"elemento com classe button, **enquanto** o mouse está sobre ele"*. O navegador liga e desliga isso sozinho. **A força real:** `:hover` funciona sem uma linha de JavaScript — e é por isso que `:hover` em CSS é sempre melhor que `onMouseEnter` + `useState`, que causa re-render a cada movimento do mouse (volta no T12).
+Leia `.button:hover` como frase: *"elemento com classe button, **enquanto** o mouse está sobre ele"*. O navegador liga e desliga isso sozinho. **A força real:** `:hover` funciona sem uma linha de JavaScript — e é por isso que `:hover` em CSS é sempre melhor que `onMouseEnter` + `useState`, que causa re-render a cada movimento do mouse (volta no T11).
 
 **Não é coisa de botão.** Usei `.button` nos exemplos porque é o que o T3 pede, mas pseudo-classe é um **sufixo que cola em qualquer seletor** — tag, classe, id, atributo:
 
@@ -362,8 +362,8 @@ input:focus           { border-color: blue; }  /* campo em foco                 
 Este arquivo é fechado. O que ficou de fora ficou de propósito, e cada coisa tem dono:
 
 - **Tags, atributos, árvore, semântica, formulário, tabela** → [`base-html.md`](base-html.md), a parte 1 do Tema 0.
-- **`transition`, `transform`, `@keyframes` a fundo, curvas, compositor × layout × paint, `prefers-reduced-motion`** → Parte A do **T10**. É o assunto daquele tema.
+- **`transition`, `transform`, `@keyframes` a fundo, curvas, compositor × layout × paint, `prefers-reduced-motion`** → Parte A do **T14**. É o assunto daquele tema.
 - **`:invalid`, `:checked`, `:placeholder-shown`, estilizar `select` e `checkbox`** → **T5**.
-- **O que o `vite build` faz com o CSS** (bundle, hash, minificação) → **T11**.
+- **O que o `vite build` faz com o CSS** (bundle, hash, minificação) → **T10**.
 
 A regra: **base é o chão que faltou; sintaxe que um tema estreia é do tema.** Um arquivo que cresce para sempre não fecha nunca e vira depósito — a mesma razão de não existir uma pasta `utils/` no dia 1.

@@ -16,7 +16,7 @@ CSS   →  como a coisa PARECE        (apresentação)
 JS    →  o que a coisa FAZ          (comportamento)
 ```
 
-**Por que "o que a coisa é" importa tanto**, e é o fio que amarra o T3 inteiro: o navegador, o leitor de tela, o Google e a Testing Library (T14) **só sabem o que você marcou**. Se você marca um botão como `<div>`, para todos eles aquilo é uma caixa sem função — e cada um dos quatro te cobra depois. Marcação certa é informação; marcação errada é informação errada, não ausência de informação.
+**Por que "o que a coisa é" importa tanto**, e é o fio que amarra o T3 inteiro: o navegador, o leitor de tela, o Google e a Testing Library (T13) **só sabem o que você marcou**. Se você marca um botão como `<div>`, para todos eles aquilo é uma caixa sem função — e cada um dos quatro te cobra depois. Marcação certa é informação; marcação errada é informação errada, não ausência de informação.
 
 **O navegador é permissivo, e isso é uma armadilha.** HTML mal escrito não dá erro: o navegador **conserta do jeito dele** e segue. Tag não fechada, aninhamento inválido, atributo inventado — nada disso quebra. Mesma lógica do CSS que falha em silêncio (seção 0 do `base-css.md`), e a mesma consequência: a única forma de saber o que existe de verdade é **abrir o DevTools e olhar** (seção 11).
 
@@ -218,15 +218,15 @@ A tag certa te entrega, de graça e correto, o que você teria que reimplementar
 <div onclick="...">Change</div>
 ```
 
-O `<button>` já vem com: focável por `Tab`, aciona com `Enter` **e** `Espaço`, se anuncia como "botão" para o leitor de tela, `:hover`/`:focus`/`:disabled` funcionando, e aparece em `getByRole('button')` no T14. A `<div>` tem **zero** disso, e cada item da sua lista seria uma reimplementação a mais — com `tabindex`, `keydown`, `role`, e três bugs.
+O `<button>` já vem com: focável por `Tab`, aciona com `Enter` **e** `Espaço`, se anuncia como "botão" para o leitor de tela, `:hover`/`:focus`/`:disabled` funcionando, e aparece em `getByRole('button')` no T13. A `<div>` tem **zero** disso, e cada item da sua lista seria uma reimplementação a mais — com `tabindex`, `keydown`, `role`, e três bugs.
 
 **`<a>` × `<button>`:** `<a href>` **navega** para outro lugar; `<button>` **age** aqui. Link que não leva a lugar nenhum e botão que troca de página são os dois lados do mesmo erro (vira decisão de rota no T9).
 
 **A cadeia inteira, e é o argumento do T3:**
 
 ```
-<button> semântico   →  getByRole('button') funciona     (T14)
-<label for>          →  getByLabelText funciona           (T14)
+<button> semântico   →  getByRole('button') funciona     (T13)
+<label for>          →  getByLabelText funciona           (T13)
 tag focável          →  navegar só por teclado funciona   (avaliação)
 <th scope="col">     →  a célula sabe de que coluna é     (leitor de tela)
 ```
@@ -254,7 +254,7 @@ Semântica não é enfeite: é **literalmente** o que o teste vai consultar e o 
 </form>
 ```
 
-**`<label for>` ↔ `<input id>` é a ligação mais importante do HTML acessível**, e ela paga três coisas de uma vez: clicar no rótulo **foca o campo**; o leitor de tela anuncia "Título da tarefa, campo de texto" em vez de "campo de texto"; e `getByLabelText('Título da tarefa')` funciona no T14. É por isso que o seu `AddTaskField` já estava certo nesse ponto — e por isso o `id` fixo é dívida de verdade, não perfeccionismo.
+**`<label for>` ↔ `<input id>` é a ligação mais importante do HTML acessível**, e ela paga três coisas de uma vez: clicar no rótulo **foca o campo**; o leitor de tela anuncia "Título da tarefa, campo de texto" em vez de "campo de texto"; e `getByLabelText('Título da tarefa')` funciona no T13. É por isso que o seu `AddTaskField` já estava certo nesse ponto — e por isso o `id` fixo é dívida de verdade, não perfeccionismo.
 
 **O que o `<form>` faz de graça** e você perde escrevendo `onClick` num botão solto: `Enter` num campo envia; o navegador anuncia o conjunto como formulário; e a validação nativa (`required`, `type="email"`) entra. No T5 isso vira `onSubmit`.
 
@@ -320,7 +320,7 @@ O que **não** muda: a árvore, o significado das tags, os atributos comuns, e t
 
 1. **Olhe a árvore do seu app.** Expanda a `<div id="root">` e ache os seus `<li>`. Compare com o JSX: é o mesmo desenho, e ver isso mata metade da mágica.
 2. **Confira o que o navegador consertou.** Se você aninhou algo inválido, aqui aparece a árvore de verdade — não a que você quis.
-3. **Ache o `<button>`**, e no painel de acessibilidade (aba **Accessibility**, ao lado de Styles) leia o **role** e o **name** dele. É literalmente o que o `getByRole` do T14 vai procurar, e o que o leitor de tela vai falar. Faça o mesmo no `<li class="task-header">` e você vai ver o problema do tópico 8 do T3 com os próprios olhos.
+3. **Ache o `<button>`**, e no painel de acessibilidade (aba **Accessibility**, ao lado de Styles) leia o **role** e o **name** dele. É literalmente o que o `getByRole` do T13 vai procurar, e o que o leitor de tela vai falar. Faça o mesmo no `<li class="task-header">` e você vai ver o problema do tópico 8 do T3 com os próprios olhos.
 
 O terceiro é o que vale mais: você destrava olhando, não deduzindo. Ver o `name` de um botão vazio na aba Accessibility ensina mais sobre acessibilidade que três parágrafos meus.
 
@@ -331,6 +331,6 @@ O terceiro é o que vale mais: você destrava olhando, não deduzindo. Ver o `na
 Este arquivo é fechado. O que ficou de fora ficou de propósito:
 
 - **Estilo, unidades, layout, seletores** → [`base-css.md`](base-css.md), a parte 2 do Tema 0.
-- **Manipular o DOM na mão** (`querySelector`, `addEventListener`) → foi a Etapa 1 e o React substitui; se precisar, volta no T12 com `useRef`.
+- **Manipular o DOM na mão** (`querySelector`, `addEventListener`) → foi a Etapa 1 e o React substitui; se precisar, volta no T11 com `useRef`.
 - **Formulário a fundo** (controlado × não controlado, validação) → T5.
 - **Rotas e `<a>` × `Link`** → T9.

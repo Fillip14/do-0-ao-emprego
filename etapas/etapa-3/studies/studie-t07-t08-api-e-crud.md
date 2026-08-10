@@ -23,7 +23,7 @@
 **Para que serve.** Três ganhos concretos, não estéticos:
 
 - **A URL, os headers e o formato de erro ficam num lugar só.** Quando a API for para produção (T9 da Etapa 2), muda um arquivo.
-- **O componente vira testável.** No T14, o MSW intercepta na borda da rede — mas mesmo antes disso, um componente que chama `getTasks()` é mais fácil de raciocinar que um que monta `fetch` no meio do JSX.
+- **O componente vira testável.** No T13, o MSW intercepta na borda da rede — mas mesmo antes disso, um componente que chama `getTasks()` é mais fácil de raciocinar que um que monta `fetch` no meio do JSX.
 - **É a mesma decisão que a API tomou.** Lá, `db.ts` exporta um `query` fino e as rotas não sabem o que é um pool. Aqui, `api/http.ts` exporta um `request` fino e os componentes não sabem o que é um `Response`.
 
 **Exemplo.**
@@ -115,7 +115,7 @@ type TasksState =
   | { status: 'success'; tasks: Task[] }; // vazio é `tasks.length === 0`
 ```
 
-É o tópico 9 do T4 (estado impossível) voltando com dado de verdade, e é o ensaio do `useReducer` do T12. **"Vazio" não é um quarto ramo da união** — é um caso de sucesso, porque lista vazia é uma resposta legítima do servidor. Confundir os dois é como o app trata hoje o `localStorage` corrompido: erro disfarçado de vazio.
+É o tópico 9 do T4 (estado impossível) voltando com dado de verdade, e é o ensaio do `useReducer` do T11. **"Vazio" não é um quarto ramo da união** — é um caso de sucesso, porque lista vazia é uma resposta legítima do servidor. Confundir os dois é como o app trata hoje o `localStorage` corrompido: erro disfarçado de vazio.
 
 ### 6. Buscar no `useEffect`, com limpeza e proteção de race
 
@@ -153,7 +153,7 @@ A linha que quase todo mundo esquece: **`AbortError` cai no `catch`**. Sem a gua
 **Para que serve.** Duas consequências práticas:
 
 1. **Tudo que entra aqui é público.** Está no bundle, em texto, para qualquer um que abrir o DevTools. Chave de API secreta no front não existe — é chave vazada com passo extra.
-2. **Trocar a URL exige rebuild.** Fica anotado desde já para o T11, tópico 6, e para o dia em que a API tiver URL pública.
+2. **Trocar a URL exige rebuild.** Fica anotado desde já para o T10, tópico 6, e para o dia em que a API tiver URL pública.
 
 **Exemplo.**
 
@@ -209,7 +209,7 @@ Duas decisões dentro dessas cinco linhas: o middleware é o **primeiro** da cad
 | `200` com corpo estranho          | você acertou o servidor errado                       |
 | duas requisições idênticas em dev | `StrictMode` — esperado, e prova que a limpeza funciona |
 
-Vale marcar "Disable cache" e olhar a coluna de tempo desde já: o T11 vai medir e o T10 vai animar em cima disso.
+Vale marcar "Disable cache" e olhar a coluna de tempo desde já: o T10 vai medir e o T14 vai animar em cima disso.
 
 ### 10. Erro de rede × erro de aplicação
 
@@ -266,7 +266,7 @@ Decisão de UX que acompanha: **carregando só aparece depois de ~200ms**. Spinn
 
 **Por que não agora.** Porque o tema existe para você sentir o problema. Escrever `useQuery` hoje ensina a API do TanStack Query, não o que é uma race condition. Numa entrevista, "escrevi na mão, senti a falta de cache e invalidação, e é por isso que usaria TanStack Query num projeto real" vale mais que ter usado.
 
-**A ponte:** o `useTasks` do T12 é o esqueleto de um `useQuery` caseiro. Quando ele existir, a comparação fica de graça.
+**A ponte:** o `useTasks` do T11 é o esqueleto de um `useQuery` caseiro. Quando ele existir, a comparação fica de graça.
 
 ---
 
@@ -377,7 +377,7 @@ const handleChangeTask = async (id: string) => {
 
 **O rollback ingênuo tem um bug**, e é o que separa quem entendeu de quem copiou: restaurar `anterior` inteiro **descarta outras alterações** que aconteceram no meio do caminho. Numa lista pequena e sequencial é aceitável; a solução correta é reverter só aquele item. Vale escrever no devlog em vez de resolver agora.
 
-**A decisão deste app:** otimista no `handleChangeTask` (o clique tem que responder na hora, e o T10 vai animar essa troca de coluna) e **pessimista** — espera, mostra "salvando" — na criação e na edição de título, porque o `POST` depende do id do servidor e o título é conteúdo que o usuário digitou e não quer ver pular. O `DELETE` fica otimista com desfazer (tópico 8).
+**A decisão deste app:** otimista no `handleChangeTask` (o clique tem que responder na hora, e o T14 vai animar essa troca de coluna) e **pessimista** — espera, mostra "salvando" — na criação e na edição de título, porque o `POST` depende do id do servidor e o título é conteúdo que o usuário digitou e não quer ver pular. O `DELETE` fica otimista com desfazer (tópico 8).
 
 ### 6. Estado de "salvando" por item, não global
 
@@ -449,7 +449,7 @@ O `disabled` sozinho não basta e ainda tira o botão da ordem de tabulação (T
 
 **O que é.** Num item otimista, a tarefa existe na tela antes de existir no banco — e `key` precisa de alguma coisa. Se você usa o índice, ou um id temporário que **muda** quando a resposta chega, o React desmonta e remonta a linha.
 
-**Para que serve.** É o T2 tópico 6 cobrando a fatura, e é a razão de este tópico estar aqui e não no T10: **`key` que muda mata a animação de saída** e faz o item piscar. O T10 vai animar entrada e saída de item da lista, e essa animação depende inteiramente de a `key` ser estável do primeiro render até o último.
+**Para que serve.** É o T2 tópico 6 cobrando a fatura, e é a razão de este tópico estar aqui e não no T14: **`key` que muda mata a animação de saída** e faz o item piscar. O T14 vai animar entrada e saída de item da lista, e essa animação depende inteiramente de a `key` ser estável do primeiro render até o último.
 
 **Exemplo.**
 
@@ -461,7 +461,7 @@ const criada = await createTask(input);
 setTasks((prev) => prev.map((t) => (t.id === tempId ? criada : t))); // ⚠️ a key muda aqui
 ```
 
-O trecho acima é o problema, não a solução: no instante da troca, a `key` vai de `tempId` para o id do banco e o React trata como item novo. As saídas: manter uma `clientId` estável separada do `id` do servidor, ou — a escolha deste app — **não ser otimista na criação** (tópico 5), que é justamente onde o id importa. A decisão de hoje é o que faz a animação do T10 funcionar mais tarde.
+O trecho acima é o problema, não a solução: no instante da troca, a `key` vai de `tempId` para o id do banco e o React trata como item novo. As saídas: manter uma `clientId` estável separada do `id` do servidor, ou — a escolha deste app — **não ser otimista na criação** (tópico 5), que é justamente onde o id importa. A decisão de hoje é o que faz a animação do T14 funcionar mais tarde.
 
 ### 11. Quando o `PATCH` responde `404`
 
@@ -499,7 +499,7 @@ E há dois lugares distintos, não um:
 
 **Exemplo.** Para o aviso de tela, `aria-live="polite"` (T3, tópico 10) — mudança sem clique precisa ser anunciada, senão quem usa leitor de tela não fica sabendo que a ação falhou. E o erro não pode depender só de cor: ícone ou texto junto.
 
-O sintoma de que isto está mal resolvido: dois lugares diferentes mostrando a mesma mensagem, ou uma mensagem que sobrevive à troca de tela. O T13 (toast num Context) é o endereço definitivo — aqui é um estado no `Content`, com a dívida anotada.
+O sintoma de que isto está mal resolvido: dois lugares diferentes mostrando a mesma mensagem, ou uma mensagem que sobrevive à troca de tela. O T12 (toast num Context) é o endereço definitivo — aqui é um estado no `Content`, com a dívida anotada.
 
 ---
 
@@ -511,7 +511,7 @@ Esta é a decisão de abertura, e ela é deliberada: **a API vira a fonte única
 
 **Por quê.** Duas fontes da verdade é o pior dos mundos: o storage abriria a tela com dado velho e a requisição substituiria depois — a tela mostraria tarefas que talvez não existam mais, e o **estado de erro nunca apareceria de verdade**, porque sempre haveria algo pintado por cima. Os quatro estados do A1 tópico 5 só são honestos se não houver dado de reserva mascarando a falha.
 
-**O que se perde, dito com todas as letras:** o app deixa de funcionar sem a API de pé. Isso é uma regressão real, e é a dívida que o **T11, tópico 7** ("o front no ar sem API no ar") existe para pagar — lá, com a decisão tomada de propósito e não por acidente de implementação.
+**O que se perde, dito com todas as letras:** o app deixa de funcionar sem a API de pé. Isso é uma regressão real, e é a dívida que o **T10, tópico 7** ("o front no ar sem API no ar") existe para pagar — lá, com a decisão tomada de propósito e não por acidente de implementação.
 
 O código do T6 não é jogado fora: ele fica no histórico do commit e no `studie-t05-t06`, e o `web/README.md` registra que o storage foi **substituído**, não abandonado.
 
@@ -525,7 +525,7 @@ Ler e escrever passam pelo **mesmo** `request`: mesma URL base, mesmo tratamento
 
 Ao fim do tema, o `Content` vai ter: o estado da união discriminada, o efeito de busca, quatro handlers `async` com `try/catch/finally`, o conjunto de ids pendentes, e o aviso de erro. É muita coisa para um componente, e **é para ficar assim**.
 
-O nome disso é o sintoma que o **T12** vem resolver com o `useTasks`, do mesmo jeito que o T5 deixou o sintoma do `useReducer` escrito e não trocou na hora. Extrair agora é otimizar antes de doer, e tira do T12 o material dele.
+O nome disso é o sintoma que o **T11** vem resolver com o `useTasks`, do mesmo jeito que o T5 deixou o sintoma do `useReducer` escrito e não trocou na hora. Extrair agora é otimizar antes de doer, e tira do T11 o material dele.
 
 O que **não** é aceitável é o componente ficar grande **e** confuso: cada handler faz uma coisa, o nome diz o que ela é, e o `try/catch/finally` tem sempre a mesma forma. Repetição legível é dívida; improviso não é.
 
@@ -591,7 +591,7 @@ O que **não** é aceitável é o componente ficar grande **e** confuso: cada ha
 - Rollback por item em vez de restaurar a lista inteira (o bug do A2, tópico 5)
 - Revalidar ao voltar o foco para a aba — o primeiro pedaço do que o TanStack Query faz
 - Skeleton no lugar do spinner, aproveitando os tokens do T3
-- Extrair `useTasks` — é T12; se fizer, registrar que antecipou
+- Extrair `useTasks` — é T11; se fizer, registrar que antecipou
 - Validar a resposta com Zod em vez de `as Task[]` — fecha o buraco das três fronteiras de uma vez
 - `AbortSignal.any([timeout, unmount])` no lugar das duas guardas separadas
 - Título do documento com o número de pendentes, agora vindo do servidor
@@ -608,7 +608,7 @@ Sim, e nos dois sentidos.
 
 **Escrita.** Os quatro handlers viraram `async` e vão até o banco: `POST` com id gerado pelo Postgres (`crypto.randomUUID()` saiu do `handleAddTask`), `PATCH` mandando **só** o campo que mudou, `DELETE` com `204` tratado. `onAddTask` virou `(form) => Promise<void>` — "sucesso limpa, erro preserva" agora depende da resposta do servidor, não de um `if` local. `pendingIds` marca o item que grava, guarda de duplo submit no handler e no botão, e `404` na escrita tira o item da tela com aviso em `aria-live`.
 
-**O que ficou fora e por quê:** o `ApiError.fieldErrors` existe sem cliente, porque a API devolve `field: 'task'` para qualquer dado inválido — divergência de contrato encontrada durante o tema, com a `api/` congelada. O `Content` ficou grande de propósito (material do T12). Bloco 2 inteiro não foi feito.
+**O que ficou fora e por quê:** o `ApiError.fieldErrors` existe sem cliente, porque a API devolve `field: 'task'` para qualquer dado inválido — divergência de contrato encontrada durante o tema, com a `api/` congelada. O `Content` ficou grande de propósito (material do T11). Bloco 2 inteiro não foi feito.
 
 ## Typecheck
 
@@ -618,7 +618,7 @@ Dois atritos do TS 7 apareceram e estão resolvidos no código: `erasableSyntaxO
 
 ## Testes
 
-Nenhum, por plano: testes de front são o **Tema 14** (Vitest + Testing Library + MSW), e o MSW vai interceptar exatamente na borda que este tema criou — `src/api/`. A verificação deste tema foi manual, pelas cinco provas do Bloco 1, todas passando:
+Nenhum, por plano: testes de front são o **Tema 13** (Vitest + Testing Library + MSW), e o MSW vai interceptar exatamente na borda que este tema criou — `src/api/`. A verificação deste tema foi manual, pelas cinco provas do Bloco 1, todas passando:
 
 1. API derrubada com a tela aberta: sem tela branca, sem giro eterno.
 2. `POST` inválido: mensagem no formulário (não no campo — ver divergência acima).

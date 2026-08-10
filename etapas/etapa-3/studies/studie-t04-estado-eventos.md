@@ -157,7 +157,7 @@ const [filtro, setFiltro] = useState<Status | 'all'>('all'); // muda por clique 
 
 **O que é.** A pergunta prática: **quem mais precisa saber disso?**
 
-**Para que serve.** Evita os dois extremos. Estado que sobe demais faz metade da árvore re-renderizar por causa de um clique (T12 vai medir isso); estado que fica preso embaixo obriga a duplicar.
+**Para que serve.** Evita os dois extremos. Estado que sobe demais faz metade da árvore re-renderizar por causa de um clique (T11 vai medir isso); estado que fica preso embaixo obriga a duplicar.
 
 **Exemplo.**
 
@@ -215,7 +215,7 @@ Nenhuma. `useState` vem no React já instalado — primeiro tema com atrito zero
 #### Bloco 3 — Design e acessibilidade (sugestões)
 
 [ ] **Card vazio ficou mudo:** `{done.length > 0 && <ListTasks />}` deixa título com espaço branco embaixo quando o card esvazia. Precisa de mensagem própria, e que diga o que fazer
-[ ] **Botão "Alterar" não diz o quê:** `aria-label` com a descrição da tarefa. É o que o `getByRole('button', { name })` do T14 procura
+[ ] **Botão "Alterar" não diz o quê:** `aria-label` com a descrição da tarefa. É o que o `getByRole('button', { name })` do T13 procura
 [ ] **Botão "X" idem** — um leitor de tela lê "X, botão". `aria-label="Apagar <tarefa>"`
 [ ] **Botão X está sobreposto ao conteúdo** (`absolute top-0 right-0`): conferir alvo de toque mínimo e se ele não cobre texto em telas estreitas
 [ ] **Se o filtro entrar:** o estado ativo precisa ser perceptível **sem depender só de cor** (`aria-pressed`, ícone ou `<select>`)
@@ -249,7 +249,7 @@ Nenhuma. `useState` vem no React já instalado — primeiro tema com atrito zero
 ## Typecheck e testes
 
 - `npm run typecheck` — rodar e confirmar limpo. Ponto de atenção: no `handleChangeTask`, `{ ...task, status: 'doing' }` só compila porque o retorno do `map` recebe contexto de `Task[]` via `setTasks`. Se o handler for extraído para fora, o literal vira `string` e quebra.
-- Testes — não existem ainda (T14). Nada a verificar.
+- Testes — não existem ainda (T13). Nada a verificar.
 
 ## Correções pendentes
 

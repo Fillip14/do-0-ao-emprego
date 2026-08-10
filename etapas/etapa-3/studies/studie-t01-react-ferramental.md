@@ -39,12 +39,12 @@ counter.textContent = tasks.filter(t => t.status === 'done').length;
 <script type="module" src="/src/main.tsx"></script>
 ```
 
-**Armadilhas:** o custo é real e você vai pagar cada um deles nesta etapa — **primeiro carregamento** (tela branca até o JS baixar e executar; volta no Tema 11 com bundle e code splitting), **SEO** (o robô que não executa JS vê a `div` vazia), **botão voltar e F5** (o histórico do navegador deixa de funcionar sozinho: é o Tema 9, e o F5 numa rota interna dá 404 no servidor até você configurar o fallback, Tema 11). Nada disso é defeito do React, é consequência da escolha — e saber recitar essa lista é resposta de entrevista.
+**Armadilhas:** o custo é real e você vai pagar cada um deles nesta etapa — **primeiro carregamento** (tela branca até o JS baixar e executar; volta no Tema 10 com bundle e code splitting), **SEO** (o robô que não executa JS vê a `div` vazia), **botão voltar e F5** (o histórico do navegador deixa de funcionar sozinho: é o Tema 9, e o F5 numa rota interna dá 404 no servidor até você configurar o fallback, Tema 10). Nada disso é defeito do React, é consequência da escolha — e saber recitar essa lista é resposta de entrevista.
 
 ## 3. Declarativo × imperativo
 
 **O que resolve?** Imperativo é a receita (**como** chegar lá); declarativo é a foto do prato pronto (**o que** deve existir). O código declarativo é legível de cima para baixo porque cada trecho descreve um resultado, não uma sequência de mutações — e por isso você consegue olhar um componente e saber o que a tela mostra sem simular a execução na cabeça.
-**Quando usar?** Como padrão dentro do React. Imperativo continua existindo nas bordas — focar um input, medir um elemento, tocar um vídeo — e para isso existe o `useRef` (Tema 12).
+**Quando usar?** Como padrão dentro do React. Imperativo continua existindo nas bordas — focar um input, medir um elemento, tocar um vídeo — e para isso existe o `useRef` (Tema 11).
 **Exemplo:**
 
 ```js
@@ -103,12 +103,12 @@ function TaskCounter() {
 <TaskCounter />
 ```
 
-**Armadilhas:** a **maiúscula não é estética, é semântica**: no JSX compilado, `<taskCounter />` vira a string `'taskCounter'` (elemento HTML desconhecido, some da tela sem erro) e `<TaskCounter />` vira a referência à sua função. Perder meia hora com uma tela em branco por causa disso é rito de passagem — pule. Outros dois: componente declarado **dentro** de outro componente é recriado a cada render e o React o trata como um tipo novo (destrói e remonta a subárvore, perdendo estado — volta no Tema 12); e chamar `Componente()` como função comum "funciona", mas não cria um nó na árvore, então hooks e estado se comportam de forma diferente — invoque sempre via `<Componente />`.
+**Armadilhas:** a **maiúscula não é estética, é semântica**: no JSX compilado, `<taskCounter />` vira a string `'taskCounter'` (elemento HTML desconhecido, some da tela sem erro) e `<TaskCounter />` vira a referência à sua função. Perder meia hora com uma tela em branco por causa disso é rito de passagem — pule. Outros dois: componente declarado **dentro** de outro componente é recriado a cada render e o React o trata como um tipo novo (destrói e remonta a subárvore, perdendo estado — volta no Tema 11); e chamar `Componente()` como função comum "funciona", mas não cria um nó na árvore, então hooks e estado se comportam de forma diferente — invoque sempre via `<Componente />`.
 
 ## 6. Vite: dev server × build
 
 **O que resolve?** Duas coisas diferentes com uma ferramenta só. Em **desenvolvimento**, o Vite não empacota nada: serve seus arquivos como módulos ES nativos, transformando cada um sob demanda — por isso o servidor sobe instantaneamente por maior que o projeto fique. Em cima disso vem o **HMR** (Hot Module Replacement): ao salvar, ele troca só o módulo alterado no navegador, **preservando o estado da tela** (o formulário não zera). Em **produção**, roda um build de verdade (Rollup) que gera arquivos estáticos otimizados, minificados e com hash no nome.
-**Quando usar?** `npm run dev` para trabalhar; `npm run build` + `npm run preview` para conferir o que vai para o ar (Tema 11).
+**Quando usar?** `npm run dev` para trabalhar; `npm run build` + `npm run preview` para conferir o que vai para o ar (Tema 10).
 **Exemplo:**
 
 ```bash
@@ -117,7 +117,7 @@ npm run build     # gera dist/ — é isso que vai para a hospedagem
 npm run preview   # serve o dist/ localmente, para você ver a versão real
 ```
 
-**Armadilhas:** **dev não é produção** — medir performance, tamanho ou comportamento em `npm run dev` não vale nada (o React em dev tem checagens extras e o código não está minificado); essa lição volta cobrada no Tema 11. `create-react-app` está **descontinuado desde 2025** e a documentação oficial do React não o recomenda mais: era baseado em Webpack com bundle completo a cada start, lento e com dependências abandonadas — se você achar tutorial que o usa, o tutorial é velho e o resto dele provavelmente também. Sobre o TypeScript: o Vite **remove** os tipos sem checar (por isso é rápido); erro de tipo **não** quebra o `dev` nem, por padrão, o `build` — quem checa é o `tsc --noEmit`, e é por isso que o script `typecheck` existe e precisa entrar no seu fluxo desde hoje.
+**Armadilhas:** **dev não é produção** — medir performance, tamanho ou comportamento em `npm run dev` não vale nada (o React em dev tem checagens extras e o código não está minificado); essa lição volta cobrada no Tema 10. `create-react-app` está **descontinuado desde 2025** e a documentação oficial do React não o recomenda mais: era baseado em Webpack com bundle completo a cada start, lento e com dependências abandonadas — se você achar tutorial que o usa, o tutorial é velho e o resto dele provavelmente também. Sobre o TypeScript: o Vite **remove** os tipos sem checar (por isso é rápido); erro de tipo **não** quebra o `dev` nem, por padrão, o `build` — quem checa é o `tsc --noEmit`, e é por isso que o script `typecheck` existe e precisa entrar no seu fluxo desde hoje.
 
 ## 7. Anatomia do projeto: quem chama quem
 
@@ -187,14 +187,14 @@ function Bug() { n++; return <p>{n}</p>; }   // render impuro: com StrictMode o 
 
 ## 10. Renderização: o que dispara, o que o React faz
 
-**O que resolve?** Desfaz a confusão que custa caro no Tema 12. Renderizar é **chamar a sua função de componente** para obter a descrição da tela; isso é barato e acontece o tempo todo. O ciclo tem três fases: **disparo** (o primeiro `render()`, ou uma mudança de estado), **render** (o React chama seus componentes e monta a nova descrição, comparando com a anterior — reconciliação), e **commit** (o React aplica no DOM real **apenas as diferenças encontradas**). Se a descrição nova é igual à velha, o commit não toca em nada — o navegador nem repinta.
+**O que resolve?** Desfaz a confusão que custa caro no Tema 11. Renderizar é **chamar a sua função de componente** para obter a descrição da tela; isso é barato e acontece o tempo todo. O ciclo tem três fases: **disparo** (o primeiro `render()`, ou uma mudança de estado), **render** (o React chama seus componentes e monta a nova descrição, comparando com a anterior — reconciliação), e **commit** (o React aplica no DOM real **apenas as diferenças encontradas**). Se a descrição nova é igual à velha, o commit não toca em nada — o navegador nem repinta.
 **Quando usar?** Como modelo mental permanente; é o que separa "está lento" de "re-renderiza demais" (que nem sempre é o mesmo problema).
 **Exemplo:** um `<input>` cujo valor não mudou não é recriado — o React reaproveita o mesmo nó do DOM, e por isso o foco e o texto digitado sobrevivem ao re-render do pai.
-**Armadilhas:** **re-render ≠ redesenhar o DOM** — dizer "re-renderizou" não é dizer "ficou lento". O contrário também: um render barato pode virar caro se ele recalcula uma lista de 10 mil itens toda vez. Duas coisas dependem da **posição na árvore e da `key`**: se você renderiza um componente diferente na mesma posição, o React **destrói o estado** dele — é a base do Tema 2 (`key`) e do Tema 12 (perda de estado por `key` instável). E o estado não muda no meio do render: `setX` **agenda**, o React processa e refaz a passada (Tema 4).
+**Armadilhas:** **re-render ≠ redesenhar o DOM** — dizer "re-renderizou" não é dizer "ficou lento". O contrário também: um render barato pode virar caro se ele recalcula uma lista de 10 mil itens toda vez. Duas coisas dependem da **posição na árvore e da `key`**: se você renderiza um componente diferente na mesma posição, o React **destrói o estado** dele — é a base do Tema 2 (`key`) e do Tema 11 (perda de estado por `key` instável). E o estado não muda no meio do render: `setX` **agenda**, o React processa e refaz a passada (Tema 4).
 
 ## 11. React DevTools
 
-**O que resolve?** Devolve a visibilidade que você tinha com o inspetor de elementos: mostra a **árvore de componentes** (não de nós do DOM), com as props e o estado de cada um, quem é o pai, e — na aba Profiler (Tema 12) — quem renderizou e quanto custou. É a resposta para "eu acho que o estado está X".
+**O que resolve?** Devolve a visibilidade que você tinha com o inspetor de elementos: mostra a **árvore de componentes** (não de nós do DOM), com as props e o estado de cada um, quem é o pai, e — na aba Profiler (Tema 11) — quem renderizou e quanto custou. É a resposta para "eu acho que o estado está X".
 **Quando usar?** Instalar hoje, no dia 1, e abrir toda vez que a tela não bate com o que você espera. "Achar" não é depurar.
 **Exemplo:** extensão do Chrome/Firefox → abre duas abas novas no DevTools: **Components** e **Profiler**. Clicar num componente mostra `props` e `hooks` do lado direito, e o `$r` no console vira uma referência a ele.
 **Armadilhas:** ele só aparece em **build de desenvolvimento** — num site em produção as abas não aparecem (e é assim que deve ser). Editar props direto no painel muda a tela mas **não** muda o seu código: é sonda, não editor. E não confunda as duas árvores: um componente seu pode não gerar nó nenhum no DOM (fragmento), e um nó do DOM pode vir de um componente que você não escreveu.
@@ -213,7 +213,7 @@ import logo from './assets/logo.svg';   // logo é uma string: a URL final
 <img src="/favicon.svg" alt="" />   // veio de public/, caminho literal
 ```
 
-**Armadilhas:** `<img src="./assets/logo.svg" />` escrito como string **não** passa pelo build — funciona no `dev` e quebra no deploy (o arquivo não foi copiado nem teve o caminho reescrito); é o bug clássico do Tema 11 aparecendo com três semanas de antecedência. CSS importado é **global**, mesmo estando ao lado do componente — o escopo é problema do Tema 3, não se iluda com a proximidade do arquivo. E arquivo em `public/` **não** ganha hash: cache velho é responsabilidade sua.
+**Armadilhas:** `<img src="./assets/logo.svg" />` escrito como string **não** passa pelo build — funciona no `dev` e quebra no deploy (o arquivo não foi copiado nem teve o caminho reescrito); é o bug clássico do Tema 10 aparecendo com três semanas de antecedência. CSS importado é **global**, mesmo estando ao lado do componente — o escopo é problema do Tema 3, não se iluda com a proximidade do arquivo. E arquivo em `public/` **não** ganha hash: cache velho é responsabilidade sua.
 
 ---
 
@@ -261,7 +261,7 @@ Partindo da linha "O app ganha" e expandindo:
 - **Um asset importado** (o seu, não o do Vite) aparecendo na tela via `import`, e o CSS entrando por `import`.
 - **HMR observado:** altere um texto com a página aberta e note o que **não** aconteceu (a página não recarregou).
 - **`npm run typecheck` limpo** e rodado antes do commit — não é enfeite, é a regra 4(b).
-- **`web/README.md` nasce hoje** (regra 5): o que o app é, como rodar, a stack com versões, a estrutura de pastas, e o aviso de que ele ainda não fala com a API. Ele cresce a cada tema; não deixe para escrever no Tema 11.
+- **`web/README.md` nasce hoje** (regra 5): o que o app é, como rodar, a stack com versões, a estrutura de pastas, e o aviso de que ele ainda não fala com a API. Ele cresce a cada tema; não deixe para escrever no Tema 10.
 - **Commits `t01: ...`** e push conferido.
 
 ### 3. Critérios
