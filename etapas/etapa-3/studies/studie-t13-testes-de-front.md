@@ -14,7 +14,8 @@
 
 1. **jsdom, não o Browser Mode do Vitest.** A escolha foi minha, porque não havia material para você decidir — você não conhecia nenhum dos dois. jsdom é DOM simulado em Node: instala um pacote, roda em segundos, é o que a documentação da Testing Library assume e é o que aparece em 90% dos projetos que você vai encontrar. O Browser Mode roda em Chromium de verdade (mais fiel em foco, layout e eventos), mas instala Playwright, é mais lento e tem menos material. **A limitação do jsdom é conteúdo do tema, não um detalhe escondido:** ele não implementa `window.confirm`, não tem `matchMedia`, não faz layout — e você vai esbarrar nos três (tópico 2).
 2. **O escopo obrigatório é o caminho crítico** (escolha sua): o `tasksReducer` puro, os quatro estados da `TasksPage` com MSW, criar tarefa ponta a ponta e o erro que ninguém testa. **Não** é "um teste por componente" — o tópico 13 diz por quê.
-3. **MSW, não mock de `fetch`.** Já estava no plano (tópico 8) e continua: substituir `fetch` por `vi.fn()` testaria o seu `request<T>`, não o app. MSW intercepta na borda da rede — o `http.ts` roda de verdade, incluindo o ramo do `204` e a tradução de `ApiError`.
+3. **`*/tasks` nos handlers, sem `.env.test`** (escolha sua, 11/08) — e o `tasksReducer` sai para `hooks/tasksReducer.ts`, para que o teste da função pura não importe um módulo que chama React. Detalhe e custo no tópico 8.
+4. **MSW, não mock de `fetch`.** Já estava no plano (tópico 8) e continua: substituir `fetch` por `vi.fn()` testaria o seu `request<T>`, não o app. MSW intercepta na borda da rede — o `http.ts` roda de verdade, incluindo o ramo do `204` e a tradução de `ApiError`.
 
 ---
 
@@ -185,7 +186,7 @@ export const handlers = [
 server.use(http.get('*/tasks', () => HttpResponse.json({ errors: [{ message: 'boom' }] }, { status: 500 })));
 ```
 
-**O detalhe que vai te custar tempo se não souber agora:** o `BASE_URL` do `http.ts` vem de `import.meta.env.VITE_API_URL`. Em teste essa variável não existe, e a URL vira `"undefined/tasks"` — por isso os handlers usam `*/tasks`, ou você define a variável num `.env.test`. **Escolha uma das duas e escreva qual, no `web/README.md`.**
+**O detalhe que vai te custar tempo se não souber agora:** o `BASE_URL` do `http.ts` vem de `import.meta.env.VITE_API_URL`. Em teste essa variável não existe, e a URL vira `"undefined/tasks"` — por isso os handlers usam `*/tasks`, ou você define a variável num `.env.test`. **Decidido em 11/08: `*/tasks`.** Zero arquivo de ambiente novo e o teste não quebra se a URL da API mudar. O preço, escrito para não virar surpresa: o wildcard perdoa URL montada errada — se o `http.ts` passar a pedir `/task`, o handler `*/tasks` deixa de casar e você descobre; mas se ele pedir o host errado, o teste continua verde. **Escrever a escolha no `web/README.md`.**
 
 ### 9. Testar os quatro estados de tela — inclusive o de erro
 
@@ -338,7 +339,7 @@ Card.tsx          100%  ← não significa nada: nunca foi verificado, só rende
 - **`globals: false` de propósito:** importar `describe`/`it`/`expect` de `'vitest'` em cada arquivo, igual à `api/` (`src/app.test.ts`). Coerência entre os dois lados do projeto, e nada a acrescentar em `types` do `tsconfig.app.json`.
 - **`package.json`:** `"test": "vitest run"` e `"test:watch": "vitest"`. A partir daqui, **`npm test` verde é condição de fechamento de tema** (e entra na avaliação).
 - **`src/test/setup.ts`:** `import '@testing-library/jest-dom/vitest'` + `server.listen` / `resetHandlers` / `close` do MSW.
-- **`.env.test` com `VITE_API_URL`**, ou handlers com `*/tasks`. Escolher **uma** e escrever qual (tópico 8).
+- **Handlers com `*/tasks`** (decidido em 11/08, tópico 8) — sem `.env.test`. Escrever a escolha no `web/README.md`.
 - Nada de servidor de pé: **a `api/` e o Postgres não precisam rodar** para `npm test`. É a primeira verificação da etapa que não depende de três terminais.
 
 ### 2. Os blocos
@@ -347,7 +348,7 @@ Card.tsx          100%  ← não significa nada: nunca foi verificado, só rende
 
 **A base (o que o T11 deixou pronto)**
 
-- [ ] Exportar o `tasksReducer` — hoje é `const` privado dentro do `useTasks.ts`. Decidir: `export` no lugar, ou arquivo próprio `hooks/tasksReducer.ts`
+- [ ] Mover o `tasksReducer` para `hooks/tasksReducer.ts` (decidido em 11/08) — hoje é `const` privado dentro do `useTasks.ts`. O motivo: o teste puro importa a lógica sem arrastar um módulo que chama React
 - [ ] `tasksReducer.test.ts`: um `it` por action (`loaded`, `failed`, `created`, `updated`, `removed`)
 - [ ] Mais dois: `updated`/`removed` com estado em `loading` **não** muda nada (a guarda de `success`), e o estado antigo **não** é mutado
 - [ ] `taskRules.test.ts`: o ciclo `todo → doing → done → todo` do `nextStatus` e o `validateTaskForm` (título vazio, título só com espaço)
