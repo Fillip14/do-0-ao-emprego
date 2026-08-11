@@ -13,6 +13,7 @@ import { Typography } from '../../components/Typography';
 import { Button } from '../../components/Button';
 import { Filters } from './Filters';
 import { useSearchParams } from 'react-router';
+import { isShowcase } from '../../utils/environment';
 
 type TasksState =
   | { status: 'loading' }
@@ -178,7 +179,11 @@ export const TasksPage = () => {
         {state.status === 'loading' && <LoadingTasks />}
 
         {state.status === 'error' && (
-          <ErrorTasks message={state.message} onRetry={() => setReloadKey((k) => k + 1)} />
+          <ErrorTasks
+            message={state.message}
+            showcase={isShowcase}
+            onRetry={() => setReloadKey((k) => k + 1)}
+          />
         )}
 
         {state.status === 'success' &&
