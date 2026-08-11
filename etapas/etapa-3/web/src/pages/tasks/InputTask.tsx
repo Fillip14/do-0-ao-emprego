@@ -49,7 +49,6 @@ export const InputTask = ({ onAddTask }: InputTaskProps) => {
     >
       <div className="flex justify-center items-center flex-wrap gap-2">
         <TaskField
-          id="title"
           label="Tarefa"
           placeholder="Titulo da tarefa"
           error={errors.title}
@@ -73,7 +72,6 @@ export const InputTask = ({ onAddTask }: InputTaskProps) => {
               <option value="done">Feito</option>
             </select>
             <TaskField
-              id="term"
               label="Prazo"
               type="date"
               value={form.term}

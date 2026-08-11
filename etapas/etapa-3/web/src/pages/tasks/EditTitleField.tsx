@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 type EditTitleFieldProps = {
   initialValue: string;
@@ -8,6 +8,12 @@ type EditTitleFieldProps = {
 
 export const EditTitleField = ({ initialValue, onSave, onCancel }: EditTitleFieldProps) => {
   const [draft, setDraft] = useState(initialValue);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  // O autoFocus dá o foco; o select() é o que deixa sobrescrever direto.
+  useEffect(() => {
+    inputRef.current?.select();
+  }, []);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') onSave(draft);
@@ -16,6 +22,7 @@ export const EditTitleField = ({ initialValue, onSave, onCancel }: EditTitleFiel
 
   return (
     <input
+      ref={inputRef}
       autoFocus
       type="text"
       aria-label="Editar título da tarefa"
