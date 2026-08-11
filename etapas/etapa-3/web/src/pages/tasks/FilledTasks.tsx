@@ -45,6 +45,9 @@ export const FilledTasks = ({
               <ItemTask
                 key={task.id}
                 task={task}
+                // Com filtro ativo a lista muda a cada tecla digitada, e `layout`
+                // mede o DOM a cada render. Fora do filtro, ligado (T14, tópico 14).
+                animateLayout={!hideEmpty}
                 isEditing={editingId === task.id}
                 onEditingChange={onEditingChange}
                 onEditTask={onEditTask}

@@ -1,5 +1,6 @@
 import { type Task, type Status } from '../../types/task';
-import { motion } from 'motion/react';
+import { useState } from 'react';
+import { m } from 'motion/react';
 import { Button } from '../../components/Button';
 import { Typography } from '../../components/Typography';
 import { EditTitleField } from './EditTitleField';
@@ -8,6 +9,7 @@ import { enterTransition, exitTransition } from '../../utils/motion';
 
 type ItemTaskProps = {
   task: Task;
+  animateLayout: boolean;
   isEditing: boolean;
   onEditingChange: (id: string | null) => void;
   onEditTask: (id: string, title: string) => void;
@@ -16,21 +18,49 @@ type ItemTaskProps = {
 };
 const statusIcon: Record<Status, string> = { todo: '⬜', doing: '🔨', done: '✅' };
 
+// Um estado com as fases que existem, em vez de um booleano por fase (T14, tópico 11).
+type Gesture = 'idle' | 'dragging' | 'deleting';
+
+// Distância OU velocidade: um empurrão curto e rápido conta tanto quanto um arrasto longo.
+const DELETE_OFFSET = 120;
+const DELETE_VELOCITY = 500;
+
 export const ItemTask = ({
   task,
+  animateLayout,
   isEditing,
   onEditingChange,
   onEditTask,
   onChangeTask,
   onDeleteTask,
 }: ItemTaskProps) => {
+  const [gesture, setGesture] = useState<Gesture>('idle');
+
   return (
-    <motion.li
-      initial={{ opacity: 0, y: -8 }}
-      animate={{ opacity: 1, y: 0 }}
+    <m.li
+      // `layoutId` atravessa a troca de coluna: para o React são dois elementos
+      // (desmontou de um <ul>, montou em outro), para a lib é o mesmo viajando.
+      layout={animateLayout}
+      layoutId={task.id}
+      // A entrada é só transform: nenhum quadro com o item já no DOM e invisível.
+      initial={{ y: -8, scale: 0.98 }}
+      animate={{ y: 0, scale: 1 }}
       exit={{ opacity: 0, x: 40, transition: exitTransition }}
       transition={enterTransition}
-      className="relative flex justify-between items-center bg-amber-100 rounded-lg p-2"
+      // `false` enquanto apaga: a tarefa já foi, arrastar de novo não faz sentido.
+      drag={gesture === 'deleting' ? false : 'x'}
+      dragConstraints={{ left: 0, right: 0 }}
+      dragElastic={0.6}
+      dragSnapToOrigin
+      whileDrag={{ scale: 1.02 }}
+      onDragStart={() => setGesture('dragging')}
+      onDragEnd={(_event, info) => {
+        const shouldDelete = info.offset.x > DELETE_OFFSET || info.velocity.x > DELETE_VELOCITY;
+        setGesture(shouldDelete ? 'deleting' : 'idle');
+        if (shouldDelete) onDeleteTask(task.id);
+      }}
+      // `touch-pan-y`: sem isso o dedo rola a página em vez de arrastar o item.
+      className="relative flex justify-between items-center bg-amber-100 rounded-lg p-2 touch-pan-y"
     >
       <div className="flex items-center max-w-20 sm:max-w-65">
         <span aria-hidden="true">{statusIcon[task.status]}</span>
@@ -65,6 +95,6 @@ export const ItemTask = ({
           X
         </Button>
       </div>
-    </motion.li>
+    </m.li>
   );
 };
