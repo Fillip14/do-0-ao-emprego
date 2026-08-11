@@ -1,9 +1,13 @@
+import { lazy } from 'react';
 import { Routes, Route, Navigate } from 'react-router';
 import { AppLayout } from './layout/AppLayout';
 import { TasksPage } from './pages/tasks/TasksPage';
 import { NotFoundPage } from './pages/notFound/NotFoundPage';
-import { TaskDetailPage } from './pages/taskDetail/TaskDetailPage';
 import { RequireAuth } from './routes/RequireAuth';
+
+const TaskDetailPage = lazy(() =>
+  import('./pages/taskDetail/TaskDetailPage').then((m) => ({ default: m.TaskDetailPage })),
+);
 
 function App() {
   return (
