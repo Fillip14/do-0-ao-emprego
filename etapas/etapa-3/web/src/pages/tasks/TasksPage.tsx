@@ -11,18 +11,21 @@ import { LoadingTasks } from './LoadingTasks';
 import { AlertCircle } from 'lucide-react';
 import { Typography } from '../../components/Typography';
 import { Button } from '../../components/Button';
+import { Filters } from './Filters';
+import { useSearchParams } from 'react-router';
 
 type TasksState =
   | { status: 'loading' }
   | { status: 'error'; message: string }
   | { status: 'success'; tasks: Task[] };
 
-export const TaskPage = () => {
+export const TasksPage = () => {
   const [state, setState] = useState<TasksState>({ status: 'loading' });
   const [editingId, setEditingId] = useState<string | null>(null);
   const [reloadKey, setReloadKey] = useState(0);
   const [pendingIds, setPendingIds] = useState<Set<string>>(new Set());
   const [notice, setNotice] = useState<string | null>(null);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
     const ac = new AbortController();
@@ -43,6 +46,30 @@ export const TaskPage = () => {
 
     return () => ac.abort();
   }, [reloadKey]);
+
+  const q = searchParams.get('q') ?? '';
+  const status = searchParams.get('status') ?? '';
+
+  const setParam = (key: string, value: string) => {
+    setSearchParams(
+      (prev) => {
+        const next = new URLSearchParams(prev);
+        if (value) next.set(key, value);
+        else next.delete(key);
+        return next;
+      },
+      { replace: true },
+    );
+  };
+
+  const visibleTasks =
+    state.status === 'success'
+      ? state.tasks.filter((task) => {
+          const matchQ = task.title.toLowerCase().includes(q.toLowerCase().trim());
+          const matchStatus = !status || task.status === status;
+          return matchQ && matchStatus;
+        })
+      : [];
 
   const updateTasks = (fn: (tasks: Task[]) => Task[]) =>
     setState((prev) =>
@@ -146,6 +173,7 @@ export const TaskPage = () => {
           <Button onClick={() => setNotice(null)}>Fechar</Button>
         </div>
       )}
+      <Filters q={q} status={status} onChange={setParam} />
       <main className="flex flex-wrap justify-center gap-1">
         {state.status === 'loading' && <LoadingTasks />}
 
@@ -154,11 +182,15 @@ export const TaskPage = () => {
         )}
 
         {state.status === 'success' &&
-          (state.tasks.length === 0 ? (
-            <EmptyTasks />
+          (visibleTasks.length === 0 ? (
+            <EmptyTasks
+              filtered={Boolean(q || status)}
+              onClear={() => setSearchParams({}, { replace: true })}
+            />
           ) : (
             <FilledTasks
-              tasks={state.tasks}
+              hideEmpty={Boolean(q || status)}
+              tasks={visibleTasks}
               editingId={editingId}
               onEditingChange={setEditingId}
               onEditTask={handleEditTask}

@@ -2,6 +2,7 @@ import { type Task, type Status } from '../../types/task';
 import { Button } from '../../components/Button';
 import { Typography } from '../../components/Typography';
 import { EditTitleField } from './EditTitleField';
+import { Link } from 'react-router';
 
 type ItemTaskProps = {
   task: Task;
@@ -32,12 +33,14 @@ export const ItemTask = ({
             onCancel={() => onEditingChange(null)}
           />
         ) : (
-          <button type="button" onClick={() => onEditingChange(task.id)}>
-            <Typography variant="descriptionTask">{task.title}</Typography>
-          </button>
+          <div className="flex gap-2">
+            <button type="button" onClick={() => onEditingChange(task.id)}>
+              <Typography variant="descriptionTask">{task.title}</Typography>
+            </button>
+            <Link to={`/tasks/${task.id}`}>Abrir</Link>
+          </div>
         )}
       </div>
-
       <div className="flex flex-col gap-1 items-center">
         <Typography variant="termTask">
           <span aria-hidden="true">📅</span> {task.term ?? 'Sem prazo'}

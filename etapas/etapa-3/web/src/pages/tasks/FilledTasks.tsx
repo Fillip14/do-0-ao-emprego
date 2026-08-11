@@ -5,6 +5,7 @@ import { ItemTask } from './ItemTask';
 
 export type FilledTasksProps = {
   tasks: Task[];
+  hideEmpty: boolean;
   editingId: string | null;
   onEditingChange: (id: string | null) => void;
   onEditTask: (id: string, title: string) => void;
@@ -14,6 +15,7 @@ export type FilledTasksProps = {
 
 export const FilledTasks = ({
   tasks,
+  hideEmpty,
   editingId,
   onEditingChange,
   onEditTask,
@@ -30,7 +32,9 @@ export const FilledTasks = ({
     { title: 'Que tal iniciar essas?', list: todo },
   ];
 
-  return cardsTask.map((item) => (
+  const visibleCards = hideEmpty ? cardsTask.filter((item) => item.list.length > 0) : cardsTask;
+
+  return visibleCards.map((item) => (
     <Card key={item.title}>
       <Typography variant="titleTask">{item.title}</Typography>
       {item.list.length > 0 ? (

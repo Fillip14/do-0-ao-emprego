@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router';
+import { useParams, useNavigate, Link } from 'react-router';
 import { isUuid } from '../../utils/validationId';
-import { getTask } from '../../api/tasks';
+import { getTask, deleteTask } from '../../api/tasks';
 import { ApiError } from '../../api/http';
+import { Button } from '../../components/Button';
 import type { Task } from '../../types/task';
 
 type DetailState =
@@ -12,9 +13,11 @@ type DetailState =
 
 export const TaskDetailPage = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const validId = id && isUuid(id) ? id : null;
 
   const [state, setState] = useState<DetailState>({ status: 'loading' });
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
     if (!validId) return;
@@ -41,6 +44,25 @@ export const TaskDetailPage = () => {
 
     return () => ac.abort();
   }, [validId]);
+
+  const handleDelete = async () => {
+    if (!validId || deleting) return;
+
+    setDeleting(true);
+    try {
+      await deleteTask(validId);
+      navigate('/tasks', { replace: true });
+    } catch (err) {
+      if (err instanceof ApiError && err.status === 404) {
+        navigate('/tasks', { replace: true });
+        return;
+      }
+
+      console.error(err);
+      setDeleting(false);
+      setState({ status: 'error', id: validId, message: 'Não foi possível excluir a tarefa.' });
+    }
+  };
 
   if (!validId) {
     return (
@@ -69,6 +91,9 @@ export const TaskDetailPage = () => {
     <main>
       <h1>{view.task.title}</h1>
       <p>{view.task.status}</p>
+      <Button onClick={handleDelete} disabled={deleting}>
+        {deleting ? 'Excluindo…' : 'Excluir tarefa'}
+      </Button>
       <Link to="/tasks">Voltar para as tarefas</Link>
     </main>
   );
