@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { Button } from '../../../components/Button';
-import type { FieldErrors, Status, TaskForm } from '../../../types/task';
-import { Typography } from '../../../components/Typography';
-import { TaskField } from '../../../components/TaskField';
-import { validateTaskForm } from '../../../utils/taskRules';
-import { ApiError } from '../../../api/http';
+import { Button } from '../../components/Button';
+import type { FieldErrors, Status, TaskForm } from '../../types/task';
+import { Typography } from '../../components/Typography';
+import { TaskField } from '../../components/TaskField';
+import { validateTaskForm } from '../../utils/taskRules';
+import { ApiError } from '../../api/http';
 
 type InputTaskProps = { onAddTask: (form: TaskForm) => Promise<void> };
 const emptyForm: TaskForm = { title: '', status: 'todo', term: '' };

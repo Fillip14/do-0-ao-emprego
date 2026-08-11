@@ -1,6 +1,6 @@
-import { type Task, type Status } from '../../../types/task';
-import { Button } from '../../../components/Button';
-import { Typography } from '../../../components/Typography';
+import { type Task, type Status } from '../../types/task';
+import { Button } from '../../components/Button';
+import { Typography } from '../../components/Typography';
 import { EditTitleField } from './EditTitleField';
 
 type ItemTaskProps = {

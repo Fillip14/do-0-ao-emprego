@@ -1,5 +1,5 @@
-import { Typography } from '../../../components/Typography';
-import { Card } from '../../../components/Card';
+import { Typography } from '../../components/Typography';
+import { Card } from '../../components/Card';
 import { Loader2 } from 'lucide-react';
 
 export const LoadingTasks = () => {

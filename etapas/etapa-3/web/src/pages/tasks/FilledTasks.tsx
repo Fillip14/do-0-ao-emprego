@@ -1,6 +1,6 @@
-import { type Task } from '../../../types/task';
-import { Card } from '../../../components/Card';
-import { Typography } from '../../../components/Typography';
+import { type Task } from '../../types/task';
+import { Card } from '../../components/Card';
+import { Typography } from '../../components/Typography';
 import { ItemTask } from './ItemTask';
 
 export type FilledTasksProps = {

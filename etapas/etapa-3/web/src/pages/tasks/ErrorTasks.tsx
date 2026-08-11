@@ -1,7 +1,7 @@
 import { AlertCircle } from 'lucide-react';
-import { Card } from '../../../components/Card';
-import { Typography } from '../../../components/Typography';
-import { Button } from '../../../components/Button';
+import { Card } from '../../components/Card';
+import { Typography } from '../../components/Typography';
+import { Button } from '../../components/Button';
 
 type ErrorTasksProps = { message: string; onRetry: () => void };
 

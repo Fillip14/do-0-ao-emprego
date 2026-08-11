@@ -3,6 +3,9 @@ import type { NewTask, Task, TaskPatch } from '../types/task';
 
 export const getTasks = (signal?: AbortSignal) => request<Task[]>('/tasks', { signal });
 
+export const getTask = (id: string, signal?: AbortSignal) =>
+  request<Task>(`/tasks/${id}`, { signal });
+
 export const createTask = (input: NewTask) =>
   request<Task>('/tasks', { method: 'POST', body: input });
 

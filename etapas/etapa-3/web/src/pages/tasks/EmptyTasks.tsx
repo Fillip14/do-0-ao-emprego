@@ -1,5 +1,5 @@
-import { Typography } from '../../../components/Typography';
-import { Card } from '../../../components/Card';
+import { Typography } from '../../components/Typography';
+import { Card } from '../../components/Card';
 
 export const EmptyTasks = () => {
   return (

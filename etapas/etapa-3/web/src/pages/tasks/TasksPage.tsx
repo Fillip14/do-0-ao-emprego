@@ -1,23 +1,23 @@
 import { FilledTasks } from './FilledTasks';
 import { EmptyTasks } from './EmptyTasks';
 import { useEffect, useState } from 'react';
-import { type Task, type TaskForm } from '../../../types/task';
+import { type Task, type TaskForm } from '../../types/task';
 import { InputTask } from './InputTask';
-import { nextStatus } from '../../../utils/taskRules';
-import { createTask, deleteTask, getTasks, updateTask } from '../../../api/tasks';
-import { ApiError } from '../../../api/http';
+import { nextStatus } from '../../utils/taskRules';
+import { createTask, deleteTask, getTasks, updateTask } from '../../api/tasks';
+import { ApiError } from '../../api/http';
 import { ErrorTasks } from './ErrorTasks';
 import { LoadingTasks } from './LoadingTasks';
 import { AlertCircle } from 'lucide-react';
-import { Typography } from '../../../components/Typography';
-import { Button } from '../../../components/Button';
+import { Typography } from '../../components/Typography';
+import { Button } from '../../components/Button';
 
 type TasksState =
   | { status: 'loading' }
   | { status: 'error'; message: string }
   | { status: 'success'; tasks: Task[] };
 
-export const Content = () => {
+export const TaskPage = () => {
   const [state, setState] = useState<TasksState>({ status: 'loading' });
   const [editingId, setEditingId] = useState<string | null>(null);
   const [reloadKey, setReloadKey] = useState(0);
