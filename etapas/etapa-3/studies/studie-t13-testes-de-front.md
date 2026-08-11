@@ -186,7 +186,9 @@ export const handlers = [
 server.use(http.get('*/tasks', () => HttpResponse.json({ errors: [{ message: 'boom' }] }, { status: 500 })));
 ```
 
-**O detalhe que vai te custar tempo se não souber agora:** o `BASE_URL` do `http.ts` vem de `import.meta.env.VITE_API_URL`. Em teste essa variável não existe, e a URL vira `"undefined/tasks"` — por isso os handlers usam `*/tasks`, ou você define a variável num `.env.test`. **Decidido em 11/08: `*/tasks`.** Zero arquivo de ambiente novo e o teste não quebra se a URL da API mudar. O preço, escrito para não virar surpresa: o wildcard perdoa URL montada errada — se o `http.ts` passar a pedir `/task`, o handler `*/tasks` deixa de casar e você descobre; mas se ele pedir o host errado, o teste continua verde. **Escrever a escolha no `web/README.md`.**
+**O detalhe que vai te custar tempo se não souber agora:** o `BASE_URL` do `http.ts` vem de `import.meta.env.VITE_API_URL`. Em teste essa variável não existe, e a URL vira `"undefined/tasks"` — por isso os handlers usam `*/tasks`, ou você define a variável num `.env.test`. **Decidido em 11/08: `*/tasks`.** Zero arquivo de ambiente novo e o teste não quebra se a URL da API mudar. O preço, escrito para não virar surpresa: o wildcard perdoa URL montada errada — se o `http.ts` passar a pedir `/task`, o handler deixa de casar e você descobre; mas se ele pedir o host errado, o teste continua verde.
+
+**E uma correção do próprio enunciado, achada ao implementar:** são **dois** problemas, não um. O `*/tasks` resolve o **casamento** do handler. Falta o **parse**: o `fetch` do Node exige endereço absoluto, e `"undefined/tasks"` não é — ele estoura com `Failed to parse URL` **antes** de o MSW ver a requisição. Por isso o `vite.config.ts` ganhou `test.env.VITE_API_URL = 'http://localhost:3000'`: uma base falsa, para a URL ser parseável. Ninguém escuta nessa porta; a requisição é interceptada antes de sair. **Escrever as duas linhas no `web/README.md`.**
 
 ### 9. Testar os quatro estados de tela — inclusive o de erro
 
@@ -404,16 +406,49 @@ Card.tsx          100%  ← não significa nada: nunca foi verificado, só rende
 
 # Parte C — Revisão do código
 
-> Preencher no fechamento do tema. **Regra 6: o tema só fecha quando esta parte estiver concluída** — e vale a **regra 7**: sem redeploy, o tema não fechou.
+> **Regra 6: o tema só fecha quando esta parte estiver concluída** — e vale a **regra 7**: sem redeploy, o tema não fechou.
 
 ## O app foi migrado para o assunto do tema?
 
-_(a preencher)_
+**Sim, e a mudança no app foi de propósito pequena — uma só.** O `tasksReducer`, com os tipos `TasksState` e `Action`, saiu do `useTasks.ts` para `hooks/tasksReducer.ts`; o hook encolheu ~40 linhas e passou a importar. Nada foi reescrito no caminho. O motivo é o teste: função pura testada a partir de um módulo que chama `useEffect` arrastaria React para dentro de um teste que não precisa dele.
+
+Fora isso, **nenhuma linha do app mudou para agradar o teste** — e esse é o resultado que o tópico 1 previa. O que tornou a suíte escrevível já estava lá, escrito por outro motivo:
+
+- os `aria-label` do T3 (`Alterar status de X`, `Excluir task de X`) dão nome acessível único a cada botão de cada linha — sem eles, três tarefas na tela dariam três botões chamados `X` e o teste teria que escolher por índice;
+- o `label htmlFor` + `useId` do `TaskField` (T11) faz `getByLabelText('Tarefa')` funcionar;
+- o `role="alert"` do erro de campo e o `role="status"` da região viva do T12 são as duas âncoras de quase toda asserção de mensagem;
+- os `<h2>` do `Typography variant="titleTask"` são o que permite achar coluna e estado por `getByRole('heading')`.
+
+**O tópico 4 se cumpriu ao contrário do esperado:** eu não precisei de um `getByTestId` sequer. A parte da suíte que mais incomoda é justamente a única que **não** tem âncora acessível — o helper `column()`, que sobe do heading para a `<div>` do `Card` por `parentElement` porque o Card não tem papel nem nome. É acoplamento a DOM, está isolado em `test/columns.ts`, e a cura seria dar `aria-labelledby` ao Card. **Não foi feito: é mudança no app por causa do teste, e não está nos tópicos deste tema.** Fica como pergunta para o T14, que vai mexer nesses cards.
+
+**Uma correção do próprio enunciado, achada ao implementar.** A decisão 3 da abertura dizia que `*/tasks` resolvia a URL em teste. Resolve metade: o wildcard faz o handler **casar**, mas o `fetch` do Node exige endereço absoluto e `"undefined/tasks"` estoura no parse **antes** de o MSW ver a requisição. Foi preciso `test.env.VITE_API_URL` no `vite.config.ts`. Dois problemas, não um — está reescrito no tópico 8.
 
 ## Typecheck
 
-_(a preencher)_
+`npm run typecheck` limpo. Os `.test.tsx` moram em `src/` e entram no `tsc -b` como qualquer outro arquivo — não há tsconfig separado para teste, e isso é intencional: teste que não compila é teste que mente.
+
+`npm run build` idêntico à linha de base do T10, como previsto na abertura: as sete dependências entraram em `devDependencies` e nenhuma é importada por código do app.
 
 ## Testes
 
-_(a preencher — a partir deste tema, é `npm test` e não mais a lista de provas manuais)_
+**24 testes verdes**, em cinco arquivos, sem `api/` e sem Postgres de pé — a primeira verificação da etapa que roda com um terminal só.
+
+| Arquivo | Testes | O que prova |
+| --- | --- | --- |
+| `hooks/tasksReducer.test.ts` | 7 | as cinco actions, a guarda de `success` (com `toBe`, que é prova de identidade) e a não-mutação do estado recebido |
+| `utils/taskRules.test.ts` | 4 | o ciclo `todo → doing → done → todo` fechando, e o título só com espaço |
+| `pages/tasks/TasksPage.states.test.tsx` | 4 | os quatro estados de tela do T7, cada um com o seu handler |
+| `pages/tasks/TasksPage.create.test.tsx` | 3 | criar ponta a ponta, validação do cliente sem requisição, duplo submit com **um** `POST` |
+| `pages/tasks/TasksPage.write.test.tsx` | 6 | ciclo de status, rollback do otimista, apagar, o 404 na escrita, editar com Enter e desistir com Esc |
+
+**Quatro itens da prova prática da avaliação viraram automáticos:** derrubar a API no meio da sessão, lista vazia, duplo clique em salvar, e a tarefa apagada por fora que vira 404 na escrita. O rollback é o caso que justifica o tema sozinho — provocá-lo à mão exige derrubar a API no instante exato de um `PATCH`, e ninguém faz isso a cada commit.
+
+**A suíte reclama:** teste quebrado de propósito rodado — teste que nunca falhou não provou nada.
+
+**O que ficou de fora, e é escolha registrada, não esquecimento:**
+
+- **o formulário com erro do servidor (400)** — o tópico 10 pede três cenários e a suíte tem dois. É o único caminho em que o `ApiError` chega ao `formError` do `InputTask`, e "devolvo 400 do servidor" é item da avaliação. **É a primeira coisa a escrever se sobrar tempo antes do T14**;
+- `TaskDetailPage`, filtros pela URL, `AbortController` ao trocar de rota, timer do `Toast` — Bloco 2;
+- cobertura com `--coverage`: não rodada. O tópico 14 explica por que o número mente mais no front, e o relatório só valeria pela leitura dos `catch` vermelhos.
+
+**O limite honesto da suíte, e ele merece estar aqui e no `web/README.md`:** o handler do MSW é escrito por mim, com a minha crença sobre a API dentro. **Nenhum teste desta suíte pode achar** a divergência de contrato do `field: 'task'`, nem um problema de CORS, nem o fallback de SPA da Vercel. Quem pegaria isso é Playwright contra a API real — anotado no tópico 15, fora do escopo.

@@ -32,7 +32,11 @@ Quadro de tarefas em três colunas por status — concluídas, em andamento e a 
 npm install
 npm run dev        # http://localhost:5173
 npm run typecheck  # tsc -b --noEmit
+npm test           # vitest run — a suíte inteira, uma vez
+npm run test:watch # vitest em modo observador
 ```
+
+**O teste não precisa de API nem de banco.** É a única verificação do projeto que roda com um terminal só: o MSW responde no lugar do servidor.
 
 O `-b` é obrigatório: o `tsconfig.json` da raiz é _solution-style_, e sem ele o `tsc` lê zero arquivo e sai limpo sempre.
 
@@ -82,10 +86,11 @@ React 19.2.7 · TypeScript 6.0.2 · Vite 8.1.1 · Tailwind CSS 4.3.3 · lucide-r
 | `assets/`     | Imagens a serem utilizadas no app                                                            |
 | `components/` | Componentes reutilizáveis, sem domínio: `Card`, `Button`, `Typography`, `TaskField`, `Toast` |
 | `contexts/`   | `ToastContext` — o Provider do aviso global e os dois hooks guardiões                         |
-| `hooks/`      | `useTasks` — o estado da lista, o reducer e os verbos do CRUD                                 |
+| `hooks/`      | `useTasks` (efeito de busca, `pendingIds`, os verbos do CRUD) e `tasksReducer` (a função pura) |
 | `layout/`     | `AppLayout` (casca de todas as rotas) e `header/`                                             |
 | `pages/`      | Uma pasta por rota: `tasks/`, `taskDetail/`, `notFound/`                                      |
 | `routes/`     | `RequireAuth` — o guarda de rota, desenhado agora e ativado quando a API tiver auth           |
+| `test/`       | Infraestrutura da suíte: `setup`, `server`/`handlers` do MSW, `renderWithProviders`, `columns` |
 | `types/`      | Tipos do TypeScript: `Task`, `Status`, `TaskForm`, `FieldErrors`, `NewTask`, `TaskPatch`     |
 | `utils/`      | `taskRules` (transição e validação), `classNames`, `validationId` (uuid), `environment` (vitrine) |
 
@@ -131,6 +136,12 @@ O corte de `api/` é o mesmo de `components/` × `pages/`: **`http.ts` não sabe
 
 **No link público, mensagem honesta — sem dados de demonstração e sem "Tentar de novo".** `utils/environment` detecta, no build, produção apontando para `localhost` e liga o modo vitrine: o app **nem tenta** a requisição condenada (console limpo, sem espera de timeout) e explica que a API roda localmente. Dado de demonstração foi recusado por ser a segunda fonte da verdade que o T7 acabou de enterrar; o botão de repetir foi recusado por prometer o que não pode cumprir.
 
+**Testes em jsdom, com MSW, no caminho crítico.** O ambiente é **jsdom** e não o Browser Mode do Vitest: instala um pacote, roda em segundos e é o que a documentação da Testing Library assume. O preço são três buracos, e o app esbarra nos três — `window.confirm` não existe (o teste de apagar precisa de `vi.spyOn`), não há layout (`getBoundingClientRect` é zero, e por isso **animação não se testa aqui**) e não há `matchMedia` (o `prefers-reduced-motion` do T14 vai precisar de stub). A rede é interceptada por **MSW** e não por `fetch` mockado, para o `http.ts` rodar de verdade dentro do teste — o `res.ok`, o `ApiError`, o ramo do `204`. O escopo é o **caminho crítico** (reducer, regras, os quatro estados, os fluxos de escrita), não um teste por componente: `Card` e `Typography` não têm o que quebrar, e testá-los custaria manutenção a cada troca de layout.
+
+**A URL nos testes: `*/tasks` no handler e uma base falsa no ambiente.** São dois problemas diferentes. O handler precisa **casar** com o endereço pedido, e o wildcard resolve isso sem `.env.test`. Mas o `fetch` do Node exige URL absoluta, e sem `VITE_API_URL` o app pede `"undefined/tasks"` — que estoura no parse antes de o MSW ver a requisição. Daí o `test.env.VITE_API_URL` no `vite.config.ts`: `http://localhost:3000`, uma base para a URL ser parseável. Ninguém escuta nessa porta.
+
+**`globals: false`, igual à `api/`.** `describe`/`it`/`expect` são importados de `'vitest'` em cada arquivo, e não injetados no escopo global. A consequência que custa tempo se não for sabida: a Testing Library registra o `cleanup` automático procurando um `afterEach` global que, assim, não existe — então o `cleanup()` é chamado à mão no `src/test/setup.ts`. Sem ele, o DOM de um teste sobra para o seguinte e as queries acham dois de cada coisa.
+
 ## Limitações
 
 - **O app não funciona sem a API local de pé.** Dívida deliberada, criada ao matar o `localStorage`; endereço para pagar: T10, tópico 7.
@@ -140,6 +151,8 @@ O corte de `api/` é o mesmo de `components/` × `pages/`: **`http.ts` não sabe
 - **O rollback do otimista restaura a lista inteira.** Se algo mudar na lista enquanto o `PATCH` está em voo, o desfazer leva essa mudança junto. Aceitável com um usuário e lista pequena; o correto seria reverter só aquele item.
 - **O link público não alcança a API local — nem na sua própria máquina.** A `api/` libera no CORS apenas `http://localhost:5173`, então a resposta é descartada pelo navegador (o servidor responde 200; quem bloqueia é o cliente). E, mesmo com o CORS liberado, `localhost:3000` significa "o computador de quem abriu o link" — para qualquer outra pessoa não há API nenhuma ali. A cura é a API ter URL pública: Tema 9 da Etapa 2. Até lá o link é vitrine.
 - **`VITE_API_URL` é decidida no build, não em runtime.** Trocar a URL da API exige rebuild e redeploy — não basta mudar a variável no painel.
-- Sem testes. Testes de front são o Tema 13; até lá a verificação é manual, pelas provas registradas no devlog.
+- **A suíte não prova que o front e a API concordam.** O handler do MSW é escrito por mim, com a minha crença sobre a API dentro dele — então **nenhum teste daqui jamais vai achar** a divergência de contrato do `field: 'task'` logo acima. O mesmo vale para CORS e para o fallback de SPA da Vercel. Quem pega isso é teste de ponta a ponta contra a API real (Playwright), anotado e fora do escopo por enquanto.
+- **A suíte cobre o caminho crítico, não o app inteiro.** Fora dela hoje: a `TaskDetailPage`, os filtros pela URL, o `AbortController` ao trocar de rota e o timer do `Toast`. Estão listados no Bloco 2 do `studie-t13`, não esquecidos.
+- **Animação não é testável aqui.** jsdom não faz layout nem roda `transition`; a regra do T14 já nasce escrita — nenhum teste pode depender de a animação ter terminado.
 - Só o título é editável depois de criada — status muda pelo botão, e o prazo não muda.
 - A edição na linha rejeita título vazio **sem avisar**; só o formulário de criar mostra mensagem.

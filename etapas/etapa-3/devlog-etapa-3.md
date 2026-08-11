@@ -170,3 +170,7 @@ Estudo em [`studies/studie-t13-testes-de-front.md`](studies/studie-t13-testes-de
 **Primeira instalação de peso desde o T9:** `vitest`, `jsdom`, `@testing-library/react`, `@testing-library/user-event`, `@testing-library/jest-dom`, `msw` — todas em `devDependencies`, então o bundle do T10 não deve mudar uma linha.
 
 **O que o tema entrega:** `npm test`. A verificação do app deixa de ser eu clicando em três terminais e vira um comando que roda sem a `api/` e sem o Postgres de pé. A lista de provas de cada tema anterior — duplo submit, rollback do otimista, 404 na escrita — é exatamente a suíte que nunca foi escrita; cada bullet daqueles vira um `it`.
+
+### T13 · Testes de front — ✅ Feito (11/08)
+
+**O app ganhou** — `npm test`: **24 testes verdes** em cinco arquivos, rodando sem API e sem Postgres. Vitest com `jsdom`, Testing Library, `user-event` e MSW interceptando na borda da rede. A única mudança no app foi o `tasksReducer` (com `TasksState` e `Action`) saindo do `useTasks.ts` para `hooks/tasksReducer.ts` — função pura merece arquivo próprio quando alguém vai testá-la sem React em volta. Nasceu `src/test/` com `setup`, `server`/`handlers`, `renderWithProviders` e `columns`.

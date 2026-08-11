@@ -343,7 +343,7 @@ Quatorze temas, um por dia sugerido. **O dia é guia, não contrato** — na Eta
 11. Redux, Zustand, Jotai existem — que problema cada um resolve e por que nenhum entra aqui.
 12. Critério final: quando o Context é resposta certa e quando é canhão em mosquito.
 
-### Tema 13 — Testes de front · _dia sugerido 16/08_ · ⏳ aberto (11/08)
+### Tema 13 — Testes de front · _dia sugerido 16/08_ · ✅ Feito (11/08)
 
 **O app ganha:** suíte de testes de componente com Vitest + Testing Library e a API mockada por MSW — `npm test` verde vira condição de fechamento a partir daqui.
 
