@@ -192,3 +192,7 @@ Estudo em [`studies/studie-t14-motion-e-interacao.md`](studies/studie-t14-motion
 **Duas medições fecham o tema**, contra duas linhas de base diferentes: o **bundle** contra os 248,29 kB (79,84 gzip) do T10 — que foram medidos, com todas as letras, **para este dia** — e os **quadros** na aba Performance, em `preview` com CPU 4×, criando e apagando cinco tarefas seguidas. Diferente do T11, onde a resposta honesta foi "nada precisou de memoização", aqui o custo é **inevitável**: a pergunta não é se a lib pesou, é quanto, e se o que ela comprou vale.
 
 **O risco declarado:** é o último tema, num dia em que a avaliação é amanhã, e ele é o único da etapa cuja entrega é **subjetiva** — "está bom" não tem número. Por isso o fechamento é todo por medida: bundle em kB, quadros perdidos na aba Performance, 25 testes verdes, teclado e `prefers-reduced-motion` conferidos na mão.
+
+### T14 · Motion e interação — ✅ Feito (11/08)
+
+**O app ganhou** — movimento. A tarefa entra e sai da lista, **viaja** de coluna ao mudar de status (`layout` + `layoutId`), a troca de rota é costurada, o clique responde em 100ms, e o item pode ser **arrastado para a direita** para apagar — com o botão "X" continuando na tela, porque gesto é atalho e não substituto. `motion 13.1.0` é a primeira dependência de produção desde o `react-router-dom` do T9.

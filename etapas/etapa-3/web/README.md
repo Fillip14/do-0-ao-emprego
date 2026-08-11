@@ -14,7 +14,8 @@ Quadro de tarefas em três colunas por status — concluídas, em andamento e a 
 - **Validação no cliente:** título vazio não cria tarefa e mostra a mensagem no próprio campo, amarrada por `aria-describedby`; o que foi digitado é preservado
 - **Editar o título na linha:** clicar no título troca por um campo; **Enter** salva, **Esc** cancela
 - **Alterar** o status pelo botão da tarefa, em ciclo `todo → doing → done → todo`; a tarefa troca de coluna na hora
-- **Apagar** tarefa pelo botão no canto do item
+- **Apagar** tarefa pelo botão no canto do item — ou **arrastando o item para a direita** (o botão continua lá: gesto é atalho, não substituto)
+- **O app se move:** a tarefa entra e sai da lista com transição, **viaja** de uma coluna para a outra ao mudar de status em vez de teletransportar, a troca de rota é costurada, e o clique responde na hora. Quem liga `prefers-reduced-motion` no sistema continua vendo tudo acontecer, sem deslocamento
 - Coluna sem tarefa mostra mensagem própria em vez de espaço branco
 - Estado vazio próprio quando não existe nenhuma tarefa — e é o primeiro acesso de todo mundo
 - **Buscar por título e filtrar por status**, com os dois na query string (`/tasks?q=comprar&status=doing`) — a tela cabe num link
@@ -70,13 +71,21 @@ npm run build      # tsc -b && vite build
 npm run preview    # serve o dist/, que é o que a Vercel serve
 ```
 
-**Linha de base do bundle (T10, contra a qual o T14 será medido):** `index.js` 248,29 kB (79,84 kB gzip) + `TaskDetailPage.js` 1,65 kB (0,76 gzip) + CSS 11,59 kB (3,23 gzip). O mapa do bundle sai em `dist/stats.html` (`rollup-plugin-visualizer`).
+**O bundle, medido três vezes (T14).** A linha de base do T10 (248,29 / 79,84) estava velha na hora de usar: o build imediatamente antes de instalar o Motion deu **250,36 kB (80,43 gzip)**, e os +2,07 kB são o `useTasks`, o reducer e o Context do T11–T13.
+
+| | Baseline | Motion direto | Com `LazyMotion` |
+| --- | --- | --- | --- |
+| Caminho crítico (gzip) | 80,43 | 121,53 | **96,42** |
+| Chunk assíncrono | — | — | 27,66 |
+| **Total baixado** | 80,43 | 121,53 | **124,08** |
+
+**O `LazyMotion` não economizou bytes — piorou o total em 2,55 kB**, que é o preço de dividir. O que ele fez foi tirar **25,11 kB gzip do caminho crítico**: a lib chega num chunk que não bloqueia a primeira tela, e o custo da animação no primeiro carregamento cai de +51% para +20% sobre a base. O mapa do bundle sai em `dist/stats.html` (`rollup-plugin-visualizer`).
 
 **Lighthouse na URL pública:** Performance 100 · Acessibilidade 100 · Boas práticas 96 · SEO 91 — medido em 11/08/2026, antes do `robots.txt` e do corte da requisição condenada.
 
 ## Stack
 
-React 19.2.7 · TypeScript 6.0.2 · Vite 8.1.1 · Tailwind CSS 4.3.3 · lucide-react 1.28 · react-router-dom 7.18.2. Fonte da verdade é o `package.json`.
+React 19.2.7 · TypeScript 6.0.2 · Vite 8.1.1 · Tailwind CSS 4.3.3 · lucide-react 1.28 · react-router-dom 7.18.2 · motion 13.1.0. Fonte da verdade é o `package.json`.
 
 ## Estrutura
 
@@ -92,7 +101,7 @@ React 19.2.7 · TypeScript 6.0.2 · Vite 8.1.1 · Tailwind CSS 4.3.3 · lucide-r
 | `routes/`     | `RequireAuth` — o guarda de rota, desenhado agora e ativado quando a API tiver auth           |
 | `test/`       | Infraestrutura da suíte: `setup`, `server`/`handlers` do MSW, `renderWithProviders`, `columns` |
 | `types/`      | Tipos do TypeScript: `Task`, `Status`, `TaskForm`, `FieldErrors`, `NewTask`, `TaskPatch`     |
-| `utils/`      | `taskRules` (transição e validação), `classNames`, `validationId` (uuid), `environment` (vitrine) |
+| `utils/`      | `taskRules` (transição e validação), `classNames`, `validationId` (uuid), `environment` (vitrine), `motion` (tokens de duração e curva), `motionFeatures` (o alvo do `import()` do `LazyMotion`) |
 
 O corte de `api/` é o mesmo de `components/` × `pages/`: **`http.ts` não sabe o que é uma tarefa** e `tasks.ts` não sabe o que é um `Response`. Nenhum `fetch` mora dentro de componente.
 
@@ -142,18 +151,34 @@ O corte de `api/` é o mesmo de `components/` × `pages/`: **`http.ts` não sabe
 
 **`globals: false`, igual à `api/`.** `describe`/`it`/`expect` são importados de `'vitest'` em cada arquivo, e não injetados no escopo global. A consequência que custa tempo se não for sabida: a Testing Library registra o `cleanup` automático procurando um `afterEach` global que, assim, não existe — então o `cleanup()` é chamado à mão no `src/test/setup.ts`. Sem ele, o DOM de um teste sobra para o seguinte e as queries acham dois de cada coisa.
 
+**Motion (ex-Framer Motion), não GSAP.** Os dois problemas difíceis do movimento deste app são recurso de primeira classe nela e código meu no GSAP: animar a **saída** de um elemento que o React já desmontou (`AnimatePresence`) e o item **mudando de posição** entre colunas (`layout`/`layoutId`, que é FLIP embutido). Ela também fala a língua que a etapa treinou — descrever o estado e deixar a lib reconciliar. **O gatilho para trocar de ideia:** coreografia com linha do tempo (abertura sincronizada, `scroll` costurado), onde a `timeline` do GSAP não tem equivalente. Nota de nome: o pacote é `motion` e o import é `motion/react`; `framer-motion` continua publicado como alias do mesmo código, e é o nome que a maioria dos tutoriais usa.
+
+**`LazyMotion` com `import()`, e o ganho não é o que parece.** A lib sai do bundle principal e vira chunk assíncrono; `motion.*` vira `m.*` e o `strict` derruba quem esquecer. Isso **não reduz** o total baixado (aumenta em 2,55 kB), só tira 25 kB gzip do caminho crítico — os números estão em [Build e deploy](#build-e-deploy). O `features` é o `domMax` porque o app usa `drag` e `layout`, que não existem no `domAnimation`; um app só de entrada e saída cortaria bem mais.
+
+**A entrada de item não usa opacidade — só `transform`.** Não é gosto: enquanto o estado inicial for invisível, existe uma janela em que o item **está no DOM e não pode ser visto**, e foi exatamente ali que um teste do T13 quebrou (`findByRole` resolve no quadro do `initial`). A saída pode usar opacidade porque ninguém afirma coisa alguma sobre um elemento que está indo embora.
+
+**`layout` desligado enquanto há filtro ativo.** A busca escreve na URL a cada tecla e `layout` mede o DOM a cada render — com filtro ligado, cada caractere faria a lista inteira recalcular posição. A alternativa era _debounce_ na busca, recusada por mexer na escrita da URL (T9) para resolver um problema de animação. Sem filtro, `layout` fica ligado, que é quando ele informa: o item **viaja** entre colunas ao mudar de status.
+
+**Arrastar apaga; reordenar não existe.** O gesto dispara por **distância ou velocidade** (`offset.x > 120` ou `velocity.x > 500`), para que um empurrão curto e rápido conte tanto quanto um arrasto longo. Reordenar por arrasto foi recusado pelo contrato, não pela dificuldade: a `Task` da API **não tem campo de ordem**, e uma ordem que some no F5 é a UI mentindo sobre o banco. As fases do gesto são um estado nomeado (`'idle' | 'dragging' | 'deleting'`), não três booleanos — três booleanos são oito combinações, cinco impossíveis.
+
+**`prefers-reduced-motion` respeitado em dois lugares, porque são dois mundos.** `<MotionConfig reducedMotion="user">` cobre o que passa pela lib: desliga deslocamento e `layout`, e **mantém a opacidade**, para a mudança continuar sendo percebida. O bloco `@media (prefers-reduced-motion: reduce)` no `style.css` cobre o que é CSS puro (a transição do `Button`). Respeitar não é desligar tudo — quem pediu menos movimento ainda precisa entender o que aconteceu na tela.
+
+**Nos testes, animação não existe — e não foi teste nenhum que mudou.** Três linhas de ambiente: stub de `matchMedia` (o jsdom não tem, e o Motion chama), `MotionGlobalConfig.skipAnimations = true`, e o `LazyMotion` com `domMax` **direto** no `renderWithProviders`, sem `import()`, porque em teste carregamento assíncrono só traria espera. O `MotionConfig` mora no `AppLayout` e não no `main.tsx` justamente porque o `renderWithProviders` espelha o `AppLayout`.
+
 ## Limitações
 
 - **O app não funciona sem a API local de pé.** Dívida deliberada, criada ao matar o `localStorage`; endereço para pagar: T10, tópico 7.
 - **A tela é uma fotografia, não uma sincronia.** O que muda no banco por fora (outra aba, `psql`, outra pessoa) não chega até aqui. O app só descobre a divergência **quando tenta escrever** e leva `404` — aí tira o item da tela e avisa. Para tarefa criada por fora, não há defesa. As curas (revalidar ao focar a aba, polling, tempo real) são de temas seguintes.
 - **A resposta da API é afirmada, não validada.** `res.json() as Task[]` não prova nada em runtime — se a API mudar e o tipo não, ninguém reclama. É a terceira aparição da mesma fronteira (`queryDb<T>` no back, `JSON.parse` no storage); o remédio é validação de schema (Zod) e continua anotado como dívida.
 - **O erro de validação do servidor não cai no campo.** A API devolve um erro só, com `field: 'task'`, para qualquer dado inválido — não um erro por campo. Então o `400` vira mensagem de formulário, e a validação por campo continua sendo a do cliente. O `ApiError.fieldErrors` está escrito e **sem cliente**, esperando a API ganhar erro por campo na retomada da Etapa 2.
-- **O erro do servidor no formulário não é anunciado por leitor de tela.** O `InputTask` passa `aria-live="polite"` para o `Typography`, mas o `Typography` não repassa props — o atributo é descartado e nunca chega ao DOM. O TypeScript não reclama porque **atributo JSX com hífen é isento de checagem de prop excedente** (`ariaLive` teria dado erro; `aria-live` passa calado). Achado ao escrever o teste do 400 no T13, depois de doze temas de verificação manual não o verem. A cura é uma linha, e o endereço é o **T14**, que mexe nesse rodapé.
+- **O erro do servidor no formulário não é anunciado por leitor de tela.** O `InputTask` passa `aria-live="polite"` para o `Typography`, mas o `Typography` não repassa props — o atributo é descartado e nunca chega ao DOM. O TypeScript não reclama porque **atributo JSX com hífen é isento de checagem de prop excedente** (`ariaLive` teria dado erro; `aria-live` passa calado). Achado ao escrever o teste do 400 no T13, depois de doze temas de verificação manual não o verem. **O T14 era o endereço e não pagou:** o tema mexeu no `Toast`, não no rodapé do formulário. Continua em aberto, agora sem tema com endereço marcado.
+- **No modo vitrine, o aviso de demonstração aparece duas vezes.** A `TasksPage` renderiza o card fixo e, quando a busca falha, o `main` renderiza **o mesmo** `ErrorTasks` — dois cards iguais, com dois `role="alert"`. Só acontece na janela em que `isShowcase` é `true` (build de produção apontando para `localhost`), e **desaparece sozinho** quando a API tiver URL pública e a variável apontar para ela: o modo vitrine desliga e o erro volta a ser o card normal. Fica para ser resolvido na retomada da Etapa 2, junto com o T9 de lá — consertar agora seria remendar um caminho que vai deixar de existir.
 - **O rollback do otimista restaura a lista inteira.** Se algo mudar na lista enquanto o `PATCH` está em voo, o desfazer leva essa mudança junto. Aceitável com um usuário e lista pequena; o correto seria reverter só aquele item.
 - **O link público não alcança a API local — nem na sua própria máquina.** A `api/` libera no CORS apenas `http://localhost:5173`, então a resposta é descartada pelo navegador (o servidor responde 200; quem bloqueia é o cliente). E, mesmo com o CORS liberado, `localhost:3000` significa "o computador de quem abriu o link" — para qualquer outra pessoa não há API nenhuma ali. A cura é a API ter URL pública: Tema 9 da Etapa 2. Até lá o link é vitrine.
 - **`VITE_API_URL` é decidida no build, não em runtime.** Trocar a URL da API exige rebuild e redeploy — não basta mudar a variável no painel.
 - **A suíte não prova que o front e a API concordam.** O handler do MSW é escrito por mim, com a minha crença sobre a API dentro dele — então **nenhum teste daqui jamais vai achar** a divergência de contrato do `field: 'task'` logo acima. O mesmo vale para CORS e para o fallback de SPA da Vercel. Quem pega isso é teste de ponta a ponta contra a API real (Playwright), anotado e fora do escopo por enquanto.
 - **A suíte cobre o caminho crítico, não o app inteiro.** São **25 testes** em cinco arquivos: o `tasksReducer` e o `taskRules` puros, os quatro estados de tela, e os fluxos de escrita (criar, validar, duplo submit, 400 do servidor, ciclar status, rollback, apagar, 404 na escrita, editar na linha). Fora dela hoje: a `TaskDetailPage`, os filtros pela URL, o `AbortController` ao trocar de rota e o timer do `Toast`. Estão listados no Bloco 2 do `studie-t13`, não esquecidos.
-- **Animação não é testável aqui.** jsdom não faz layout nem roda `transition`; a regra do T14 já nasce escrita — nenhum teste pode depender de a animação ter terminado.
+- **Animação não é testável aqui.** jsdom não faz layout nem roda `transition`, então a suíte **não prova** que o movimento funciona — prova que ele não atrapalha. Nenhum dos 25 testes depende de a animação ter terminado, e o que garante isso é o ambiente (`skipAnimations`), não o texto dos testes. Quem verifica movimento é olho e a aba Performance.
+- **O arrasto para apagar não pede confirmação.** O botão "X" passa por `window.confirm`; o gesto executa direto. Arrastar 120px é mais difícil de fazer sem querer que clicar, mas a assimetria está aqui declarada — a cura honesta é o "desfazer", que esbarra no `DELETE` destrutivo da API (a tarefa voltaria com id novo).
 - Só o título é editável depois de criada — status muda pelo botão, e o prazo não muda.
 - A edição na linha rejeita título vazio **sem avisar**; só o formulário de criar mostra mensagem.

@@ -452,12 +452,58 @@ E há uma saída registrada caso o número não agrade: `LazyMotion` com `domAni
 
 ## O app foi migrado para o assunto do tema?
 
-_A preencher no fechamento._
+Sim. O que passou a se mover, e por qual tópico:
+
+| Onde | O quê | Tópico |
+| --- | --- | --- |
+| `Button` | `transition-[background-color,transform] duration-100` + `active:scale-95` | 1 e 12 |
+| `ItemTask` | entrada e saída pela `AnimatePresence`, com `key={task.id}` | 5 e 7 |
+| `ItemTask` | `layout` + `layoutId={task.id}` — o item **viaja** entre colunas | 8 |
+| `ItemTask` | `drag="x"` com `dragSnapToOrigin`, apagando por distância **ou** velocidade | 10 |
+| `ItemTask` | as fases do gesto num `type Gesture = 'idle' \| 'dragging' \| 'deleting'` | 11 |
+| `AppLayout` | `AnimatePresence mode="wait"` com `key={location.pathname}` | 9 |
+| `Toast` | a mensagem entra e sai **por dentro** do `role="status"`, que nunca sai do DOM | 5 |
+| `style.css` | `@media (prefers-reduced-motion: reduce)` para o que não passa pelo Motion | 13 |
+| `utils/motion.ts` | duração e curva num lugar só | decisão 5 |
+
+**Cinco decisões que a abertura não previu, e todas apareceram fazendo:**
+
+1. **O `MotionConfig` mora no `AppLayout`, não no `main.tsx`.** A abertura deixou os dois como equivalentes; não são. O `renderWithProviders` **espelha o `AppLayout`** — no `main.tsx` os testes nunca seriam alcançados, e o stub de `matchMedia` da decisão 4 não desligaria nada.
+2. **A decisão 4 estava incompleta.** `reducedMotion="user"` desliga `transform` e `layout`, mas **mantém a opacidade** de propósito (é o tópico 13: respeitar sem matar). Quem garante que nenhum teste espera movimento é `MotionGlobalConfig.skipAnimations = true`, a chave que a lib tem para isso. São coisas diferentes que a abertura tinha juntado.
+3. **A entrada do item não usa opacidade.** Um teste quebrou e estava certo: `findByRole` resolve no quadro do `initial`, e nesse quadro o item estava no DOM com `opacity: 0` — o `toBeVisible` do jest-dom lê opacidade. Enquanto a entrada tiver estado inicial invisível, existe uma janela em que o item está na página e não pode ser visto. A correção foi tirar a janela (entrada só por `transform`), não esperar por ela.
+4. **`layout` desligado enquanto há filtro ativo** (`animateLayout={!hideEmpty}`). É a decisão que o tópico 14 mandou tomar medindo. A alternativa era _debounce_ na busca — recusada porque mexeria na escrita da URL do T9 para resolver um problema de animação.
+5. **`LazyMotion` entrou** (era Bloco 2, virou Bloco 1 por causa do número — ver Testes abaixo).
 
 ## Typecheck
 
-_A preencher no fechamento._
+`npm run typecheck` limpo. O `strict` do `LazyMotion` é o que garante que não sobrou `motion.*` no lugar de `m.*` — ele estoura em runtime, não em tipo, e a suíte é quem pega.
 
 ## Testes
 
-_A preencher no fechamento._
+**25 verdes**, os mesmos 25 do T13 — **nenhum teste foi alterado para acomodar animação**, que é a regra do T13 tópico 11.
+
+Um quebrou no meio do caminho, e o diagnóstico é o conteúdo do tema: `TasksPage.create.test.tsx:76` afirma `toBeVisible()` logo depois do `findByRole`. Os testes de apagar, que usam `waitFor`, **não** quebraram — porque `waitFor` repete a asserção e dá tempo de a animação saltar. A diferença entre os dois é a lição: asserção síncrona logo depois de o nó aparecer lê o **primeiro quadro**, e o primeiro quadro é o `initial`.
+
+O ambiente de teste ganhou três linhas, e nenhuma delas está dentro de um arquivo de teste:
+
+- stub de `matchMedia` no `setup.ts` (o jsdom não tem, e o Motion chama);
+- `MotionGlobalConfig.skipAnimations = true` no `setup.ts`;
+- `LazyMotion features={domMax} strict` no `renderWithProviders` — com `domMax` **direto**, sem `import()`, porque em teste carregamento assíncrono só traria espera.
+
+## O veredito de bundle (tópico 15)
+
+A linha de base do T10 (248,29 / 79,84) estava **velha**: o build rodado antes de instalar deu **250,36 kB (80,43 gzip)**. Os +2,07 kB são o reducer, o Context e o `useTasks` do T11–T13. Cobrá-los do Motion seria mentir.
+
+| | Baseline | Motion direto | Com `LazyMotion` |
+| --- | --- | --- | --- |
+| Caminho crítico (gzip) | 80,43 | 121,53 | **96,42** |
+| Chunk assíncrono | — | — | 27,66 |
+| **Total baixado** | 80,43 | 121,53 | **124,08** |
+
+**A leitura, e ela é contra-intuitiva: o `LazyMotion` não economizou nada — piorou o total em 2,55 kB**, que é o preço de dividir. O que ele fez foi tirar **25,11 kB gzip do caminho crítico**: o app pinta com 96,42 e a lib chega depois, num chunk que não bloqueia a primeira tela. Contra a linha de base, o custo da animação no primeiro carregamento caiu de **+51% para +20%**.
+
+E o motivo de o ganho não ser maior está no tópico 6: o app usa `drag` e `layout`, que **só existem no `domMax`** — o pacote quase completo. Um app que só faz entrada e saída caberia no `domAnimation` e cortaria mais.
+
+**O que ela comprou:** saída de item, troca de coluna, transição de rota, arrasto para apagar e resposta tátil no clique.
+
+**Veredito:** vale, com a ressalva registrada — é a maior dependência de produção do app depois do React, e o gatilho para revisar é a lista crescer a ponto de o `layout` medir DOM demais (tópico 8).

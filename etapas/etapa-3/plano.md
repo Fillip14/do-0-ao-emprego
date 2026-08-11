@@ -371,7 +371,7 @@ Quatorze temas, um por dia sugerido. **O dia é guia, não contrato** — na Eta
 14. Cobertura no front: por que o número mente mais aqui do que no back.
 15. A pirâmide vista do front: componente × integração × e2e (Playwright existe — fica anotado, não entra agora).
 
-### Tema 14 — Motion e interação · _dia sugerido 17/08_ · ⏳ **aberto (11/08)**
+### Tema 14 — Motion e interação · _dia sugerido 17/08_ · ✅ Feito (11/08)
 
 **O app ganha:** movimento — item que entra e sai da lista com transição, troca de rota animada, resposta tátil no clique e no arrasto. É o tema que traduz "segurar carrega, soltar arremessa" para vocabulário React.
 
@@ -431,4 +431,6 @@ Quatorze temas, um por dia sugerido. **O dia é guia, não contrato** — na Eta
 
 ## Quando o back-end voltar
 
-Fica registrado aqui para não se perder, e vira a emenda entre as duas etapas: retomar a Etapa 2 do **Tema 5 (Testes a fundo)** e seguir até o Tema 10. Ao chegar no **Tema 8 (auth)**, o front ganha tela de login/cadastro, guarda de rota (desenhada no Tema 9 desta etapa) e envio de token; ao chegar no **Tema 9 (deploy)**, `VITE_API_URL` aponta para a URL pública, o front é reconstruído e o aviso de "API local" some do README. Só então o sistema está completo de ponta a ponta — e é esse conjunto que a Etapa 4 (capstone) refaz sabendo o que faz.
+Fica registrado aqui para não se perder, e vira a emenda entre as duas etapas: retomar a Etapa 2 do **Tema 5 (Testes a fundo)** e seguir até o Tema 10.
+
+> **Duas dívidas do front esperam esse dia**, e as duas por escolha: o **aviso de demonstração duplicado** no modo vitrine (a `TasksPage` mostra o card fixo e o `main` mostra o mesmo `ErrorTasks` no erro — dois `role="alert"` iguais), que **desaparece sozinho** quando `VITE_API_URL` apontar para a URL pública e o modo vitrine desligar; e o **`ApiError.fieldErrors` sem cliente**, esperando a API ganhar erro por campo. Consertar o primeiro agora seria remendar um caminho que vai deixar de existir. Ao chegar no **Tema 8 (auth)**, o front ganha tela de login/cadastro, guarda de rota (desenhada no Tema 9 desta etapa) e envio de token; ao chegar no **Tema 9 (deploy)**, `VITE_API_URL` aponta para a URL pública, o front é reconstruído e o aviso de "API local" some do README. Só então o sistema está completo de ponta a ponta — e é esse conjunto que a Etapa 4 (capstone) refaz sabendo o que faz.
