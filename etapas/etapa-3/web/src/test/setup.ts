@@ -2,23 +2,35 @@
 import '@testing-library/jest-dom/vitest';
 import { afterAll, afterEach, beforeAll, beforeEach, vi } from 'vitest';
 import { cleanup } from '@testing-library/react';
+import { MotionGlobalConfig } from 'motion/react';
 import { server } from './server';
 import { resetDb } from './handlers';
 
-// Ciclo de vida do MSW: liga uma vez, devolve os handlers padrão entre os testes
-// (o `server.use` de um teste não pode vazar para o seguinte) e desliga no fim.
-// `onUnhandledRequest: 'error'` derruba o teste se o app pedir uma rota sem handler —
-// é melhor errar alto do que ver um estado de erro inexplicável na tela.
+// Toda animação salta direto para o valor final: nenhum teste espera movimento.
+MotionGlobalConfig.skipAnimations = true;
+
+// O jsdom não tem `matchMedia` e o Motion chama (T14, decisão 4).
+beforeAll(() => {
+  vi.stubGlobal('matchMedia', (query: string) => ({
+    matches: query.includes('prefers-reduced-motion'),
+    media: query,
+    onchange: null,
+    addEventListener: () => {},
+    removeEventListener: () => {},
+    addListener: () => {},
+    removeListener: () => {},
+    dispatchEvent: () => false,
+  }));
+});
+
+// `onUnhandledRequest: 'error'`: rota sem handler derruba o teste em vez de virar erro de tela.
 beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
 
 beforeEach(() => resetDb());
 
 afterEach(() => {
   server.resetHandlers();
-  // Com `globals: false`, a Testing Library NÃO consegue registrar o cleanup
-  // automático (ela procura um `afterEach` global que não existe). Sem esta linha,
-  // o DOM de um teste sobra para o próximo e as queries acham dois de cada coisa.
-  cleanup();
+  cleanup(); // com `globals: false` a Testing Library não registra o cleanup sozinha
   vi.restoreAllMocks();
 });
 

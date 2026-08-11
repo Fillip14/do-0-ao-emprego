@@ -1,8 +1,10 @@
 import { type Task, type Status } from '../../types/task';
+import { motion } from 'motion/react';
 import { Button } from '../../components/Button';
 import { Typography } from '../../components/Typography';
 import { EditTitleField } from './EditTitleField';
 import { Link } from 'react-router';
+import { enterTransition, exitTransition } from '../../utils/motion';
 
 type ItemTaskProps = {
   task: Task;
@@ -23,7 +25,13 @@ export const ItemTask = ({
   onDeleteTask,
 }: ItemTaskProps) => {
   return (
-    <li className="relative flex justify-between items-center bg-amber-100 rounded-lg p-2">
+    <motion.li
+      initial={{ opacity: 0, y: -8 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, x: 40, transition: exitTransition }}
+      transition={enterTransition}
+      className="relative flex justify-between items-center bg-amber-100 rounded-lg p-2"
+    >
       <div className="flex items-center max-w-20 sm:max-w-65">
         <span aria-hidden="true">{statusIcon[task.status]}</span>
         {isEditing ? (
@@ -57,6 +65,6 @@ export const ItemTask = ({
           X
         </Button>
       </div>
-    </li>
+    </motion.li>
   );
 };

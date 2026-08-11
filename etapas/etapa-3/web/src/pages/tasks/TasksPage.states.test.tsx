@@ -8,8 +8,7 @@ import { TasksPage } from './TasksPage';
 
 describe('TasksPage — os quatro estados de tela', () => {
   it('mostra o carregando enquanto a resposta não chega', async () => {
-    // O delay é o que segura a tela no estado de carregando tempo suficiente
-    // para ser vista. Sem ele, a resposta chega antes do primeiro expect.
+    // O delay segura a tela no carregando: sem ele a resposta chega antes do expect.
     server.use(
       http.get('*/tasks', async () => {
         await delay(50);
@@ -22,8 +21,7 @@ describe('TasksPage — os quatro estados de tela', () => {
     // getBy, não findBy: isto tem que estar na tela AGORA, no primeiro render.
     expect(screen.getByRole('heading', { name: 'Carregando suas tarefas' })).toBeVisible();
 
-    // Esperar o fim antes de sair do teste: um setState depois do teste terminar
-    // vira aviso de act() e, pior, vaza para o teste seguinte.
+    // Esperar o fim: setState depois do teste vira aviso de act() e vaza para o próximo.
     expect(await screen.findByRole('heading', { name: /adiciona umas tarefinhas/i })).toBeVisible();
   });
 
@@ -36,8 +34,6 @@ describe('TasksPage — os quatro estados de tela', () => {
 
     renderWithProviders(<TasksPage />);
 
-    // Este é o estado que ninguém testa à mão, porque provocá-lo no navegador
-    // significa derrubar a API no meio da sessão. Aqui é uma linha de handler.
     const alert = await screen.findByRole('alert');
     expect(alert).toHaveTextContent('Deu ruim no servidor.');
     expect(within(alert).getByRole('button', { name: 'Tentar de novo' })).toBeVisible();
@@ -48,8 +44,7 @@ describe('TasksPage — os quatro estados de tela', () => {
 
     renderWithProviders(<TasksPage />);
 
-    // Vazio chega como SUCESSO, não como erro — é a decisão do T7. O teste prova
-    // que os dois caminhos são tratados de forma diferente.
+    // Vazio chega como SUCESSO, não como erro (decisão do T7).
     expect(await screen.findByRole('heading', { name: /adiciona umas tarefinhas/i })).toBeVisible();
     expect(screen.queryByRole('alert')).toBeNull();
   });

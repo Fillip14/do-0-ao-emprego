@@ -13,9 +13,8 @@ type ToastActions = {
   dismiss: () => void;
 };
 
-// Dois contextos porque as frequências de mudança são opostas:
-// a mensagem muda a cada aviso, as ações nunca mudam.
-// `undefined` é o padrão de "sem Provider" — `null` é mensagem nenhuma, que é estado válido.
+// Dois contextos: a mensagem muda a cada aviso, as ações nunca mudam.
+// `undefined` é "sem Provider"; `null` é mensagem nenhuma, que é estado válido.
 const ToastStateContext = createContext<string | null | undefined>(undefined);
 const ToastActionsContext = createContext<ToastActions | null>(null);
 
@@ -36,8 +35,7 @@ export const ToastProvider = ({ children }: { children: ReactNode }) => {
     timerRef.current = window.setTimeout(() => setMessage(null), DURATION);
   }, []);
 
-  // Sem isto o objeto seria novo a cada render do Provider e todo consumidor
-  // re-renderizaria por nada — mesmo com show e dismiss idênticos.
+  // Sem o memo o objeto é novo a cada render e todo consumidor re-renderiza por nada.
   const actions = useMemo(() => ({ show, dismiss }), [show, dismiss]);
 
   return (

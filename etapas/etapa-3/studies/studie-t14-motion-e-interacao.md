@@ -349,6 +349,7 @@ E é **a mesma chave que desliga o movimento nos testes** (decisão 4): um stub 
 **O que é.** O fechamento do tema, e ele tem **duas** medições, contra duas linhas de base diferentes:
 
 1. **Bundle** — `npm run build` contra a linha de base do T10, que está escrita no `web/README.md`: `index.js` **248,29 kB (79,84 kB gzip)**. Esta é a única lib de peso que entra no app desde o React Router (T9), e o T10 tópico 2 escreveu, com antecedência, que a medição existia **para este dia**.
+   - **Corrigido em 11/08, na abertura do Bloco 1:** o build rodado imediatamente antes de instalar o Motion deu **250,36 kB (80,43 gzip)** + CSS 12,16 (3,42). A diferença de +2,07 kB são o reducer, o Context e o `useTasks` do T11–T13, que entraram **depois** da medição do T10. Cobrar esses 2 kB do Motion seria mentir no veredito — a comparação do tópico 15 usa **250,36 / 80,43**.
 2. **Quadros** — a aba Performance (tópico 4) no roteiro da avaliação: criar e apagar cinco tarefas seguidas, com CPU estrangulada, em `preview`.
 
 **Para que serve.** É a regra do T11 (medir depois, para provar que resolveu) aplicada a um custo que agora é **inevitável**: diferente da memoização — onde a resposta honesta foi "nada precisou" — aqui a lib **vai** pesar. A pergunta não é se custou, é **quanto**, e se o que ela comprou vale.

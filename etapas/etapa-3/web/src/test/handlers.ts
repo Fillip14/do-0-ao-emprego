@@ -8,10 +8,8 @@ export const tasksFixture: Task[] = [
   { id: 'task-3', title: 'Estudar testes', status: 'done', term: null },
 ];
 
-// Um "banco" em memória em vez de respostas fixas. O motivo: o PATCH do app manda
-// só o campo que mudou (`{ status }`), e o front usa a RESPOSTA para atualizar a tela.
-// Com resposta fixa, a tarefa perderia o título no meio do teste — por um defeito do
-// mock, não do app. O reset roda antes de cada teste (setup.ts).
+// Banco em memória, e não respostas fixas: o front atualiza a tela com a RESPOSTA
+// do PATCH, que manda só o campo alterado. Reset antes de cada teste (setup.ts).
 let db: Task[] = [];
 
 export const resetDb = () => {
@@ -22,8 +20,7 @@ export const resetDb = () => {
 const notFound = () =>
   HttpResponse.json({ errors: [{ message: 'Tarefa não encontrada' }] }, { status: 404 });
 
-// `*/tasks` e não a URL inteira: em teste o VITE_API_URL não existe e o fetch
-// pede "undefined/tasks". O `*` casa com qualquer começo (decisão do T13, tópico 8).
+// `*/tasks` e não a URL inteira: em teste o VITE_API_URL não existe.
 export const handlers = [
   http.get('*/tasks', () => HttpResponse.json(db)),
 

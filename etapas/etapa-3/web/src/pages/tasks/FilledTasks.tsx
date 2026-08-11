@@ -1,4 +1,5 @@
 import { type Task } from '../../types/task';
+import { AnimatePresence } from 'motion/react';
 import { Card } from '../../components/Card';
 import { Typography } from '../../components/Typography';
 import { ItemTask } from './ItemTask';
@@ -39,17 +40,19 @@ export const FilledTasks = ({
       <Typography variant="titleTask">{item.title}</Typography>
       {item.list.length > 0 ? (
         <ul role="list" className="flex flex-col gap-2 mt-3">
-          {item.list.map((task) => (
-            <ItemTask
-              key={task.id}
-              task={task}
-              isEditing={editingId === task.id}
-              onEditingChange={onEditingChange}
-              onEditTask={onEditTask}
-              onChangeTask={onChangeTask}
-              onDeleteTask={onDeleteTask}
-            />
-          ))}
+          <AnimatePresence initial={false}>
+            {item.list.map((task) => (
+              <ItemTask
+                key={task.id}
+                task={task}
+                isEditing={editingId === task.id}
+                onEditingChange={onEditingChange}
+                onEditTask={onEditTask}
+                onChangeTask={onChangeTask}
+                onDeleteTask={onDeleteTask}
+              />
+            ))}
+          </AnimatePresence>
         </ul>
       ) : (
         <div className="flex justify-center items-center h-full">

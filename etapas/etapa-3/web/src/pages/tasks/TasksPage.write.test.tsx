@@ -27,9 +27,7 @@ describe('TasksPage — ciclo de status', () => {
   });
 
   it('devolve a tarefa para a coluna anterior quando o PATCH falha', async () => {
-    // O handleWriteError loga no console antes de avisar na tela. Sem o silêncio,
-    // a saída do teste fica cheia de vermelho que não é falha.
-    vi.spyOn(console, 'error').mockImplementation(() => {});
+    vi.spyOn(console, 'error').mockImplementation(() => {}); // o handleWriteError loga antes de avisar
     server.use(http.patch('*/tasks/:id', serverError));
 
     const user = userEvent.setup();
@@ -37,21 +35,19 @@ describe('TasksPage — ciclo de status', () => {
 
     await user.click(await screen.findByRole('button', { name: 'Alterar status de Comprar pão' }));
 
-    // O role="status" está sempre no DOM (a região viva do T12), vazio ou não —
-    // por isso a espera é pelo TEXTO, com waitFor, e não pelo elemento com findBy.
+    // O role="status" está sempre no DOM: espera pelo TEXTO com waitFor, não pelo elemento.
     await waitFor(() =>
       expect(screen.getByRole('status')).toHaveTextContent('Não foi possível salvar. Tente de novo.'),
     );
 
-    // O rollback: a tela mentiu por um instante (otimista) e voltou atrás.
+    // Rollback: a tela mentiu por um instante (otimista) e voltou atrás.
     expect(within(column(COLUMN.todo)).getByRole('button', { name: 'Comprar pão' })).toBeVisible();
   });
 });
 
 describe('TasksPage — apagar', () => {
   it('tira a tarefa da tela quando o usuário confirma', async () => {
-    // jsdom não implementa window.confirm: sem este mock ele devolve undefined,
-    // o `if (!window.confirm(...)) return` corta o fluxo e o DELETE nunca sai.
+    // jsdom não implementa window.confirm: sem o mock o DELETE nunca sai.
     vi.spyOn(window, 'confirm').mockReturnValue(true);
 
     const user = userEvent.setup();

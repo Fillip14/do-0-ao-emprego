@@ -7,9 +7,7 @@ import { renderWithProviders } from '../../test/renderWithProviders';
 import { COLUMN, column } from '../../test/columns';
 import { TasksPage } from './TasksPage';
 
-// Há dois campos rotulados "Status" na tela: o do filtro e o do formulário.
-// Pedir `getByLabelText('Status')` acharia os dois e estouraria — então
-// primeiro se acha o formulário, depois se procura dentro dele.
+// Há dois campos "Status" na tela (filtro e formulário): achar o form primeiro.
 const taskForm = () => screen.getByRole('button', { name: 'Adicionar' }).closest('form')!;
 
 describe('TasksPage — criar tarefa', () => {
@@ -20,10 +18,7 @@ describe('TasksPage — criar tarefa', () => {
     await screen.findByRole('button', { name: 'Comprar pão' }); // espera a lista carregar
 
     const field = screen.getByLabelText('Tarefa');
-    // O clique é o que dá FOCO ao campo, e é o foco que expande o rodapé com
-    // status e prazo. Com fireEvent.click não haveria foco, e este teste seria
-    // impossível de escrever — é a diferença do tópico 6, em uma linha.
-    await user.click(field);
+    await user.click(field); // o foco é o que expande o rodapé com status e prazo
     await user.type(field, 'Estudar MSW');
     await user.selectOptions(within(taskForm()).getByLabelText('Status'), 'doing');
 
@@ -51,9 +46,7 @@ describe('TasksPage — criar tarefa', () => {
     await user.click(screen.getByRole('button', { name: 'Adicionar' }));
 
     expect(await screen.findByRole('alert')).toHaveTextContent('Escreva um título para a tarefa');
-    // A metade que importa: validação que deixa a requisição passar não é
-    // validação, é decoração.
-    expect(posts).toBe(0);
+    expect(posts).toBe(0); // validação que deixa a requisição passar não é validação
   });
 
   it('não cria duas tarefas com dois cliques seguidos em Adicionar', async () => {
@@ -85,9 +78,7 @@ describe('TasksPage — criar tarefa', () => {
   });
 
   it('mostra o erro do servidor no formulário e preserva o que foi digitado', async () => {
-    // O formato é o do contrato da API: um erro só, com `field: 'task'`, para
-    // qualquer dado inválido. É por isso que ele vira mensagem de formulário e
-    // não erro por campo — a divergência está escrita nas Limitações do README.
+    // Contrato da API: um erro só, com `field: 'task'`, para qualquer dado inválido.
     server.use(
       http.post('*/tasks', () =>
         HttpResponse.json(
@@ -105,16 +96,11 @@ describe('TasksPage — criar tarefa', () => {
     await user.type(screen.getByLabelText('Tarefa'), 'Estudar MSW');
     await user.click(screen.getByRole('button', { name: 'Adicionar' }));
 
-    // Não é `role="alert"`: aquele é o erro POR CAMPO do TaskField, que a
-    // validação do cliente usa. O erro do servidor é a região `aria-live` do
-    // rodapé — dois caminhos diferentes, de propósito.
+    // Não é `role="alert"`: erro do servidor vai para a região `aria-live` do rodapé.
     expect(await screen.findByText('Título muito longo')).toBeVisible();
 
-    // A metade que a avaliação cobra: o erro não pode custar o que foi digitado.
     expect(screen.getByLabelText('Tarefa')).toHaveValue('Estudar MSW');
-    // E o otimista não vale aqui — criar é pessimista, então nada entrou na lista.
-    expect(screen.queryByRole('button', { name: 'Estudar MSW' })).toBeNull();
-    // O botão volta a funcionar: erro não pode deixar o formulário travado.
+    expect(screen.queryByRole('button', { name: 'Estudar MSW' })).toBeNull(); // criar é pessimista
     expect(screen.getByRole('button', { name: 'Adicionar' })).toBeEnabled();
   });
 });

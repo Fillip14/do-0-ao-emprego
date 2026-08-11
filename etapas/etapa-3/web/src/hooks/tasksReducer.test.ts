@@ -44,9 +44,7 @@ describe('tasksReducer', () => {
   });
 
   it('ignora escrita quando o estado ainda não é success', () => {
-    // A guarda `if (state.status !== 'success') return state`: sem lista carregada,
-    // não há o que criar, atualizar ou remover. `toBe` porque a prova aqui é de
-    // identidade — o reducer devolve o MESMO objeto, não uma cópia igual.
+    // `toBe` de propósito: o reducer devolve o MESMO objeto, não uma cópia igual.
     const loading: TasksState = { status: 'loading' };
 
     expect(tasksReducer(loading, { type: 'created', task: taskA })).toBe(loading);
@@ -55,8 +53,7 @@ describe('tasksReducer', () => {
   });
 
   it('não muta o estado que recebeu', () => {
-    // O React compara o estado velho com o novo por referência. Se o reducer
-    // alterar o array recebido, os dois são o mesmo objeto e a tela não re-renderiza.
+    // O React compara por referência: mutar o array recebido não re-renderiza a tela.
     const before = success([taskA, taskB]);
     const snapshot = structuredClone(before);
 

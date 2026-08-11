@@ -14,6 +14,8 @@ export const Button = ({ children, ...rest }: ButtonProps) => {
         'border-2 outline-none border-transparent',
         'focus-visible:border-black',
         'bg-neutral-100 hover:bg-neutral-200 active:bg-neutral-300',
+        'transition-[background-color,transform] duration-100 ease-out',
+        'active:scale-95',
         'text-xs',
       ])}
       {...rest}
