@@ -570,12 +570,30 @@ E é essa mudança que revela a limitação que estava escondida desde o T7: um 
 
 ## O app foi migrado para o assunto do tema?
 
-_(a preencher — as alterações obrigatórias do Bloco 1, rota a rota e item a item)_
+**O mapa de rotas (T9)** — tudo entregue.
+
+- `react-router-dom` 7.18.2 instalado; `BrowserRouter` no `main.tsx`, uma vez só. Todos os imports do projeto apontam para `react-router` (na v7 o `-dom` é reexport).
+- `AppLayout` com `Header` + `<Outlet />`; o `Header` não desmonta ao navegar.
+- `/tasks` → `TasksPage` (era `HomePage` → `Content`); `/` redireciona com `replace`.
+- `/tasks/:id` → `TaskDetailPage`, com `useParams`, `isUuid` e `GET /tasks/:id`.
+- `*` → `NotFoundPage`, com `Link` de volta para `/tasks`.
+- `pages/home/` virou `pages/tasks/` e a subpasta `content/` foi achatada; nasceram `pages/taskDetail/`, `pages/notFound/` e `routes/`.
+- Nenhum `<a href>` interno — `Link` em tudo que navega.
+- `useNavigate` com `replace` depois de apagar a tarefa aberta no detalhe (e também no `404`, porque nesse caso o objetivo do usuário já foi cumprido).
+- Busca do detalhe com `[validId]` nas deps e `AbortController` na limpeza.
+- `404` da API dentro de rota válida vira mensagem na página, não a rota `*`.
+- `RequireAuth` desenhado, condição chumbada, comentário apontando para o T8 da Etapa 2.
+
+**A URL como estado (T9)** — tudo entregue: `q` e `status` no `useSearchParams`, filtragem derivada (nenhum `useState` com lista filtrada), `replace: true` ao digitar, parâmetro vazio removido da URL, e link com `?q=&status=` reabrindo a mesma tela.
+
+**Build e deploy (T10)** — tudo entregue: linha de base do bundle medida e registrada no devlog, `rollup-plugin-visualizer` configurado (`dist/stats.html`), `lazy` + `Suspense` na `TaskDetailPage` (o `dist/` passou a ter dois `.js`), projeto na Vercel com `Root Directory` apontado, fallback de SPA pago com `vercel.json` depois do 404 no F5, `ErrorTasks` distinguindo "a API caiu" de "é o link público", publicação automática a cada push, Lighthouse rodado na URL pública (100 · 100 · 96 · 91) e `web/README.md` atualizado.
+
+**Fora do escopo, anotado como dívida:** `isShowcase` na `TaskDetailPage`, `pendingIds` chegando ao `FilledTasks`, esconder coluna vazia sob filtro, e o GIF no topo do README.
 
 ## Typecheck
 
-`npm run typecheck` (`tsc -b --noEmit`) — **rodar e colar o resultado antes de considerar o tema fechado.**
+`npm run typecheck` (`tsc -b --noEmit`) — **limpo**. No caminho ele pegou duas coisas reais: `Suspense` importado e não usado no `App` depois de mudar de arquivo, e a prop `showcase` declarada no `ErrorTasks` sem ser lida no corpo.
 
 ## Testes
 
-Nenhum, por plano: testes de front são o **Tema 13**. A verificação deste tema é manual, pelas oito provas do Bloco 1 — mais a que só existe a partir de agora: **o link público abre e está atualizado.**
+Nenhum, por plano: testes de front são o **Tema 13**. A verificação deste tema foi manual, pelas oito provas do Bloco 1 — todas passaram — mais a que só existe a partir de agora: **o link público abre e está atualizado** (regra 7).

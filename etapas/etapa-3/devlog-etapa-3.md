@@ -133,3 +133,21 @@ Estudo em [`studies/studie-t09-t10-rotas-e-deploy.md`](studies/studie-t09-t10-ro
 **Primeira preparação de ambiente com dependência nova desde o T1:** `react-router-dom` e `rollup-plugin-visualizer` (esta só de desenvolvimento), mais a conta na Vercel com `Root Directory` apontado para `etapas/etapa-3/web` — o repositório é um monorepo de estudo e sem isso a build nem começa.
 
 **O que o tema entrega:** cada tela do app ganha endereço (`/tasks`, `/tasks/:id`, `*`, layout compartilhado, busca e filtro na query string) e o app inteiro ganha o dele — **URL pública**. A partir daqui vale a regra 7: tema fechado sem redeploy é tema não fechado.
+
+## 📅 11/08
+
+### T9 + T10 · Rotas e Build/Deploy — ✅ Feitos (11/08)
+
+**🌐 No ar: https://do-0-ao-emprego.vercel.app** — a regra 7 passa a valer.
+
+**O app ganhou** — endereço. `BrowserRouter` no `main.tsx`, `AppLayout` (`Header` + `<Outlet />`) como casca de tudo, e quatro rotas: `/` redirecionando para `/tasks` com `replace`, `/tasks`, `/tasks/:id` e `*`. A `HomePage` morreu, a `pages/home/content/` foi achatada em `pages/tasks/`, e nasceram `pages/taskDetail/`, `pages/notFound/` e `routes/RequireAuth`. Busca por título e filtro de status foram para a query string; a lista filtrada é derivada. `TaskDetailPage` carregada com `lazy` + `Suspense`. Deploy na Vercel com publicação automática a cada push na `main`.
+
+**⚠️ `lazy()` tem que ficar no escopo do módulo.** Escrevi dentro do `App` na primeira tentativa: como ele devolve um componente novo a cada chamada, a página desmontaria e remontaria a cada render do pai — mesmo princípio do "não declare componente dentro de componente". E o `import` estático no topo continuava lá, o que anulava o `lazy` de qualquer jeito: o código já estava no bundle principal.
+
+**A dívida do T9 tópico 12 apareceu exatamente como escrita.** F5 em `/tasks` no link público deu **404 da Vercel** — o servidor procurou um arquivo que só existe dentro do JavaScript. Pago com `vercel.json` e um rewrite de `/(.*)` para o `index.html`. O custo declarado: o servidor passa a responder **200 para qualquer URL**, inclusive as que não existem. Efeito colateral encontrado pelo Lighthouse: `/robots.txt` recebia o HTML do app, e o auditor reclamou linha por linha — resolvido criando o arquivo de verdade em `public/`, porque arquivo existente é servido **antes** do rewrite.
+
+**Decisão do tópico 7 — o front no ar sem API.** `utils/environment.ts` detecta no build produção apontando para `localhost` e liga o modo vitrine: mensagem explicando que a API roda localmente, **sem** botão "Tentar de novo" (promessa que não pode ser cumprida) e **sem** dados de demonstração (seria a segunda fonte da verdade que o T7 acabou de enterrar). Depois do Lighthouse, o corte ficou mais fundo: no modo vitrine o app **nem dispara** a requisição condenada — console limpo e mensagem imediata, sem esperar o timeout.
+
+**Guarda de rota desenhado, não ativado.** `RequireAuth` com a condição chumbada em `true` e a forma de `Outlet` (rota-pai sem `path`), em vez da forma `children` que eu já tinha usado em outro projeto — assim rota nova no bloco já nasce protegida. Fica registrado que **nenhuma das duas é segurança**: quem protege é o middleware da API; o guarda do front só evita mostrar tela que vai quebrar em 401.
+
+- Próximo: **Tema 11 — Hooks a fundo, custom hooks e performance.**

@@ -59,7 +59,7 @@ Cronograma de datas está dentro do `cronograma-etapas.md`, datas detalhadas nos
 Etapa 0 · Rigor e Git                 ██████████████████████  100%  ✅ aprovada
 Etapa 1 · JS sólido + fundamentos web ██████████████████████  100%  ✅ aprovada
 Etapa 2 · Back-end: da API ao deploy  █████████░░░░░░░░░░░░░   40%  ⏸️ 4 de 10 temas — pausada
-Etapa 3 · Front-end (React)           █████████████░░░░░░░░░   57%  🔨 antecipada, 8 de 14 temas
+Etapa 3 · Front-end (React)           ████████████████░░░░░░   71%  🔨 10 de 14 temas
 Etapa 4 · Capstone "reporte-aqui"     ░░░░░░░░░░░░░░░░░░░░░░    0%  🔒 bloqueada
 Etapa 5 · Portfólio e busca           ░░░░░░░░░░░░░░░░░░░░░░    0%  🔒 bloqueada
 ```
@@ -73,6 +73,8 @@ Etapa 5 · Portfólio e busca           ░░░░░░░░░░░░░�
 
 **Início 29/07** · avaliação alvo **12/08** · 14 temas, app vivo em `web/`.
 
+🌐 **No ar desde 11/08: https://do-0-ao-emprego.vercel.app** — o front está publicado, mas a **API roda localmente** e ainda não foi publicada (é o T9 da Etapa 2). O link abre o app e explica isso na tela; para ver o CRUD funcionando é preciso rodar os dois localmente. Detalhes no [`web/README.md`](etapas/etapa-3/web/README.md).
+
 | Tema | Assunto | Status |
 |:---:|---|:---:|
 | **T1** | React e ferramental — JSX, Vite, TS, StrictMode | ✅ |
@@ -83,8 +85,8 @@ Etapa 5 · Portfólio e busca           ░░░░░░░░░░░░░�
 | **T6** | Efeitos — `useEffect`, limpeza, quando **não** usar · _mesclado com o T5_ | ✅ |
 | **T7** | Falando com a API — fetch tipado, 4 estados de tela, CORS | ✅ |
 | **T8** | CRUD na tela — mutações, atualização otimista · _mesclado com o T7_ | ✅ |
-| **T9** | Rotas — React Router, a URL como estado | ⏳ |
-| **T10** | **Build e deploy** — 🌐 URL pública a partir daqui · _mesclado com o T9_ | ⏳ |
+| **T9** | Rotas — React Router, a URL como estado | ✅ |
+| **T10** | **Build e deploy** — 🌐 URL pública a partir daqui · _mesclado com o T9_ | ✅ |
 | **T11** | Hooks a fundo, custom hooks e performance medida | ⬜ |
 | **T12** | Context — estado global sem biblioteca, e o custo dele | ⬜ |
 | **T13** | Testes de front — Vitest, Testing Library, MSW | ⬜ |
@@ -160,6 +162,7 @@ O que foi estudado dia a dia.
 | 08/08 | **T5 + T6 — Formulários controlados e efeitos**  |
 | 09/08 | **T7 + T8 abertos** — falando com a API e o CRUD completo (mesclados) · CORS habilitado na `api/`, a exceção única ao congelamento |
 | 10/08 | **T7 + T8 — Falando com a API e o CRUD completo** — camada `src/api/`, `request<T>` genérico, os quatro estados de tela como união discriminada, CRUD indo até o Postgres, o `localStorage` morto · **T9 + T10 abertos** — rotas e build/deploy (mesclados), Vercel escolhida, a URL como estado |
+| 11/08 | **T9 + T10 — Rotas e Build/Deploy** — `BrowserRouter`, layout com `Outlet`, rota com parâmetro validado, 404 do front, busca e filtro na query string, guarda de rota desenhado · bundle medido, `lazy` por rota, deploy na Vercel, fallback de SPA, Lighthouse — **🌐 front no ar** |
 
 > 💡 A matéria-prima detalhada de cada dia está no devlog de cada etapa, em [`etapas/`](etapas/).
 
