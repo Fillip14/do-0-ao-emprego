@@ -83,4 +83,38 @@ describe('TasksPage — criar tarefa', () => {
     expect(await screen.findByRole('button', { name: 'Estudar MSW' })).toBeVisible();
     expect(posts).toBe(1);
   });
+
+  it('mostra o erro do servidor no formulário e preserva o que foi digitado', async () => {
+    // O formato é o do contrato da API: um erro só, com `field: 'task'`, para
+    // qualquer dado inválido. É por isso que ele vira mensagem de formulário e
+    // não erro por campo — a divergência está escrita nas Limitações do README.
+    server.use(
+      http.post('*/tasks', () =>
+        HttpResponse.json(
+          { errors: [{ field: 'task', message: 'Título muito longo' }] },
+          { status: 400 },
+        ),
+      ),
+    );
+
+    const user = userEvent.setup();
+    renderWithProviders(<TasksPage />);
+    await screen.findByRole('button', { name: 'Comprar pão' });
+
+    await user.click(screen.getByLabelText('Tarefa'));
+    await user.type(screen.getByLabelText('Tarefa'), 'Estudar MSW');
+    await user.click(screen.getByRole('button', { name: 'Adicionar' }));
+
+    // Não é `role="alert"`: aquele é o erro POR CAMPO do TaskField, que a
+    // validação do cliente usa. O erro do servidor é a região `aria-live` do
+    // rodapé — dois caminhos diferentes, de propósito.
+    expect(await screen.findByText('Título muito longo')).toBeVisible();
+
+    // A metade que a avaliação cobra: o erro não pode custar o que foi digitado.
+    expect(screen.getByLabelText('Tarefa')).toHaveValue('Estudar MSW');
+    // E o otimista não vale aqui — criar é pessimista, então nada entrou na lista.
+    expect(screen.queryByRole('button', { name: 'Estudar MSW' })).toBeNull();
+    // O botão volta a funcionar: erro não pode deixar o formulário travado.
+    expect(screen.getByRole('button', { name: 'Adicionar' })).toBeEnabled();
+  });
 });

@@ -12,7 +12,7 @@
 
 1. O front consome a API **local**, sem auth e sem URL pública — consequência escolhida da inversão. Login e deploy da API entram quando o back voltar.
 2. Exceção única ao congelamento do back: habilitar CORS para `http://localhost:5173`, no Tema 7.
-3. Duas decisões ficaram pendentes de escolha minha, dentro dos temas: **qual sistema de estilo** (T3) e **Framer Motion ou GSAP** (T10). As duas vão para o `web/README.md` quando eu decidir.
+3. Duas decisões ficaram pendentes de escolha minha, dentro dos temas: **qual sistema de estilo** (T3) e **Framer Motion ou GSAP** (o tema de motion, que era o T10 nesta data e virou o **T14** na reordenação de 10/08). As duas vão para o `web/README.md` quando eu decidir. _(Número corrigido em 11/08 — as duas já foram decididas: Tailwind no T3, Motion no T14.)_
 4. Custos assumidos da reordenação: estilizar lista estática no T3 gera retrabalho de CSS depois do CRUD, e os testes ficaram por último (T14) — mesmo padrão do questionário pendente do T4 da Etapa 2. A regra 1 segura até lá.
 
 - Amanhã: abrir o Tema 1 (React e ferramental).
@@ -174,3 +174,21 @@ Estudo em [`studies/studie-t13-testes-de-front.md`](studies/studie-t13-testes-de
 ### T13 · Testes de front — ✅ Feito (11/08)
 
 **O app ganhou** — `npm test`: **24 testes verdes** em cinco arquivos, rodando sem API e sem Postgres. Vitest com `jsdom`, Testing Library, `user-event` e MSW interceptando na borda da rede. A única mudança no app foi o `tasksReducer` (com `TasksState` e `Action`) saindo do `useTasks.ts` para `hooks/tasksReducer.ts` — função pura merece arquivo próprio quando alguém vai testá-la sem React em volta. Nasceu `src/test/` com `setup`, `server`/`handlers`, `renderWithProviders` e `columns`.
+
+### T14 · Motion e interação — ⏳ aberto (11/08)
+
+Estudo em [`studies/studie-t14-motion-e-interacao.md`](studies/studie-t14-motion-e-interacao.md). **Tema solo, e o último da etapa** — depois dele vem o simulado de entrevista (regra 8) e a avaliação. Não sobra tema para pagar dívida deixada aqui.
+
+**O que o tema entrega:** hoje **nada anima**. Tarefa criada aparece do nada, apagada some do nada, ciclar o status **teletransporta** o item de coluna, e trocar de rota pisca. O único movimento no app inteiro é a troca de cor que o `Button` herdou do Tailwind no T3 — e ela é instantânea, sem nem uma transição. A pergunta do tema não é "como deixar bonito", é **como o app explica, sem texto, o que acabou de acontecer**.
+
+**Cinco decisões na abertura, e só a primeira foi minha:**
+
+1. **Motion (o ex-Framer Motion), não GSAP** — a escolha que estava reservada desde 28/07. O que decidiu: os dois problemas difíceis do tema são recurso de primeira classe nela. Animar a **saída** de um elemento que o React já desmontou (`AnimatePresence`) e o item **mudando de posição** entre colunas (`layout`, que é FLIP embutido) — no GSAP as duas coisas são código meu. GSAP ganharia em coreografia com linha do tempo, que este app não tem. O gatilho para trocar de ideia fica escrito no `web/README.md`. **O pacote é `motion`, o import é `motion/react`** — a lib saiu da Framer e virou projeto independente; `framer-motion` continua publicado como alias do mesmo código, e é o nome que todo tutorial vai usar.
+2. **O gesto de arrastar é para apagar, não para reordenar** — e o motivo é o contrato, não a dificuldade. A `Task` da API congelada é `{ id, title, status, term }`: **não há campo de ordem**. Reordenar por arrasto criaria uma ordem que existe só na tela e some no F5 — literalmente o item de reprova "o estado da UI mente sobre o que está no banco". Arrastar para apagar age sobre algo que a API tem. E o botão "X" **continua existindo**: gesto é atalho, nunca o único caminho, senão "navego só pelo teclado" quebra.
+3. **`prefers-reduced-motion` respeitado globalmente**, por um `MotionConfig reducedMotion="user"` no topo, e não checado componente a componente — mesmo resultado, com quatro lugares a menos para esquecer.
+4. **A mesma chave desliga o movimento nos testes.** Stub de `matchMedia` no `src/test/setup.ts` devolvendo `matches: true`. É a terceira saída que o **T13 tópico 11 escreveu antes de existir animação** — e sem ela a `AnimatePresence` segura o item no DOM durante a saída, e o teste de apagar quebra por motivo errado. O stub entra **antes** da primeira animação, não depois da suíte reclamar.
+5. **Os tokens de movimento nascem em `src/utils/motion.ts`, não no CSS.** O T3 tópico 3 prometeu que duração e curva sairiam dos tokens, mas os tokens de cor **não sobreviveram à migração para Tailwind** — a paleta virou a escala do próprio Tailwind e não existe bloco `@theme` no `style.css`. Como quem lê duração e curva agora é JavaScript (o Motion), o lugar honesto é um módulo. É a promessa do T3 cumprida no formato que a decisão do Tailwind deixou.
+
+**Duas medições fecham o tema**, contra duas linhas de base diferentes: o **bundle** contra os 248,29 kB (79,84 gzip) do T10 — que foram medidos, com todas as letras, **para este dia** — e os **quadros** na aba Performance, em `preview` com CPU 4×, criando e apagando cinco tarefas seguidas. Diferente do T11, onde a resposta honesta foi "nada precisou de memoização", aqui o custo é **inevitável**: a pergunta não é se a lib pesou, é quanto, e se o que ela comprou vale.
+
+**O risco declarado:** é o último tema, num dia em que a avaliação é amanhã, e ele é o único da etapa cuja entrega é **subjetiva** — "está bom" não tem número. Por isso o fechamento é todo por medida: bundle em kB, quadros perdidos na aba Performance, 25 testes verdes, teclado e `prefers-reduced-motion` conferidos na mão.

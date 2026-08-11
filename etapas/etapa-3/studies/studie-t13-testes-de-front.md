@@ -431,23 +431,36 @@ Fora isso, **nenhuma linha do app mudou para agradar o teste** — e esse é o r
 
 ## Testes
 
-**24 testes verdes**, em cinco arquivos, sem `api/` e sem Postgres de pé — a primeira verificação da etapa que roda com um terminal só.
+**25 testes verdes**, em cinco arquivos, sem `api/` e sem Postgres de pé — a primeira verificação da etapa que roda com um terminal só.
+
+> **Atualizado em 11/08, antes de abrir o T14:** o teste do formulário com **400 do servidor** foi escrito, e a suíte passou de 24 para 25. Era a única pendência declarada deste tema. O que ele achou está logo abaixo da tabela.
 
 | Arquivo | Testes | O que prova |
 | --- | --- | --- |
 | `hooks/tasksReducer.test.ts` | 7 | as cinco actions, a guarda de `success` (com `toBe`, que é prova de identidade) e a não-mutação do estado recebido |
 | `utils/taskRules.test.ts` | 4 | o ciclo `todo → doing → done → todo` fechando, e o título só com espaço |
 | `pages/tasks/TasksPage.states.test.tsx` | 4 | os quatro estados de tela do T7, cada um com o seu handler |
-| `pages/tasks/TasksPage.create.test.tsx` | 3 | criar ponta a ponta, validação do cliente sem requisição, duplo submit com **um** `POST` |
+| `pages/tasks/TasksPage.create.test.tsx` | **4** | criar ponta a ponta, validação do cliente sem requisição, duplo submit com **um** `POST`, e o **400 do servidor** |
 | `pages/tasks/TasksPage.write.test.tsx` | 6 | ciclo de status, rollback do otimista, apagar, o 404 na escrita, editar com Enter e desistir com Esc |
 
-**Quatro itens da prova prática da avaliação viraram automáticos:** derrubar a API no meio da sessão, lista vazia, duplo clique em salvar, e a tarefa apagada por fora que vira 404 na escrita. O rollback é o caso que justifica o tema sozinho — provocá-lo à mão exige derrubar a API no instante exato de um `PATCH`, e ninguém faz isso a cada commit.
+**Cinco itens da prova prática da avaliação viraram automáticos:** derrubar a API no meio da sessão, lista vazia, duplo clique em salvar, a tarefa apagada por fora que vira 404 na escrita, e o 400 do servidor. O rollback é o caso que justifica o tema sozinho — provocá-lo à mão exige derrubar a API no instante exato de um `PATCH`, e ninguém faz isso a cada commit.
 
 **A suíte reclama:** teste quebrado de propósito rodado — teste que nunca falhou não provou nada.
 
+### O teste do 400, e o bug que ele achou (11/08)
+
+O cenário que faltava do tópico 10: `POST` respondendo `400` com `{ errors: [{ field: 'task', message: '…' }] }`, que é o formato real do contrato. O teste prova três coisas, e a segunda é a que a avaliação cobra: a mensagem do servidor aparece, **o que foi digitado continua no campo** (T5, tópico 9), a tarefa **não** entra na lista (criar é pessimista) e o botão volta a ficar habilitado.
+
+**Escrevê-lo obrigou a descobrir por onde o erro sai, e a resposta não é a que o tópico 4 fazia supor.** O erro do servidor **não** é `role="alert"` — aquele é o `<p role="alert">` do `TaskField`, e ele serve só à validação **por campo**, do cliente. O erro do servidor é outro nó, no rodapé do formulário. São dois caminhos diferentes de propósito, e é consequência direta da divergência de contrato: a API manda um erro só, com `field: 'task'`, então não há campo em que encaixá-lo.
+
+**E aí apareceu um bug de verdade, invisível nas 24 verificações manuais anteriores.** O `InputTask` escreve `<Typography variant="mediumText" aria-live="polite">`, mas o `Typography` só aceita `variant` e `children` — **ele não repassa props**. O `aria-live` é descartado e nunca chega ao DOM: o erro do servidor aparece na tela e **não é anunciado por leitor de tela**, exatamente o que o tópico 10 do T3 dizia estar coberto.
+
+O TypeScript não pegou porque **atributo JSX com hífen é isento de checagem de prop excedente** — `ariaLive` teria dado erro de compilação; `aria-live` passa em silêncio. É a mesma família do `queryDb<T>`: uma fronteira em que a afirmação não é verificada.
+
+**Não foi consertado aqui**, e é escolha registrada: a cura é mexer no `Typography` ou no `InputTask`, o que é mudança no app por causa de teste, fora dos tópicos deste tema. O teste afirma o comportamento **de hoje** (`findByText`), não o desejado — e o achado vai para as Limitações do `web/README.md` com endereço no T14, que mexe nesse rodapé.
+
 **O que ficou de fora, e é escolha registrada, não esquecimento:**
 
-- **o formulário com erro do servidor (400)** — o tópico 10 pede três cenários e a suíte tem dois. É o único caminho em que o `ApiError` chega ao `formError` do `InputTask`, e "devolvo 400 do servidor" é item da avaliação. **É a primeira coisa a escrever se sobrar tempo antes do T14**;
 - `TaskDetailPage`, filtros pela URL, `AbortController` ao trocar de rota, timer do `Toast` — Bloco 2;
 - cobertura com `--coverage`: não rodada. O tópico 14 explica por que o número mente mais no front, e o relatório só valeria pela leitura dos `catch` vermelhos.
 

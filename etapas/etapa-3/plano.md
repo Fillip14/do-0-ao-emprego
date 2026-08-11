@@ -371,11 +371,17 @@ Quatorze temas, um por dia sugerido. **O dia é guia, não contrato** — na Eta
 14. Cobertura no front: por que o número mente mais aqui do que no back.
 15. A pirâmide vista do front: componente × integração × e2e (Playwright existe — fica anotado, não entra agora).
 
-### Tema 14 — Motion e interação · _dia sugerido 17/08_
+### Tema 14 — Motion e interação · _dia sugerido 17/08_ · ⏳ **aberto (11/08)**
 
 **O app ganha:** movimento — item que entra e sai da lista com transição, troca de rota animada, resposta tátil no clique e no arrasto. É o tema que traduz "segurar carrega, soltar arremessa" para vocabulário React.
 
 > **Por que só agora:** animação precisa de material. Item entrando e saindo veio no Tema 8, troca de rota veio no Tema 9. Antes disso seria enfeite sem comportamento. E, por ser o último, ele herda duas exigências: a regra 7 — o que fecha vai para o ar, e o bundle é medido de novo contra a linha de base do Tema 10 — e a suíte do Tema 13, que precisa continuar verde depois do movimento.
+
+> **Tema solo — não mescla.** Estudo em [`studies/studie-t14-motion-e-interacao.md`](studies/studie-t14-motion-e-interacao.md). É o último da etapa: depois dele vem o simulado de entrevista (regra 8) e a avaliação, então não sobra tema para pagar dívida deixada aqui.
+>
+> **Cinco decisões tomadas na abertura, e só a primeira foi sua** (as outras não tinham material para você decidir ainda): **Motion** (o ex-Framer Motion) e não GSAP, pelos dois problemas difíceis do tema serem recurso de primeira classe nela — `AnimatePresence` para a saída do elemento já desmontado (tópico 5) e `layout` para a troca de coluna (tópico 8); o **gesto de arrastar é para apagar e não para reordenar**, porque a `Task` da API congelada **não tem campo de ordem** e uma ordem que some no F5 é o item de reprova "o estado da UI mente sobre o que está no banco"; `prefers-reduced-motion` respeitado **globalmente** por `MotionConfig`, não caso a caso; **a mesma chave desliga o movimento nos testes** (stub de `matchMedia` no `setup.ts` — é a terceira saída que o T13 tópico 11 escreveu antes de existir animação); e os **tokens de movimento nascem em `src/utils/motion.ts`** e não no CSS, porque quem lê duração e curva agora é JavaScript — é a promessa do T3 tópico 3 cumprida no formato que a migração para Tailwind deixou.
+>
+> **A pendência do T13 foi paga antes da abertura (11/08):** o teste do formulário com **400 do servidor** foi escrito, a suíte foi de 24 para **25**, e ele achou um bug que doze temas de verificação manual não viram — o `aria-live` do erro do servidor **nunca chega ao DOM**, porque o `Typography` não repassa props e atributo JSX com hífen é isento de checagem de tipo. Registrado nas Limitações do `web/README.md`, com endereço no Bloco 2 deste tema.
 
 **Tópicos de estudo sugeridos**
 
