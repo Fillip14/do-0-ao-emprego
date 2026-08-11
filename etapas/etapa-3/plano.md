@@ -292,13 +292,15 @@ Quatorze temas, um por dia sugerido. **O dia é guia, não contrato** — na Eta
 11. Lighthouse: rodar, ler as quatro notas, corrigir o que é barato.
 12. O `web/README.md` com link no topo, print/GIF do app, e a limitação da API local escrita com todas as letras.
 
-### Temas 11 + 12 — Hooks a fundo e Estado global · _dias sugeridos 14/08–15/08_ · ⏳ Abertos (11/08)
+### Temas 11 + 12 — Hooks a fundo e Estado global · _dias sugeridos 14/08–15/08_ · ✅ Feitos (11/08)
 
 > **Mesclados em 11/08.** Estudo único em [`studies/studie-t11-t12-hooks-e-context.md`](studies/studie-t11-t12-hooks-e-context.md), com a numeração dos tópicos preservada (A1 = T11, A2 = T12) porque é ela que o simulado da regra 8 usa. Continuam contando como **dois temas** para efeito de avaliação e de oral — duas perguntas, não uma.
 >
 > **O motivo é de conteúdo, e já estava escrito no plano.** O T11 tópico 8 — "custom hook compartilha lógica, não estado" — termina com "e a ponte para o Tema 12": ele **enuncia** o problema que o T12 resolve. E o T12 tópico 6 (todo consumidor re-renderiza) **não tem como ser visto** sem o Profiler do T11 tópico 9; sem medição, o custo do Context é boato.
 >
 > **Três decisões tomadas na abertura, e as duas primeiras foram minhas por não haver material ainda para o Fillip decidir:** o `useReducer` entra **dentro do `useTasks`** (a máquina da lista), não no formulário — é a mesma refatoração, num arquivo só, e é a lista que tem transições de verdade; o Context é o **aviso global (toast)**, com o `notice` da `TasksPage` subindo para o `AppLayout`; e a **coleção de tarefas fica fora do Context de propósito**, porque é estado de servidor (T12, tópicos 9 e 10) e Context não é cache — colocá-la lá seria aprender o antipadrão como se fosse o padrão.
+>
+> **Fechados no mesmo dia da abertura (11/08).** As três decisões da abertura se sustentaram. Duas correções de rota, registradas no devlog: a **dívida de foco do T3 estava paga** (o `EditTitleField` já tinha `autoFocus`; a ref entrou pelo `select()`), e o **`useId` não curou bug nenhum** — o app tem um formulário só, é prevenção. Veredito de performance com número: **nada memoizado porque nada precisou**, os seis commits medidos abaixo dos 16 ms.
 
 #### Tema 11 — Hooks a fundo, custom hooks e performance
 

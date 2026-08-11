@@ -693,12 +693,28 @@ Isso tem duas consequências. A primeira é sobre o perfil registrado no diagnó
 
 ## O app foi migrado para o assunto do tema?
 
-_(preencher)_
+Sim, e em sete arquivos. **Dois nasceram** — `hooks/useTasks.ts` (a pasta `hooks/` não existia) e `contexts/ToastContext.tsx` + `components/Toast.tsx`.
+
+- **`useReducer`** substituiu o `useState` da lista. O `tasksReducer` mora fora do componente, com cinco actions (`loaded`, `failed`, `created`, `updated`, `removed`) e a guarda `state.status !== 'success'` escrita **uma vez** — a função `updateTasks` morreu. O `default` usa `action satisfies never` como alarme de action nova sem `case`.
+- **O rollback do otimista deixou de guardar o estado inteiro.** Era `const previous = state` + `setState(previous)`; virou `dispatch({ type: 'updated', task })` com a tarefa original, que já estava em mãos. Desfazer passou a ser o mesmo evento com o valor velho.
+- **`useRef`** em dois lugares: o timer do aviso (aviso novo cancela o anterior — antes o aviso **não sumia sozinho**) e o nó do input de edição, para o `select()`.
+- **`useId`** no `TaskField`: a prop `id` saiu da assinatura e das duas chamadas no `InputTask`.
+- **`useTasks`** expõe `state`, `pendingIds` e os cinco verbos; esconde `AbortController`, `reloadKey` e `ApiError`. A `TasksPage` não importa mais `api/tasks`, `ApiError` nem `nextStatus`, e caiu de **215 para 86 linhas**.
+- **Context em dois** — `ToastStateContext` (a mensagem) e `ToastActionsContext` (`show`/`dismiss`), com hooks guardiões que estouram fora do Provider. Provider no `AppLayout`, com o `Header` **fora** dele. O `notice` saiu da `TasksPage` e a `TaskDetailPage` parou de trocar a tela inteira por erro quando a exclusão falha.
+- **Nenhuma memoização entrou no app.** O único `useMemo` do tema está no `value` das ações do Provider — onde identidade é o mecanismo, não otimização.
+- **A lista de tarefas não entrou em Context**, e o porquê está no `web/README.md`: é estado de servidor, o problema seria cache, e cache tem nome (TanStack Query).
+
+**Duas coisas que o tema encontrou diferentes do que o estudo previa:**
+
+1. A **dívida de foco do T3 estava paga** — o `EditTitleField` já tinha `autoFocus`. O que faltava era o `select()`. O tópico A1·5 foi corrigido.
+2. O **`useId` não corrigiu bug nenhum hoje**: o app tem um formulário só, e `task-title`/`task-term` já eram distintos. É prevenção para o dia do segundo formulário, não cura.
 
 ## Typecheck
 
-_(preencher — `npm run typecheck`)_
+`npm run typecheck` **limpo**.
 
 ## Testes
 
-_(preencher — testes de front são o Tema 13; até lá, as provas do Bloco 1)_
+Testes de front são o Tema 13. Até lá, as provas do Bloco 1 — rodadas com os dois servidores de pé.
+
+Uma nota para o T13: o `tasksReducer` é função pura e **testável sem renderizar nada** — `tasksReducer({ status: 'success', tasks: [...] }, { type: 'removed', id })`. Foi o ganho real da extração, mais do que qualquer número de performance.

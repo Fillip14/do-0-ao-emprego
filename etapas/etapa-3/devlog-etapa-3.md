@@ -157,4 +157,10 @@ Estudo em [`studies/studie-t11-t12-hooks-e-context.md`](studies/studie-t11-t12-h
 **O que o tema entrega:** a lógica de dados sai da `TasksPage` (215 linhas, cinco `useState`) e vira `hooks/useTasks`, com a máquina da lista em `useReducer`; o aviso de erro deixa de ser propriedade de uma página e vira `ToastProvider` no `AppLayout`; e, pela primeira vez na etapa, uma decisão de performance é tomada com número do Profiler em vez de intuição. **É o primeiro tema que não muda a tela** — se o usuário notar diferença visual, algo saiu errado.
 
 
-- Próximo: fechar o **T11 + T12** pela Parte C.
+### T11 + T12 · Hooks a fundo e Estado global — ✅ Feitos (11/08)
+
+**O app ganhou** — arquitetura, e quase nada de tela. A pasta `hooks/` nasceu com o `useTasks`, que levou embora o reducer da lista, o efeito de busca com `AbortController`, o `reloadKey`, o `pendingIds` e os cinco verbos; a `TasksPage` foi de **215 para 86 linhas** e não importa mais `api/tasks`, `ApiError` nem `nextStatus`. O `useState` da lista virou `useReducer` com cinco actions e a guarda de `success` escrita uma vez. `useRef` no timer do aviso e no nó do input de edição; `useId` no `TaskField`. E o aviso virou `ToastProvider` no `AppLayout`, em **dois** contextos — estado e ações.
+
+**O que o usuário nota, e é só isto:** o aviso **some sozinho** em 4 segundos (antes ficava até clicar em "Fechar") e o título vem **selecionado** ao editar. Todo o resto é igual — que é o combinado de um tema de refatoração.
+
+- Próximo: abrir o **T13 — testes de front** (Vitest, Testing Library, MSW). O `tasksReducer` já está pronto para ele: função pura, testável sem renderizar nada.
