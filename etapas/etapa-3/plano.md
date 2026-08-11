@@ -59,7 +59,7 @@ Rodar os dois ao mesmo tempo é parte da etapa: um terminal com `npm run dev` na
 
 Quatorze temas, um por dia sugerido. **O dia é guia, não contrato** — na Etapa 2 o ritmo real foi de ~1,3 dia por tema, e tema que rende aprendizado de verdade pode furar a fila. O que não desliza é a regra 6: tema só fecha com a Parte C concluída.
 
-**A ordem tem lógica:** os temas 1–3 põem algo apresentável na tela rápido; 4–8 constroem o comportamento e a conversa com o banco; 9–11 transformam isso num produto com rotas, movimento e URL pública; 12–14 são o rigor por baixo — arquitetura de estado, performance medida e testes.
+**A ordem tem lógica:** os temas 1–3 põem algo apresentável na tela rápido; 4–8 constroem o comportamento e a conversa com o banco; 9–10 transformam isso num produto, com rotas e URL pública; 11–13 são o rigor por baixo — arquitetura de estado, performance medida e testes; e o 14 devolve movimento a um app já medido e coberto. _(Frase corrigida em 11/08: ela ainda descrevia a ordem anterior à reordenação de 10/08, com motion no meio.)_
 
 ### Tema 0 — Base css e base html · ✅ Tema fechado
 
@@ -292,7 +292,15 @@ Quatorze temas, um por dia sugerido. **O dia é guia, não contrato** — na Eta
 11. Lighthouse: rodar, ler as quatro notas, corrigir o que é barato.
 12. O `web/README.md` com link no topo, print/GIF do app, e a limitação da API local escrita com todas as letras.
 
-### Tema 11 — Hooks a fundo, custom hooks e performance · _dia sugerido 14/08_ · ⏳ Próximo
+### Temas 11 + 12 — Hooks a fundo e Estado global · _dias sugeridos 14/08–15/08_ · ⏳ Abertos (11/08)
+
+> **Mesclados em 11/08.** Estudo único em [`studies/studie-t11-t12-hooks-e-context.md`](studies/studie-t11-t12-hooks-e-context.md), com a numeração dos tópicos preservada (A1 = T11, A2 = T12) porque é ela que o simulado da regra 8 usa. Continuam contando como **dois temas** para efeito de avaliação e de oral — duas perguntas, não uma.
+>
+> **O motivo é de conteúdo, e já estava escrito no plano.** O T11 tópico 8 — "custom hook compartilha lógica, não estado" — termina com "e a ponte para o Tema 12": ele **enuncia** o problema que o T12 resolve. E o T12 tópico 6 (todo consumidor re-renderiza) **não tem como ser visto** sem o Profiler do T11 tópico 9; sem medição, o custo do Context é boato.
+>
+> **Três decisões tomadas na abertura, e as duas primeiras foram minhas por não haver material ainda para o Fillip decidir:** o `useReducer` entra **dentro do `useTasks`** (a máquina da lista), não no formulário — é a mesma refatoração, num arquivo só, e é a lista que tem transições de verdade; o Context é o **aviso global (toast)**, com o `notice` da `TasksPage` subindo para o `AppLayout`; e a **coleção de tarefas fica fora do Context de propósito**, porque é estado de servidor (T12, tópicos 9 e 10) e Context não é cache — colocá-la lá seria aprender o antipadrão como se fosse o padrão.
+
+#### Tema 11 — Hooks a fundo, custom hooks e performance
 
 **O app ganha:** a lógica de dados sai dos componentes e vira `useTasks`; o que re-renderiza demais é medido e corrigido.
 
@@ -314,7 +322,7 @@ Quatorze temas, um por dia sugerido. **O dia é guia, não contrato** — na Eta
 14. Lista grande: paginar, limitar, virtualizar — e o custo de cada saída.
 15. Memoização também custa. **Medir depois, para provar que resolveu.**
 
-### Tema 12 — Estado global: Context · _dia sugerido 15/08_
+#### Tema 12 — Estado global: Context
 
 **O app ganha:** um `Provider` para o que é realmente global (tema, notificações/toast, ou a coleção de tarefas) — sem prop drilling e sem biblioteca.
 

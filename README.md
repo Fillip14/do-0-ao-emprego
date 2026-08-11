@@ -87,8 +87,8 @@ Etapa 5 · Portfólio e busca           ░░░░░░░░░░░░░�
 | **T8** | CRUD na tela — mutações, atualização otimista · _mesclado com o T7_ | ✅ |
 | **T9** | Rotas — React Router, a URL como estado | ✅ |
 | **T10** | **Build e deploy** — 🌐 URL pública a partir daqui · _mesclado com o T9_ | ✅ |
-| **T11** | Hooks a fundo, custom hooks e performance medida | ⬜ |
-| **T12** | Context — estado global sem biblioteca, e o custo dele | ⬜ |
+| **T11** | Hooks a fundo, custom hooks e performance medida | ⏳ |
+| **T12** | Context — estado global sem biblioteca, e o custo dele · _mesclado com o T11_ | ⏳ |
 | **T13** | Testes de front — Vitest, Testing Library, MSW | ⬜ |
 | **T14** | **Motion e interação** — transition, gesto, lib de motion, 60fps | ⬜ |
 
@@ -162,7 +162,7 @@ O que foi estudado dia a dia.
 | 08/08 | **T5 + T6 — Formulários controlados e efeitos**  |
 | 09/08 | **T7 + T8 abertos** — falando com a API e o CRUD completo (mesclados) · CORS habilitado na `api/`, a exceção única ao congelamento |
 | 10/08 | **T7 + T8 — Falando com a API e o CRUD completo** — camada `src/api/`, `request<T>` genérico, os quatro estados de tela como união discriminada, CRUD indo até o Postgres, o `localStorage` morto · **T9 + T10 abertos** — rotas e build/deploy (mesclados), Vercel escolhida, a URL como estado |
-| 11/08 | **T9 + T10 — Rotas e Build/Deploy** — `BrowserRouter`, layout com `Outlet`, rota com parâmetro validado, 404 do front, busca e filtro na query string, guarda de rota desenhado · bundle medido, `lazy` por rota, deploy na Vercel, fallback de SPA, Lighthouse — **🌐 front no ar** |
+| 11/08 | **T9 + T10 — Rotas e Build/Deploy** — `BrowserRouter`, layout com `Outlet`, rota com parâmetro validado, 404 do front, busca e filtro na query string, guarda de rota desenhado · bundle medido, `lazy` por rota, deploy na Vercel, fallback de SPA, Lighthouse — **🌐 front no ar** · **T11 + T12 abertos** — hooks a fundo e estado global (mesclados), sem dependência nova: `useReducer`, `useRef`, `useId`, custom hook, Profiler antes de memoizar, Context para o aviso global |
 
 > 💡 A matéria-prima detalhada de cada dia está no devlog de cada etapa, em [`etapas/`](etapas/).
 

@@ -150,4 +150,10 @@ Estudo em [`studies/studie-t09-t10-rotas-e-deploy.md`](studies/studie-t09-t10-ro
 
 **Guarda de rota desenhado, não ativado.** `RequireAuth` com a condição chumbada em `true` e a forma de `Outlet` (rota-pai sem `path`), em vez da forma `children` que eu já tinha usado em outro projeto — assim rota nova no bloco já nasce protegida. Fica registrado que **nenhuma das duas é segurança**: quem protege é o middleware da API; o guarda do front só evita mostrar tela que vai quebrar em 401.
 
-- Próximo: **Tema 11 — Hooks a fundo, custom hooks e performance.**
+### T11 + T12 · Hooks a fundo e Estado global — ⏳ abertos (11/08)
+
+Estudo em [`studies/studie-t11-t12-hooks-e-context.md`](studies/studie-t11-t12-hooks-e-context.md). **Quarta mescla da etapa**, e a que o próprio plano já tinha escrito: o T11 tópico 8 ("custom hook compartilha lógica, não estado") termina com _"e a ponte para o Tema 12"_ — ele **enuncia** o problema que o T12 resolve. Na volta vale o mesmo: o T12 tópico 6 (todo consumidor re-renderiza quando o contexto muda) só existe como afirmação verificável com o Profiler do T11 tópico 9 na mão. Numeração preservada (A1 = T11, A2 = T12) e continuam valendo como **dois temas** na avaliação e na oral.
+
+**O que o tema entrega:** a lógica de dados sai da `TasksPage` (215 linhas, cinco `useState`) e vira `hooks/useTasks`, com a máquina da lista em `useReducer`; o aviso de erro deixa de ser propriedade de uma página e vira `ToastProvider` no `AppLayout`; e, pela primeira vez na etapa, uma decisão de performance é tomada com número do Profiler em vez de intuição. **É o primeiro tema que não muda a tela** — se o usuário notar diferença visual, algo saiu errado.
+
+- Próximo: fechar o **T11 + T12** pela Parte C.
