@@ -4,6 +4,7 @@ import { createTask, deleteTask, getTasks, updateTask } from '../api/tasks';
 import { ApiError } from '../api/http';
 import { nextStatus } from '../utils/taskRules';
 import { isShowcase } from '../utils/environment';
+import { useToastActions } from '../contexts/ToastContext';
 
 export type TasksState =
   | { status: 'loading' }
@@ -46,13 +47,8 @@ const tasksReducer = (state: TasksState, action: Action): TasksState => {
   }
 };
 
-// O aviso ainda mora na página; no T12 estes dois viram o useToastActions().
-type Notifier = {
-  show: (message: string) => void;
-  dismiss: () => void;
-};
-
-export const useTasks = ({ show, dismiss }: Notifier) => {
+export const useTasks = () => {
+  const { show, dismiss } = useToastActions();
   const [state, dispatch] = useReducer(tasksReducer, { status: 'loading' });
   const [reloadKey, setReloadKey] = useState(0);
   const [pendingIds, setPendingIds] = useState<Set<string>>(new Set());

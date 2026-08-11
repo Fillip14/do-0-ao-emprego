@@ -134,7 +134,7 @@ Sem a ref, dois avisos seguidos deixam dois timers correndo e o segundo aviso so
 
 **Para que serve.** É a válvula de escape para o que o React não descreve: **foco, scroll e medição**. Não existe jeito declarativo de dizer "este input está focado" — foco é uma ação, não um atributo.
 
-**Exemplo — a dívida do T3 tópico 9 que está aberta neste app:** ao clicar no título para editar na linha, o input aparece **sem foco** — quem usa teclado precisa tabular até ele.
+**Exemplo — a dívida do T3 tópico 9, que na verdade já estava paga.** Ao abrir o tema, descobriu-se que o `EditTitleField` já tinha `autoFocus`: o campo abria com foco desde o T5. O que **não** existia era o `select()` — o cursor ficava no fim do texto, e trocar o título inteiro exigia apagar letra por letra. É esse o ganho real da ref aqui, e a diferença entre os dois é o ponto: `autoFocus` é atributo, seleção é ação sobre o nó.
 
 ```tsx
 const inputRef = useRef<HTMLInputElement>(null);
@@ -630,7 +630,7 @@ Isso tem duas consequências. A primeira é sobre o perfil registrado no diagnó
 - [ ] `useReducer` no lugar dos `useState` da lista: `tasksReducer` **fora** do componente, `action` por evento (`loaded`, `failed`, `created`, `updated`, `removed`)
 - [ ] A guarda `state.status !== 'success'` mora no reducer, **uma vez** — a função `updateTasks` da página some
 - [ ] `useRef` para o timer do aviso: aviso novo cancela o timer do anterior
-- [ ] `useRef` no input da edição na linha: ao abrir, o campo **recebe foco** e seleciona o texto (dívida de teclado aberta desde o T3)
+- [x] `useRef` no input da edição na linha: o `autoFocus` já dava o foco (a dívida do T3 estava paga); a ref entrou pelo `select()`, que é o que deixa sobrescrever o título direto
 - [ ] `useId` no `TaskField`: a prop `id` sai da assinatura e o `htmlFor`/`aria-describedby` passam a ser únicos por instância
 
 **O custom hook (T11)**

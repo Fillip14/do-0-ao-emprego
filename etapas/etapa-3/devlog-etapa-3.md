@@ -156,16 +156,5 @@ Estudo em [`studies/studie-t11-t12-hooks-e-context.md`](studies/studie-t11-t12-h
 
 **O que o tema entrega:** a lógica de dados sai da `TasksPage` (215 linhas, cinco `useState`) e vira `hooks/useTasks`, com a máquina da lista em `useReducer`; o aviso de erro deixa de ser propriedade de uma página e vira `ToastProvider` no `AppLayout`; e, pela primeira vez na etapa, uma decisão de performance é tomada com número do Profiler em vez de intuição. **É o primeiro tema que não muda a tela** — se o usuário notar diferença visual, algo saiu errado.
 
-**Linha de base do Profiler (11/08), antes de encostar em qualquer arquivo.** Medido em `dev`, com _"record why each component rendered"_ ligado — só vale comparar com `dev`.
-
-```
-digitar 1 letra na busca → commit de 5,5 ms
-ciclar o status          → commit de 3,2 ms
-apagar uma tarefa        → commit de 6,2 ms
-```
-
-**Veredito, e ele é o do tema:** os três estão **abaixo dos 16 ms** de um quadro a 60fps. Não há nada para otimizar neste tamanho de lista — e esse é um resultado do tema, não uma falha dele. Gatilho registrado: revisar se algum commit passar de 16 ms.
-
-Ficou de fora a **contagem de componentes por interação**, que é a metade que a segunda medição vai precisar: com lista pequena, o tempo quase não se mexe com a refatoração, mas o número de componentes que renderizam por tecla é onde a mudança aparece. Na medição pós-refatoração, anotar os dois.
 
 - Próximo: fechar o **T11 + T12** pela Parte C.

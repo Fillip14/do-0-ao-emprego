@@ -5,6 +5,7 @@ import { getTask, deleteTask } from '../../api/tasks';
 import { ApiError } from '../../api/http';
 import { Button } from '../../components/Button';
 import type { Task } from '../../types/task';
+import { useToastActions } from '../../contexts/ToastContext';
 
 type DetailState =
   | { status: 'loading' }
@@ -18,6 +19,7 @@ export const TaskDetailPage = () => {
 
   const [state, setState] = useState<DetailState>({ status: 'loading' });
   const [deleting, setDeleting] = useState(false);
+  const { show } = useToastActions();
 
   useEffect(() => {
     if (!validId) return;
@@ -54,13 +56,15 @@ export const TaskDetailPage = () => {
       navigate('/tasks', { replace: true });
     } catch (err) {
       if (err instanceof ApiError && err.status === 404) {
+        show('Esta tarefa não existe mais.'); // o aviso sobrevive à navegação
         navigate('/tasks', { replace: true });
         return;
       }
 
       console.error(err);
       setDeleting(false);
-      setState({ status: 'error', id: validId, message: 'Não foi possível excluir a tarefa.' });
+      // Falhar ao excluir não invalida a tarefa: a tela continua, o aviso é que muda.
+      show('Não foi possível excluir a tarefa.');
     }
   };
 
