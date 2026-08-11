@@ -3,6 +3,7 @@
 
 # Dependencies
 node_modules
+coverage
 
 # OS files
 .DS_Store
@@ -17,3 +18,13 @@ dist/
 # files
 large-body.txt
 CLAUDE.md
+
+# Prisma init gerou isso automaticamente: pacotes de referência pra
+# assistentes de IA (Claude, Windsurf etc.) usarem o CLI/Client do Prisma.
+# Documentação de terceiros, não código do projeto — regenerável a qualquer
+# hora com `npx prisma init`.
+prisma/
+.agents/
+.claude/
+.windsurf/
+skills-lock.json
