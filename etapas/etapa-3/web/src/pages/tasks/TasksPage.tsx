@@ -162,20 +162,22 @@ export const TasksPage = () => {
     }
   };
 
-  if (isShowcase) return <ErrorTasks message="" showcase onRetry={() => {}} />;
-
   return (
     <>
-      {notice && (
-        <div
-          role="status"
-          aria-live="polite"
-          className="flex items-center gap-2 justify-center mb-2"
-        >
-          <AlertCircle aria-hidden />
-          <Typography variant="mediumText">{notice}</Typography>
-          <Button onClick={() => setNotice(null)}>Fechar</Button>
-        </div>
+      {isShowcase ? (
+        <ErrorTasks message="" showcase onRetry={() => {}} />
+      ) : (
+        notice && (
+          <div
+            role="status"
+            aria-live="polite"
+            className="flex items-center gap-2 justify-center mb-2"
+          >
+            <AlertCircle aria-hidden />
+            <Typography variant="mediumText">{notice}</Typography>
+            <Button onClick={() => setNotice(null)}>Fechar</Button>
+          </div>
+        )
       )}
       <Filters q={q} status={status} onChange={setParam} />
       <main className="flex flex-wrap justify-center gap-1">
