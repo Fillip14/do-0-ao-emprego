@@ -4,6 +4,8 @@ API REST de tarefas — o back-end da Etapa 2. Nasce aqui (Tema 3, em TypeScript
 
 **Status:** em construção · tarefas persistidas em **PostgreSQL** (Tema 4) · sem URL de produção ainda (Tema 9).
 
+> **Este contrato tem um cliente de verdade desde 10/08/2026:** o front da Etapa 3, em [`../../etapa-3/web/`](../../etapa-3/web/README.md), publicado e consumindo estas rotas. Mudar rota, status ou formato de erro quebra um app que existe — o que muda aqui se lê lá.
+
 ## Como rodar
 
 ### 1. Postgres
@@ -77,6 +79,14 @@ Qualquer rota fora das acima cai num handler no fim da cadeia, que responde `404
 
 Um error handler central (middleware de 4 parâmetros) concentra o tratamento — sem `try/catch` espalhado pelas rotas. Os handlers assíncronos são embrulhados num **`asyncHandler`**, que captura a rejeição da Promise e encaminha pro middleware central via `next(err)`. Assim um erro em qualquer rota async vira resposta tratada, não um `500` solto.
 
+### CORS
+
+Um middleware escrito à mão em `app.ts`, **primeiro da cadeia**, libera a origem `http://localhost:5173` (o dev server do Vite) e responde ao preflight `OPTIONS`. Sem ele o navegador bloqueia toda requisição do front.
+
+Ser o primeiro é de propósito: assim a resposta de **erro** também carrega o header. Se ele viesse depois, um `400` chegaria ao navegador sem permissão de leitura e um erro de validação apareceria na tela como erro de CORS.
+
+Foi a **exceção única** ao congelamento da API durante a Etapa 3, entregue em 09/08 sem o pacote `cors` — cinco linhas contra uma dependência nova, e o header que resolve o problema fica visível. O assunto **CORS a fundo** (origem, credenciais, cabeçalhos expostos, produção) é do Tema 8.
+
 ### Formato de erro
 
 ```json
@@ -84,6 +94,8 @@ Um error handler central (middleware de 4 parâmetros) concentra o tratamento �
 ```
 
 `field` é opcional — erros que não são de um campo específico vêm só com `message`.
+
+> **Limitação conhecida, e o front já esbarrou nela:** dado inválido devolve **um erro só**, com `field: 'task'`, porque `isNewTask`/`isPatchTask` são um type guard único — **não existe erro por campo**. O front tem o `ApiError.fieldErrors` escrito e sem cliente por causa disso. Endereço para pagar: **Tema 6**, com zod na borda.
 
 ## Schema da `Task`
 

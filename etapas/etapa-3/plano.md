@@ -405,7 +405,11 @@ Quatorze temas, um por dia sugerido. **O dia é guia, não contrato** — na Eta
 
 ## Avaliação
 
-**Entregáveis:** front no ar em URL pública · `web/README.md` como contrato completo, com link e GIF no topo · `npm test` verde no último push · a API local rodando junto para a demonstração.
+> **Realizada e encerrada incompleta em 11/08.** Entregáveis conferidos, demonstração feita e a primeira leva da prova prática aprovada — inclusive o rollback do otimista com a API fora do ar. **Não aconteceram** os itens 4–11 da prova prática (ficam autodeclarados) nem a **oral**, parada na primeira rodada. Não é aprovação: é encerramento por decisão dele, com a etapa entregue (14 temas, front no ar, 25 testes verdes) e a oral registrada como dívida. Relato completo no [devlog](devlog-etapa-3.md#avaliação-da-etapa-3--encerrada-incompleta-1108).
+
+**Entregáveis:** front no ar em URL pública · `web/README.md` como contrato completo, com link no topo · `npm test` verde no último push · a API local rodando junto para a demonstração.
+
+> **GIF removido dos entregáveis em 11/08, decisão dele, na abertura da avaliação.** O contrato do front é texto: link, como rodar, rotas, decisões e limitações. Print e GIF são material de vitrine — o lugar deles é a Etapa 5 (portfólio), junto com o README da raiz e o LinkedIn, não uma condição para fechar a etapa técnica.
 
 **Demonstração:** com a `api/` de pé, o CRUD inteiro na tela — criar, listar, filtrar, editar, apagar — com a URL refletindo o que está sendo visto e o movimento respondendo a cada ação.
 

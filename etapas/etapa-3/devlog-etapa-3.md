@@ -196,3 +196,13 @@ Estudo em [`studies/studie-t14-motion-e-interacao.md`](studies/studie-t14-motion
 ### T14 · Motion e interação — ✅ Feito (11/08)
 
 **O app ganhou** — movimento. A tarefa entra e sai da lista, **viaja** de coluna ao mudar de status (`layout` + `layoutId`), a troca de rota é costurada, o clique responde em 100ms, e o item pode ser **arrastado para a direita** para apagar — com o botão "X" continuando na tela, porque gesto é atalho e não substituto. `motion 13.1.0` é a primeira dependência de produção desde o `react-router-dom` do T9.
+
+### Avaliação da Etapa 3 — encerrada incompleta (11/08)
+
+**O que foi conferido, e passou:**
+
+- **Entregáveis** — front no ar (`do-0-ao-emprego.vercel.app` respondendo), link no topo do `web/README.md` com o aviso honesto da API local, `main` e `origin/main` no mesmo commit (`f6906c6`), e `npm test` com **25 verdes em 5 arquivos**. O `stderr` de reduced motion na saída não é falha: é o stub de `matchMedia` do T13/T14 funcionando.
+- **Demonstração** — percurso completo do CRUD executado por ele (criar, editar na linha, ciclar status, filtrar, link compartilhável, detalhe, apagar por botão e por arrasto), relatado e aceito sem observação minha na tela.
+- **Prova prática, leva 1 (itens 1–3)** — API derrubada no meio da sessão: o erro de escrita apareceu localizado ("Não foi possível salvar"), não em tela branca; F5 sem servidor caiu no `ErrorTasks`; e o "Tentar de novo" recuperou **sem F5**. E o item que importa mais: com a API fora, a tarefa **trocou de coluna e voltou** — a atualização otimista tem rollback, e a UI não mentiu sobre o banco.
+
+> **Próximo passo:** a retomada da Etapa 2, do Tema 5. Plano em [`../etapa-2/plano.md`](../etapa-2/plano.md).
