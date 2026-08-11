@@ -29,6 +29,7 @@ export const TasksPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
+    if (isShowcase) return;
     const ac = new AbortController();
 
     getTasks(ac.signal)
@@ -160,6 +161,8 @@ export const TasksPage = () => {
       });
     }
   };
+
+  if (isShowcase) return <ErrorTasks message="" showcase onRetry={() => {}} />;
 
   return (
     <>
