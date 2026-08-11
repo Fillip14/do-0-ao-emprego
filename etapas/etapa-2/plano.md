@@ -124,7 +124,7 @@ etapas/etapa-2/
 11. SQL injection.
 12. Transação pelo Node.
 
-### Tema 5 — Testes a fundo · *dia sugerido 25/07* · 🔨 iniciado 28/07 · ⏸️ **congelado no meio — ponto de retomada da etapa**
+### Tema 5 — Testes a fundo · *dia sugerido 25/07* · 🔨 iniciado 12/08 · ⏸️ **congelado no meio — ponto de retomada da etapa**
 **A API ganha:** suíte reorganizada — banco de teste isolado, fixtures e factories no lugar do improviso do Tema 4, cobertura medida.
 
 **Tópicos de estudo sugeridos**
@@ -145,7 +145,7 @@ etapas/etapa-2/
 14. Property-based.
 15. Testes contra banco: banco de teste, limpeza entre testes, o que isolar e o que não.
 
-### Tema 6 — Arquitetura em camadas + listas de verdade · *dia sugerido 26/07*
+### Tema 6 — Arquitetura em camadas + listas de verdade · *dia sugerido 13/08*
 **A API ganha:** rota, serviço e repositório separados; `GET /tasks` com paginação, filtro e ordenação segura; validação com zod na borda.
 
 **Tópicos de estudo sugeridos**
@@ -161,7 +161,7 @@ etapas/etapa-2/
 9. Filtros e busca.
 10. Ordenação segura.
 
-### Tema 7 — Migrations + ORM · *dia sugerido 27/07*
+### Tema 7 — Migrations + ORM · *dia sugerido 14/08*
 **A API ganha:** schema versionado em migrations com up/down + seed — nenhuma tabela criada à mão sobrevive.
 
 **Tópicos de estudo sugeridos**
@@ -177,7 +177,7 @@ etapas/etapa-2/
 9. Transações no ORM; Prisma Studio.
 10. Por que SQL primeiro, ORM depois.
 
-### Tema 8 — Autenticação + segurança de borda · *dia sugerido 28/07*
+### Tema 8 — Autenticação + segurança de borda · *dia sugerido 15/08*
 **A API ganha:** `POST /auth/register` e `POST /auth/login`; tarefas passam a ter dono e as rotas exigem token — mais helmet, CORS e rate limiting na borda.
 
 **Tópicos de estudo sugeridos**
@@ -197,7 +197,7 @@ etapas/etapa-2/
 13. OWASP Top 10.
 14. 2FA e OAuth.
 
-### Tema 9 — Deploy · *dia sugerido 29/07*
+### Tema 9 — Deploy · *dia sugerido 16/08*
 **A API ganha:** URL pública no ar com banco gerenciado, `/health`, logs estruturados e graceful shutdown.
 
 **Tópicos de estudo sugeridos**
@@ -214,7 +214,7 @@ etapas/etapa-2/
 10. Backup.
 11. Auto-ataque.
 
-### Tema 10 — Docker + CI · *dia sugerido 30/07*
+### Tema 10 — Docker + CI · *dia sugerido 17/08*
 **A API ganha:** `Dockerfile` multi-stage + `docker compose` com Postgres + CI no GitHub Actions rodando a suíte verde a cada push.
 
 **Tópicos de estudo sugeridos**

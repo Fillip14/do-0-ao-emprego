@@ -343,9 +343,13 @@ Quatorze temas, um por dia sugerido. **O dia é guia, não contrato** — na Eta
 11. Redux, Zustand, Jotai existem — que problema cada um resolve e por que nenhum entra aqui.
 12. Critério final: quando o Context é resposta certa e quando é canhão em mosquito.
 
-### Tema 13 — Testes de front · _dia sugerido 16/08_
+### Tema 13 — Testes de front · _dia sugerido 16/08_ · ⏳ aberto (11/08)
 
 **O app ganha:** suíte de testes de componente com Vitest + Testing Library e a API mockada por MSW — `npm test` verde vira condição de fechamento a partir daqui.
+
+> **Tema solo — não mescla.** Estudo em [`studies/studie-t13-testes-de-front.md`](studies/studie-t13-testes-de-front.md). Depois de quatro mesclas seguidas, este fica sozinho de propósito: o T14 tem material próprio e **a suíte precisa existir antes do movimento**, para que o T14 seja cobrado por ela (é o que a regra do tópico 11 escreve com antecedência).
+>
+> **Três decisões tomadas na abertura, e a primeira foi minha por não haver material ainda para o Fillip decidir:** o ambiente é **jsdom** e não o Browser Mode do Vitest (rápido, é o que a Testing Library assume, e as três limitações dele — `window.confirm`, ausência de layout, ausência de `matchMedia` — viram conteúdo do tema em vez de surpresa); o escopo obrigatório é o **caminho crítico** e não "um teste por componente", pelo motivo que o tópico 13 já dava; e **MSW em vez de mock de `fetch`**, para que o `http.ts` (o `res.ok`, o `ApiError`, o ramo do `204`) rode de verdade dentro do teste.
 
 > **Risco declarado:** deixar os testes para o penúltimo tema é o mesmo padrão do questionário que ficou pendente no Tema 4 da Etapa 2. O que segura até aqui é a regra 1 — todo trecho gerado precisa de prova de que funciona, registrada no devlog.
 

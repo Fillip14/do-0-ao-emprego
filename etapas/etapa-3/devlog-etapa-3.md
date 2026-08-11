@@ -163,4 +163,10 @@ Estudo em [`studies/studie-t11-t12-hooks-e-context.md`](studies/studie-t11-t12-h
 
 **O que o usuário nota, e é só isto:** o aviso **some sozinho** em 4 segundos (antes ficava até clicar em "Fechar") e o título vem **selecionado** ao editar. Todo o resto é igual — que é o combinado de um tema de refatoração.
 
-- Próximo: abrir o **T13 — testes de front** (Vitest, Testing Library, MSW). O `tasksReducer` já está pronto para ele: função pura, testável sem renderizar nada.
+### T13 · Testes de front — ⏳ aberto (11/08)
+
+Estudo em [`studies/studie-t13-testes-de-front.md`](studies/studie-t13-testes-de-front.md). **Tema solo** — a sequência de quatro mesclas para aqui: o T14 tem material próprio e a suíte precisa existir **antes** do movimento, para poder cobrá-lo. A regra "nenhum teste depende de a animação ter terminado" nasce neste tema (tópico 11) sem que nada anime ainda.
+
+**Primeira instalação de peso desde o T9:** `vitest`, `jsdom`, `@testing-library/react`, `@testing-library/user-event`, `@testing-library/jest-dom`, `msw` — todas em `devDependencies`, então o bundle do T10 não deve mudar uma linha.
+
+**O que o tema entrega:** `npm test`. A verificação do app deixa de ser eu clicando em três terminais e vira um comando que roda sem a `api/` e sem o Postgres de pé. A lista de provas de cada tema anterior — duplo submit, rollback do otimista, 404 na escrita — é exatamente a suíte que nunca foi escrita; cada bullet daqueles vira um `it`.
