@@ -25,7 +25,7 @@ Regras transversais: commits diários no GitHub desde a Etapa 0 · uso de IA seg
 >
 > **O que isso preserva:** os Temas 1–4 entregaram uma API que já responde CRUD com banco de verdade — que é tudo que o front precisa para existir. A pausa é no meio de um tema, não no meio da API.
 >
-> Detalhes do estado congelado em [`../etapas/etapa-2/plano.md`](../etapas/etapa-2/plano.md) · plano do front em [`../etapas/etapa-3/plano.md`](../etapas/etapa-3/plano.md).
+> **Fechado o ciclo em 11/08:** a Etapa 3 acabou (encerrada incompleta, front no ar) e a Etapa 2 voltou a ser a etapa vigente, do Tema 5. Estado em [`../etapas/etapa-2/plano.md`](../etapas/etapa-2/plano.md) · o que o front deixou esperando, em [`../etapas/etapa-3/plano.md`](../etapas/etapa-3/plano.md).
 
 ### Etapa 0 — Rigor e Git (semana 1)
 
@@ -40,9 +40,9 @@ Regras transversais: commits diários no GitHub desde a Etapa 0 · uso de IA seg
 - **Projeto:** gerenciador de tarefas (Ex 8) como página web — interface no navegador, lógica em JS.
 - **Avaliação:** projeto + exercícios de array methods que eu passar.
 
-### Etapa 2 — Back-end: Node, Express, TypeScript e banco (semanas 3-4 · ⏸️ pausada 28/07, retoma após a Etapa 3)
+### Etapa 2 — Back-end: Node, Express, TypeScript e banco (semanas 3-4 · 🔨 **retomada em andamento desde 11/08**)
 
-> API funcional para servir a Etapa 3. **Temas 1–4 fechados; pausada no meio do Tema 5.**
+> API funcional para servir a Etapa 3. **Temas 1–4 fechados; pausada em 28/07 no meio do Tema 5 e retomada exatamente daí**, já em regime de par de programação (ver Trilha de IA). Data da avaliação: a redefinir.
 
 - Fundamentos por dentro antes do atalho: HTTP cru e `node:http` → Express (rotas, middleware, validação, erro centralizado com formato único).
 - Testes automatizados desde o primeiro tema (Vitest + supertest) + um tema só de técnica: pirâmide, mocks, cobertura, TDD.
@@ -54,7 +54,9 @@ Regras transversais: commits diários no GitHub desde a Etapa 0 · uso de IA seg
 - Docker (imagem, compose com Postgres) + CI no GitHub Actions rodando a suíte a cada push.
 - **Avaliação:** API pública com banco funcionando + eu quebro sua API com requisições maliciosas + suíte verde na hora + oral sobre decisões e conceitos.
 
-### Etapa 3 — Front-end: React (🔨 antecipada — 29/07 a ~12/08/2026)
+### Etapa 3 — Front-end: React (✅ antecipada e encerrada — 29/07 a 11/08/2026)
+
+> **Encerrada em 11/08 com os 14 temas entregues** — front no ar, 25 testes verdes, CRUD completo contra a API local. A avaliação ficou **incompleta**: entregáveis, demonstração e a primeira leva da prova prática foram conferidos; a oral e os itens 4–11 não aconteceram, por decisão dele. Não é aprovação formal, e a **oral atravessa como dívida** para o simulado da Etapa 5. Detalhes no [devlog da etapa](../etapas/etapa-3/devlog-etapa-3.md). A retomada da Etapa 2 está liberada.
 
 > Detalhada tema a tema em [`../etapas/etapa-3/plano.md`](../etapas/etapa-3/plano.md) — 14 temas, app vivo em `web/`.
 
@@ -62,8 +64,8 @@ Regras transversais: commits diários no GitHub desde a Etapa 0 · uso de IA seg
 - **Estilo cedo (T3), não no fim:** tokens, layout responsivo, estados visuais e acessibilidade de teclado — o app é apresentável antes de ser complexo.
 - Consumo da própria API: camada de requisição tipada, os quatro estados de tela (carregando, erro, vazio, sucesso), CORS pelo lado de quem apanha, CRUD completo com atualização otimista.
 - Rotas com React Router — a URL é estado.
-- **Motion (T10):** `transition` e `transform`, o que anima de graça e o que trava, entrada e saída de item da lista, transição de rota, gesto de arrastar, `prefers-reduced-motion` e medição de frame rate. Uma lib entra aqui — Framer Motion ou GSAP.
-- **Deploy no T11, não no fim:** a partir dele existe URL pública e todo tema fechado redeploya.
+- **Deploy no T10, não no fim:** a partir dele existe URL pública e todo tema fechado redeploya.
+- **Motion (T14):** `transition` e `transform`, o que anima de graça e o que trava, entrada e saída de item da lista, transição de rota, gesto de arrastar, `prefers-reduced-motion` e medição de frame rate. Uma lib entrou aqui — **Motion** (ex-Framer Motion), escolhida contra o GSAP.
 - Hooks a fundo (`useReducer`, `useRef`) e custom hooks, com performance medida no Profiler antes de memoizar; Context como transporte, não como gerenciador de estado.
 - Testes de componente com Vitest + Testing Library + MSW.
 - **Projeto:** front React conectado à API de tarefas da Etapa 2 → primeiro sistema completo rodando de ponta a ponta.
@@ -88,17 +90,19 @@ Regras transversais: commits diários no GitHub desde a Etapa 0 · uso de IA seg
 
 Desenvolvimento assistido por IA é habilidade de mercado e faz parte do plano — mas ela se constrói em camadas, porque quem não domina a base não consegue avaliar o que a IA produz, e avaliar é exatamente o que a empresa espera de quem usa IA. A progressão:
 
-**Etapas 0–1 — IA como tutor.** Explica conceitos, tira dúvidas, revisa seu código *depois* de pronto. Nunca gera solução. Habilidade treinada: fazer boas perguntas técnicas e entender respostas — a base de todo o resto.
+**Etapas 0–1 — IA como tutor. ✅ concluída (06–16/07).** Explica conceitos, tira dúvidas, revisa seu código *depois* de pronto. Nunca gera solução. Habilidade treinada: fazer boas perguntas técnicas e entender respostas — a base de todo o resto.
 
-**Etapa 2 — IA como revisor.** Ao fechar cada tema, peça um code review à IA: bugs, casos de borda, alternativas. Confronte o que ela aponta com as decisões que você tomou e entenda os trade-offs. Habilidade treinada: ler código criticamente e defender a própria escolha.
+**Etapa 2, temas 1–4 — IA como revisor. ✅ concluída (21–28/07).** Ao fechar cada tema, peça um code review à IA: bugs, casos de borda, alternativas. Confronte o que ela aponta com as decisões que você tomou e entenda os trade-offs. Habilidade treinada: ler código criticamente e defender a própria escolha. **A prova da fase:** o Tema 3 — a API inteira portada para TypeScript strict por você, zero código da IA.
 
-**Etapa 3 — IA como par de programação.** Liberada a geração de trechos pequenos (uma função, um componente), você entende cada linha antes de commita. Habilidade treinada: validar/entender código que você não escreveu.
+**Etapa 3 e retomada da Etapa 2 — IA como par de programação. 🔨 fase atual, desde 29/07.** Liberada a geração de trechos pequenos (uma função, um componente), com a condição de você entender cada linha antes de commitar. Habilidade treinada: validar/entender código que você não escreveu.
 
-> Com a inversão de 28/07, a fase **Par** começa na Etapa 3 e **vale dali em diante — inclusive na retomada da Etapa 2**. A trilha de IA avança com o calendário, não volta atrás: o back-end retomado já é trabalhado em regime de par, não de revisor.
+> **A fase Par não volta atrás.** Com a inversão de 28/07 ela começa na Etapa 3 e vale dali em diante — **inclusive na retomada da Etapa 2**, que já é trabalhada em regime de par, não de revisor (a regra 1 do `plano.md` de lá foi reescrita em 11/08 por causa disso). São 20 temas ao todo: os 14 do front, fechados, e os 6 que faltam no back.
+>
+> **Onde ela foi testada de verdade, e o que o teste mostrou:** no T13 do front ele delegou a suíte inteira de uma vez — primeira vez que delegou código, e não só documento — e logo em seguida cobrou a explicação **arquivo por arquivo, o que cada coisa faz**. A condição da fase se cumprindo por iniciativa dele. **O contraexemplo veio no mesmo dia:** na oral da Etapa 3, três "não sei" sobre decisões que ele mesmo tinha tomado e registrado. É o limite da fase Par escrito com todas as letras — entender no momento do commit não é o mesmo que saber defender depois, e é essa distância que a Etapa 4 vai cobrar.
 
-**Etapa 4 — IA como agente.** No capstone, partes do projeto são construídas com um agente de código (Claude Code ou similar): você especifica, o agente implementa, você revisa e testa. O README documenta o que foi assistido e como foi validado — isso vira *diferencial* de portfólio, não algo a esconder. Habilidade treinada: especificação, revisão e orquestração — o trabalho real de dev assistido por IA.
+**Etapa 4 — IA como agente. 🔒 bloqueada.** No capstone, partes do projeto são construídas com um agente de código (Claude Code ou similar): você especifica, o agente implementa, você revisa e testa. O README documenta o que foi assistido e como foi validado — isso vira *diferencial* de portfólio, não algo a esconder. Habilidade treinada: especificação, revisão e orquestração — o trabalho real de dev assistido por IA.
 
-**Etapa 5 — IA como pauta de entrevista.** Saber contar essa progressão é resposta forte para "como você usa IA?" — pergunta cada vez mais comum. Você terá evidência pública (commits, READMEs) de uso com critério, não dependência.
+**Etapa 5 — IA como pauta de entrevista. 🔒 bloqueada.** Saber contar essa progressão é resposta forte para "como você usa IA?" — pergunta cada vez mais comum. Você terá evidência pública (commits, READMEs) de uso com critério, não dependência.
 
 
 ## Trilha de Marca Pessoal — do perfil à audiência

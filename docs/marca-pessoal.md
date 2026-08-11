@@ -1,14 +1,14 @@
 # Trilha de Marca Pessoal
 
 > Painel de acompanhamento da presença pública (GitHub, LinkedIn, Twitch, posts) e **fonte única** da trilha de marca pessoal.
-> Última atualização: **28/07/2026** — backlog de posts reordenado pela inversão do cronograma (front antes do fim do back).
+> Última atualização: **11/08/2026** — Etapa 3 encerrada com o front no ar, e o estado real da trilha corrigido: **nenhum post saiu desde 27/07**.
 
 ## 📊 Progresso das camadas
 
 ```
 Etapa 1 · Fundação (perfil + rede)    ██████████████████████  100%  ✅ concluída
-Etapa 2 · Conteúdo (posts + rede)     ████░░░░░░░░░░░░░░░░░░   20%  🔨 em andamento
-Etapa 3 · Demo (posts com demo)       ░░░░░░░░░░░░░░░░░░░░░░    0%  🔓 abre com o front na tela
+Etapa 2 · Conteúdo (posts + rede)     ████░░░░░░░░░░░░░░░░░░   20%  ⏸️ parada desde 27/07
+Etapa 3 · Demo (posts com demo)       ░░░░░░░░░░░░░░░░░░░░░░    0%  🔓 aberta em 11/08, não usada
 Etapa 4 · Build in public (capstone)  ░░░░░░░░░░░░░░░░░░░░░░    0%  🔒 bloqueada
 Etapa 5 · Colheita (aplicações)       ░░░░░░░░░░░░░░░░░░░░░░    0%  🔒 bloqueada
 ```
@@ -16,28 +16,29 @@ Etapa 5 · Colheita (aplicações)       ░░░░░░░░░░░░░
 | Etapa | Camada | Foco | Estado |
 |:---:|---|---|:---:|
 | **1** | Fundação | Consertar perfis 1x + iniciar rede + post nº1 | ✅ Concluída |
-| **2** | Conteúdo | 2–3 posts/semana (nunca diário) + 10 min/dia comentando | 🔨 Em andamento |
-| **3** | Demo | Posts com demo visual do front React + 1º full stack rodando | 🔓 Abre no T6 do front *(tela + banco)* |
+| **2** | Conteúdo | 2–3 posts/semana (nunca diário) + 10 min/dia comentando | ⏸️ Parada |
+| **3** | Demo | Posts com demo visual do front React + 1º full stack rodando | 🔓 **Aberta** — o front está no ar desde 11/08 |
 | **4** | Build in public | Capstone "reporte-aqui" vira série de posts | 🔒 Bloqueada |
 | **5** | Colheita | Perfil e rede já prontos → só currículo, aplicações, entrevistas | 🔒 Bloqueada |
+
+> ⚠️ **O estado real, dito sem enfeite (11/08):** duas semanas de trabalho denso — front inteiro, deploy, testes, motion — e **zero post**. A camada 3 abriu com o link público e não foi usada. Isso não é atraso de cronograma, é o risco central da trilha: *sem link público não conta como terminado*, e a Etapa 5 só é colheita se a rede estiver aquecida antes. O acervo de matéria-prima nunca esteve tão cheio; falta publicar.
 
 ### 🗓️ Cronograma de posts da etapa
 
 | Semana | Posts (2–3) |
 |:---:|---|
 | **S1** (21–27/07) | ✅ **Por que reiniciei a etapa** *(21/07)* · ✅ **Testes verdes ≠ API correta** *(27/07)* |
-| **S2** (28/07–03/08) | ⬜ **SQL injection: quebrei minha própria API** *(demo real — quente do T4)* · ⬜ Minha primeira API respondendo *(print do Bruno)* |
-| **S3** (04–10/08) | ⬜ **Por que pausei o back-end no meio e fui pro front** *(decisão quente — o post mais honesto do acervo)* · ⬜ O que o TS strict pegou que o JS deixava passar |
-| **S4** (11–17/08) | ⬜ **Meu primeiro full stack: a tela falando com o meu banco** *(marco — GIF)* · ⬜ CORS visto do lado de quem apanha |
-| **S5** (18–24/08) | ⬜ Os 4 estados que toda tela tem — e o que ninguém testa *(carregando, erro, vazio, sucesso)* · ⬜ `useEffect`: o difícil é saber quando **não** usar |
-| **S6** (25–31/08) | ⬜ Testando front como usuário, não como programador *(Testing Library + MSW)* · ⬜ Por que Vitest e não Jest |
-| **S7+** (set) | ⬜ Retomada do back-end vira pauta: camadas · migration vs CREATE TABLE · auth e timing attacks · **URL pública** *(marco)* · Docker + CI. Acervo de manutenção: Etapa 0 *(hábitos antes de conteúdo)* · fundamentos web · projeto web da Etapa 1 *(print/GIF)* |
+| **S2–S4** (28/07–10/08) | ❌ **Nada publicado.** Eram: SQL injection na própria API · primeira API respondendo · a decisão de pausar o back · o que o TS strict pegou. Nenhum caducou — viraram acervo |
+| **S5** (11–17/08) | ⬜ **Meu primeiro full stack: a tela falando com o meu banco** *(marco — o link público)* · ⬜ **Por que pausei o back-end no meio e fui pro front** *(a decisão mais honesta do acervo, e agora com o resultado na mão)* · ⬜ Os 4 estados que toda tela tem — e o que ninguém testa |
+| **S6** (18–24/08) | ⬜ **O teste que achou o bug que 12 temas de clique não viram** *(o `aria-live` que nunca chegou ao DOM)* · ⬜ CORS visto do lado de quem apanha · ⬜ `useEffect`: o difícil é saber quando **não** usar |
+| **S7** (25–31/08) | ⬜ **Otimizei o bundle e ele ficou maior** *(o veredito do `LazyMotion`: −25 kB no caminho crítico, +2,55 kB no total)* · ⬜ Testando front como usuário, não como programador *(Testing Library + MSW)* · ⬜ **Nada memoizado porque nada precisou** *(medir antes de otimizar)* |
+| **S8+** (set) | ⬜ A retomada do back-end vira pauta: camadas · migration vs CREATE TABLE · auth e timing attacks · **URL pública da API** *(marco: o sistema fecha de ponta a ponta)* · Docker + CI. Acervo de manutenção: SQL injection · TS strict · Etapa 0 *(hábitos antes de conteúdo)* · projeto web da Etapa 1 |
 
-> 🔁 **Reordenado em 28/07:** os posts de camadas, migration, auth e deploy não sumiram — eles dependem de temas que ficaram do outro lado da pausa e voltam quando o back-end voltar. A regra de sempre continua valendo: **post de matéria-prima técnica só sai depois que a coisa aconteceu de verdade**.
+> 🔁 **Rebalanceado em 11/08.** A regra de sempre continua valendo: **post de matéria-prima técnica só sai depois que a coisa aconteceu de verdade** — e agora aconteceu muita coisa. Os posts de camadas, migration, auth e deploy continuam dependendo de temas da Etapa 2 que estão sendo retomados agora.
 
 ## ➡️ Próximas camadas
 
-**Etapa 3 — Demo:** posts com demo visual (front React, 1º full stack no ar) · live coding do projeto como conteúdo.
+**Etapa 3 — Demo (aberta desde 11/08):** posts com demo visual — o front React está no ar, o CRUD roda de ponta a ponta contra o Postgres, e o app se move. É GIF de graça, e o link já existe.
 
 **Etapa 4 — Build in public:** capstone `reporte-aqui` vira série (decisões, erros, code review, deploy) · README + série contam a mesma história da entrevista.
 
