@@ -1,8 +1,8 @@
 import { type Request, type Response, type NextFunction, Router } from 'express';
 import { AppError } from '../errors.js';
 import { HttpStatus } from '../constants/http-constants.js';
-import { parsePatchTask, parseTask, type Task } from '../tasks.js';
-import { queryDb } from '../db.js';
+import * as tasksService from '../services/tasks.service.js';
+import { asyncHandler } from '../middlewares/async-handler.js';
 const tasksRoutes = Router();
 
 const validateId = (req: Request<{ id: string }>, _res: Response, next: NextFunction) => {
@@ -15,38 +15,27 @@ const validateId = (req: Request<{ id: string }>, _res: Response, next: NextFunc
   next();
 };
 
-export const asyncHandler =
-  <P = Request['params']>(
-    fn: (req: Request<P>, res: Response, next: NextFunction) => Promise<unknown>,
-  ) =>
-  (req: Request<P>, res: Response, next: NextFunction) =>
-    Promise.resolve(fn(req, res, next)).catch(next);
+// A rota só lê request e monta response — regra de negócio e SQL saíram
+// daqui (Tema 6): moram em services/tasks.service.ts e
+// repositories/tasks.repository.ts.
 
 tasksRoutes.get(
   '/',
-  asyncHandler(async (_req: Request, res: Response) => {
-    const tasks = await queryDb<Task>(
-      'SELECT id, title, status, term FROM tasks ORDER BY created_at',
-    );
+  asyncHandler(async (req: Request, res: Response) => {
+    const { tasks, total } = await tasksService.listTasks(req.query);
 
-    res.json(tasks.rows);
+    // Corpo continua sendo o array puro — o front em produção já espera
+    // isso de GET /tasks. Paginação/total vêm por header, não por
+    // envelope, para não quebrar contrato ao vivo (ver api/README.md).
+    res.setHeader('X-Total-Count', String(total));
+    res.json(tasks);
   }),
 );
 
 tasksRoutes.post(
   '/',
   asyncHandler(async (req: Request, res: Response) => {
-    const parsedTask = parseTask(req.body);
-    const result = await queryDb<Task>(
-      'INSERT INTO tasks (title, status, term) VALUES ($1, $2, $3) RETURNING id, title, status, term',
-      [parsedTask.title, parsedTask.status, parsedTask.term],
-    );
-
-    const newTask = result.rows[0];
-
-    if (!newTask)
-      throw new AppError('Insert error in DB', HttpStatus.INTERNAL_SERVER_ERROR, 'Insert DB');
-
+    const newTask = await tasksService.createTask(req.body);
     return res.status(HttpStatus.CREATED).location(`/tasks/${newTask.id}`).json(newTask);
   }),
 );
@@ -55,14 +44,8 @@ tasksRoutes.get(
   '/:id',
   validateId,
   asyncHandler(async (req: Request<{ id: string }>, res: Response) => {
-    const id = req.params.id;
-
-    const result = await queryDb<Task>('SELECT id, title, status, term FROM tasks WHERE id = $1', [
-      id,
-    ]);
-    if (!result.rows[0]) throw new AppError('Not Found', HttpStatus.NOT_FOUND, 'id');
-
-    return res.json(result.rows[0]);
+    const task = await tasksService.getTaskById(req.params.id);
+    return res.json(task);
   }),
 );
 
@@ -70,40 +53,8 @@ tasksRoutes.patch(
   '/:id',
   validateId,
   asyncHandler(async (req: Request<{ id: string }>, res: Response) => {
-    const patchTask = parsePatchTask(req.body);
-    const id = req.params.id;
-    let stringPatch = 'UPDATE tasks SET';
-    let posArray = 1;
-    const arrayUpdate: Array<string | null> = [];
-
-    if (patchTask.title !== undefined) {
-      stringPatch = stringPatch + ` title = $${posArray++}`;
-      arrayUpdate.push(patchTask.title);
-    }
-    if (patchTask.status !== undefined) {
-      if (posArray > 1) stringPatch = stringPatch + ',';
-      stringPatch = stringPatch + ` status = $${posArray++}`;
-      arrayUpdate.push(patchTask.status);
-    }
-    if (patchTask.term !== undefined) {
-      if (posArray > 1) stringPatch = stringPatch + ',';
-
-      stringPatch = stringPatch + ` term = $${posArray++}`;
-      arrayUpdate.push(patchTask.term);
-    }
-
-    arrayUpdate.push(id);
-
-    const result = await queryDb<Task>(
-      stringPatch + ` WHERE id = $${posArray++} RETURNING id, title, status, term`,
-      arrayUpdate,
-    );
-
-    const task = result.rows[0];
-
-    if (!task) throw new AppError('Not Found', HttpStatus.NOT_FOUND, 'id');
-
-    return res.json(result.rows[0]);
+    const task = await tasksService.updateTask(req.params.id, req.body);
+    return res.json(task);
   }),
 );
 
@@ -111,14 +62,7 @@ tasksRoutes.delete(
   '/:id',
   validateId,
   asyncHandler(async (req: Request<{ id: string }>, res: Response) => {
-    const id = req.params.id;
-
-    const result = await queryDb<Pick<Task, 'id'>>('DELETE FROM tasks WHERE id = $1 RETURNING id', [
-      id,
-    ]);
-
-    if (!result.rows[0]) throw new AppError('Not Found', HttpStatus.NOT_FOUND, 'id');
-
+    await tasksService.deleteTask(req.params.id);
     return res.status(HttpStatus.NO_CONTENT).send();
   }),
 );
