@@ -81,6 +81,8 @@ npm run preview    # serve o dist/, que é o que a Vercel serve
 
 **O `LazyMotion` não economizou bytes — piorou o total em 2,55 kB**, que é o preço de dividir. O que ele fez foi tirar **25,11 kB gzip do caminho crítico**: a lib chega num chunk que não bloqueia a primeira tela, e o custo da animação no primeiro carregamento cai de +51% para +20% sobre a base. O mapa do bundle sai em `dist/stats.html` (`rollup-plugin-visualizer`).
 
+**Quadros:** `preview` com **CPU 4× slowdown**, criando e apagando cinco tarefas seguidas — **nenhum quadro perdido**. É consequência de só animar `transform` e `opacity`, que ficam no compositor; o dia em que alguma animação tocar `width`, `height` ou `box-shadow`, a medição precisa ser refeita.
+
 **Lighthouse na URL pública:** Performance 100 · Acessibilidade 100 · Boas práticas 96 · SEO 91 — medido em 11/08/2026, antes do `robots.txt` e do corte da requisição condenada.
 
 ## Stack
