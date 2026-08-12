@@ -7,21 +7,27 @@ import type { NewTask, TaskPatch } from '../validation/tasks.schema.js';
 // serviço (tasks.service.ts).
 const TASK_COLUMNS = 'id, title, status, term';
 
+// Linha crua com o dono — só usada internamente pra checar posse (Tema 8).
+// O serviço tira o owner_id antes de devolver pro cliente; a resposta
+// pública nunca expõe essa coluna, igual já era com created_at.
+export type TaskRow = Task & { owner_id: string | null };
+
 export type ListOptions = {
   limit: number;
   offset: number;
   status: Task['status'] | undefined;
   orderBy: 'created_at' | 'title';
   orderDir: 'ASC' | 'DESC';
+  ownerId: string;
 };
 
 export const findAll = (opts: ListOptions) => {
-  const values: unknown[] = [];
-  let where = '';
+  const values: unknown[] = [opts.ownerId];
+  let where = 'WHERE owner_id = $1';
 
   if (opts.status) {
     values.push(opts.status);
-    where = `WHERE status = $${values.length}`;
+    where += ` AND status = $${values.length}`;
   }
 
   values.push(opts.limit, opts.offset);
@@ -36,18 +42,25 @@ export const findAll = (opts: ListOptions) => {
   );
 };
 
-export const count = (status: Task['status'] | undefined) => {
-  if (status) return queryDb<{ count: string }>('SELECT count(*) FROM tasks WHERE status = $1', [status]);
-  return queryDb<{ count: string }>('SELECT count(*) FROM tasks');
+export const count = (ownerId: string, status: Task['status'] | undefined) => {
+  if (status) {
+    return queryDb<{ count: string }>(
+      'SELECT count(*) FROM tasks WHERE owner_id = $1 AND status = $2',
+      [ownerId, status],
+    );
+  }
+  return queryDb<{ count: string }>('SELECT count(*) FROM tasks WHERE owner_id = $1', [ownerId]);
 };
 
+// Sem filtro de dono de propósito: o serviço precisa da linha inteira
+// (owner_id incluso) pra decidir 404 × 403 — ver requireOwnership.
 export const findById = (id: string) =>
-  queryDb<Task>(`SELECT ${TASK_COLUMNS} FROM tasks WHERE id = $1`, [id]);
+  queryDb<TaskRow>(`SELECT ${TASK_COLUMNS}, owner_id FROM tasks WHERE id = $1`, [id]);
 
-export const insert = (task: NewTask) =>
+export const insert = (task: NewTask, ownerId: string) =>
   queryDb<Task>(
-    `INSERT INTO tasks (title, status, term) VALUES ($1, $2, $3) RETURNING ${TASK_COLUMNS}`,
-    [task.title, task.status, task.term],
+    `INSERT INTO tasks (title, status, term, owner_id) VALUES ($1, $2, $3, $4) RETURNING ${TASK_COLUMNS}`,
+    [task.title, task.status, task.term, ownerId],
   );
 
 export const update = (id: string, patch: TaskPatch) => {

@@ -1,4 +1,5 @@
 import express, { type Request, type Response, type NextFunction } from 'express';
+import helmet from 'helmet';
 import tasksRoutes from './routes/tasks.routes.js';
 import authRoutes from './routes/auth.routes.js';
 import morgan from 'morgan';
@@ -10,6 +11,11 @@ const TASKS_PREFIX = '/tasks';
 const AUTH_PREFIX = '/auth';
 const WEB_ORIGIN = 'http://localhost:5173';
 
+// Helmet: headers de segurança padrão (X-Content-Type-Options,
+// Strict-Transport-Security etc.). Primeiro middleware, antes até do CORS
+// — não interfere no que o CORS faz, só soma headers.
+app.use(helmet());
+
 // Middleware - CORS para o front da Etapa 3.
 // Exceção única ao congelamento da API. Vem antes de tudo para que a resposta de
 // erro também carregue o header — senão o navegador esconde o 400 atrás do CORS.
@@ -17,7 +23,9 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   res.setHeader('Access-Control-Allow-Origin', WEB_ORIGIN);
   res.setHeader('Vary', 'Origin');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  // Authorization somado no Tema 8 — sem isto, o preflight bloqueia o
+  // header do token antes mesmo da requisição sair do navegador.
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
   // Preflight: responde e encerra, sem passar pelas rotas.
   if (req.method === 'OPTIONS') {
@@ -31,9 +39,9 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 app.use(express.json());
 if (process.env.NODE_ENV !== 'test') app.use(morgan('dev'));
 
-// /auth ainda não é exigido por nenhuma rota de /tasks — wiring
-// deliberadamente adiado (ver notas do Tema 8): ligar requireAuth em
-// /tasks agora quebraria o front em produção, que não manda token.
+// Tarefa tem dono desde o Tema 8: /tasks exige token (requireAuth, ligado
+// dentro de tasks.routes.ts) e cada rota confere posse — 401 sem token,
+// 403 com token de outro usuário.
 app.use(AUTH_PREFIX, authRoutes);
 app.use(TASKS_PREFIX, tasksRoutes);
 

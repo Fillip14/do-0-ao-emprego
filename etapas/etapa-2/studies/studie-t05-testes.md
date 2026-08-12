@@ -1,6 +1,8 @@
 # Estudo — Testes a fundo (Tema 5)
 
-> Formato do plano (regra 6): **Parte A** = manual de consulta (por tópico: o que resolve · quando usar · exemplo · armadilhas) · **Parte B** = aplicação na `api/` · **Parte C** = questionário (respondido no devlog).
+> **Aberto em 28/07, congelado no meio, retomado em 11/08.** A Parte A ficou inteira; da Parte B **nada chegou na `api/`** — não existe `vitest.config.ts`, a suíte ainda é o `src/app.test.ts` de 300 linhas com `DELETE FROM tasks` e `pool.end()` soltos no topo. O trabalho começa do zero, o estudo não.
+>
+> **Formato realinhado em 11/08 à regra 6 reescrita** (a mesma da Etapa 3): **Parte A** = manual de consulta por tópico · **Parte B** = aplicação na `api/`, em preparação de ambiente + **dois blocos** (obrigatório, depois sugestões) · **Parte C** = as **três verificações**, e só elas. O questionário que ocupava a Parte C virou o [Apêndice](#apêndice--banco-de-perguntas-insumo-do-simulado): pela regra 8 ele não trava o fechamento do tema, é munição do simulado de entrevista do fim da etapa.
 >
 > **A API ganha:** suíte reorganizada — banco de teste isolado, fixtures e factories no lugar do improviso do Tema 4, cobertura medida.
 
@@ -260,14 +262,16 @@ export default defineConfig({
 
 Referência das opções: `vitest.dev/config`. Qual delas você usa e por quê é escolha sua.
 
-### 2. O que do tema deve ser usado na API
+### 2. Os blocos
 
-Partindo da linha "A API ganha" e expandindo:
+#### Bloco 1 — obrigatório
 
-- **A suíte sai de um arquivo só.** Hoje `src/app.test.ts` tem 300 linhas misturando teste de função pura, teste de rota e teste de erro. Separe por natureza (unitário × integração) e por assunto, com um lugar óbvio para o próximo teste cair. Onde os arquivos moram (`src/` ao lado do código × `test/`) é decisão sua — registre no `api/README.md`.
+Está em ordem de dependência: os três primeiros são infraestrutura e têm que vir **antes** de dividir a suíte.
+
 - **Infra de teste em um lugar só:** aplicar schema, limpar tabela, abrir/fechar pool. Hoje isso está solto no topo do `app.test.ts` (`process.loadEnvFile('.env')`, `DELETE FROM tasks`, `pool.end()`) e não sobrevive ao segundo arquivo de teste — o `pool.end()` do primeiro arquivo a terminar derruba o pool dos outros. Resolva antes de dividir.
 - **Guarda do banco alvo:** a suíte aborta se `PGDATABASE` não for `tasks_test`. Prove que a guarda funciona (rode uma vez apontando para o dev e veja falhar).
 - **`TRUNCATE` no lugar do `DELETE FROM tasks`**, e a decisão de paralelismo do tópico 15 tomada explicitamente.
+- **A suíte sai de um arquivo só.** Hoje `src/app.test.ts` tem 300 linhas misturando teste de função pura, teste de rota e teste de erro. Separe por natureza (unitário × integração) e por assunto, com um lugar óbvio para o próximo teste cair. Onde os arquivos moram (`src/` ao lado do código × `test/`) é decisão sua — registre no `api/README.md`.
 - **Factories** substituindo os literais repetidos e o `postTask()` que asserta: `makeTask(over)` monta payload, `createTask(over)` insere e devolve. Os UUIDs escritos à mão nos testes de PATCH (`75316765-...`) viram `randomUUID()` — hoje eles funcionam por acaso.
 - **`it.each`** nos blocos de 400 do POST e do PATCH, com o motivo do erro na tabela.
 - **`vitest run` volta à mesa.** Na revisão do T4 você adiou isso pro T10; este é o tema de testes, então a decisão se revisita aqui: o script `test` atual roda em watch e nunca termina. Se mantiver o adiamento, o motivo fica escrito — mas cobertura e "verde duas vezes seguidas" pedem uma passada que encerra.
@@ -275,7 +279,7 @@ Partindo da linha "A API ganha" e expandindo:
 - **Cobertura medida e lida:** rode, olhe a coluna `Uncovered Line #s`, e **escolha** o que vale cobrir — parte das linhas descobertas não deve virar teste (tópico 13). Registre no devlog o número e o que você decidiu ignorar.
 - **`api/README.md`** atualizado: como rodar a suíte, o que é banco de teste, a decisão de paralelismo, o número de cobertura.
 
-### 3. Critérios
+**Critérios de aceite do Bloco 1** — é por esta lista que a Parte C confere se a API migrou para o assunto do tema:
 
 - A suíte fica verde **duas vezes seguidas** sem limpeza manual, e existe um jeito de rodá-la em uma passada que encerra (`vitest run`) — script próprio ou decisão registrada de deixar pro T10.
 - A suíte está em mais de um arquivo e continua verde — inclusive rodando **um arquivo só** (`npx vitest run src/<arquivo>`).
@@ -287,19 +291,42 @@ Partindo da linha "A API ganha" e expandindo:
 - Zero `.only` no commit. Todo `.skip` tem motivo escrito ao lado.
 - `api/README.md` atualizado e commits `t05: ...` no push.
 
-### 4. Aguardar execução
+#### Bloco 2 — sugestões (médio/avançado)
+
+Nada aqui trava o fechamento do tema. Ordem sugerida de valor:
+
+- **Tempo falso** (tópico 7) num teste que hoje não existe: congelar o relógio e provar que o `created_at` que você asserta é o do **Postgres**, não o do Node — a armadilha está descrita na Parte A.
+- **`toMatchInlineSnapshot` no corpo de erro** (tópico 10), e só nele: trava o formato `{ errors: [{ field, message }] }` contra mudança acidental — que é justamente o formato que o front em `../etapa-3/web/` consome.
+- **Um ciclo de TDD de verdade** (tópico 12), vermelho primeiro, numa regra pequena que ainda não existe (`title` só com espaços, por exemplo). Aqui é ensaio; no Tema 6, quando a lógica sair da rota para o serviço, vira o modo natural de trabalhar.
+- **Property-based com `fast-check`** (tópico 14): `isNewTask` nunca lança, para qualquer entrada. Última prioridade do tema — só depois que fixtures, isolamento e cobertura estiverem de pé, e anote o `seed`.
+- **Isolar por worker em vez de serializar** (tópico 15): banco ou schema por `VITEST_POOL_ID`. Mais rápido e mais trabalhoso — só encare se serializar já estiver funcionando e você quiser o ganho.
+- **Limiar de cobertura no config** (`coverage.thresholds`) para a suíte falhar quando o número cair. É o gancho do Tema 10 (CI); pôr agora é adiantar trabalho, não requisito.
+
+### 3. Aguardar execução
 
 Você constrói, ponta a ponta. Eu fico quieto. Se travar, a pergunta é sua e eu respondo o conceito.
 
-### 5. Revisão do código
+### 4. Revisão do código
 
-Me chama no fim; eu leio a suíte inteira e aponto de forma simples onde estão os erros e o que faltou, pra você corrigir.
+Me chama no fim; eu leio a suíte inteira e aponto de forma simples onde estão os erros e o que faltou, pra você corrigir. O que cair aqui vira linha marcada com ⚠️ no devlog — e essa lista é a ordem de ataque do simulado (regra 8).
 
 ---
 
-# Parte C — Questionário
+# Parte C — Revisão do código
 
-> Respostas curtas no `devlog-etapa-2.md`.
+> As três verificações, e só elas. O tema **não fecha** com nenhuma delas em aberto — e nenhuma pergunta trava o fechamento (regra 8).
+
+1. **A API migrou para o assunto do tema?** Confira contra os *Critérios de aceite do Bloco 1*: infra centralizada, guarda do banco, `TRUNCATE`, suíte em mais de um arquivo, factories, `it.each`, teste do 500 e cobertura rodando.
+2. **`npm run typecheck` limpo?**
+3. **Testes verdes?** — e neste tema a barra é mais alta que "passou": verde **duas vezes seguidas**, sem limpeza manual, e verde também rodando **um arquivo isolado**.
+
+Fechando: `api/README.md` atualizado, `plano.md` e README da raiz marcados, commits `t05: ...` no push conferido.
+
+---
+
+# Apêndice — banco de perguntas (insumo do simulado)
+
+> **Isto não é a Parte C.** Era o questionário do formato antigo; pela regra 8 a defesa oral acontece **uma vez, no fim da etapa**, no simulado de entrevista depois do Tema 10 — falado, curto, com contra-argumento em cima. Estas 35 perguntas ficam aqui como a munição do Tema 5 para aquele dia, com prioridade para o que estiver marcado com ⚠️ no devlog. Nenhuma delas precisa ser respondida agora, e nenhuma delas segura o fechamento do tema.
 
 1. Unitário, integração e e2e: dê um exemplo de cada **na sua API**. Por que `supertest(app)` não é e2e?
 2. Qual pergunta você faz para decidir em que andar um teste novo mora?

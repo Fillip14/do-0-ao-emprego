@@ -6,7 +6,7 @@
 
 <p align="center">
   <img alt="Stack" src="https://img.shields.io/badge/stack-JS%2FTS%20full%20stack-f7df1e?style=for-the-badge&logo=javascript&logoColor=black">
-  <img alt="Etapa atual" src="https://img.shields.io/badge/etapa%20atual-2%20(retomada)-339933?style=for-the-badge">
+  <img alt="Etapa atual" src="https://img.shields.io/badge/etapas%200--3-conclu%C3%ADdas-339933?style=for-the-badge">
   <img alt="Status" src="https://img.shields.io/badge/status-em%20andamento-2ea44f?style=for-the-badge">
   <img alt="Meta" src="https://img.shields.io/badge/meta-pronto%20para%20aplicar-8a2be2?style=for-the-badge">
 </p>
@@ -53,20 +53,22 @@ Agente  · implementa sob a minha especificação      ░░░░░░░░�
 Pauta   · a progressão vira resposta de entrevista  ░░░░░░░░░░░░░░░░░░░░░░    0%  🔒 abre na Etapa 5
 ```
 
-> A fase **Par** começou em 29/07 e **não volta atrás**: ela cobre os 14 temas da Etapa 3 (fechados) e os 6 que faltam na retomada da Etapa 2 — daí os 70%. O teste dela veio no T13 do front, quando delegei a suíte inteira de uma vez e depois cobrei a explicação **arquivo por arquivo**: código que eu não escrevi só entra se eu souber defender.
+> A fase **Par** começou em 29/07 e cobriu os 14 temas da Etapa 3 (fechados) — daí os 70%, **congelados aí**: a Etapa 2 encerrou em 11/08 sem passar pelos 6 temas que faltavam nela (Temas 5–10), então o contador nunca vai subir além disso nesse formato. O teste dela veio no T13 do front, quando delegei a suíte inteira de uma vez e depois cobrei a explicação **arquivo por arquivo**: código que eu não escrevi só entra se eu souber defender.
+>
+> **Exceção registrada em 11/08:** os Temas 5, 6 e 8 (básico) da Etapa 2 saíram fora do molde do Par — pedi pra IA escrever direto, sem trecho pequeno por trecho pequeno. O contador acima não subiu por causa disso; o que valida esses três temas é o código rodando, verificado por mim (testes, cobertura, suíte isolada, `/auth` testado na mão), não a disciplina do Par. **No mesmo dia, decidi encerrar a Etapa 2** sem os Temas 4 (questionário), 7, 9 e 10, e sem a metade do Tema 8 que ficava no front — cansaço com o projeto, prioridade em seguir para outros estudos. Detalhe em [`etapas/etapa-2/plano.md`](etapas/etapa-2/plano.md#encerramento) e resumo do que ficou pra trás em [`etapas/etapa-2/studies/pendencias-nao-feitas-11-08.md`](etapas/etapa-2/studies/pendencias-nao-feitas-11-08.md).
 
 Cronograma de datas está dentro do `cronograma-etapas.md`, datas detalhadas nos planos das etapas.
 
 ```
 Etapa 0 · Rigor e Git                 ██████████████████████  100%  ✅ aprovada
 Etapa 1 · JS sólido + fundamentos web ██████████████████████  100%  ✅ aprovada
-Etapa 2 · Back-end: da API ao deploy  █████████░░░░░░░░░░░░░   40%  🔨 4 de 10 temas — retomada em andamento
+Etapa 2 · Back-end: da API ao deploy  ███████████████░░░░░░░   70%  ✅ 7 de 10 temas — encerrada incompleta em 11/08
 Etapa 3 · Front-end (React)           ██████████████████████  100%  ✅ 14 de 14 temas — encerrada em 11/08
 Etapa 4 · Capstone "reporte-aqui"     ░░░░░░░░░░░░░░░░░░░░░░    0%  🔒 bloqueada
 Etapa 5 · Portfólio e busca           ░░░░░░░░░░░░░░░░░░░░░░    0%  🔒 bloqueada
 ```
-> 🔁 **Inversão em 28/07:** a Etapa 2 foi pausada no meio do Tema 5 e o front entrou na frente. O back-end retoma do ponto exato onde parou. Consequência assumida: o front consome a API **local, sem login** — auth e deploy ficaram do outro lado da pausa e entram na retomada.
-> 🔓 Cada etapa só abre depois que a IA **avalia e aprova** a anterior — pendência bloqueia a próxima.
+> 🔁 **Inversão em 28/07:** a Etapa 2 foi pausada no meio do Tema 5 e o front entrou na frente. Retomada em 11/08 do ponto exato onde parou, e **encerrada no mesmo dia**, por decisão dele — cansaço com o projeto, prioridade em seguir para outros estudos. Consequência assumida e permanente: o front consome a API **local, sem login** — `/tasks` exige token desde o Tema 8 e o front nunca chegou a mandar um; auth de ponta a ponta e deploy (Temas 8-front e 9) não vão acontecer nesta etapa. Detalhe em [`etapas/etapa-2/plano.md`](etapas/etapa-2/plano.md#encerramento).
+> 🔓 Cada etapa só abre depois que a IA **avalia e aprova** a anterior — pendência bloqueia a próxima. Etapas 0–3 estão todas encerradas; a Etapa 4 segue bloqueada até uma decisão sobre quando retomar o cronograma.
 
 
 ## 📊 Progresso
@@ -76,7 +78,7 @@ Etapa 5 · Portfólio e busca           ░░░░░░░░░░░░░�
 **29/07 a 11/08** · 14 de 14 temas · app vivo em `web/`, no ar, com 25 testes verdes.
 
 
-🌐 **No ar desde 11/08: https://do-0-ao-emprego.vercel.app** — o front está publicado, mas a **API roda localmente** e ainda não foi publicada (é o T9 da Etapa 2). O link abre o app e explica isso na tela; para ver o CRUD funcionando é preciso rodar os dois localmente. Detalhes no [`web/README.md`](etapas/etapa-3/web/README.md).
+🌐 **No ar desde 11/08: https://do-0-ao-emprego.vercel.app** — o front está publicado, mas a **API roda só localmente** e não foi publicada (era o T9 da Etapa 2, que encerrou sem chegar lá); o link abre o app e explica essa parte na tela. **O que a tela não avisa:** desde o T8 a API passou a exigir token e o front nunca chegou a mandar um — mesmo rodando os dois localmente, o CRUD não funciona hoje. Detalhes no [`web/README.md`](etapas/etapa-3/web/README.md#limitações).
 
 | Tema | Assunto | Status |
 |:---:|---|:---:|
@@ -95,7 +97,7 @@ Etapa 5 · Portfólio e busca           ░░░░░░░░░░░░░�
 | **T13** | Testes de front — Vitest, Testing Library, MSW | ✅ |
 | **T14** | **Motion e interação** — transition, gesto, **Motion** (ex-Framer Motion), 60fps | ✅ |
 
-### 🔨 Etapa 2 — Back-end · pausada em 28/07 no meio do T5, **retomada liberada em 11/08**
+### ✅ Etapa 2 — Back-end · pausada em 28/07 no meio do T5, retomada e **encerrada incompleta em 11/08**
 
 | Tema | Assunto | Status |
 |:---:|---|:---:|
@@ -103,14 +105,16 @@ Etapa 5 · Portfólio e busca           ░░░░░░░░░░░░░�
 | **T2** | Express — rotas, middleware, validação, erro central, supertest | ✅ |
 | **T3** | TypeScript — strict, narrowing, generics, utility types, **API portada para TS** | ✅ |
 | **T4** | PostgreSQL — SQL, `pg`, injection, transações | ✅ |
-| **T5** | Testes a fundo — pirâmide, mocks, cobertura, TDD · _ponto de retomada_ | ⏳ |
-| **T6** | Camadas + paginação, filtros, zod | ⬜ |
+| **T5** | Testes a fundo — pirâmide, mocks, cobertura, TDD · _ponto de retomada_ | ✅ |
+| **T6** | Camadas + paginação, filtros, zod | ✅ |
 | **T7** | Migrations + ORM | ⬜ |
-| **T8** | Auth + segurança de borda | ⬜ |
+| **T8** | Auth + segurança de borda | ✅* |
 | **T9** | Deploy — banco gerenciado, health, logs, auto-ataque | ⬜ |
 | **T10** | Docker + CI | ⬜ |
 
-**Legenda:** ✅ concluída · ⏳ em andamento · ⏸️ congelada · ⬜ a fazer
+**Legenda:** ✅ concluída · ⬜ não feita, etapa encerrada antes de chegar lá
+
+\* T8 fechado no básico e no back-end inteiro: hash+salt, JWT, `/auth/register`+`/auth/login` testados na mão, dono da tarefa (`owner_id`, `requireAuth` em `/tasks`, 403), CORS a fundo, Helmet. Front (login, guarda de rota real, token no fetch), refresh token/logout, 2FA/OAuth e OWASP a fundo não aconteceram — a etapa encerrou antes. Resumo do que ficou pra trás em cada tema (T4, T7, T8, T9, T10): [`etapas/etapa-2/studies/pendencias-nao-feitas-11-08.md`](etapas/etapa-2/studies/pendencias-nao-feitas-11-08.md).
 
 ## 📅 Diário de bordo
 
@@ -151,6 +155,7 @@ O que foi estudado dia a dia.
 | 26/07 | **T4 — PostgreSQL** — null de verdade, LIKE/ILIKE, agregações, UNIQUE, índices, EXPLAIN, FK, JOIN, CASCADE, pg e SQL injection |
 | 27–28/07 | **T4 — PostgreSQL** — API persistida: pool, queries parametrizadas, `RETURNING`, banco de teste |
 | 28/07 | **T5 — Testes a fundo** — pirâmide, AAA, hooks, fixtures e factories, `it.each`, dublês, cobertura, isolamento de banco · **etapa pausada aqui** |
+| 11/08 | **Retomada.** **T5 — fechado** — guarda de banco de teste, `TRUNCATE` no lugar do `DELETE`, factories, suíte dividida em três arquivos, cobertura lida (80% stmts / 66% branch) com decisão registrada do que ficou sem teste e por quê · **T6 — fechado** — rota/serviço/repositório separados, validação com zod na borda, `GET /tasks` com paginação/filtro/ordenação segura (allow-list contra injection no `ORDER BY`), e o erro por campo que o front esperava desde a Etapa 3 (`ApiError.fieldErrors`) finalmente pago · **T8 — back-end inteiro fechado** — hash com bcrypt, JWT, `/auth/register` e `/auth/login` testados na mão, dono da tarefa (`owner_id`), `requireAuth` em `/tasks`, `403` pra quem não é dono, CORS liberando `Authorization`, Helmet · **fora do método normal, registrado**: os três saíram da IA direto na `api/`, sem par de programação — decisão minha, sabendo o que abri mão (T6 e T8 não tiveram `studie-tNN` próprio, só um resumo condensado) · **Etapa 2 encerrada incompleta no mesmo dia** — decisão minha, cansaço com o projeto e vontade de seguir para outros estudos; T4 (questionário), T7 (migrations/ORM, chegou a começar e foi revertido), T8-front, T9 (deploy) e T10 (Docker/CI) ficaram sem fazer, registrados em [`etapas/etapa-2/plano.md`](etapas/etapa-2/plano.md#encerramento) e [`etapas/etapa-2/studies/pendencias-nao-feitas-11-08.md`](etapas/etapa-2/studies/pendencias-nao-feitas-11-08.md) |
 
 ### Etapa 3 — Front-end: React
 
@@ -182,7 +187,7 @@ do-0-ao-emprego/
 └── etapas/
     ├── etapa-0/
     ├── etapa-1/
-    ├── etapa-2/          🔨 retomada a partir do Tema 5
+    ├── etapa-2/          ✅ encerrada incompleta em 11/08 — API viva, roda só local
     │   ├── api/          ← a API, servindo o front
     │   ├── archived/
     │   └── studies/
@@ -192,7 +197,7 @@ do-0-ao-emprego/
 ```
 
 [`docs/cronograma-etapas.md`](docs/cronograma-etapas.md) — o plano de 6 meses inteiro ·
-[`etapas/etapa-2/plano.md`](etapas/etapa-2/plano.md) — a etapa em andamento ·
+[`etapas/etapa-2/plano.md`](etapas/etapa-2/plano.md) — a etapa encerrada, com o fechamento registrado ·
 [`etapas/etapa-2/api/README.md`](etapas/etapa-2/api/README.md) — o contrato da API ·
 [`etapas/etapa-3/plano.md`](etapas/etapa-3/plano.md) — a etapa encerrada, tema a tema ·
 [`etapas/etapa-3/web/README.md`](etapas/etapa-3/web/README.md) — o contrato do front

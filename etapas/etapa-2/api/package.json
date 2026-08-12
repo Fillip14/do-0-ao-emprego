@@ -9,22 +9,32 @@
   "scripts": {
     "dev": "PGDATABASE=tasks_dev tsx watch --env-file=.env src/server.ts",
     "typecheck": "tsc --noEmit",
-    "test": "npm run typecheck && NODE_ENV=test PGDATABASE=tasks_test vitest",
+    "test": "npm run typecheck && NODE_ENV=test PGDATABASE=tasks_test vitest run",
+    "test:watch": "NODE_ENV=test PGDATABASE=tasks_test vitest",
+    "test:coverage": "NODE_ENV=test PGDATABASE=tasks_test vitest run --coverage",
     "build": "tsc -p tsconfig.build.json",
     "db:schema": "psql -h localhost -U fillip -d tasks_dev -f sql/schema.sql && psql -h localhost -U fillip -d tasks_test -f sql/schema.sql"
   },
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "express": "^5.2.1",
+    "express-rate-limit": "^7.4.1",
+    "helmet": "^8.0.0",
+    "jsonwebtoken": "^9.0.2",
     "morgan": "^1.11.0",
-    "pg": "^8.22.0"
+    "pg": "^8.22.0",
+    "zod": "^4.0.0"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
     "@types/express": "^5.0.6",
+    "@types/jsonwebtoken": "^9.0.7",
     "@types/morgan": "^1.9.10",
     "@types/node": "^26.1.1",
     "@types/pg": "^8.20.0",
     "@types/supertest": "^7.2.1",
     "@usebruno/cli": "^4.0.0",
+    "@vitest/coverage-v8": "^4.1.10",
     "supertest": "^7.2.2",
     "tsx": "^4.23.1",
     "typescript": "^7.0.2",

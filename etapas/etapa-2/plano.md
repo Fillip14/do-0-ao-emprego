@@ -1,26 +1,34 @@
 # Etapa 2 — Back-end completo
 
-> 🔨 **ETAPA VIGENTE — retomada liberada em 11/08/2026, a partir do Tema 5.** Ficou pausada de 28/07 a 11/08 enquanto a Etapa 3 (front-end React) passava na frente; volta do ponto exato onde parou — nada foi descartado, nada será refeito. Front encerrado e no ar: [`../etapa-3/plano.md`](../etapa-3/plano.md).
+> ✅ **Encerrada incompleta em 11/08/2026, por decisão dele.** Retomada nesse mesmo dia a partir do Tema 5 (pausada desde 28/07 enquanto a Etapa 3 corria) e fechada horas depois — cansaço declarado do projeto, prioridade em seguir para outros estudos. Nada do que já rodava foi descartado; o que ficou sem fazer está registrado, resumido, em [`studies/pendencias-nao-feitas-11-08.md`](studies/pendencias-nao-feitas-11-08.md). Detalhe completo do fechamento na seção **Encerramento**, no fim deste arquivo. Front encerrado e no ar: [`../etapa-3/plano.md`](../etapa-3/plano.md).
 >
-> **Históricos** · `archived/archive-stage-complete/`, `archived/archive-t03/` · **23/07/2026** alterado metodologia de estudo · ~~Avaliação alvo: 30/07/2026~~ → **a redefinir**
+> **Históricos** · `archived/archive-stage-complete/`, `archived/archive-t03/` · **23/07/2026** alterado metodologia de estudo
 
-## Estado na retomada
+## Estado no encerramento (11/08)
 
-**Fechados:** Temas 1 a 4 — a API roda em TypeScript strict, com Express, erro central e tarefas persistidas em PostgreSQL via `pg`.
+**Fechados:** Temas 1 a 6 e 8 (básico, back-end) — 7 de 10 temas. A API roda em TypeScript strict, com Express, erro central, camadas (rota/serviço/repositório), validação com zod, tarefas persistidas em PostgreSQL via `pg`, e autenticação: hash com `bcrypt`, JWT, `requireAuth` em `/tasks`, dono da tarefa (`owner_id`), `403` pra quem não é dono, CORS liberando `Authorization`, Helmet.
 
-**Em aberto:**
+**Não fechados — e não serão nesta etapa:**
 
-- **Tema 5 (Testes a fundo)** — aberto em 28/07 (`studies/studie-t05-testes.md`), congelado no meio. **Retomar por aqui.**
-- **Tema 4** — questionário pendente. Deixou de ser dívida: foi absorvido pelo simulado do fim (regra 8).
-- **Temas 6 a 10** — não iniciados. Os *dias sugeridos* deles caducaram com a pausa; a sequência dos temas continua valendo, as datas não.
+- **Tema 4** — questionário nunca respondido. Não foi absorvido pelo simulado do fim (regra 8) porque o simulado não aconteceu.
+- **Tema 7 (Migrations + ORM)** — aberto e pausado no meio, depois **revertido**: Prisma desinstalado, `prisma/` e `prisma.config.ts` removidos. Nada dele chegou a ficar integrado ao código real (que segue só em `pg`).
+- **Tema 8, o front** — `RequireAuth` segue sempre autenticado, sem tela de login, sem token no fetch. Decisão explícita: não fechar hoje. Efeito colateral aceito: `/tasks` agora exige token e o front não manda nenhum, então o CRUD contra a API local está quebrado até isso ser retomado — ver nota no [`web/README.md`](../etapa-3/web/README.md#limitações).
+- **Tema 8, avançado** — refresh token/logout, 2FA/OAuth, OWASP Top 10 a fundo: nunca abriram.
+- **Tema 9 (Deploy)** — não feito. A API roda só local, sem URL pública.
+- **Tema 10 (Docker + CI)** — não iniciado.
+- **A oral** (regra 7) — não aconteceu.
 
-**A API deixou de estar congelada.** O congelamento valeu durante a Etapa 3, com uma exceção única já entregue em 09/08: CORS para `http://localhost:5173`, middleware na mão em `app.ts`, primeiro da cadeia. O contrato continua em [`api/README.md`](api/README.md) — e agora **quem lê esse contrato é um front que existe**: mudança de rota, de formato de erro ou de campo quebra o app de verdade, que roda em `../etapa-3/web/`.
+Resumo enxuto de cada tema não feito — só o suficiente pra retomar estudo se um dia fizer sentido: [`studies/pendencias-nao-feitas-11-08.md`](studies/pendencias-nao-feitas-11-08.md).
 
-**O front já deixou duas coisas esperando:** o **erro por campo** (a API devolve um erro só, com `field: 'task'`, e o `ApiError.fieldErrors` do front está escrito e sem cliente — endereço no Tema 6, com zod) e o **aviso de demonstração duplicado**, que morre sozinho quando o Tema 9 der URL pública à API. Lista completa nas *Limitações* do [`web/README.md`](../etapa-3/web/README.md).
+> **11/08 — sessão fora do método normal, a pedido explícito, e exceção registrada:** os Temas 5, 6 e 8 (básico) foram escritos pela IA direto na `api/`, sem par de programação — o Tema 5 já tinha `studie-t05-testes.md` completo (Parte A/B/C) de antes da pausa; **Temas 6 e 8 não tiveram `studie-tNN` próprio** (regra 5 não seguida à risca), só o resumo condensado em [`studies/resumo-temas-5-10-miolo.md`](studies/resumo-temas-5-10-miolo.md). Fechamento decidido por ele, informado do que isso significa: o código rodando e verificado (`npm install`+`typecheck`+`test` verdes, cobertura lida, suíte isolada, formato de erro por campo confirmado contra o front local, `/auth/register`+`/auth/login` testados na mão) substitui o material de estudo formal desta vez. Detalhe completo em [`studies/pendencias-temas-5-8-11-08.md`](studies/pendencias-temas-5-8-11-08.md).
 
-**O que fecha o sistema:** ao fechar o **Tema 8** (auth), o front ganha login e guarda de rota — o `RequireAuth` já está desenhado, chumbado em `true`; ao fechar o **Tema 9** (deploy), `VITE_API_URL` aponta para a URL pública e o front é reconstruído. Só aí o sistema fica completo de ponta a ponta.
+**A API não volta a ficar congelada — e para nesse estado.** O congelamento valeu durante a Etapa 3, com uma exceção única já entregue em 09/08: CORS para `http://localhost:5173`, middleware na mão em `app.ts`, primeiro da cadeia. O contrato continua em [`api/README.md`](api/README.md), e quem lia esse contrato era um front que existe — mas com o Tema 8 fechando só no back-end, esse front hoje **não consegue mais falar com a API**: `/tasks` exige token, o front não manda nenhum, toda chamada recebe `401`.
 
-**Profundidade dos temas 5 a 10 — decidido em 28/07:** um diagnóstico de perfil recomendou rebaixar PostgreSQL, Docker e CI a "nível de sobrevivência de entrevista". **Recusado.** Os temas 7 (migrations + ORM) e 10 (Docker + CI) continuam com o escopo que está escrito abaixo, sem corte. A etapa volta inteira.
+**O front ficou com três coisas esperando, uma paga:** o **erro por campo** foi pago no Tema 6 (zod na borda) — o `ApiError.fieldErrors` do front, escrito e sem cliente desde a Etapa 3, recebe o formato certo, mas isso não foi verificado pela tela, só via curl. Continuam esperando o **aviso de demonstração duplicado** (morreria com URL pública, Tema 9, que não aconteceu) e, agora, o **login** (Tema 8 front, que não aconteceu). Lista completa nas *Limitações* do [`web/README.md`](../etapa-3/web/README.md).
+
+**O sistema fica incompleto de ponta a ponta — decisão registrada, não pendência esquecida.** O Tema 8 básico deu à API `/auth/register`, `/auth/login` e exigência de token em `/tasks`; o front nunca chegou a consumir isso. Fechar de verdade exigiria o resto do Tema 8 (login no front) e o Tema 9 (deploy, `VITE_API_URL` apontando pra URL pública) — nenhum dos dois vai acontecer nesta etapa.
+
+**Profundidade dos temas 5 a 10 — decidido em 28/07, revisado em 11/08:** um diagnóstico de perfil recomendou rebaixar PostgreSQL, Docker e CI a "nível de sobrevivência de entrevista". Foi **recusado** na ocasião — mas essa recusa valia para quando a etapa fosse retomada de verdade. Ela foi retomada e encerrada no mesmo dia, por decisão dele: os Temas 7 e 10 não chegaram a rodar com esse escopo nem com nenhum outro.
 
 ## Objetivo
 
@@ -28,16 +36,15 @@ Construir o **lado do servidor**: uma API REST de tarefas completa — rotas com
 
 ## Regras da etapa
 
-> **Regras 1, 4 e 6 reescritas em 11/08, na retomada**, para o regime que a Etapa 3 deixou funcionando. A trilha de IA anda com o calendário e não volta atrás (está no `cronograma-etapas.md`), e o formato de estudo em três partes é o que ele reescreveu duas vezes durante o front. O texto anterior — fase revisor, `studie` em duas partes, sem Parte C — vale como histórico dos Temas 1 a 4.
-
 1. **Trilha de IA — fase PAR DE PROGRAMAÇÃO** (desde 29/07). Liberada a geração de **trechos pequenos** (uma função, um middleware, um tipo), com **uma condição: você entende cada linha antes de commitar** — se não entende, pergunta ou reescreve. Habilidade treinada: validar e entender código que você não escreveu.
 2. **Commits diários** no GitHub, push conferido.
 3. **Stack travada:** Ideias novas no meio do caminho → [`ideias-depois.md`](../../ideias-depois.md).
 4. **Um tema só fecha quando a Parte C estiver concluída**: o que o tema entrega está na `api/` rodando, `npm run typecheck` limpo, `npm test` verde, tudo commitado e no push. **Pergunta nenhuma trava o fechamento de um tema** (ver regra 8).
 5. **O contrato da API mora no `api/README.md`** rotas, status, formato de erro, arquitetura, como rodar, URL de produção. Uma fonte de verdade só, e é a que quem visita o repositório lê — **e a que o front em `../etapa-3/web/` consome**.
-6. **`studie-tNN-tema.md` na abertura de cada tema**, feito pela IA em três partes. **Parte A:** por tópico — *1- O que é* (descrever funções/métodos do tópico); *2- Para que serve, o que substitui, o que diminui/refatora/facilita*; *3- Exemplo pequeno*. **Parte B:** alterações na `api/` — *1- Preparação do ambiente* (setup de ferramenta, quando houver: é atrito, não aprendizado); *2- Os blocos*: Bloco 1, o que a API tem que fazer/ter agora (obrigatório); Bloco 2, sugestões médio/avançado. Toda a Parte B em tópicos, simples e breve. **Parte C:** revisão do código — a API migrou para o assunto do tema? typecheck ok? testes verdes?
-7. **Autonomia na aplicação.** A Parte A é consulta, a Parte B é enunciado — não roteiro.
-8. **A defesa oral acontece uma vez, no fim: o simulado de entrevista**, depois do Tema 10 e imediatamente antes da avaliação da etapa — é o último bloco, não um extra opcional. São as perguntas da seção **Oral** da Avaliação, uma por tema, no formato de entrevista: eu respondo falado e curto (2–3 frases), a IA contra-argumenta em cima, e o que não se sustentar me manda de volta à Parte A daquele tema. Durante os temas **não há pergunta nenhuma** — perguntar no fim do dia, com o tema já entregue e a energia no fim, trava a evolução e vira burocracia abstrata (decidido em 29/07, depois do T1 da Etapa 3, e trazido para cá). O contrapeso é o ⚠️: o que cair **na revisão da Parte B** — que é trabalho, não prova — vira uma linha marcada no devlog, e essa lista é a ordem de ataque do simulado. **O questionário pendente do Tema 4 deixa de ser dívida e é absorvido pelo simulado.**
+5. **`studie-tNN-tema.md` na abertura de cada tema**, feito pela IA em três partes. **Parte A:** _1- O que é (descrever funções/metódos do tópico). 2- Para que serve, o que substitui, diminui algo do código, refatora, facilita, etc? 3- Exemplo pequeno. **Parte B:** alterações no app — \_1- Preparação do ambiente_ (setup de ferramenta se tiver); _2- Os blocos_: Bloco 1: o que é para o app fazer/ter agora. Bloco 2: sugestões de alterações médio/avançado para colocar no app. Toda a Parte B em tópicos, simples, breve. **Parte C:** revisão do código. Verificar se o app foi migrado para o assunto do tema (as alterações obrigatórias do tema), se ele está typecheck ok e se os testes estão verdes (caso já tenha testes).
+6. **Um tema só fecha quando a parte C estiver concluida**
+7. **A defesa oral acontece uma vez, no fim: o simulado de entrevista**, depois do Tema 14 e imediatamente antes da avaliação de 12/08 — é o último bloco da etapa, não um extra opcional. São as 14 perguntas da Avaliação, uma por tema, no formato de entrevista — eu respondo falado e curto (2–3 frases), a IA contra-argumenta em cima, e o que não se sustentar me manda de volta à Parte A daquele tema.
+8. **A partir do Tema 9 (deploy), o que está na `main` está no ar.** Tema fechado sem redeploy é tema não fechado; sem URL pública respondendo, não conta como terminado. Até lá o alvo é a suíte verde no push; do Tema 9 em diante são as duas coisas. Vale para a `api/` e, no dia em que o `VITE_API_URL` do front passar a apontar para a URL pública, para o sistema inteiro.
 
 ## Estrutura de pastas
 
@@ -126,7 +133,7 @@ etapas/etapa-2/
 11. SQL injection.
 12. Transação pelo Node.
 
-### Tema 5 — Testes a fundo · *dia sugerido 25/07* · 🔨 aberto em 28/07, congelado no meio · ⏳ **ponto de retomada da etapa (11/08)**
+### Tema 5 — Testes a fundo · *dia sugerido 25/07* · aberto em 28/07, congelado no meio · ✅ **Feito (11/08)**
 **A API ganha:** suíte reorganizada — banco de teste isolado, fixtures e factories no lugar do improviso do Tema 4, cobertura medida.
 
 **Tópicos de estudo sugeridos**
@@ -147,7 +154,7 @@ etapas/etapa-2/
 14. Property-based.
 15. Testes contra banco: banco de teste, limpeza entre testes, o que isolar e o que não.
 
-### Tema 6 — Arquitetura em camadas + listas de verdade · *dia sugerido 13/08*
+### Tema 6 — Arquitetura em camadas + listas de verdade · *dia sugerido 13/08* · ✅ **Feito (11/08)**
 **A API ganha:** rota, serviço e repositório separados; `GET /tasks` com paginação, filtro e ordenação segura; validação com zod na borda.
 
 **Tópicos de estudo sugeridos**
@@ -163,8 +170,12 @@ etapas/etapa-2/
 9. Filtros e busca.
 10. Ordenação segura.
 
-### Tema 7 — Migrations + ORM · *dia sugerido 14/08*
+### Tema 7 — Migrations + ORM · *dia sugerido 14/08* · ⬜ **não feito** — aberto e revertido em 11/08
 **A API ganha:** schema versionado em migrations com up/down + seed — nenhuma tabela criada à mão sobrevive.
+
+> **Ponto de pausa (11/08):** Prisma escolhido (cobre migration + ORM num tool só; o `pg` continua sendo quem a API usa de verdade, o Prisma é schema versionado + estudo/comparação). Já feito: `npm install -D prisma`, `npm install @prisma/client`, `npx prisma init`, `DATABASE_URL` corrigido no `.env` pra apontar `tasks_dev`, `npx prisma db pull` (introspectou `tasks`/`users` certinho, `_check_ constraints` não suportadas pelo Prisma — esperado, continuam valendo no banco). **Faltando decidir:** nome dos models (`@@map`, cosmético) e `ON DELETE` da FK `owner_id → users.id` (cascade / set null / bloquear — decisão de comportamento real). Depois disso: `prisma migrate dev --create-only --name baseline` + `prisma migrate resolve --applied` pra registrar o schema atual como ponto de partida sem recriar as tabelas.
+>
+> **Revertido no mesmo dia:** decisão de fechar a etapa sem terminar este tema. `prisma/`, `prisma.config.ts`, os pacotes `prisma`/`@prisma/client` e o `DATABASE_URL` no `.env` foram removidos — nada do Prisma chegou a ficar integrado ao código real. Retomar do zero se um dia isso importar; o ponto de decisão (nome dos models, `ON DELETE`) continua registrado acima, caso ajude.
 
 **Tópicos de estudo sugeridos**
 
@@ -179,7 +190,7 @@ etapas/etapa-2/
 9. Transações no ORM; Prisma Studio.
 10. Por que SQL primeiro, ORM depois.
 
-### Tema 8 — Autenticação + segurança de borda · *dia sugerido 15/08*
+### Tema 8 — Autenticação + segurança de borda · *dia sugerido 15/08* · ✅ **back-end fechado (11/08)** — front, refresh token, 2FA/OAuth e OWASP a fundo não feitos, etapa encerrada antes de retomar
 **A API ganha:** `POST /auth/register` e `POST /auth/login`; tarefas passam a ter dono e as rotas exigem token — mais helmet, CORS e rate limiting na borda.
 
 **Tópicos de estudo sugeridos**
@@ -236,7 +247,11 @@ etapas/etapa-2/
 
 ---
 
-## Avaliação
+## Encerramento
+
+> **Encerrada incompleta em 11/08/2026, por decisão dele.** Não é a avaliação abaixo — essa avaliação pedia URL pública, ataque à API no ar e CI verde, nenhum dos três aconteceu. É encerramento por cansaço declarado do projeto e prioridade em seguir para outros estudos, com o que já tinha rodando (Temas 1–6 e 8 básico, `npm test` verde no último rodar) mantido e organizado, e o resto — Temas 4 (questionário), 7, 9, 10, Tema 8 front/avançado, oral — registrado como não feito, sem fingir que foi. Resumo de estudo do que ficou pra trás: [`studies/pendencias-nao-feitas-11-08.md`](studies/pendencias-nao-feitas-11-08.md). Efeito prático: a API só roda local, e o front da Etapa 3 não fala mais com ela sem token — ver `web/README.md`.
+
+A seção abaixo é a avaliação **original**, planejada antes da decisão de encerrar — fica como registro do que essa etapa pediria se tivesse sido seguida até o Tema 10.
 
 Entregáveis: URL pública respondendo · api/README.md como contrato completo · repositório com CI verde no último push.
 
@@ -244,4 +259,4 @@ Prova prática: eu ataco a API no ar — SQL injection, mass assignment, payload
 
 **Oral — uma pergunta por tema.** Esta lista é também o roteiro do **simulado de entrevista** que roda depois do Tema 10, logo antes da avaliação (regra 8), com prioridade para o que estiver marcado com ⚠️ no devlog: event loop · middleware · o que o strict pegou · query parametrizada e pool · o que você não testa e por quê · por que camadas · por que migration e não CREATE TABLE · 401 × 403 · o que muda de dev pra produção · o que o Docker resolveu.
 
-Reprova se: um ataque passa · a API cai e não volta · você não sabe defender uma decisão que você tomou.
+Reprova se: um ataque passa · a API cai e não volta · a URL pública está quebrada ou desatualizada · você usou um trecho gerado pela IA que não sabe explicar linha a linha · você não sabe defender uma decisão que você tomou.
