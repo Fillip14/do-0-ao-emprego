@@ -1,12 +1,12 @@
 # Etapa 2 — Back-end completo
 
-> ✅ **Encerrada incompleta em 11/08/2026, por decisão dele.** Retomada nesse mesmo dia a partir do Tema 5 (pausada desde 28/07 enquanto a Etapa 3 corria) e fechada horas depois — cansaço declarado do projeto, prioridade em seguir para outros estudos. Nada do que já rodava foi descartado; o que ficou sem fazer está registrado, resumido, em [`studies/pendencias-nao-feitas-11-08.md`](studies/pendencias-nao-feitas-11-08.md). Detalhe completo do fechamento na seção **Encerramento**, no fim deste arquivo. Front encerrado e no ar: [`../etapa-3/plano.md`](../etapa-3/plano.md).
+> 🏁 **Encerrada incompleta em 11/08/2026, por decisão dele — 7 de 10 temas.** Retomada nesse mesmo dia a partir do Tema 5 (pausada desde 28/07 enquanto a Etapa 3 corria) e fechada horas depois: cansaço declarado do projeto inteiro e prioridade em seguir para outros estudos. Nada do que já rodava foi descartado. **Não é a avaliação do fim deste arquivo** — ela pedia URL pública, ataque à API no ar e CI verde, e nenhum dos três aconteceu.
 >
-> **Históricos** · `archived/archive-stage-complete/`, `archived/archive-t03/` · **23/07/2026** alterado metodologia de estudo
+> **Históricos** · `archived/archive-stage-complete/`, `archived/archive-t03/` · **23/07/2026** alterado metodologia de estudo · front encerrado e no ar: [`../etapa-3/plano.md`](../etapa-3/plano.md)
 
-## Estado no encerramento (11/08)
+## Encerramento
 
-**Fechados:** Temas 1 a 6 e 8 (básico, back-end) — 7 de 10 temas. A API roda em TypeScript strict, com Express, erro central, camadas (rota/serviço/repositório), validação com zod, tarefas persistidas em PostgreSQL via `pg`, e autenticação: hash com `bcrypt`, JWT, `requireAuth` em `/tasks`, dono da tarefa (`owner_id`), `403` pra quem não é dono, CORS liberando `Authorization`, Helmet.
+**Fechados:** Temas 1 a 6 e 8 (básico, back-end). A API roda em TypeScript strict, com Express, erro central, camadas (rota/serviço/repositório), validação com zod, tarefas persistidas em PostgreSQL via `pg`, e autenticação: hash com `bcrypt`, JWT, `requireAuth` em `/tasks`, dono da tarefa (`owner_id`), `403` pra quem não é dono, CORS liberando `Authorization`, Helmet. `npm test` verde no último rodar.
 
 **Não fechados — e não serão nesta etapa:**
 
@@ -20,7 +20,7 @@
 
 Resumo enxuto de cada tema não feito — só o suficiente pra retomar estudo se um dia fizer sentido: [`studies/pendencias-nao-feitas-11-08.md`](studies/pendencias-nao-feitas-11-08.md).
 
-> **11/08 — sessão fora do método normal, a pedido explícito, e exceção registrada:** os Temas 5, 6 e 8 (básico) foram escritos pela IA direto na `api/`, sem par de programação — o Tema 5 já tinha `studie-t05-testes.md` completo (Parte A/B/C) de antes da pausa; **Temas 6 e 8 não tiveram `studie-tNN` próprio** (regra 5 não seguida à risca), só o resumo condensado em [`studies/resumo-temas-5-10-miolo.md`](studies/resumo-temas-5-10-miolo.md). Fechamento decidido por ele, informado do que isso significa: o código rodando e verificado (`npm install`+`typecheck`+`test` verdes, cobertura lida, suíte isolada, formato de erro por campo confirmado contra o front local, `/auth/register`+`/auth/login` testados na mão) substitui o material de estudo formal desta vez. Detalhe completo em [`studies/pendencias-temas-5-8-11-08.md`](studies/pendencias-temas-5-8-11-08.md).
+> **11/08 — sessão fora do método normal, a pedido explícito, e exceção registrada:** os Temas 5, 6 e 8 (básico) foram escritos pela IA direto na `api/`, sem par de programação — o Tema 5 já tinha `studie-t05-testes.md` completo (Parte A/B/C) de antes da pausa; **Temas 6 e 8 não tiveram `studie-tNN` próprio** (regra 6 não seguida à risca), só o resumo condensado em [`studies/resumo-temas-5-10-miolo.md`](studies/resumo-temas-5-10-miolo.md). Fechamento decidido por ele, informado do que isso significa: o código rodando e verificado (`npm install`+`typecheck`+`test` verdes, cobertura lida, suíte isolada, formato de erro por campo confirmado contra o front local, `/auth/register`+`/auth/login` testados na mão) substitui o material de estudo formal desta vez. Detalhe completo em [`studies/pendencias-temas-5-8-11-08.md`](studies/pendencias-temas-5-8-11-08.md).
 
 **A API não volta a ficar congelada — e para nesse estado.** O congelamento valeu durante a Etapa 3, com uma exceção única já entregue em 09/08: CORS para `http://localhost:5173`, middleware na mão em `app.ts`, primeiro da cadeia. O contrato continua em [`api/README.md`](api/README.md), e quem lia esse contrato era um front que existe — mas com o Tema 8 fechando só no back-end, esse front hoje **não consegue mais falar com a API**: `/tasks` exige token, o front não manda nenhum, toda chamada recebe `401`.
 
@@ -38,12 +38,11 @@ Construir o **lado do servidor**: uma API REST de tarefas completa — rotas com
 
 1. **Trilha de IA — fase PAR DE PROGRAMAÇÃO** (desde 29/07). Liberada a geração de **trechos pequenos** (uma função, um middleware, um tipo), com **uma condição: você entende cada linha antes de commitar** — se não entende, pergunta ou reescreve. Habilidade treinada: validar e entender código que você não escreveu.
 2. **Commits diários** no GitHub, push conferido.
-3. **Stack travada:** Ideias novas no meio do caminho → [`ideias-depois.md`](../../ideias-depois.md).
-4. **Um tema só fecha quando a Parte C estiver concluída**: o que o tema entrega está na `api/` rodando, `npm run typecheck` limpo, `npm test` verde, tudo commitado e no push. **Pergunta nenhuma trava o fechamento de um tema** (ver regra 8).
+3. **Stack travada:** ideia nova no meio do caminho fica anotada e espera — não fura a stack.
+4. **Um tema só fecha quando a Parte C estiver concluída**: o que o tema entrega está na `api/` rodando, `npm run typecheck` limpo, `npm test` verde, tudo commitado e no push. **Pergunta nenhuma trava o fechamento de um tema** (ver regra 7).
 5. **O contrato da API mora no `api/README.md`** rotas, status, formato de erro, arquitetura, como rodar, URL de produção. Uma fonte de verdade só, e é a que quem visita o repositório lê — **e a que o front em `../etapa-3/web/` consome**.
-5. **`studie-tNN-tema.md` na abertura de cada tema**, feito pela IA em três partes. **Parte A:** _1- O que é (descrever funções/metódos do tópico). 2- Para que serve, o que substitui, diminui algo do código, refatora, facilita, etc? 3- Exemplo pequeno. **Parte B:** alterações no app — \_1- Preparação do ambiente_ (setup de ferramenta se tiver); _2- Os blocos_: Bloco 1: o que é para o app fazer/ter agora. Bloco 2: sugestões de alterações médio/avançado para colocar no app. Toda a Parte B em tópicos, simples, breve. **Parte C:** revisão do código. Verificar se o app foi migrado para o assunto do tema (as alterações obrigatórias do tema), se ele está typecheck ok e se os testes estão verdes (caso já tenha testes).
-6. **Um tema só fecha quando a parte C estiver concluida**
-7. **A defesa oral acontece uma vez, no fim: o simulado de entrevista**, depois do Tema 14 e imediatamente antes da avaliação de 12/08 — é o último bloco da etapa, não um extra opcional. São as 14 perguntas da Avaliação, uma por tema, no formato de entrevista — eu respondo falado e curto (2–3 frases), a IA contra-argumenta em cima, e o que não se sustentar me manda de volta à Parte A daquele tema.
+6. **`studie-tNN-tema.md` na abertura de cada tema**, feito pela IA em três partes. **Parte A:** _1- O que é (descrever funções/metódos do tópico). 2- Para que serve, o que substitui, diminui algo do código, refatora, facilita, etc? 3- Exemplo pequeno. **Parte B:** alterações no app — \_1- Preparação do ambiente_ (setup de ferramenta se tiver); _2- Os blocos_: Bloco 1: o que é para o app fazer/ter agora. Bloco 2: sugestões de alterações médio/avançado para colocar no app. Toda a Parte B em tópicos, simples, breve. **Parte C:** revisão do código. Verificar se o app foi migrado para o assunto do tema (as alterações obrigatórias do tema), se ele está typecheck ok e se os testes estão verdes (caso já tenha testes).
+7. **A defesa oral acontece uma vez, no fim: o simulado de entrevista**, depois do último tema e imediatamente antes da avaliação — é o último bloco da etapa, não um extra opcional. Uma pergunta por tema, no formato de entrevista — eu respondo falado e curto (2–3 frases), a IA contra-argumenta em cima, e o que não se sustentar me manda de volta à Parte A daquele tema.
 8. **A partir do Tema 9 (deploy), o que está na `main` está no ar.** Tema fechado sem redeploy é tema não fechado; sem URL pública respondendo, não conta como terminado. Até lá o alvo é a suíte verde no push; do Tema 9 em diante são as duas coisas. Vale para a `api/` e, no dia em que o `VITE_API_URL` do front passar a apontar para a URL pública, para o sistema inteiro.
 
 ## Estrutura de pastas
@@ -247,11 +246,9 @@ etapas/etapa-2/
 
 ---
 
-## Encerramento
+## A avaliação que não aconteceu
 
-> **Encerrada incompleta em 11/08/2026, por decisão dele.** Não é a avaliação abaixo — essa avaliação pedia URL pública, ataque à API no ar e CI verde, nenhum dos três aconteceu. É encerramento por cansaço declarado do projeto e prioridade em seguir para outros estudos, com o que já tinha rodando (Temas 1–6 e 8 básico, `npm test` verde no último rodar) mantido e organizado, e o resto — Temas 4 (questionário), 7, 9, 10, Tema 8 front/avançado, oral — registrado como não feito, sem fingir que foi. Resumo de estudo do que ficou pra trás: [`studies/pendencias-nao-feitas-11-08.md`](studies/pendencias-nao-feitas-11-08.md). Efeito prático: a API só roda local, e o front da Etapa 3 não fala mais com ela sem token — ver `web/README.md`.
-
-A seção abaixo é a avaliação **original**, planejada antes da decisão de encerrar — fica como registro do que essa etapa pediria se tivesse sido seguida até o Tema 10.
+> Registro do que esta etapa pediria se tivesse sido seguida até o Tema 10. Nada abaixo foi executado — ver **Encerramento**, no topo.
 
 Entregáveis: URL pública respondendo · api/README.md como contrato completo · repositório com CI verde no último push.
 

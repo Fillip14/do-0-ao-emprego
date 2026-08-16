@@ -25,7 +25,7 @@ Regras transversais: commits diários no GitHub desde a Etapa 0 · uso de IA seg
 >
 > **O que isso preserva:** os Temas 1–4 entregaram uma API que já responde CRUD com banco de verdade — que é tudo que o front precisa para existir. A pausa é no meio de um tema, não no meio da API.
 >
-> **Fechado o ciclo em 11/08:** a Etapa 3 acabou (encerrada incompleta, front no ar) e a Etapa 2 voltou a ser a etapa vigente, do Tema 5. Estado em [`../etapas/etapa-2/plano.md`](../etapas/etapa-2/plano.md) · o que o front deixou esperando, em [`../etapas/etapa-3/plano.md`](../etapas/etapa-3/plano.md).
+> **Fechado o ciclo em 11/08, e não como estava previsto:** a Etapa 3 encerrou incompleta (front no ar), a Etapa 2 foi retomada do Tema 5 no mesmo dia e **encerrada horas depois, também incompleta** — 7 de 10 temas. A ordem real acabou sendo **2 (parcial) → 3 → 2 (retomada e encerrada) → 4**. Estado em [`../etapas/etapa-2/plano.md`](../etapas/etapa-2/plano.md#encerramento) · o que o front deixou esperando, em [`../etapas/etapa-3/plano.md`](../etapas/etapa-3/plano.md).
 
 ### Etapa 0 — Rigor e Git (semana 1)
 
@@ -40,9 +40,7 @@ Regras transversais: commits diários no GitHub desde a Etapa 0 · uso de IA seg
 - **Projeto:** gerenciador de tarefas (Ex 8) como página web — interface no navegador, lógica em JS.
 - **Avaliação:** projeto + exercícios de array methods que eu passar.
 
-### Etapa 2 — Back-end: Node, Express, TypeScript e banco (semanas 3-4 · 🔨 **retomada em andamento desde 11/08**)
-
-> API funcional para servir a Etapa 3. **Temas 1–4 fechados; pausada em 28/07 no meio do Tema 5 e retomada exatamente daí**, já em regime de par de programação (ver Trilha de IA). Data da avaliação: a redefinir.
+### Etapa 2 — Back-end: Node, Express, TypeScript e banco (semanas 3-4)
 
 - Fundamentos por dentro antes do atalho: HTTP cru e `node:http` → Express (rotas, middleware, validação, erro centralizado com formato único).
 - Testes automatizados desde o primeiro tema (Vitest + supertest) + um tema só de técnica: pirâmide, mocks, cobertura, TDD.
@@ -54,9 +52,7 @@ Regras transversais: commits diários no GitHub desde a Etapa 0 · uso de IA seg
 - Docker (imagem, compose com Postgres) + CI no GitHub Actions rodando a suíte a cada push.
 - **Avaliação:** API pública com banco funcionando + eu quebro sua API com requisições maliciosas + suíte verde na hora + oral sobre decisões e conceitos.
 
-### Etapa 3 — Front-end: React (✅ antecipada e encerrada — 29/07 a 11/08/2026)
-
-> **Encerrada em 11/08 com os 14 temas entregues** — front no ar, 25 testes verdes, CRUD completo contra a API local. A avaliação ficou **incompleta**: entregáveis, demonstração e a primeira leva da prova prática foram conferidos; a oral e os itens 4–11 não aconteceram, por decisão dele. Não é aprovação formal, e a **oral atravessa como dívida** para o simulado da Etapa 5. Detalhes no [devlog da etapa](../etapas/etapa-3/devlog-etapa-3.md). A retomada da Etapa 2 está liberada.
+### Etapa 3 — Front-end: React (semanas 4-5)
 
 > Detalhada tema a tema em [`../etapas/etapa-3/plano.md`](../etapas/etapa-3/plano.md) — 14 temas, app vivo em `web/`.
 
@@ -72,7 +68,9 @@ Regras transversais: commits diários no GitHub desde a Etapa 0 · uso de IA seg
 - **Limitação assumida da inversão:** sem login e contra API local — os dois entram na retomada da Etapa 2 (Temas 8 e 9).
 - **Avaliação:** front no ar + eu quebro a UI (API fora do ar, link público sem API, 400 do servidor, lista vazia, duplo submit, animação derrubando o frame rate, navegação só por teclado) + oral, uma pergunta por tema.
 
-### Etapa 4 — Capstone: o "reporte-aqui" concluído (semanas 11-15)
+### Etapa 4 — Capstone: o "reporte-aqui" concluído (semanas 6-7)
+
+> 🔨 **Aberta em 16/08/2026. O código vive fora deste repo**, em <https://github.com/Fillip14/reporte-aqui>, construído no terminal com o agente. Aqui ficam só os marcos — ver [`../etapas/etapa-4/README.md`](../etapas/etapa-4/README.md). **Sem temas e sem `studie-tNN`:** o formato de estudo das Etapas 0–3 acabou junto com elas.
 
 - Refazer do zero, agora sabendo o que faz: cadastro/login (auth), CRUD de reclamações, banco, front React, deploy.
 - README caprichado, testes básicos. Este é o projeto central do portfólio — e a resposta para "o site que não foi concluído".
@@ -94,13 +92,13 @@ Desenvolvimento assistido por IA é habilidade de mercado e faz parte do plano �
 
 **Etapa 2, temas 1–4 — IA como revisor. ✅ concluída (21–28/07).** Ao fechar cada tema, peça um code review à IA: bugs, casos de borda, alternativas. Confronte o que ela aponta com as decisões que você tomou e entenda os trade-offs. Habilidade treinada: ler código criticamente e defender a própria escolha. **A prova da fase:** o Tema 3 — a API inteira portada para TypeScript strict por você, zero código da IA.
 
-**Etapa 3 e retomada da Etapa 2 — IA como par de programação. 🔨 fase atual, desde 29/07.** Liberada a geração de trechos pequenos (uma função, um componente), com a condição de você entender cada linha antes de commitar. Habilidade treinada: validar/entender código que você não escreveu.
+**Etapa 3 e retomada da Etapa 2 — IA como par de programação. ✅ concluída (29/07 a 11/08).** Liberada a geração de trechos pequenos (uma função, um componente), com a condição de você entender cada linha antes de commitar. Habilidade treinada: validar/entender código que você não escreveu.
 
-> **A fase Par não volta atrás.** Com a inversão de 28/07 ela começa na Etapa 3 e vale dali em diante — **inclusive na retomada da Etapa 2**, que já é trabalhada em regime de par, não de revisor (a regra 1 do `plano.md` de lá foi reescrita em 11/08 por causa disso). São 20 temas ao todo: os 14 do front, fechados, e os 6 que faltam no back.
+> **A fase Par não volta atrás.** Com a inversão de 28/07 ela começa na Etapa 3 e vale dali em diante — **inclusive na retomada da Etapa 2**, que já é trabalhada em regime de par, não de revisor (a regra 1 do `plano.md` de lá foi reescrita em 11/08 por causa disso). Na prática a fase cobriu os 14 temas do front e mais três do back (5, 6 e o básico do 8) — os outros três nunca aconteceram.
 >
 > **Onde ela foi testada de verdade, e o que o teste mostrou:** no T13 do front ele delegou a suíte inteira de uma vez — primeira vez que delegou código, e não só documento — e logo em seguida cobrou a explicação **arquivo por arquivo, o que cada coisa faz**. A condição da fase se cumprindo por iniciativa dele. **O contraexemplo veio no mesmo dia:** na oral da Etapa 3, três "não sei" sobre decisões que ele mesmo tinha tomado e registrado. É o limite da fase Par escrito com todas as letras — entender no momento do commit não é o mesmo que saber defender depois, e é essa distância que a Etapa 4 vai cobrar.
 
-**Etapa 4 — IA como agente. 🔒 bloqueada.** No capstone, partes do projeto são construídas com um agente de código (Claude Code ou similar): você especifica, o agente implementa, você revisa e testa. O README documenta o que foi assistido e como foi validado — isso vira *diferencial* de portfólio, não algo a esconder. Habilidade treinada: especificação, revisão e orquestração — o trabalho real de dev assistido por IA.
+**Etapa 4 — IA como agente. 🔨 fase atual (aberta em 16/08).** No capstone, partes do projeto são construídas com um agente de código (Claude Code ou similar): você especifica, o agente implementa, você revisa e testa. O README documenta o que foi assistido e como foi validado — isso vira *diferencial* de portfólio, não algo a esconder. Habilidade treinada: especificação, revisão e orquestração — o trabalho real de dev assistido por IA.
 
 **Etapa 5 — IA como pauta de entrevista. 🔒 bloqueada.** Saber contar essa progressão é resposta forte para "como você usa IA?" — pergunta cada vez mais comum. Você terá evidência pública (commits, READMEs) de uso com critério, não dependência.
 
@@ -113,6 +111,6 @@ Presença pública é ativo de empregabilidade, construída em camadas: perfil �
 
 ## Contra os desafios pessoais (seção 7 do plano original)
 
-- Mudança de interesse no meio do caminho → a regra da stack travada existe para isso. Anote a ideia nova num `ideias-depois.md` e volte ao plano.
+- Mudança de interesse no meio do caminho → a regra da stack travada existe para isso. Anote a ideia nova em algum lugar fixo e volte ao plano.
 - Distração → estude com celular fora do alcance em blocos de 50min + 10min de pausa; YouTube/WhatsApp nas pausas.
-- Constância
+- Constância → *(item ficou sem texto desde 07/07 e não tem original no `planejamento.md` — escrever ou apagar)*
